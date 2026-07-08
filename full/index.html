@@ -21,21 +21,12 @@
 
 <!-- PWA + SERVICE WORKER INLINE -->
 <script>
-// Service Worker — optional, non-blocking
-(function(){
-  if(!('serviceWorker' in navigator)) return;
-  try{
-    var swCode='const CACHE="cavesal-v3";'
-      +'self.addEventListener("install",e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(["./"])).then(()=>self.skipWaiting()));});'
-      +'self.addEventListener("activate",e=>{e.waitUntil(self.clients.claim());});'
-      +'self.addEventListener("fetch",e=>{if(e.request.method!=="GET")return;e.respondWith(caches.match(e.request).then(c=>c||fetch(e.request)));});';
-    var blob=new Blob([swCode],{type:'application/javascript'});
-    var url=URL.createObjectURL(blob);
-    navigator.serviceWorker.register(url,{scope:'./'})
-      .then(function(){URL.revokeObjectURL(url);})
-      .catch(function(){URL.revokeObjectURL(url);});
-  }catch(e){}
-})();
+// Service Worker — real file, detectable by PWABuilder
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./sw.js', {scope:'./'})
+    .then(function(){console.log('CaVeSal SW registered');})
+    .catch(function(e){console.log('SW registration failed:', e.message);});
+}
 
 // PWA Install prompt
 var deferredPrompt=null;
