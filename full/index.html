@@ -35,7 +35,7 @@ window.addEventListener('beforeinstallprompt',function(e){
   var btn=document.getElementById('btn_instalar');
   if(btn)btn.style.display='flex';
 });
-function instalarPWA(){
+function instalarApp(){
   if(deferredPrompt){
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then(function(){deferredPrompt=null;});
