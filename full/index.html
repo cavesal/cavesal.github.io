@@ -41,6 +41,40 @@ function instalarApp(){
     deferredPrompt.userChoice.then(function(){deferredPrompt=null;});
   }
 }
+
+// Detección de iOS/Safari — no soporta beforeinstallprompt
+(function(){
+  var esIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+  var enStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  if(esIOS && !enStandalone){
+    window.addEventListener('DOMContentLoaded', function(){
+      var btn = document.getElementById('btn_instalar');
+      if(btn){
+        btn.style.display='flex';
+        btn.onclick = mostrarInstruccionesIOS;
+      }
+    });
+  }
+})();
+
+function mostrarInstruccionesIOS(){
+  var overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;display:flex;align-items:flex-end;justify-content:center';
+  overlay.innerHTML = '<div style="background:#fff;border-radius:20px 20px 0 0;padding:24px 20px 32px;width:100%;max-width:480px;font-family:\'Segoe UI\',sans-serif">'
+    + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">'
+    + '<h3 style="font-size:1rem;font-weight:800;color:#0D1B2D">📲 Instalar CaVeSal en iPhone/iPad</h3>'
+    + '<button onclick="this.closest(\'div[style*=fixed]\').remove()" style="background:none;border:none;font-size:1.3rem;color:#4a6274;cursor:pointer">✕</button>'
+    + '</div>'
+    + '<ol style="padding-left:20px;font-size:.9rem;color:#0D1B2D;line-height:2">'
+    + '<li>Tocá el ícono de <strong>compartir</strong> (el cuadrado con flecha ⬆️) en la barra de abajo de Safari</li>'
+    + '<li>Deslizá hacia abajo y elegí <strong>"Agregar a pantalla de inicio"</strong></li>'
+    + '<li>Tocá <strong>"Agregar"</strong> arriba a la derecha</li>'
+    + '</ol>'
+    + '<p style="font-size:.78rem;color:#4a6274;margin-top:14px">⚠️ Este proceso funciona solo desde el navegador <strong>Safari</strong> (no desde Chrome en iPhone).</p>'
+    + '<button onclick="this.closest(\'div[style*=fixed]\').remove()" style="width:100%;margin-top:18px;padding:12px;background:linear-gradient(135deg,#0D1B2D,#0EA5B7);color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer">Entendido</button>'
+    + '</div>';
+  document.body.appendChild(overlay);
+}
 </script>
 <style>
 :root{
