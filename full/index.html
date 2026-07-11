@@ -2001,83 +2001,41 @@ document.addEventListener('DOMContentLoaded', function(){
     <input type="file" id="import_file" accept=".json" style="display:none" onchange="importarBackup(event)">
   </div>
 
-  <!-- GOOGLE DRIVE SYNC -->
-  <div class="gdrive-box" id="gdrive_box">
-    <div class="gdrive-header">
-      <div style="display:flex;align-items:center;gap:9px">
-        <svg width="22" height="22" viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg">
-          <path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/>
-          <path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z" fill="#00ac47"/>
-          <path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335"/>
-          <path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/>
-          <path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/>
-          <path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 27.98h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/>
-        </svg>
-        <div>
-          <div style="font-size:.82rem;font-weight:700;color:var(--navy)">Google Drive</div>
-          <div style="font-size:.7rem;color:var(--slate)">Sincronización en la nube</div>
-        </div>
-      </div>
-      <div id="gdrive_status_badge" class="gdrive-badge gdrive-badge-off">Próximamente</div>
-    </div>
-
-    <div id="gdrive_no_conectado">
-      <p style="font-size:.77rem;color:var(--slate);margin-bottom:10px;line-height:1.5">
-        La sincronización con Google Drive estará disponible en una próxima actualización. Por ahora, tus pacientes se guardan de forma segura en este dispositivo (almacenamiento local).
-      </p>
-      <button class="btn-gdrive-connect" disabled style="opacity:.5;cursor:not-allowed" onclick="return false;">
-        <svg width="16" height="16" viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
-          <path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/>
-          <path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z" fill="#00ac47"/>
-          <path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335"/>
-          <path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/>
-          <path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/>
-          <path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 27.98h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/>
-        </svg>
-        Conectar con Google Drive
+  <!-- BACKUP MANUAL -->
+  <div class="gdrive-box" style="margin-bottom:12px">
+    <div style="font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:4px">💾 Tus datos, en tus manos</div>
+    <p style="font-size:.75rem;color:var(--slate);margin-bottom:12px;line-height:1.5">
+      Toda la información se guarda en este dispositivo. Para sincronizar entre PC, celular o tablet, descargá una copia y subila a tu Google Drive. Luego importala donde la necesites.
+    </p>
+    <div class="gdrive-actions" style="margin-bottom:10px">
+      <button class="btn-gdrive-action" onclick="descargarBackupPacientes()">
+        📥 <span>Descargar .json</span>
+        <span class="gdrive-action-sub">Genera tu backup</span>
+      </button>
+      <button class="btn-gdrive-action" onclick="window.open('https://drive.google.com','_blank')">
+        📤 <span>Abrir Google Drive</span>
+        <span class="gdrive-action-sub">Para guardar el archivo</span>
       </button>
     </div>
-
-    <div id="gdrive_conectado" style="display:none">
-      <div class="gdrive-user-row">
-        <div id="gdrive_user_info" style="font-size:.78rem;color:var(--navy)">—</div>
-        <button onclick="desconectarGDrive()" style="background:none;border:none;font-size:.72rem;color:var(--slate);cursor:pointer;text-decoration:underline">Desconectar</button>
-      </div>
-      <div class="gdrive-actions">
-        <button class="btn-gdrive-action" onclick="subirADrive()">
-          ☁️ Subir a Drive
-          <span class="gdrive-action-sub">Guardar backup ahora</span>
-        </button>
-        <button class="btn-gdrive-action" onclick="bajarDeDrive()">
-          📥 Bajar de Drive
-          <span class="gdrive-action-sub">Restaurar backup</span>
-        </button>
-      </div>
-      <div id="gdrive_last_sync" style="font-size:.7rem;color:var(--slate);text-align:center;margin-top:8px"></div>
-      <div id="gdrive_auto_row" style="display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">
-        <div>
-          <div style="font-size:.78rem;font-weight:600;color:var(--navy)">Sincronización automática</div>
-          <div style="font-size:.7rem;color:var(--slate)">Subir al Drive al guardar cada paciente</div>
-        </div>
-        <label class="gdrive-toggle-switch">
-          <input type="checkbox" id="gdrive_auto" onchange="toggleAutoSync()">
-          <span class="gdrive-slider"></span>
+    <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:4px">
+      <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin-bottom:8px">Importar backup</div>
+      <div style="display:flex;gap:14px;margin-bottom:9px;font-size:.75rem">
+        <label style="display:flex;align-items:center;gap:5px;cursor:pointer">
+          <input type="radio" name="modo_importar" value="combinar" checked style="accent-color:var(--teal)"> Combinar
+        </label>
+        <label style="display:flex;align-items:center;gap:5px;cursor:pointer">
+          <input type="radio" name="modo_importar" value="reemplazar" style="accent-color:var(--teal)"> Reemplazar todo
         </label>
       </div>
+      <input type="file" id="input_importar_backup" accept=".json" style="display:none" onchange="importarBackupPacientes(event)">
+      <button class="btn-gdrive-connect" onclick="abrirSelectorImportar()">📂 Elegir archivo .json</button>
     </div>
-
-    <div id="gdrive_loading" style="display:none;text-align:center;padding:12px">
-      <div class="gdrive-spinner"></div>
-      <div id="gdrive_loading_text" style="font-size:.76rem;color:var(--slate);margin-top:8px">Conectando...</div>
-    </div>
-    <div id="gdrive_error" style="display:none" class="gdrive-error-box"></div>
   </div>
-</div>
 
-<!-- DETALLE PACIENTE -->
+  <!-- DETALLE PACIENTE -->
 <div id="pac_detalle" style="display:none"></div>
 
-<div class="disclaimer">Los datos se guardan en este dispositivo. Usá Google Drive para backup en la nube y acceso desde múltiples dispositivos.</div>
+<div class="disclaimer">Los datos se guardan en este dispositivo. Descargá tu backup periódicamente para tenerlo a salvo y poder usarlo en otro equipo.</div>
 </div>
 
 <!-- MODAL NUEVA/EDITAR PACIENTE -->
@@ -5590,6 +5548,73 @@ let _editandoVisitaIdx = null;
 
 function getPacientes(){ try{ return JSON.parse(localStorage.getItem(PAC_KEY)||'[]'); }catch(e){return [];} }
 function savePacientes(arr){ localStorage.setItem(PAC_KEY, JSON.stringify(arr)); }
+
+// ════════════════════════════════════════════════
+// BACKUP MANUAL — descargar / importar JSON
+// ════════════════════════════════════════════════
+function descargarBackupPacientes(){
+  const pacientes = getPacientes();
+  const backup = {
+    app: 'CaVeSal',
+    version: 'v1',
+    fecha_backup: new Date().toISOString(),
+    total_pacientes: pacientes.length,
+    pacientes: pacientes
+  };
+  const blob = new Blob([JSON.stringify(backup, null, 2)], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const fechaArchivo = new Date().toISOString().slice(0,10);
+  a.href = url;
+  a.download = `cavesal-backup-${fechaArchivo}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function abrirSelectorImportar(){
+  document.getElementById('input_importar_backup').click();
+}
+
+function importarBackupPacientes(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  
+  const modo = document.querySelector('input[name="modo_importar"]:checked').value; // 'combinar' o 'reemplazar'
+  
+  const reader = new FileReader();
+  reader.onload = function(e){
+    try {
+      const data = JSON.parse(e.target.result);
+      const pacientesImportados = data.pacientes || data; // soporta backup con wrapper o array directo
+      
+      if(!Array.isArray(pacientesImportados)){
+        alert('El archivo no tiene un formato válido de backup de CaVeSal.');
+        return;
+      }
+      
+      if(modo === 'reemplazar'){
+        savePacientes(pacientesImportados);
+        alert(`Se importaron ${pacientesImportados.length} pacientes, reemplazando los datos existentes.`);
+      } else {
+        const actuales = getPacientes();
+        const idsActuales = new Set(actuales.map(p => p.id));
+        const nuevos = pacientesImportados.filter(p => !idsActuales.has(p.id));
+        const combinados = actuales.concat(nuevos);
+        savePacientes(combinados);
+        alert(`Se combinaron los datos: ${nuevos.length} pacientes nuevos agregados (${pacientesImportados.length - nuevos.length} ya existían y se omitieron).`);
+      }
+      
+      renderListaPacientes();
+      event.target.value = ''; // reset input
+      
+    } catch(err){
+      alert('Error al leer el archivo. Asegurate de que sea un backup válido de CaVeSal (.json).');
+    }
+  };
+  reader.readAsText(file);
+}
 
 function renderListaPacientes(){
   const buscar = (document.getElementById('pac_buscar').value||'').toLowerCase();
