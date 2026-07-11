@@ -467,7 +467,22 @@ main{padding:14px;max-width:680px;margin:0 auto}
       Tu clave de acceso es válida para un solo dispositivo. Al ingresarla, tu dispositivo quedará habilitado de forma permanente para acceder a todas las funciones completas — incluyendo futuras actualizaciones — sin necesidad de volver a ingresarla.<br><br>
       Si en el futuro necesitás usar CaVeSal® en un dispositivo nuevo, te invitamos a adquirir una nueva licencia. Recordá que la versión completa te permite además sincronizar tus pacientes con Google Drive, para acceder a tu información clínica y tomar mejores decisiones estés donde estés. 🩺✨
     </div>
-    <input id="lg_input" type="text" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19"
+
+    <!-- Advertencia específica para iPhone/iPad en Safari, no instalado todavía -->
+    <div id="lg_ios_warning" style="display:none;text-align:left;background:#fff8e6;border:1.5px solid #d97706;border-radius:12px;padding:14px 16px;margin-bottom:16px">
+      <div style="font-size:.9rem;font-weight:800;color:#92400e;margin-bottom:8px">📱 Instalá la app antes de activar tu clave</div>
+      <ol style="padding-left:18px;font-size:.82rem;color:#0D1B2D;line-height:1.9;margin-bottom:6px">
+        <li>Tocá el ícono de <strong>compartir</strong> ⬆️ en la barra de Safari</li>
+        <li>Elegí <strong>"Agregar a pantalla de inicio"</strong></li>
+        <li>Cerrá esta pestaña de Safari</li>
+        <li>Abrí CaVeSal® desde el <strong>ícono instalado</strong></li>
+        <li>Recién ahí, ingresá tu clave</li>
+      </ol>
+      <div style="font-size:.74rem;color:#92400e">⚠️ Si activás la clave acá en Safari antes de instalar, no vas a poder volver a usarla al abrir la app instalada.</div>
+    </div>
+
+    <div id="lg_form_wrapper">
+    <input id="lg_input" type="text" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="30"
       style="width:100%;padding:12px 14px;border:2px solid #d0e8ed;border-radius:10px;font-size:1rem;text-align:center;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;font-family:monospace">
     <button id="lg_btn" onclick="validarClave()"
       style="width:100%;padding:13px;background:linear-gradient(135deg,#0D1B2D,#0EA5B7);color:#fff;border:none;border-radius:10px;font-size:.92rem;font-weight:700;cursor:pointer;margin-bottom:10px">
@@ -475,6 +490,7 @@ main{padding:14px;max-width:680px;margin:0 auto}
     </button>
     <div id="lg_error" style="display:none;background:#fdecea;border-left:3px solid #c0392b;border-radius:8px;padding:10px 12px;font-size:.8rem;color:#c0392b;text-align:left;margin-bottom:10px;line-height:1.5"></div>
     <a href="https://www.paypal.com/ncp/payment/43XC72PQPF3LW" target="_blank" style="font-size:.78rem;color:#0EA5B7;text-decoration:none">¿No tenés clave? Adquirí la versión completa →</a>
+    </div>
   </div>
 </div>
 
@@ -537,6 +553,20 @@ function validarClave(){
   const guardada = localStorage.getItem(LICENSE_STORAGE_KEY);
   if(guardada){
     ocultarGate();
+  }
+})();
+
+// Detectar iOS/Safari sin instalar todavía — mostrar advertencia en vez del formulario
+(function(){
+  const esIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+  const enStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  if(esIOS && !enStandalone){
+    document.addEventListener('DOMContentLoaded', function(){
+      const warning = document.getElementById('lg_ios_warning');
+      const formWrapper = document.getElementById('lg_form_wrapper');
+      if(warning) warning.style.display = 'block';
+      if(formWrapper) formWrapper.style.display = 'none';
+    });
   }
 })();
 
