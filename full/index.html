@@ -458,6 +458,100 @@ main{padding:14px;max-width:680px;margin:0 auto}
 </head>
 <body>
 
+<!-- ═══ GATE DE LICENCIA ═══ -->
+<div id="license_gate" style="position:fixed;inset:0;background:linear-gradient(135deg,#0D1B2D,#0EA5B7);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;font-family:'Segoe UI',sans-serif">
+  <div style="background:#fff;border-radius:20px;padding:28px 24px;width:100%;max-width:400px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+    <div style="font-size:2.2rem;margin-bottom:8px">🔒</div>
+    <div style="font-size:1.15rem;font-weight:800;color:#0D1B2D;margin-bottom:6px">Bienvenido a CaVeSal® Versión Completa</div>
+    <div id="lg_msg" style="font-size:.82rem;color:#4a6274;margin-bottom:18px;line-height:1.55">
+      Tu clave de acceso es válida para un solo dispositivo. Al ingresarla, tu dispositivo quedará habilitado de forma permanente para acceder a todas las funciones completas — incluyendo futuras actualizaciones — sin necesidad de volver a ingresarla.<br><br>
+      Si en el futuro necesitás usar CaVeSal® en un dispositivo nuevo, te invitamos a adquirir una nueva licencia. Recordá que la versión completa te permite además sincronizar tus pacientes con Google Drive, para acceder a tu información clínica y tomar mejores decisiones estés donde estés. 🩺✨
+    </div>
+    <input id="lg_input" type="text" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19"
+      style="width:100%;padding:12px 14px;border:2px solid #d0e8ed;border-radius:10px;font-size:1rem;text-align:center;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;font-family:monospace">
+    <button id="lg_btn" onclick="validarClave()"
+      style="width:100%;padding:13px;background:linear-gradient(135deg,#0D1B2D,#0EA5B7);color:#fff;border:none;border-radius:10px;font-size:.92rem;font-weight:700;cursor:pointer;margin-bottom:10px">
+      Activar
+    </button>
+    <div id="lg_error" style="display:none;background:#fdecea;border-left:3px solid #c0392b;border-radius:8px;padding:10px 12px;font-size:.8rem;color:#c0392b;text-align:left;margin-bottom:10px;line-height:1.5"></div>
+    <a href="https://www.paypal.com/ncp/payment/43XC72PQPF3LW" target="_blank" style="font-size:.78rem;color:#0EA5B7;text-decoration:none">¿No tenés clave? Adquirí la versión completa →</a>
+  </div>
+</div>
+
+<script>
+const LICENSE_API = 'https://script.google.com/macros/s/AKfycbzMHJG48y5W0sIadQxrrFx78Toge2FRBIMRDqKe5GQmvmnpDory1ftALVfJCvZX2WK6/exec';
+const LICENSE_STORAGE_KEY = 'cavesal_full_unlocked';
+
+function ocultarGate(){
+  const g = document.getElementById('license_gate');
+  if(g) g.style.display = 'none';
+}
+
+function mostrarErrorClave(tipo){
+  const err = document.getElementById('lg_error');
+  const btn = document.getElementById('lg_btn');
+  btn.disabled = false;
+  btn.textContent = 'Activar';
+  if(tipo === 'ya_usada'){
+    err.innerHTML = 'Esta clave ya fue activada en otro dispositivo 🔒<br><br>Cada clave de acceso es válida para un solo dispositivo. Te invitamos a adquirir una nueva licencia para habilitar este dispositivo de forma permanente, con acceso a todas las funciones completas de CaVeSal®, incluyendo futuras actualizaciones.';
+  } else if(tipo === 'no_existe'){
+    err.innerHTML = 'Esa clave no existe. Revisá que la copiaste correctamente (sin espacios extra).';
+  } else {
+    err.innerHTML = 'Ocurrió un error al validar. Intentá nuevamente en unos segundos.';
+  }
+  err.style.display = 'block';
+}
+
+function validarClave(){
+  const input = document.getElementById('lg_input');
+  const btn = document.getElementById('lg_btn');
+  const err = document.getElementById('lg_error');
+  const clave = input.value.trim().toUpperCase();
+  
+  if(!clave){
+    mostrarErrorClave('no_existe');
+    return;
+  }
+  
+  err.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = 'Validando...';
+  
+  fetch(LICENSE_API + '?clave=' + encodeURIComponent(clave) + '&accion=activar')
+    .then(r => r.json())
+    .then(data => {
+      if(data.valido){
+        localStorage.setItem(LICENSE_STORAGE_KEY, clave);
+        ocultarGate();
+      } else {
+        mostrarErrorClave(data.mensaje);
+      }
+    })
+    .catch(() => {
+      mostrarErrorClave('error');
+    });
+}
+
+// Verificar al cargar si ya está desbloqueado en este dispositivo
+(function(){
+  const guardada = localStorage.getItem(LICENSE_STORAGE_KEY);
+  if(guardada){
+    ocultarGate();
+  }
+})();
+
+// Permitir Enter para activar
+document.addEventListener('DOMContentLoaded', function(){
+  const input = document.getElementById('lg_input');
+  if(input){
+    input.addEventListener('keypress', function(e){
+      if(e.key === 'Enter') validarClave();
+    });
+  }
+});
+</script>
+<!-- ═══ FIN GATE DE LICENCIA ═══ -->
+
 <!-- SPLASH SCREEN -->
 <div id="splash">
   <div class="splash-logo">
