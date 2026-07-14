@@ -2952,35 +2952,25 @@ function calcular(){
   // β-hCG como marcador PE independiente (muy elevado)
   if(bhcg!==null&&bhcg>3.0) add('ECOGRAFÍA 1T','moderado',`β-hCG libre ${bhcg} MoM (>3.0)`,'β-hCG muy elevada: vigilar también DG (asociación). Integrar con riesgo cromosómico combinado.','FMF');
 
-  // CRIBADO SOLO POR ECO — NT y marcadores 1T
+  // CRIBADO SOLO POR ECO — NT y marcadores 1T (combinado con edad materna)
   if(tipoPrueba==='eco_solo'){
     const ntVal=val('nt_mm'), ntCrl=val('nt_crl');
     const ntNasal=sel('nt_nasal'), ntDV=sel('nt_dv'), ntTricusp=sel('nt_tricusp');
     if(ntVal!==null&&ntCrl!==null){
-      const mom=ntMoM(ntVal,ntCrl);
-      const p95=ntP95(ntCrl);
-      if(ntVal>=3.5) add('CRIBADO CROMOSÓMICO','alto',`NT ${ntVal} mm (≥3.5 mm — alto riesgo independiente)`,'Riesgo cromosómico y cardíaco muy aumentado. Derivar Medicina Fetal urgente. Biopsia corial o amniocentesis. Ecocardiografía fetal.','FMF/Nicolaides');
-      else if(p95&&ntVal>=p95) add('CRIBADO CROMOSÓMICO','moderado',`NT ${ntVal} mm (≥p95 para CRL ${ntCrl} mm)`,'NT sobre percentil 95. Ofrecer NIPT o diagnóstico invasivo. Ecocardiografía fetal.','FMF/Nicolaides');
+      const {nivel,p95,med}=clasificarRiesgoNT(ntVal,ntCrl,edad);
+      if(ntVal>=3.5){
+        add('CRIBADO CROMOSÓMICO','alto',`NT ${ntVal} mm (≥3.5 mm — alto riesgo independiente)`,'Riesgo cromosómico y cardíaco muy aumentado. Derivar Medicina Fetal urgente. Biopsia corial o amniocentesis. Ecocardiografía fetal.','FMF/Nicolaides');
+      } else if(p95 && ntVal>=p95){
+        add('CRIBADO CROMOSÓMICO', nivel, `NT ${ntVal} mm (≥p95 para CRL ${ntCrl} mm, mediana ${med?med.toFixed(2):'—'} mm)${edad&&edad>=35?' + edad materna '+edad+' años':''}`,
+          nivel==='alto' ? 'NT elevada + edad materna ≥35 años: ALTO riesgo cromosómico. Se recomienda NIPT o diagnóstico invasivo. Ecocardiografía fetal.' : 'NT sobre percentil 95. Ofrecer NIPT o diagnóstico invasivo. Ecocardiografía fetal.',
+          'FMF/Nicolaides');
+      } else if(nivel==='moderado' && edad>=35){
+        add('CRIBADO CROMOSÓMICO','moderado',`NT normal (${ntVal} mm) pero edad materna ${edad} años (≥35)`,'Edad materna avanzada como factor de riesgo a priori independiente. Considerar cribado combinado o NIPT según preferencia.','FMF/Nicolaides');
+      }
       if(ntNasal==='ausente') add('CRIBADO CROMOSÓMICO','alto','Hueso nasal AUSENTE','LR+ ~6 para T21. Riesgo aumentado de aneuploidía. Asociar con NT y otros marcadores.','FMF/Nicolaides');
       if(ntDV==='invertida') add('CRIBADO CROMOSÓMICO','alto','Ductus venoso: onda a invertida/ausente','Marcador de aneuploidía y cardiopatía congénita. Derivar Medicina Fetal. Ecocardiografía.','FMF/Nicolaides');
       if(ntTricusp==='presente') add('CRIBADO CROMOSÓMICO','moderado','Regurgitación tricúspide','Asociada a T21 y cardiopatía congénita. Ecocardiografía fetal. Integrar con NT y otros marcadores.','FMF/Nicolaides');
     }
-  }
-  
-
-  // ── CRIBADO SOLO ECO — NT + MARCADORES 1T ──
-  if(tipoPrueba==='eco_solo'){
-    const ntVal=val('nt_mm'), ntCrl=val('nt_crl');
-    const ntNasal=sel('nt_nasal'), ntDV=sel('nt_dv'), ntTricusp=sel('nt_tricusp');
-    if(ntVal!==null&&ntCrl!==null){
-      const mom=ntMoM(ntVal,ntCrl);
-      const p95=ntP95(ntCrl);
-      if(ntVal>=3.5) add('CRIBADO CROMOSÓMICO','alto',`NT ${ntVal} mm (≥3.5 mm — alto riesgo)`,'Riesgo cromosómico y cardíaco muy aumentado. Derivar Medicina Fetal urgente. Biopsia corial o amniocentesis.','FMF/Nicolaides');
-      else if(p95&&ntVal>=p95) add('CRIBADO CROMOSÓMICO','moderado',`NT ${ntVal} mm (≥p95 para CRL ${ntCrl} mm)`,'NT sobre p95. Ofrecer NIPT o diagnóstico invasivo.','FMF/Nicolaides');
-    }
-    if(ntNasal==='ausente') add('CRIBADO CROMOSÓMICO','alto','Hueso nasal AUSENTE','LR+ ~6 para T21. Derivar Medicina Fetal.','FMF/Nicolaides');
-    if(ntDV==='invertida') add('CRIBADO CROMOSÓMICO','alto','Ductus venoso: onda a invertida/ausente','Marcador aneuploidía y cardiopatía. Derivar Medicina Fetal urgente.','FMF/Nicolaides');
-    if(ntTricusp==='presente') add('CRIBADO CROMOSÓMICO','moderado','Regurgitación tricúspide','Asociada a T21 y cardiopatía congénita. Ecocardiografía fetal.','FMF/Nicolaides');
   }
 
   // TRISOMÍAS - cribado combinado
@@ -4736,28 +4726,80 @@ document.addEventListener('DOMContentLoaded', function(){
 // ════ SUPLEMENTACIÓN ACCORDION ════
 
 // ════ NT — TRANSLUCENCIA NUCAL (FMF/Nicolaides) ════
-function ntMediana(crl){
+// Tabla de referencia real (Snijders RJM et al. 1998, Ultrasound Obstet Gynecol;
+// valores de mediana y percentil 95 de NT según CRL, protocolo FMF 11-13+6 sem)
+const NT_TABLA = [
+  {crl:45, med:1.2, p95:2.2},
+  {crl:50, med:1.3, p95:2.3},
+  {crl:55, med:1.4, p95:2.4},
+  {crl:60, med:1.5, p95:2.5},
+  {crl:65, med:1.6, p95:2.5},
+  {crl:70, med:1.7, p95:2.6},
+  {crl:75, med:1.8, p95:2.7},
+  {crl:80, med:1.9, p95:2.7},
+  {crl:84, med:2.0, p95:2.8}
+];
+function ntInterpolar(crl, campo){
   if(!crl||crl<45||crl>84) return null;
-  return Math.exp(-1.8853 + 0.0666*crl);
+  for(let i=0;i<NT_TABLA.length-1;i++){
+    const a=NT_TABLA[i], b=NT_TABLA[i+1];
+    if(crl>=a.crl && crl<=b.crl){
+      const frac=(crl-a.crl)/(b.crl-a.crl);
+      return a[campo] + frac*(b[campo]-a[campo]);
+    }
+  }
+  return null;
 }
+function ntMediana(crl){ return ntInterpolar(crl,'med'); }
+function ntP95(crl){ return ntInterpolar(crl,'p95'); }
 function ntMoM(nt,crl){const m=ntMediana(crl);return m?nt/m:null;}
-function ntP95(crl){const m=ntMediana(crl);return m?m*1.85:null;}
+
+// Clasificación de riesgo combinando NT + edad materna (sin cálculo numérico 1:N,
+// solo categorización bajo/moderado/alto, ajustada por edad como factor de base)
+function clasificarRiesgoNT(nt, crl, edadMaterna){
+  const p95 = ntP95(crl);
+  const med = ntMediana(crl);
+  const edadAvanzada = edadMaterna && edadMaterna>=35;
+  let nivel='bajo';
+  if(nt>=3.5){
+    nivel='alto';
+  } else if(p95 && nt>=p95){
+    // NT elevada: si además hay edad materna avanzada, escala a alto riesgo
+    nivel = edadAvanzada ? 'alto' : 'moderado';
+  } else if(edadAvanzada){
+    // Edad avanzada sola, con NT normal: queda como riesgo moderado (por edad),
+    // no bajo — refleja que la edad materna es en sí un factor de riesgo a priori
+    nivel='moderado';
+  }
+  return {nivel, p95, med};
+}
 
 function calcNT(){
   const nt=parseFloat((document.getElementById('nt_mm')||{}).value)||null;
   const crl=parseFloat((document.getElementById('nt_crl')||{}).value)||null;
+  const edadMaterna=parseFloat((document.getElementById('edad')||{}).value)||null;
   const nasal=(document.getElementById('nt_nasal')||{}).value||'';
   const dv=(document.getElementById('nt_dv')||{}).value||'';
   const tricusp=(document.getElementById('nt_tricusp')||{}).value||'';
   const res=document.getElementById('nt_result');
   if(!nt||!crl){if(res)res.style.display='none';return;}
-  const mom=ntMoM(nt,crl);
-  const p95=ntP95(crl);
-  const med=ntMediana(crl);
-  let nivel='bajo',color='var(--green)',texto='';
-  if(nt>=3.5){nivel='alto';color='var(--red)';texto=`NT ≥3.5 mm — Alto riesgo independiente. Riesgo cromosómico y cardíaco aumentado. Derivar Medicina Fetal urgente. Ecocardiografía fetal.`;}
-  else if(p95&&nt>=p95){nivel='moderado';color='var(--amber)';texto=`NT ≥p95 para CRL (mediana: ${med?med.toFixed(1):'—'} mm · p95: ${p95.toFixed(1)} mm). Riesgo cromosómico aumentado. Ofrecer NIPT o diagnóstico invasivo.`;}
-  else{texto=`NT normal para CRL (mediana esperada: ${med?med.toFixed(1):'—'} mm).`;}
+  const {nivel,p95,med}=clasificarRiesgoNT(nt,crl,edadMaterna);
+  let color='var(--green)',texto='';
+  const edadTxt = edadMaterna ? ` · Edad materna: ${edadMaterna} años` : '';
+  if(nt>=3.5){
+    color='var(--red)';
+    texto=`NT ≥3.5 mm — Alto riesgo independiente de la edad. Riesgo cromosómico y cardíaco aumentado. Derivar Medicina Fetal urgente. Ecocardiografía fetal.${edadTxt}`;
+  } else if(p95 && nt>=p95){
+    color = nivel==='alto' ? 'var(--red)' : 'var(--amber)';
+    texto=`NT ≥p95 para CRL (mediana: ${med?med.toFixed(2):'—'} mm · p95: ${p95.toFixed(2)} mm).`
+      + (nivel==='alto' ? ' Combinado con edad materna ≥35 años: ALTO riesgo cromosómico. Se recomienda NIPT o diagnóstico invasivo.' : ' Riesgo cromosómico aumentado. Ofrecer NIPT o diagnóstico invasivo.')
+      + edadTxt;
+  } else if(nivel==='moderado'){
+    color='var(--amber)';
+    texto=`NT normal para CRL (mediana esperada: ${med?med.toFixed(2):'—'} mm · p95: ${p95?p95.toFixed(2):'—'} mm), pero edad materna ≥35 años constituye un factor de riesgo a priori. Considerar cribado combinado o NIPT según preferencia de la paciente.${edadTxt}`;
+  } else {
+    texto=`NT normal para CRL (mediana esperada: ${med?med.toFixed(2):'—'} mm · p95: ${p95?p95.toFixed(2):'—'} mm).${edadTxt}`;
+  }
   const marcadores=[];
   if(nasal==='ausente') marcadores.push({t:'Hueso nasal AUSENTE',c:'var(--red)',d:'LR+ ~6 para T21. Riesgo aneuploidía aumentado.'});
   if(dv==='invertida') marcadores.push({t:'Ductus venoso: onda a invertida/ausente',c:'var(--red)',d:'Marcador aneuploidía y cardiopatía congénita.'});
