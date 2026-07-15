@@ -2735,6 +2735,14 @@ function calcular(){
     else if(imcP>=30) add('ESTADO NUTRICIONAL','moderado',`IMC pregest. ${imcP.toFixed(1)} (obesidad)`,'AAS 100–150 mg/día desde sem 12. Cribado precoz DG. Vigilar PA. Valorar nutricionista.','ACOG / NICE');
     else if(imcP>=25) add('ESTADO NUTRICIONAL','bajo',`IMC pregest. ${imcP.toFixed(1)} (sobrepeso)`,'Controlar ganancia ponderal. Cribado DG estándar.','OMS');
     else if(imcP<18.5) add('ESTADO NUTRICIONAL','moderado',`IMC pregest. ${imcP.toFixed(1)} (bajo peso)`,'Riesgo RCIU y pretérmino. Suplementación calórica y proteica. Biometría seriada.','OMS / ACOG');
+
+    // Ganancia de peso recomendada para todo el embarazo, según IMC pregestacional (guía IOM 2009)
+    let gananciaTxt = '';
+    if(imcP<18.5) gananciaTxt = '12.5–18 kg en total (bajo peso)';
+    else if(imcP<25) gananciaTxt = '11.5–16 kg en total (peso normal)';
+    else if(imcP<30) gananciaTxt = '7–11.5 kg en total (sobrepeso)';
+    else gananciaTxt = '5–9 kg en total (obesidad)';
+    add('ESTADO NUTRICIONAL','bajo',`Ganancia de peso recomendada: ${gananciaTxt}`,'Meta de ganancia ponderal para todo el embarazo según IMC pregestacional. En embarazo gemelar las metas son mayores; consultar guía específica.','IOM 2009 / ACOG');
   }
 
   // PA
@@ -2742,6 +2750,20 @@ function calcular(){
     if(pas>=160||pad>=110) add('PRESIÓN ARTERIAL','alto',`PA ${pas}/${pad} mmHg (HTA severa)`,'Antihipertensivo urgente (labetalol IV / nifedipino). Descartar PE. Función hepática/renal, LDH, plaquetas. Valorar hospitalización.','ACOG / NICE / ISH');
     else if(pas>=140||pad>=90) add('PRESIÓN ARTERIAL','alto',`PA ${pas}/${pad} mmHg (HTA / PE probable)`,'Descartar PE: proteinuria, sFlt-1/PlGF, función hepática-renal. Vigilancia estrecha. Considerar hospitalización.','ACOG / ISSHP');
     else if(pas>=130||pad>=80) add('PRESIÓN ARTERIAL','moderado',`PA ${pas}/${pad} mmHg (limítrofe)`,'Control PA cada 1–2 semanas. Educación signos de alarma. Dieta hiposódica.','ACOG 2017');
+  }
+
+  // PAM — Presión Arterial Media (screening de preeclampsia)
+  const pam = (pas&&pad) ? (pas + 2*pad)/3 : null;
+  if(pam){
+    const semActual = eg ? eg.sem : null;
+    const contextoSem = semActual!==null ? ` a las ${semActual} semanas` : '';
+    if(pam>=105){
+      add('PRESIÓN ARTERIAL','alto',`PAM ${pam.toFixed(1)} mmHg${contextoSem} (≥105 — signo de alarma)`,'Signo de alarma para hipertensión gestacional/preeclampsia, especialmente si es posterior a la semana 20. Evaluar proteinuria, sFlt-1/PlGF, función hepática y renal. Vigilancia estrecha.','OMS / NICE / ISUOG');
+    } else if(pam>90 && semActual!==null && semActual<=14){
+      add('PRESIÓN ARTERIAL','moderado',`PAM ${pam.toFixed(1)} mmHg en 1er trimestre (>90)`,'PAM elevada en el primer trimestre se asocia a mayor riesgo de preeclampsia. Considerar AAS profiláctico según riesgo combinado. Vigilancia de PA en controles sucesivos.','FMF / ACOG / Cochrane');
+    } else if(pam>90){
+      add('PRESIÓN ARTERIAL','bajo',`PAM ${pam.toFixed(1)} mmHg${contextoSem}`,'PAM levemente elevada. Continuar vigilancia habitual de PA en cada control.','NICE / CDC');
+    }
   }
 
   // ANTECEDENTES OBS
