@@ -6392,7 +6392,7 @@ function verDetallePaciente(id){
     const json = decodeURIComponent(atob(encoded));
     const datos = JSON.parse(json);
 
-    function aplicar(){
+    function aplicar(){       const tieneDatosPaciente = Object.keys(datos).some(function(k){ return k.indexOf('mp_') === 0; });       if (tieneDatosPaciente && typeof showTab === 'function' && typeof abrirModalPaciente === 'function') {         showTab('pacientes');         abrirModalPaciente(null);       }
       Object.keys(datos).forEach(function(id){
         const el = document.getElementById(id);
         if (!el) return;
