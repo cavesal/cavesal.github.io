@@ -6405,7 +6405,7 @@ function verDetallePaciente(id){
           el.dispatchEvent(new Event('change', { bubbles: true }));
         }
       });
-      if (typeof showTab === 'function') showTab('formulario');
+      if (!tieneDatosPaciente && typeof showTab === 'function') showTab('formulario');
       // Limpia el parámetro de la URL para no reimportar si se refresca la página
       const url = new URL(window.location.href);
       url.searchParams.delete('import');
