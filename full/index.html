@@ -6383,5 +6383,47 @@ function verDetallePaciente(id){
   });
 })();
 </script>
+<script>
+(function importarDesdeHC(){
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const encoded = params.get('import');
+    if (!encoded) return;
+    const json = decodeURIComponent(atob(encoded));
+    const datos = JSON.parse(json);
+
+    function aplicar(){
+      Object.keys(datos).forEach(function(id){
+        const el = document.getElementById(id);
+        if (!el) return;
+        const val = datos[id];
+        if (el.type === 'checkbox') {
+          el.checked = !!val;
+          el.dispatchEvent(new Event('change', { bubbles: true }));
+        } else {
+          el.value = val;
+          el.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      });
+      if (typeof showTab === 'function') showTab('formulario');
+      // Limpia el parámetro de la URL para no reimportar si se refresca la página
+      const url = new URL(window.location.href);
+      url.searchParams.delete('import');
+      window.history.replaceState({}, '', url.toString());
+      setTimeout(function(){
+        alert('✅ Datos recibidos desde la Historia Clínica CaVeSal.\nRevisá y completá los campos antes de calcular.');
+      }, 300);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aplicar);
+    } else {
+      aplicar();
+    }
+  } catch (err) {
+    console.error('Error importando datos de la Historia Clínica:', err);
+  }
+})();
+</script>  
 </body>
 </html>
