@@ -715,15 +715,15 @@ document.addEventListener('DOMContentLoaded', function(){
   <div class="section-body open">
     <div class="row2">
       <div class="field"><label>Edad (años)</label><input type="number" id="edad" placeholder="32"></div>
-      <div class="field"><label>FUM — Fecha última menstruación</label><input type="date" id="fum" onchange="actualizarSemaforo();syncFUM('fum')"><div class="hint">Se sincroniza automáticamente con EG·Parto, semáforo de vacunas y vía de parto</div>
+      <div class="field"><label>FUM — Fecha última menstruación</label><input type="date" id="fum" onchange="syncMetabolismo();actualizarSemaforo();syncFUM('fum')"><div class="hint">Se sincroniza automáticamente con EG·Parto, semáforo de vacunas y vía de parto</div>
 <div class="note-box" style="font-size:.72rem;margin-top:6px;line-height:1.7">
   📌 <strong>Corrección de FUM por ECO:</strong> ECO 1T (&lt;14 sem) → corregir si ≥5 días de diferencia · ECO 2T (14–28 sem) → corregir si ≥7 días · ECO 3T (&gt;28 sem) → NO corregir; usar CC, LF o Cerebelo para EG.
 </div></div>
     </div>
     <div class="row3">
-      <div class="field"><label>Talla (cm)</label><input type="number" id="talla" placeholder="165"></div>
-      <div class="field"><label>Peso pregest. (kg)</label><input type="number" id="pesoPreg" placeholder="60" step="0.1"></div>
-      <div class="field"><label>Peso actual (kg)</label><input type="number" id="pesoActual" placeholder="68" step="0.1"></div>
+      <div class="field"><label>Talla (cm)</label><input type="number" id="talla" placeholder="165" oninput="syncMetabolismo()"></div>
+      <div class="field"><label>Peso pregest. (kg)</label><input type="number" id="pesoPreg" placeholder="60" step="0.1" oninput="syncMetabolismo()"></div>
+      <div class="field"><label>Peso actual (kg)</label><input type="number" id="pesoActual" placeholder="68" step="0.1" oninput="syncMetabolismo()"></div>
     </div>
     <div class="row2">
       <div class="field"><label>PA Sistólica (mmHg)</label><input type="number" id="pas" placeholder="120"></div>
@@ -1414,7 +1414,15 @@ document.addEventListener('DOMContentLoaded', function(){
       <div id="bloque_eco_solo">
         <div class="note-box"><strong>Cribado solo por ECO 1T (11–13+6 sem):</strong> Sin bioquímica. Sensibilidad T21 ~75–80%. Marcadores FMF/Nicolaides.</div>
         <div class="row2">
-          <div class="field"><label>NT — Translucencia nucal (mm)</label>
+          <div style="margin:0 0 10px;padding:8px;background:var(--mist);border-radius:10px;">
+  <div style="font-size:.72rem;color:var(--slate);margin-bottom:6px;font-weight:600;">📊 Referencia percentiles TN:</div>
+  <div style="display:flex;gap:8px;margin-bottom:4px;">
+    <button id="nt_tabla_snijders" onclick="setNtTabla('snijders')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.68rem;font-weight:700;cursor:pointer;background:var(--teal);color:#fff;">Snijders/FMF 1998</button>
+    <button id="nt_tabla_sharifzadeh" onclick="setNtTabla('sharifzadeh')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.68rem;font-weight:700;cursor:pointer;background:var(--mist);color:var(--slate);">Sharifzadeh 2019</button>
+  </div>
+  <div style="font-size:.65rem;color:var(--slate);font-style:italic;">Estándar FMF por defecto · CRL válido 45–84mm</div>
+</div>
+<div class="field"><label>NT — Translucencia nucal (mm)</label>
             <input type="number" id="nt_mm" placeholder="ej. 1.8" step="0.1" oninput="calcNT()">
             <div class="hint">Normal &lt;p95 para CRL · ≥3.5 mm = alto riesgo independiente</div>
           </div>
@@ -4108,6 +4116,34 @@ function calcGanancia(){
   html+='</div>';
   html+='<div style="font-size:.64rem;color:var(--slate)">Ref: IOM/NAS 2009 · ACOG · Valores para embarazo único; gemelar ver guía específica</div>';
   res.innerHTML=html;res.style.display='block';
+}
+
+
+// ════ SYNC: Datos Generales → Metabolismo ════
+function syncMetabolismo(){
+  var pesoP=document.getElementById('pesoPreg');
+  var talla=document.getElementById('talla');
+  var pesoA=document.getElementById('pesoActual');
+  var fum=document.getElementById('fum');
+  if(pesoP&&pesoP.value&&document.getElementById('gan_peso_pre')&&!document.getElementById('gan_peso_pre').value)
+    document.getElementById('gan_peso_pre').value=pesoP.value;
+  if(talla&&talla.value&&document.getElementById('gan_talla')&&!document.getElementById('gan_talla').value)
+    document.getElementById('gan_talla').value=talla.value;
+  if(pesoA&&pesoA.value&&document.getElementById('gan_peso_actual')&&!document.getElementById('gan_peso_actual').value)
+    document.getElementById('gan_peso_actual').value=pesoA.value;
+  // EG from FUM
+  if(fum&&fum.value){
+    var d=Math.floor((new Date()-new Date(fum.value))/86400000);
+    if(d>0&&d<294){
+      var egSem=Math.round(d/7*10)/10;
+      if(document.getElementById('gan_eg')&&!document.getElementById('gan_eg').value)
+        document.getElementById('gan_eg').value=egSem;
+      if(document.getElementById('au_eg')&&!document.getElementById('au_eg').value)
+        document.getElementById('au_eg').value=Math.round(egSem);
+    }
+  }
+  calcGanancia();
+  calcAU();
 }
 
 function calcPFE(){
