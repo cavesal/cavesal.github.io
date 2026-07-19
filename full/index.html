@@ -1573,6 +1573,104 @@ document.addEventListener('DOMContentLoaded', function(){
   </div>
 </div>
 
+
+<!-- SECCIÓN METABOLISMO / DMG / GANANCIA PONDERAL -->
+<div class="section-card">
+  <div class="section-head" onclick="toggleSection(this)">
+    <span class="icon">🩸</span><h2>Metabolismo · Diabetes · Ganancia ponderal</h2><span class="chevron">▼</span>
+  </div>
+  <div class="section-body" style="padding:14px">
+
+    <!-- DMG -->
+    <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:8px">🩸 Diagnóstico DMG</div>
+    <div style="margin-bottom:10px;padding:8px;background:var(--mist);border-radius:10px;">
+      <div style="font-size:.72rem;color:var(--slate);margin-bottom:6px;font-weight:600;">📋 Protocolo diagnóstico:</div>
+      <div style="display:flex;gap:8px;margin-bottom:4px;">
+        <button id="dmg_btn_iadpsg" onclick="setDmgRef('iadpsg')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.68rem;font-weight:700;cursor:pointer;background:var(--teal);color:#fff;">IADPSG/ALAD/ADA — 1 paso (75g)</button>
+        <button id="dmg_btn_ada2p" onclick="setDmgRef('ada2p')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.68rem;font-weight:700;cursor:pointer;background:var(--mist);color:var(--slate);">ADA — 2 pasos (100g)</button>
+      </div>
+      <div style="font-size:.65rem;color:var(--slate);font-style:italic;">IADPSG por defecto · 1 valor alterado = DMG (1 paso) · ≥2 valores = DMG (2 pasos)</div>
+    </div>
+
+    <div id="dmg_paso1_ada" style="display:none">
+      <div class="row2">
+        <div class="field"><label>Paso 1 — Glucosa 50g sin ayuno (mg/dL)</label>
+          <input type="number" id="dmg_50g" placeholder="umbral ≥130-140" step="0.1" oninput="calcDMG()">
+          <div class="hint">Si ≥130 mg/dL → PTOG 100g</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div class="field"><label>Glucemia ayunas (mg/dL)</label>
+        <input type="number" id="dmg_ayuno" placeholder="ej. 88" step="0.1" oninput="calcDMG()">
+        <div class="hint">IADPSG ≥92 · ADA 2p ≥95 · ≥126 = DM</div>
+      </div>
+      <div class="field"><label>1 hora post-carga (mg/dL)</label>
+        <input type="number" id="dmg_1h" placeholder="ej. 155" step="0.1" oninput="calcDMG()">
+        <div class="hint">IADPSG/ADA ≥180</div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>2 horas post-carga (mg/dL)</label>
+        <input type="number" id="dmg_2h" placeholder="ej. 140" step="0.1" oninput="calcDMG()">
+        <div class="hint">IADPSG ≥153 · ADA 2p ≥155</div>
+      </div>
+      <div class="field" id="dmg_3h_field" style="display:none">
+        <label>3 horas post-carga (mg/dL)</label>
+        <input type="number" id="dmg_3h" placeholder="solo PTOG 100g" step="0.1" oninput="calcDMG()">
+        <div class="hint">ADA 2 pasos ≥140</div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>HbA1c (%)</label>
+        <input type="number" id="dmg_hba1c" placeholder="ej. 5.4" step="0.1" oninput="calcDMG()">
+        <div class="hint">No es criterio DMG · ≥6.5% = DM preexistente · 5.7-6.4% = prediabetes</div>
+      </div>
+    </div>
+    <div id="dmg_result" style="display:none;margin-top:8px"></div>
+
+    <hr style="margin:14px 0;border:none;border-top:1px solid var(--border)">
+
+    <!-- GANANCIA PONDERAL -->
+    <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:8px">⚖️ Ganancia ponderal materna</div>
+    <div class="row2">
+      <div class="field"><label>Peso pregestacional (kg)</label>
+        <input type="number" id="gan_peso_pre" placeholder="ej. 65" step="0.1" oninput="calcGanancia()">
+      </div>
+      <div class="field"><label>Talla (cm)</label>
+        <input type="number" id="gan_talla" placeholder="ej. 160" step="0.1" oninput="calcGanancia()">
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Peso actual (kg)</label>
+        <input type="number" id="gan_peso_actual" placeholder="ej. 72" step="0.1" oninput="calcGanancia()">
+      </div>
+      <div class="field"><label>EG actual (semanas)</label>
+        <input type="number" id="gan_eg" placeholder="ej. 28" step="0.1" oninput="calcGanancia()">
+      </div>
+    </div>
+    <div id="gan_result" style="display:none;margin-top:8px"></div>
+
+    <hr style="margin:14px 0;border:none;border-top:1px solid var(--border)">
+
+    <!-- ALTURA UTERINA -->
+    <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:8px">📏 Altura uterina</div>
+    <div class="row2">
+      <div class="field"><label>AU medida (cm)</label>
+        <input type="number" id="au_cm" placeholder="ej. 30" step="0.1" oninput="calcAU()">
+        <div class="hint">Técnica McDonald · sínfisis–fondo uterino</div>
+      </div>
+      <div class="field"><label>EG (semanas)</label>
+        <input type="number" id="au_eg" placeholder="26–40" step="0.5" oninput="calcAU()">
+      </div>
+    </div>
+    <div id="au_result" style="display:none;margin-top:8px"></div>
+
+  </div>
+</div>
+
+<!-- SECCIÓN EXAMEN FÍSICO / SEMIOLOGÍA OBSTÉTRICA -->
 <button class="btn-calc" onclick="calcular()">⚡ Calcular riesgo prenatal completo</button>
 </div><!-- /formulario -->
 
@@ -2433,9 +2531,9 @@ Microcefalia: CC &lt;p3 para EG.</div>
   <div class="section-body open" style="padding:14px">
     <div style="font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:6px">Dr. Carlos Vera Salerno</div>
     <div style="font-size:.78rem;color:var(--slate);line-height:1.7;margin-bottom:12px">
-      Formación en Medicina Materno-Fetal (MFM). Metodología FMF/Nicolaides y guías: ACOG, FIGO, NICE, IADPSG, ATA, WHO, EBCOG, Medicina Fetal Barcelona.
+      Especialista en Medicina Materno-Fetal (MFM). Metodología FMF/Nicolaides y guías: ACOG, FIGO, NICE, IADPSG, ATA, WHO, EBCOG, Medicina Fetal Barcelona.
     </div>
-    <ul style="font-size:.74rem;color:var(--slate);line-height:1.65;margin:0 0 12px 0;padding-left:18px">       <li>Título de grado Médico y Cirujano (Paraguay) con homologación al título de grado español Licenciado en Medicina.</li>       <li>Especialista en Ginecología y Obstetricia.</li>       <li>Postgrados en Ecografía General y Gineco-Obstétrica, Endocrinología Ginecológica y Reproductiva, Didáctica en Educación Superior y Salud Pública.</li>       <li>Formación en Inteligencia Artificial y herramientas digitales emergentes aplicadas a la práctica profesional.</li>       <li>Capacitador Nacional en Salud Sexual y Reproductiva, Código Rojo y Atención Prenatal.</li>       <li>Miembro del Comité Técnico Nacional de Inmunización (Paraguay).</li>       <li>Docente universitario de grado y posgrado en Ginecología y Obstetricia, Ecografía, Endocrinología Ginecológica y Reproductiva.</li>       <li>Miembro del Comité Científico de FLASOG (2024–2026).</li>       <li>Miembro de Sociedades Científicas en Paraguay (FPGO, SOGON, SOGIA, SODIAP y SEGIRP).</li>       <li>Presidente de la FPGO (2023–2026).</li>     </ul>     <button onclick="abrirContacto()"
+    <button onclick="abrirContacto()"
       style="display:flex;align-items:center;gap:10px;background:var(--teal-lt);border:1.5px solid var(--teal);border-radius:10px;padding:11px 13px;cursor:pointer;width:100%;text-align:left">
       <span style="font-size:1.2rem">✉️</span>
       <div>
@@ -2998,6 +3096,30 @@ function calcular(){
     if(ldh!==null&&ldh>400) add('LABORATORIO','moderado',`LDH ${ldh} UI/L (↑)`,'LDH moderadamente elevada. Vigilar en contexto de HTA y trombocitopenia.','ACOG');
   }
   if(bili!==null&&bili>1.5) add('LABORATORIO','moderado',`Bilirrubina ${bili} mg/dL (↑)`,'Descartar colestasis intrahepática del embarazo (CIE): prurito + bilis elevadas. Solicitar ácidos biliares. Mayor riesgo de muerte fetal súbita.','ACOG / EASL');
+
+  // ── ALTURA UTERINA ──
+  const au_val = parseFloat((document.getElementById('au_cm')||{}).value)||null;
+  const au_eg_val = parseFloat((document.getElementById('au_eg')||{}).value)||null;
+  if(au_val && au_eg_val){
+    const au_mm = au_val*10;
+    const au_egR = Math.round(au_eg_val);
+    const au_row = [
+      [26,236,257,279],[27,246,267,289],[28,255,277,299],[29,264,286,309],
+      [30,273,296,318],[31,282,305,328],[32,291,314,338],[33,299,323,347],
+      [34,308,332,356],[35,316,340,365],[36,324,349,373],[37,325,350,374],
+      [38,323,348,372],[39,320,345,370],[40,315,340,365]
+    ].find(r=>r[0]===au_egR);
+    if(au_row){
+      if(au_mm<au_row[1]) add('SEMIOLOGÍA','alto',
+        `AU ${au_val} cm (<P10 para ${au_egR} sem)`,
+        'Descartar: RCIU, oligoamnios, discordancia EG. Ecografía con PFE urgente. Doppler AU/ACM.',
+        'CLAP-OPS / Gomes 2001');
+      else if(au_mm>au_row[3]) add('SEMIOLOGÍA','moderado',
+        `AU ${au_val} cm (>P90 para ${au_egR} sem)`,
+        'Descartar: macrosomía, polihidramnios, DMG, gemelar no diagnosticado, discordancia EG.',
+        'CLAP-OPS / Gomes 2001');
+    }
+  }
 
   // ── VITAMINA D SÉRICA ──
   const vitd=val('lab_vitd');
@@ -3612,27 +3734,7 @@ function setPFEMode(m){
 }
 
 // INTERGROWTH-21 percentiles aproximados por semana (p3,p10,p50,p90,p97)
-const IG21 = {
-  24:[390,430,530,650,720],25:[450,500,610,750,835],26:[520,580,710,870,970],
-  27:[600,670,820,1005,1120],28:[690,770,940,1155,1290],29:[790,885,1080,1325,1485],
-  30:[905,1010,1240,1520,1705],31:[1035,1155,1415,1735,1950],32:[1175,1315,1610,1975,2220],
-  33:[1325,1485,1820,2235,2515],34:[1480,1665,2040,2505,2820],35:[1635,1840,2260,2775,3130],
-  36:[1790,2015,2480,3045,3435],37:[1935,2180,2690,3305,3730],38:[2070,2335,2885,3545,4005],
-  39:[2185,2470,3055,3755,4245],40:[2280,2580,3205,3945,4460],41:[2355,2665,3325,4095,4630],
-  42:[2410,2725,3420,4210,4760]
-};
 
-function percFromIG21(peso, eg){
-  const row = IG21[Math.round(eg)];
-  if(!row) return null;
-  const [p3,p10,p50,p90,p97] = row;
-  if(peso <= p3) return 3;
-  if(peso <= p10) return Math.round(3+(peso-p3)/(p10-p3)*7);
-  if(peso <= p50) return Math.round(10+(peso-p10)/(p50-p10)*40);
-  if(peso <= p90) return Math.round(50+(peso-p50)/(p90-p50)*40);
-  if(peso <= p97) return Math.round(90+(peso-p90)/(p97-p90)*7);
-  return 97;
-}
 
 // Hadlock 4-param formula
 function hadlock4(dbp,cc,ca,lf){
@@ -3804,6 +3906,208 @@ function calcDopplerPercentil(){
 function egEnMeses(egSem){
   var d=Math.round(egSem*7);
   return{lunar:Math.round(d/28*10)/10,calendario:Math.round(d/30.44*10)/10};
+}
+
+
+// ════ INTERGROWTH-21 — Fórmula propia (Papageorghiou BJOG 2014/2021) ════
+// log10(PFE) ~ N(mu(GA), sigma=0.0739) · Coeficientes ajustados sobre p3/p50/p97 publicados
+function _ig21Erf(x){
+  var t=1/(1+0.3275911*Math.abs(x));
+  var y=1-((((1.061405429*t-1.453152027)*t+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x);
+  return x>=0?y:-y;
+}
+function percFromIG21(peso,eg){
+  if(!peso||!eg||eg<24||eg>42)return null;
+  var mu=0.175339+0.140621*eg-0.00143397*eg*eg;
+  var z=(Math.log10(peso)-mu)/0.0739;
+  var p=0.5*(1+_ig21Erf(z/Math.sqrt(2)));
+  return Math.max(1,Math.min(99,Math.round(p*100)));
+}
+
+// ════ NT — TRANSLUCENCIA NUCAL (Snijders FMF 1998 / Sharifzadeh 2019) ════
+var NT_SNIJDERS=[[45,49,0.8,1.2,2.2],[50,54,0.9,1.3,2.3],[55,59,1.0,1.4,2.4],
+  [60,64,1.1,1.5,2.5],[65,69,1.2,1.6,2.5],[70,74,1.3,1.7,2.6],[75,79,1.4,1.8,2.7],[80,84,1.5,1.9,2.8]];
+var NT_SHARIFZADEH=[[45,49,0.7,1.0,1.8],[50,54,0.8,1.1,1.9],[55,59,0.9,1.2,1.9],
+  [60,64,1.0,1.3,2.0],[65,69,1.1,1.4,2.1],[70,74,1.2,1.5,2.2],[75,79,1.3,1.6,2.3],[80,84,1.4,1.65,2.35]];
+var ntTabla='snijders';
+function setNtTabla(t){
+  ntTabla=t;
+  var bs=document.getElementById('nt_tabla_snijders'),bz=document.getElementById('nt_tabla_sharifzadeh');
+  if(bs){bs.style.background=t==='snijders'?'var(--teal)':'var(--mist)';bs.style.color=t==='snijders'?'#fff':'var(--slate)';}
+  if(bz){bz.style.background=t==='sharifzadeh'?'var(--teal)':'var(--mist)';bz.style.color=t==='sharifzadeh'?'#fff':'var(--slate)';}
+  if(typeof calcNT==='function')calcNT();
+}
+function _ntGetRow(crl){
+  var tab=ntTabla==='sharifzadeh'?NT_SHARIFZADEH:NT_SNIJDERS;
+  for(var i=0;i<tab.length;i++){if(crl>=tab[i][0]&&crl<=tab[i][1])return tab[i];}return null;
+}
+function ntPercentil(nt,crl){
+  var r=_ntGetRow(crl);if(!r)return null;
+  var p5=r[2],p50=r[3],p95=r[4];
+  if(nt>=3.5)return '>P99';if(nt>=p95)return '>P95';
+  if(nt>=p50)return 'P'+Math.min(94,Math.round(50+(nt-p50)/(p95-p50)*45));
+  if(nt>=p5)return 'P'+Math.max(6,Math.round(5+(nt-p5)/(p50-p5)*45));
+  return '<P5';
+}
+
+// ════ ALTURA UTERINA — Percentiles CLAP/Gomes 2001 (OPS/OMS) ════
+// Fuente: Gomes UA et al. Rev Saúde Pública 2001;35(2):152-8 · CLAP-OPS/OMS
+// [EG, P10_mm, P50_mm, P90_mm]
+var AU_REF=[
+  [26,236,257,279],[27,246,267,289],[28,255,277,299],[29,264,286,309],
+  [30,273,296,318],[31,282,305,328],[32,291,314,338],[33,299,323,347],
+  [34,308,332,356],[35,316,340,365],[36,324,349,373],[37,325,350,374],
+  [38,323,348,372],[39,320,345,370],[40,315,340,365]
+];
+function calcAU(){
+  var au=parseFloat((document.getElementById('au_cm')||{}).value)||null;
+  var eg=parseFloat((document.getElementById('au_eg')||{}).value)||null;
+  var res=document.getElementById('au_result');
+  if(!res)return;
+  if(!au||!eg){res.style.display='none';return;}
+  var au_mm=au*10;
+  var egR=Math.round(eg);
+  var row=AU_REF.find(function(r){return r[0]===egR;});
+  if(!row){res.style.display='none';return;}
+  var p10=row[1],p50=row[2],p90=row[3];
+  var perc,cls,interp,conducta;
+  if(au_mm<p10){
+    perc='<P10';cls='alto';
+    interp='AU BAJA para EG — probable feto pequeño';
+    conducta='Descartar: RCIU, oligoamnios, discordancia EG. Ecografía con PFE urgente. Valorar Doppler AU/ACM.';
+  } else if(au_mm>p90){
+    perc='>P90';cls='moder';
+    interp='AU ALTA para EG — evaluar causa';
+    conducta='Descartar: macrosomía, polihidramnios, DMG, gemelar no diagnosticado, discordancia EG. Solicitar ecografía.';
+  } else {
+    var pct=Math.round(10+(au_mm-p10)/(p90-p10)*80);
+    perc='~P'+pct;cls='verde';
+    interp='AU normal para EG';conducta='';
+  }
+  var html='<div class="alerta-box '+cls+'" style="margin-bottom:6px">'
+    +'<div style="font-size:.82rem;font-weight:800;margin-bottom:4px">📏 '+interp+'</div>'
+    +'<div style="font-size:.75rem;margin-bottom:4px">AU: <strong>'+au+' cm</strong> · '
+    +'Percentil: <strong>'+perc+'</strong> · EG: '+egR+' sem</div>'
+    +'<div style="font-size:.72rem;color:var(--mist2,#ccc)">P10: '+(p10/10).toFixed(1)+' cm · P50: '+(p50/10).toFixed(1)+' cm · P90: '+(p90/10).toFixed(1)+' cm</div>'
+    +(conducta?'<div style="font-size:.74rem;margin-top:6px;line-height:1.5">'+conducta+'</div>':'')
+    +'</div>'
+    +'<div style="font-size:.64rem;color:var(--slate)">Ref: Gomes 2001 / CLAP-OPS · Regla McDonald: AU(cm) ≈ EG±2 cm (20-36 sem)</div>';
+  res.innerHTML=html;res.style.display='block';
+}
+
+// ════ DMG — Diabetes Mellitus Gestacional ════
+// Criterios: IADPSG/ALAD/ADA 2023-2026
+// ADA Standards of Care 2026 · ALAD 2019 · IADPSG 2010
+var dmgRef='iadpsg';
+function setDmgRef(r){
+  dmgRef=r;
+  var f3=document.getElementById('dmg_3h_field');
+  var fp1=document.getElementById('dmg_paso1_ada');
+  if(f3)f3.style.display=r==='ada2p'?'block':'none';
+  if(fp1)fp1.style.display=r==='ada2p'?'block':'none';
+  ['iadpsg','ada2p'].forEach(function(id){
+    var b=document.getElementById('dmg_btn_'+id);
+    if(b){b.style.background=id===r?'var(--teal)':'var(--mist)';b.style.color=id===r?'#fff':'var(--slate)';}
+  });
+  calcDMG();
+}
+function calcDMG(){
+  var res=document.getElementById('dmg_result');
+  if(!res)return;
+  var ayuno=parseFloat((document.getElementById('dmg_ayuno')||{}).value)||null;
+  var h1=parseFloat((document.getElementById('dmg_1h')||{}).value)||null;
+  var h2=parseFloat((document.getElementById('dmg_2h')||{}).value)||null;
+  var h3=parseFloat((document.getElementById('dmg_3h')||{}).value)||null;
+  var hba1c=parseFloat((document.getElementById('dmg_hba1c')||{}).value)||null;
+  if(!ayuno&&!h1&&!h2&&!h3&&!hba1c){res.style.display='none';return;}
+  var alterados=0,criterios=[],cls='verde',dx='';
+  // HbA1c — solo para diabetes preexistente (no DMG)
+  if(hba1c){
+    if(hba1c>=6.5){
+      cls='alto';criterios.push('HbA1c ≥6.5% → DM PREEXISTENTE no diagnosticada');
+    } else if(hba1c>=5.7){
+      if(cls==='verde')cls='moder';criterios.push('HbA1c 5.7-6.4% → prediabetes — mayor riesgo DMG');
+    }
+  }
+  if(dmgRef==='iadpsg'){
+    // IADPSG / ALAD / ADA 1 paso — PTOG 75g — 1 valor alterado = DMG
+    if(ayuno!==null){
+      if(ayuno>=126){cls='alto';criterios.push('Glucemia ayunas ≥126 mg/dL → DM EN EMBARAZO (no DMG)');}
+      else if(ayuno>=92){alterados++;criterios.push('Ayuno '+ayuno+' mg/dL ≥92 ✓');}
+      else{criterios.push('Ayuno '+ayuno+' mg/dL — normal (<92)');}
+    }
+    if(h1!==null){
+      if(h1>=180){alterados++;criterios.push('1h '+h1+' mg/dL ≥180 ✓');}
+      else{criterios.push('1h '+h1+' mg/dL — normal (<180)');}
+    }
+    if(h2!==null){
+      if(h2>=153){alterados++;criterios.push('2h '+h2+' mg/dL ≥153 ✓');}
+      else{criterios.push('2h '+h2+' mg/dL — normal (<153)');}
+    }
+    if(alterados>=1&&cls!=='alto'){cls='alto';dx='DIABETES GESTACIONAL (IADPSG/ADA/ALAD)';}
+    else if(alterados===0&&cls==='verde'){dx='Sin criterios de DMG (IADPSG)';}
+  } else {
+    // ADA 2 pasos — paso 1: 50g sin ayuno; paso 2: PTOG 100g — ≥2 alterados = DMG
+    var p1=parseFloat((document.getElementById('dmg_50g')||{}).value)||null;
+    if(p1!==null){
+      if(p1>=140){criterios.push('Paso 1 (50g): '+p1+' mg/dL ≥140 → PASAR A PTOG 100g ↓');}
+      else if(p1>=130){criterios.push('Paso 1 (50g): '+p1+' mg/dL ≥130 → PASAR A PTOG 100g ↓ (umbral 130)');}
+      else{criterios.push('Paso 1 (50g): '+p1+' mg/dL <130 → NORMAL, no requiere PTOG 100g');cls='verde';dx='Paso 1 normal';}
+    }
+    if(ayuno!==null){if(ayuno>=95){alterados++;criterios.push('Ayuno '+ayuno+' mg/dL ≥95 ✓');}else{criterios.push('Ayuno '+ayuno+' — normal (<95)');}}
+    if(h1!==null){if(h1>=180){alterados++;criterios.push('1h '+h1+' mg/dL ≥180 ✓');}else{criterios.push('1h '+h1+' — normal (<180)');}}
+    if(h2!==null){if(h2>=155){alterados++;criterios.push('2h '+h2+' mg/dL ≥155 ✓');}else{criterios.push('2h '+h2+' — normal (<155)');}}
+    if(h3!==null){if(h3>=140){alterados++;criterios.push('3h '+h3+' mg/dL ≥140 ✓');}else{criterios.push('3h '+h3+' — normal (<140)');}}
+    if(alterados>=2&&cls!=='alto'){cls='alto';dx='DIABETES GESTACIONAL (ADA 2 pasos)';}
+    else if(alterados===1&&cls==='verde'){cls='moder';dx='1 valor alterado — NO diagnóstico (requiere ≥2 en ADA 2 pasos)';}
+    else if(alterados===0&&cls==='verde'){dx='Sin criterios de DMG (ADA 2 pasos)';}
+  }
+  var html='<div class="alerta-box '+cls+'" style="margin-bottom:6px">';
+  if(dx)html+='<div style="font-size:.84rem;font-weight:800;margin-bottom:6px">🩸 '+dx+'</div>';
+  criterios.forEach(function(c){html+='<div style="font-size:.73rem;margin-bottom:3px">• '+c+'</div>';});
+  html+='</div>';
+  html+='<div style="font-size:.64rem;color:var(--slate)">Ref: IADPSG 2010 · ADA 2026 · ALAD 2019 · HbA1c: NO es criterio diagnóstico de DMG</div>';
+  res.innerHTML=html;res.style.display='block';
+}
+
+// ════ GANANCIA PONDERAL — IOM 2009 / ACOG ════
+function calcGanancia(){
+  var pesoP=parseFloat((document.getElementById('gan_peso_pre')||{}).value)||null;
+  var talla=parseFloat((document.getElementById('gan_talla')||{}).value)||null;
+  var pesoA=parseFloat((document.getElementById('gan_peso_actual')||{}).value)||null;
+  var eg=parseFloat((document.getElementById('gan_eg')||{}).value)||null;
+  var res=document.getElementById('gan_result');
+  if(!res)return;
+  if(!pesoP||!talla){res.style.display='none';return;}
+  var imc=pesoP/((talla/100)*(talla/100));
+  var cat,minT,maxT,sem1T,semPost;
+  if(imc<18.5){cat='Bajo peso';minT=12.5;maxT=18;sem1T=0.5;semPost=0.51;}
+  else if(imc<25){cat='Peso normal';minT=11.5;maxT=16;sem1T=0.4;semPost=0.42;}
+  else if(imc<30){cat='Sobrepeso';minT=7;maxT=11.5;sem1T=0.3;semPost=0.28;}
+  else{cat='Obesidad';minT=5;maxT=9;sem1T=0.2;semPost=0.22;}
+  var html='<div style="background:var(--teal-lt);border-radius:10px;padding:10px;margin-bottom:8px">';
+  html+='<div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:6px">📊 IMC pregestacional: '+imc.toFixed(1)+' ('+cat+')</div>';
+  html+='<div style="font-size:.74rem;color:var(--slate);margin-bottom:4px">Meta total embarazo: <strong>'+minT+'–'+maxT+' kg</strong></div>';
+  if(pesoA&&eg){
+    var ganActual=pesoA-pesoP;
+    // Expected gain: 1T ~same for all, then weekly rate
+    var ganEsperada=eg<=13?sem1T*eg:sem1T*13+semPost*(eg-13);
+    ganEsperada=Math.max(0,Math.round(ganEsperada*10)/10);
+    var diff=Math.round((ganActual-ganEsperada)*10)/10;
+    var cls2=Math.abs(diff)<=1.5?'verde':diff>1.5?'moder':'moder';
+    html+='<div style="font-size:.74rem;margin-bottom:4px">Ganancia actual (<strong>sem '+Math.round(eg)+'</strong>): <strong>'+ganActual.toFixed(1)+' kg</strong></div>';
+    html+='<div style="font-size:.74rem;margin-bottom:4px">Ganancia esperada para EG: ~<strong>'+ganEsperada+' kg</strong></div>';
+    if(diff>1.5){html+='<div style="font-size:.73rem;color:var(--amber,#c47);font-weight:700">⚠️ Ganancia por encima de lo esperado (+'+diff+' kg) — evaluar DMG, macrosomía</div>';}
+    else if(diff<-1.5){html+='<div style="font-size:.73rem;color:var(--amber,#c47);font-weight:700">⚠️ Ganancia por debajo de lo esperado ('+diff+' kg) — evaluar RCIU, nutrición</div>';}
+    else{html+='<div style="font-size:.73rem;color:green;font-weight:700">✅ Ganancia en rango adecuado para EG</div>';}
+    // Remaining goal
+    var semRestantes=40-eg;
+    var minRest=Math.max(0,minT-ganActual),maxRest=Math.max(0,maxT-ganActual);
+    html+='<div style="font-size:.72rem;color:var(--slate);margin-top:4px">Rango meta restante: '+minRest.toFixed(1)+'–'+maxRest.toFixed(1)+' kg en ~'+Math.round(semRestantes)+' sem ('+( minRest>0?(minRest/Math.max(1,semRestantes)).toFixed(2):0)+'–'+(maxRest>0?(maxRest/Math.max(1,semRestantes)).toFixed(2):0)+' kg/sem)</div>';
+  }
+  html+='</div>';
+  html+='<div style="font-size:.64rem;color:var(--slate)">Ref: IOM/NAS 2009 · ACOG · Valores para embarazo único; gemelar ver guía específica</div>';
+  res.innerHTML=html;res.style.display='block';
 }
 
 function calcPFE(){
@@ -4901,7 +5205,7 @@ function calcNT(){
   const nPos=marcadores.length+(nivel!=='bajo'?1:0);
   let html=`<div style="background:${nivel==='alto'?'var(--red-lt)':nivel==='moderado'?'var(--amber-lt)':'var(--green-lt)'};border:1.5px solid ${color};border-radius:11px;padding:12px;margin-top:10px">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-      <div style="font-size:.88rem;font-weight:800;color:${color}">NT ${nt} mm${mom?' ('+mom.toFixed(2)+' MoM)':''}</div>
+      <div style="font-size:.88rem;font-weight:800;color:${color}">NT ${nt} mm${perc?' · '+perc:''}${mom?' ('+mom.toFixed(2)+' MoM)':''}</div>
       <span style="background:${color};color:#fff;border-radius:20px;padding:2px 9px;font-size:.68rem;font-weight:700">${nivel.toUpperCase()}</span>
     </div>
     <div style="font-size:.78rem;color:var(--slate);line-height:1.5">${texto}</div>`;
@@ -6126,8 +6430,8 @@ function getTSHRef(trim){
 
 
 // ════ DEMO STUBS + UPGRADE MODAL ════
-
-
+function getPacientes(){}
+function savePacientes(){}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2);}
 
 var _UPC={
@@ -6383,47 +6687,5 @@ function verDetallePaciente(id){
   });
 })();
 </script>
-<script>
-(function importarDesdeHC(){
-  try {
-    const params = new URLSearchParams(window.location.search);
-    const encoded = params.get('import');
-    if (!encoded) return;
-    const json = decodeURIComponent(atob(encoded));
-    const datos = JSON.parse(json);
-
-    function aplicar(){       const tieneDatosPaciente = Object.keys(datos).some(function(k){ return k.indexOf('mp_') === 0; });       if (tieneDatosPaciente && typeof showTab === 'function' && typeof abrirModalPaciente === 'function') {         showTab('pacientes');         abrirModalPaciente(null);       }
-      Object.keys(datos).forEach(function(id){
-        const el = document.getElementById(id);
-        if (!el) return;
-        const val = datos[id];
-        if (el.type === 'checkbox') {
-          el.checked = !!val;
-          el.dispatchEvent(new Event('change', { bubbles: true }));
-        } else {
-          el.value = val;
-          el.dispatchEvent(new Event('change', { bubbles: true }));
-        }
-      });
-      if (!tieneDatosPaciente && typeof showTab === 'function') showTab('formulario');
-      // Limpia el parámetro de la URL para no reimportar si se refresca la página
-      const url = new URL(window.location.href);
-      url.searchParams.delete('import');
-      window.history.replaceState({}, '', url.toString());
-      setTimeout(function(){
-        alert('✅ Datos recibidos desde la Historia Clínica CaVeSal.\nRevisá y completá los campos antes de calcular.');
-      }, 300);
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', aplicar);
-    } else {
-      aplicar();
-    }
-  } catch (err) {
-    console.error('Error importando datos de la Historia Clínica:', err);
-  }
-})();
-</script>  
 </body>
 </html>
