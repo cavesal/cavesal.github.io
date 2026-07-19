@@ -1424,7 +1424,7 @@ document.addEventListener('DOMContentLoaded', function(){
 </div>
 <div class="field"><label>NT — Translucencia nucal (mm)</label>
             <input type="number" id="nt_mm" placeholder="ej. 1.8" step="0.1" oninput="calcNT()">
-            <div class="hint">Percentil automático por CRL · Snijders/FMF 1998: P95 2.2–2.8mm · Sharifzadeh 2019: P95 1.8–2.35mm · ≥3.5mm = alto riesgo independiente</div>
+            <div class="hint">Percentil automático · Snijders/FMF 1998: P95 2.2–2.8mm · Sharifzadeh 2019: P95 1.8–2.35mm · ≥3.5mm = riesgo alto independiente</div>
           </div>
           <div class="field"><label>CRL al momento de la NT (mm)</label>
             <input type="number" id="nt_crl" placeholder="ej. 65" step="0.1" oninput="calcNT()">
@@ -2595,7 +2595,7 @@ Microcefalia: CC &lt;p3 para EG.</div>
 
 <!-- MODAL EJEMPLOS -->
 
-    <div onclick="document.getElementById('modal_ejemplos').style.display='none'" style="text-align:center;font-size:.76rem;color:var(--s
+    <div onclick="document.getElementById('modal_ejemplos').style.display='none'" style="text-align:center;font-size:.76rem;color:var(--slate);ma
 // ════════════════════════════════════════════════
 // HELPERS
 // ════════════════════════════════════════════════
@@ -3715,6 +3715,7 @@ function calcCumple(){
     `<div class="cumple-result">Cumple ${sem}+${dias} semanas el <strong>${fecha.toLocaleDateString('es-ES',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}</strong></div>`;
 }
 
+<script>
 // Set today as default calc date
 (function(){
   const today = new Date();
@@ -5225,7 +5226,7 @@ function calcNT(){
       + edadTxt;
   } else if(nivel==='moderado'){
     color='var(--amber)';
-    texto=`NT normal · ${perc||''} · mediana: ${med?med.toFixed(1):'—'} mm · P95: ${p95?p95.toFixed(1):'—'} mm (${refLabel})`.trim();
+    texto=`NT normal para CRL (mediana esperada: ${med?med.toFixed(2):'—'} mm · p95: ${p95?p95.toFixed(2):'—'} mm), pero edad materna ≥35 años constituye un factor de riesgo a priori. Considerar cribado combinado o NIPT según preferencia de la paciente.${edadTxt}`;
   } else {
     texto=`NT normal para CRL (mediana esperada: ${med?med.toFixed(2):'—'} mm · p95: ${p95?p95.toFixed(2):'—'} mm).${edadTxt}`;
   }
@@ -5536,9 +5537,13 @@ function limpiarFormulario(){
    'au_cm','au_eg'].forEach(function(id){
     var el=document.getElementById(id);if(el)el.value='';
   });
-  var dr=document.getElementById('dmg_result');if(dr)dr.style.display='none';
-  var gr=document.getElementById('gan_result');if(gr)gr.style.display='none';
-  var ar=document.getElementById('au_result');if(ar)ar.style.display='none';
+  ['dmg_result','gan_result','au_result'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.style.display='none';
+  });
+  ['dmg_ayuno','dmg_1h','dmg_2h','dmg_3h','dmg_hba1c','dmg_50g',
+   'gan_peso_pre','gan_talla','gan_peso_actual','gan_eg',
+   'au_cm','au_eg'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  ['dmg_result','gan_result','au_result'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});
 }// ════ MOSTRAR EJEMPLOS ════
 function mostrarEjemplos(){
   const m=document.getElementById('modal_ejemplos');
@@ -5547,7 +5552,7 @@ function mostrarEjemplos(){
 
 // ════ CARGAR EJEMPLO ════
 function cargarEjemplo(tipo){ window._pfe=null;
-  setTimeout(function(){if(typeof syncMetabolismo==='function')syncMetabolismo();},100);
+  setTimeout(function(){if(typeof syncMetabolismo==='function')syncMetabolismo();},150);
   document.getElementById('modal_ejemplos').style.display='none';
   limpiarFormulario();
 
@@ -6612,9 +6617,6 @@ function verDetallePaciente(id){
   det.scrollIntoView({behavior:'smooth'});
 }
 
-// ── VISITAS ──ay='block';
-  det.scrollIntoView({behavior:'smooth'});
-}
 
 // ── VISITAS ──</script>
 
