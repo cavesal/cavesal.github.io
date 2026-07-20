@@ -3888,11 +3888,10 @@ function calcDopplerPercentil(){
       var icp=Math.round(acm/au*100)/100;
       var icpRef = eg ? Math.round(icpP5(eg)*100)/100 : 1.0;
       var icpAlterado = icp < icpRef;
-      var icpLimite = !icpAlterado && icp < icpRef * 1.08;
       icpDisp.textContent = icp
-        + (icpAlterado ? ' ⚠️ ALTERADO <P5' : icpLimite ? ' ⚡ Límite' : ' ✓ Normal')
+        + (icpAlterado ? ' ⚠️ ALTERADO <P5' : ' ✓ Normal')
         + (eg ? ' (P5 EG'+Math.round(eg)+'sem: '+icpRef+')' : '');
-      icpDisp.style.color = icpAlterado ? 'var(--red)' : icpLimite ? 'var(--amber)' : 'var(--navy)';
+      icpDisp.style.color = icpAlterado ? 'var(--red)' : 'var(--navy)';
     }else{icpDisp.textContent='—';icpDisp.style.color='var(--navy)';}
   }
   if(!eg){result.style.display='none';return;}
@@ -3902,9 +3901,21 @@ function calcDopplerPercentil(){
     // Ciobanu A et al. UOG 2019;53:465-472 (FMF) — P95 IP AU por semana gestacional
     var p95_au={20:1.553,21:1.526,22:1.499,23:1.472,24:1.446,25:1.420,26:1.395,27:1.371,28:1.346,29:1.322,30:1.299,31:1.275,32:1.252,33:1.229,34:1.207,35:1.184,36:1.162,37:1.140,38:1.118,39:1.097,40:1.075,41:1.053};
     var auEgR=Math.round(eg); var ref=p95_au[auEgR]||p95_au[Math.round(eg/2)*2];
-    var cls=au>(ref||1.5)?'alto':au>(ref||1.5)*0.9?'moder':'verde';
-    var interp=cls==='alto'?'AUMENTADO >p95 — resistencia placentaria':cls==='moder'?'Límite — vigilancia':'Normal';
-    html+='<div class="alerta-box '+cls+'" style="margin-bottom:6px"><strong>AU PI: '+au+'</strong>'+(ref?' (p95: '+ref+')':'')+'<br><small>'+interp+'</small></div>';
+    // P50 AU (Ciobanu 2019) para cálculo de percentil aproximado
+    var p50_au={20:1.218,21:1.197,22:1.176,23:1.155,24:1.134,25:1.113,26:1.092,27:1.070,28:1.049,29:1.028,30:1.007,31:0.986,32:0.965,33:0.944,34:0.923,35:0.902,36:0.881,37:0.860,38:0.839,39:0.818,40:0.797,41:0.776};
+    var p5_au={20:0.955,21:0.939,22:0.922,23:0.906,24:0.889,25:0.871,26:0.854,27:0.836,28:0.818,29:0.800,30:0.782,31:0.763,32:0.744,33:0.725,34:0.706,35:0.687,36:0.668,37:0.649,38:0.630,39:0.610,40:0.591,41:0.572};
+    var p50au=p50_au[auEgR]; var p5au=p5_au[auEgR];
+    // Percentil aproximado por interpolación lineal entre P5, P50, P95
+    var percAU=''; 
+    if(p5au&&p50au&&ref){
+      if(au<=p5au) percAU='<P5';
+      else if(au<=p50au) percAU='P'+Math.round(5+(au-p5au)/(p50au-p5au)*45);
+      else if(au<=ref) percAU='P'+Math.round(50+(au-p50au)/(ref-p50au)*45);
+      else percAU='>P95';
+    }
+    var cls=au>ref?'alto':'verde';
+    var interp=cls==='alto'?'AUMENTADO >P95 — resistencia placentaria':'Normal';
+    html+='<div class="alerta-box '+cls+'" style="margin-bottom:6px"><strong>AU PI: '+au+'</strong>'+(ref?' (p95: '+ref+(percAU?' · ~'+percAU:'')+')':'')+'<br><small>'+interp+'</small></div>';
     if(cls!=='verde')findings.push('AU elevada');
   }
   // ACM PI
@@ -3912,9 +3923,21 @@ function calcDopplerPercentil(){
     // Ciobanu A et al. UOG 2019;53:465-472 (FMF) — P5 IP ACM por semana gestacional
     var p5_acm={20:1.162,21:1.213,22:1.263,23:1.313,24:1.360,25:1.405,26:1.445,27:1.478,28:1.504,29:1.521,30:1.527,31:1.521,32:1.503,33:1.472,34:1.427,35:1.369,36:1.300,37:1.219,38:1.129,39:1.032,40:0.931,41:0.827};
     var acmEgR=Math.round(eg); var ref2=p5_acm[acmEgR]||p5_acm[Math.round(eg/2)*2];
-    var cls2=acm<(ref2||1.5)?'alto':acm<(ref2||1.5)*1.1?'moder':'verde';
-    var interp2=cls2==='alto'?'DISMINUIDO <p5 — vasodilatación cerebral':cls2==='moder'?'Límite — vigilancia':'Normal';
-    html+='<div class="alerta-box '+cls2+'" style="margin-bottom:6px"><strong>ACM PI: '+acm+'</strong>'+(ref2?' (p5: '+ref2+')':'')+'<br><small>'+interp2+'</small></div>';
+    // P50 y P95 ACM (Ciobanu 2019) para percentil aproximado
+    var p50_acm={20:1.486,21:1.540,22:1.595,23:1.651,24:1.705,25:1.757,26:1.805,27:1.848,28:1.883,29:1.909,30:1.924,31:1.926,32:1.915,33:1.889,34:1.848,35:1.791,36:1.718,37:1.632,38:1.532,39:1.421,40:1.302,41:1.177};
+    var p95_acm={20:1.901,21:1.956,22:2.015,23:2.075,24:2.137,25:2.197,26:2.255,27:2.309,28:2.357,29:2.395,30:2.424,31:2.440,32:2.441,33:2.426,34:2.393,35:2.342,36:2.272,37:2.184,38:2.078,39:1.956,40:1.821,41:1.674};
+    var p50acm=p50_acm[acmEgR]; var p95acm=p95_acm[acmEgR];
+    // Percentil aproximado ACM
+    var percACM='';
+    if(ref2&&p50acm&&p95acm){
+      if(acm>=p95acm) percACM='>P95';
+      else if(acm>=p50acm) percACM='P'+Math.round(50+(acm-p50acm)/(p95acm-p50acm)*45);
+      else if(acm>=ref2) percACM='P'+Math.round(5+(acm-ref2)/(p50acm-ref2)*45);
+      else percACM='<P5';
+    }
+    var cls2=acm<ref2?'alto':'verde';
+    var interp2=cls2==='alto'?'DISMINUIDO <P5 — vasodilatación cerebral':'Normal';
+    html+='<div class="alerta-box '+cls2+'" style="margin-bottom:6px"><strong>ACM PI: '+acm+'</strong>'+(ref2?' (p5: '+ref2+(percACM?' · ~'+percACM:'')+')':'')+'<br><small>'+interp2+'</small></div>';
     if(cls2!=='verde')findings.push('ACM disminuida');
   }
   // ICP — umbral P5 dinámico por EG (Baschat 2003 / MFB)
