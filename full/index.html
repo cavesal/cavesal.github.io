@@ -116,7 +116,7 @@ main{padding:14px;max-width:680px;margin:0 auto}
 .field label{display:block;font-size:.75rem;font-weight:600;color:var(--slate);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}
 .field input,.field select{width:100%;padding:9px 11px;border:1.5px solid var(--border);border-radius:10px;font-size:.88rem;color:var(--navy);background:var(--mist);transition:border .2s}
 .field input:focus,.field select:focus{outline:none;border-color:var(--teal);background:#fff}
-.field .hint{font-size:.7rem;color:var(--slate);margin-top:3px}
+.field .hint{font-size:.7rem;color:var(--slate);margin-top:3px;word-wrap:break-word;overflow-wrap:break-word}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px}
 
@@ -1423,7 +1423,7 @@ document.addEventListener('DOMContentLoaded', function(){
 </div>
 <div class="field"><label>NT — Translucencia nucal (mm)</label>
             <input type="number" id="nt_mm" placeholder="ej. 1.8" step="0.1" oninput="calcNT()">
-            <div class="hint">Percentil automático · Snijders/FMF 1998: P95 2.2–2.8mm · Sharifzadeh 2019: P95 1.8–2.35mm · ≥3.5mm = riesgo alto independiente</div>
+            <div class="hint" style="word-break:break-word">Percentil auto · P95 Snijders 2.2-2.8 / Sharifz. 1.8-2.35mm · ≥3.5mm=alto riesgo</div>
           </div>
           <div class="field"><label>CRL al momento de la NT (mm)</label>
             <input type="number" id="nt_crl" placeholder="ej. 65" step="0.1" oninput="calcNT()">
@@ -1454,7 +1454,7 @@ document.addEventListener('DOMContentLoaded', function(){
             </select>
           </div>
         </div>
-        <div id="nt_result" style="display:none"></div>
+        <div id="nt_result" style="display:none;overflow-wrap:break-word;word-break:break-word"></div>
         <div class="bio-ref" style="margin-top:8px">📚 FMF/Nicolaides. NT MoM = NT / mediana esperada para CRL. NT ≥p95: riesgo cromosómico aumentado. Ductus venoso onda a invertida: marcador aneuploidía + cardiopatía. Regurgitación tricúspide: asociada a T21 y cardiopatía congénita.</div>
       </div>
 
