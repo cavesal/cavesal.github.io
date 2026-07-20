@@ -3897,47 +3897,111 @@ function calcDopplerPercentil(){
   if(!eg){result.style.display='none';return;}
   var html='<div style="padding:6px 0">',findings=[];
   // AU PI
-  if(au){
-    // Ciobanu A et al. UOG 2019;53:465-472 (FMF) — P95 IP AU por semana gestacional
-    var p95_au={20:1.553,21:1.526,22:1.499,23:1.472,24:1.446,25:1.420,26:1.395,27:1.371,28:1.346,29:1.322,30:1.299,31:1.275,32:1.252,33:1.229,34:1.207,35:1.184,36:1.162,37:1.140,38:1.118,39:1.097,40:1.075,41:1.053};
-    var auEgR=Math.round(eg); var ref=p95_au[auEgR]||p95_au[Math.round(eg/2)*2];
-    // P50 AU (Ciobanu 2019) para cálculo de percentil aproximado
-    var p50_au={20:1.218,21:1.197,22:1.176,23:1.155,24:1.134,25:1.113,26:1.092,27:1.070,28:1.049,29:1.028,30:1.007,31:0.986,32:0.965,33:0.944,34:0.923,35:0.902,36:0.881,37:0.860,38:0.839,39:0.818,40:0.797,41:0.776};
-    var p5_au={20:0.955,21:0.939,22:0.922,23:0.906,24:0.889,25:0.871,26:0.854,27:0.836,28:0.818,29:0.800,30:0.782,31:0.763,32:0.744,33:0.725,34:0.706,35:0.687,36:0.668,37:0.649,38:0.630,39:0.610,40:0.591,41:0.572};
-    var p50au=p50_au[auEgR]; var p5au=p5_au[auEgR];
-    // Percentil aproximado por interpolación lineal entre P5, P50, P95
-    var percAU=''; 
-    if(p5au&&p50au&&ref){
-      if(au<=p5au) percAU='<P5';
-      else if(au<=p50au) percAU='P'+Math.round(5+(au-p5au)/(p50au-p5au)*45);
-      else if(au<=ref) percAU='P'+Math.round(50+(au-p50au)/(ref-p50au)*45);
-      else percAU='>P95';
+  // ─── Función interpolación 7 puntos Ciobanu 2019 ───
+  // pcts: array de [valor, percentil] ordenado ascendente por valor
+  // Devuelve percentil numérico estimado para un valor dado
+  function interpPerc(val, pcts){
+    if(val<=pcts[0][0]) return pcts[0][1];
+    if(val>=pcts[pcts.length-1][0]) return pcts[pcts.length-1][1];
+    for(var i=0;i<pcts.length-1;i++){
+      if(val>=pcts[i][0]&&val<=pcts[i+1][0]){
+        var t=(val-pcts[i][0])/(pcts[i+1][0]-pcts[i][0]);
+        return Math.round(pcts[i][1]+t*(pcts[i+1][1]-pcts[i][1]));
+      }
     }
-    var cls=au>ref?'alto':'verde';
+    return null;
+  }
+  // Ciobanu A et al. UOG 2019;53:465-472 (FMF) — P5,P10,P25,P50,P75,P90,P95 AU-PI
+  var CIOB_AU={
+    20:[0.955,1.007,1.102,1.218,1.346,1.472,1.553],
+    21:[0.939,0.990,1.083,1.197,1.322,1.446,1.526],
+    22:[0.922,0.973,1.064,1.176,1.299,1.420,1.499],
+    23:[0.906,0.956,1.045,1.155,1.276,1.395,1.472],
+    24:[0.889,0.938,1.026,1.134,1.253,1.370,1.446],
+    25:[0.871,0.920,1.006,1.113,1.230,1.346,1.420],
+    26:[0.854,0.901,0.987,1.092,1.207,1.322,1.395],
+    27:[0.836,0.883,0.967,1.070,1.185,1.298,1.371],
+    28:[0.818,0.864,0.948,1.049,1.162,1.274,1.346],
+    29:[0.800,0.846,0.928,1.028,1.140,1.251,1.322],
+    30:[0.782,0.827,0.908,1.007,1.118,1.228,1.299],
+    31:[0.763,0.807,0.888,0.986,1.096,1.205,1.275],
+    32:[0.744,0.788,0.868,0.965,1.074,1.182,1.252],
+    33:[0.725,0.769,0.847,0.944,1.052,1.160,1.229],
+    34:[0.706,0.749,0.827,0.923,1.030,1.137,1.207],
+    35:[0.687,0.730,0.807,0.902,1.009,1.115,1.184],
+    36:[0.668,0.710,0.787,0.881,0.987,1.093,1.162],
+    37:[0.649,0.691,0.766,0.860,0.966,1.071,1.140],
+    38:[0.630,0.671,0.746,0.839,0.944,1.050,1.118],
+    39:[0.610,0.651,0.725,0.818,0.923,1.028,1.097],
+    40:[0.591,0.631,0.705,0.797,0.901,1.006,1.075],
+    41:[0.572,0.612,0.685,0.776,0.880,0.985,1.053]
+  };
+  // Ciobanu A et al. UOG 2019;53:465-472 (FMF) — P5,P10,P25,P50,P75,P90,P95 MCA-PI
+  var CIOB_ACM={
+    20:[1.162,1.227,1.344,1.486,1.644,1.800,1.901],
+    21:[1.213,1.278,1.396,1.540,1.699,1.855,1.956],
+    22:[1.263,1.330,1.450,1.595,1.755,1.913,2.015],
+    23:[1.313,1.381,1.503,1.651,1.813,1.973,2.075],
+    24:[1.360,1.430,1.554,1.705,1.870,2.033,2.137],
+    25:[1.405,1.476,1.603,1.757,1.926,2.091,2.197],
+    26:[1.445,1.517,1.648,1.805,1.978,2.147,2.255],
+    27:[1.478,1.553,1.686,1.848,2.024,2.198,2.309],
+    28:[1.504,1.580,1.717,1.883,2.064,2.243,2.357],
+    29:[1.521,1.599,1.739,1.909,2.095,2.278,2.395],
+    30:[1.527,1.607,1.750,1.924,2.115,2.303,2.424],
+    31:[1.521,1.603,1.749,1.926,2.122,2.316,2.440],
+    32:[1.503,1.586,1.734,1.915,2.115,2.314,2.441],
+    33:[1.472,1.555,1.705,1.889,2.093,2.296,2.426],
+    34:[1.427,1.511,1.662,1.848,2.055,2.260,2.393],
+    35:[1.369,1.453,1.604,1.791,1.999,2.207,2.342],
+    36:[1.300,1.382,1.532,1.718,1.927,2.136,2.272],
+    37:[1.219,1.300,1.448,1.632,1.839,2.048,2.184],
+    38:[1.129,1.208,1.352,1.532,1.736,1.943,2.078],
+    39:[1.032,1.108,1.246,1.421,1.620,1.823,1.956],
+    40:[0.931,1.002,1.134,1.302,1.494,1.691,1.821],
+    41:[0.827,0.894,1.018,1.177,1.360,1.548,1.674]
+  };
+  var PERC_LABELS=[5,10,25,50,75,90,95];
+  function getCiobanuPerc(val, table, egW, isAscending){
+    // isAscending=true para ACM (P5=mínimo), false para AU (P5=valor bajo)
+    var row=table[egW]; if(!row) return {perc:null,p5:null,p95:null};
+    var pairs=row.map(function(v,i){return [v,PERC_LABELS[i]];});
+    if(!isAscending) pairs=pairs.slice().reverse(); // AU: mayor valor = mayor percentil
+    return {perc:interpPerc(val,isAscending?pairs:row.map(function(v,i){return [v,PERC_LABELS[i]];})),p5:row[0],p95:row[6]};
+  }
+  if(au){
+    var auEgR=Math.round(eg);
+    var auRow=CIOB_AU[auEgR]; 
+    var refAU=auRow?auRow[6]:null; // P95
+    var percAU=null;
+    if(auRow){
+      // AU: mayor valor = mayor percentil
+      var auPairs=auRow.map(function(v,i){return [v,PERC_LABELS[i]];});
+      percAU=interpPerc(au,auPairs);
+      if(au<auRow[0]) percAU=5;
+      if(au>auRow[6]) percAU=95;
+    }
+    var cls=refAU&&au>refAU?'alto':'verde';
     var interp=cls==='alto'?'AUMENTADO >P95 — resistencia placentaria':'Normal';
-    html+='<div class="alerta-box '+cls+'" style="margin-bottom:6px"><strong>AU PI: '+au+'</strong>'+(ref?' (p95: '+ref+(percAU?' · ~'+percAU:'')+')':'')+'<br><small>'+interp+'</small></div>';
+    html+='<div class="alerta-box '+cls+'" style="margin-bottom:6px"><strong>AU PI: '+au+'</strong>'+(refAU?' (p95: '+refAU+(percAU!==null?' · ~P'+percAU:'')+')':'')+'<br><small>'+interp+'</small></div>';
     if(cls!=='verde')findings.push('AU elevada');
   }
   // ACM PI
   if(acm){
-    // Ciobanu A et al. UOG 2019;53:465-472 (FMF) — P5 IP ACM por semana gestacional
-    var p5_acm={20:1.162,21:1.213,22:1.263,23:1.313,24:1.360,25:1.405,26:1.445,27:1.478,28:1.504,29:1.521,30:1.527,31:1.521,32:1.503,33:1.472,34:1.427,35:1.369,36:1.300,37:1.219,38:1.129,39:1.032,40:0.931,41:0.827};
-    var acmEgR=Math.round(eg); var ref2=p5_acm[acmEgR]||p5_acm[Math.round(eg/2)*2];
-    // P50 y P95 ACM (Ciobanu 2019) para percentil aproximado
-    var p50_acm={20:1.486,21:1.540,22:1.595,23:1.651,24:1.705,25:1.757,26:1.805,27:1.848,28:1.883,29:1.909,30:1.924,31:1.926,32:1.915,33:1.889,34:1.848,35:1.791,36:1.718,37:1.632,38:1.532,39:1.421,40:1.302,41:1.177};
-    var p95_acm={20:1.901,21:1.956,22:2.015,23:2.075,24:2.137,25:2.197,26:2.255,27:2.309,28:2.357,29:2.395,30:2.424,31:2.440,32:2.441,33:2.426,34:2.393,35:2.342,36:2.272,37:2.184,38:2.078,39:1.956,40:1.821,41:1.674};
-    var p50acm=p50_acm[acmEgR]; var p95acm=p95_acm[acmEgR];
-    // Percentil aproximado ACM
-    var percACM='';
-    if(ref2&&p50acm&&p95acm){
-      if(acm>=p95acm) percACM='>P95';
-      else if(acm>=p50acm) percACM='P'+Math.round(50+(acm-p50acm)/(p95acm-p50acm)*45);
-      else if(acm>=ref2) percACM='P'+Math.round(5+(acm-ref2)/(p50acm-ref2)*45);
-      else percACM='<P5';
+    var acmEgR=Math.round(eg);
+    var acmRow=CIOB_ACM[acmEgR];
+    var refACM=acmRow?acmRow[0]:null; // P5
+    var percACM=null;
+    if(acmRow){
+      // ACM: menor valor = menor percentil
+      var acmPairs=acmRow.map(function(v,i){return [v,PERC_LABELS[i]];});
+      percACM=interpPerc(acm,acmPairs);
+      if(acm<acmRow[0]) percACM=5;
+      if(acm>acmRow[6]) percACM=95;
     }
-    var cls2=acm<ref2?'alto':'verde';
+    var cls2=refACM&&acm<refACM?'alto':'verde';
     var interp2=cls2==='alto'?'DISMINUIDO <P5 — vasodilatación cerebral':'Normal';
-    html+='<div class="alerta-box '+cls2+'" style="margin-bottom:6px"><strong>ACM PI: '+acm+'</strong>'+(ref2?' (p5: '+ref2+(percACM?' · ~'+percACM:'')+')':'')+'<br><small>'+interp2+'</small></div>';
+    html+='<div class="alerta-box '+cls2+'" style="margin-bottom:6px"><strong>ACM PI: '+acm+'</strong>'+(refACM?' (p5: '+refACM+(percACM!==null?' · ~P'+percACM:'')+')':'')+'<br><small>'+interp2+'</small></div>';
     if(cls2!=='verde')findings.push('ACM disminuida');
   }
   // ICP — umbral P5 dinámico por EG (Baschat 2003 / MFB)
