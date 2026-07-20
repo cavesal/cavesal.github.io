@@ -3911,6 +3911,21 @@ function calcDopplerPercentil(){
     }
     return null;
   }
+  // ─── NOTA LEGAL / LEGAL NOTE ───
+  // Los valores de CIOB_AU y CIOB_ACM provienen de la Tabla 2 (cuerpo principal,
+  // acceso abierto) de: Ciobanu A et al. "FMF reference ranges for umbilical artery
+  // and middle cerebral artery pulsatility index and cerebroplacental ratio."
+  // Ultrasound Obstet Gynecol 2019;53(4):465-472. DOI: 10.1002/uog.20157
+  //
+  // Justificación de uso: los valores numéricos de percentiles clínicos son datos
+  // científicos factuales y no están protegidos por copyright bajo la Ley 1328/98
+  // de Paraguay ni bajo los principios generales del derecho de autor continental.
+  // Solo se usan los valores de la tabla publicada en acceso abierto (no del
+  // suplemento paywalled). El paper publica ecuaciones paramétricas en Table S1
+  // (no accesibles públicamente); por ello se usó la Tabla 2 como método estándar,
+  // igual que el criterio aplicado para NT/Snijders en este mismo proyecto.
+  // La interpolación lineal entre percentiles es la implementación clínica estándar.
+  // ────────────────────────────────────────────
   // Ciobanu A et al. UOG 2019;53:465-472 (FMF) — P5,P10,P25,P50,P75,P90,P95 AU-PI
   var CIOB_AU={
     20:[0.955,1.007,1.102,1.218,1.346,1.472,1.553],
