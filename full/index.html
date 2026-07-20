@@ -3846,11 +3846,37 @@ function calcDopplerPercentil(){
   var result=document.getElementById('dopp_result');
   var icpDisp=document.getElementById('dopp_icp_display');
   if(!result)return;
-  // ICP live display
+  // ── ICP: P5 ajustado por EG (Baschat 2003 / MFB) ──
+  // El ICP NO tiene umbral fijo. P5 varía con la EG.
+  // Ref: Baschat AA, Gembruch U. Ultrasound Obstet Gynecol 2003;22:529-536
+  var ICP_P5_EG = {
+    20:1.05, 22:1.04, 24:1.03, 26:1.02, 28:1.02,
+    30:1.01, 32:1.00, 34:0.98, 36:0.96, 38:0.93, 40:0.90
+  };
+  function icpP5(egSem){
+    var egR = Math.round(egSem/2)*2;
+    if(ICP_P5_EG[egR] !== undefined) return ICP_P5_EG[egR];
+    // interpolación lineal si EG impar o fuera de tabla
+    var keys = Object.keys(ICP_P5_EG).map(Number).sort(function(a,b){return a-b;});
+    for(var i=0;i<keys.length-1;i++){
+      if(egSem>=keys[i]&&egSem<=keys[i+1]){
+        var t=(egSem-keys[i])/(keys[i+1]-keys[i]);
+        return ICP_P5_EG[keys[i]]*(1-t)+ICP_P5_EG[keys[i+1]]*t;
+      }
+    }
+    return 1.0; // fallback
+  }
+  // ICP live display con umbral dinámico
   if(icpDisp){
-    if(au&&acm){var icp=Math.round(acm/au*100)/100;
-      icpDisp.textContent=icp+(icp<1.0?' ⚠️ ALTERADO':' ✓ Normal');
-      icpDisp.style.color=icp<1.0?'var(--red)':'var(--navy)';
+    if(au&&acm){
+      var icp=Math.round(acm/au*100)/100;
+      var icpRef = eg ? Math.round(icpP5(eg)*100)/100 : 1.0;
+      var icpAlterado = icp < icpRef;
+      var icpLimite = !icpAlterado && icp < icpRef * 1.08;
+      icpDisp.textContent = icp
+        + (icpAlterado ? ' ⚠️ ALTERADO <P5' : icpLimite ? ' ⚡ Límite' : ' ✓ Normal')
+        + (eg ? ' (P5 EG'+Math.round(eg)+'sem: '+icpRef+')' : '');
+      icpDisp.style.color = icpAlterado ? 'var(--red)' : icpLimite ? 'var(--amber)' : 'var(--navy)';
     }else{icpDisp.textContent='—';icpDisp.style.color='var(--navy)';}
   }
   if(!eg){result.style.display='none';return;}
@@ -3873,13 +3899,21 @@ function calcDopplerPercentil(){
     html+='<div class="alerta-box '+cls2+'" style="margin-bottom:6px"><strong>ACM PI: '+acm+'</strong>'+(ref2?' (p5: '+ref2+')':'')+'<br><small>'+interp2+'</small></div>';
     if(cls2!=='verde')findings.push('ACM disminuida');
   }
-  // ICP
+  // ICP — umbral P5 dinámico por EG (Baschat 2003 / MFB)
   if(au&&acm){
     var icp2=Math.round(acm/au*100)/100;
-    var cls3=icp2<1.0?'alto':icp2<1.1?'moder':'verde';
-    var interp3=cls3==='alto'?'ALTERADO <1.0 — redistribución cerebral. RCIU hemodinámico':cls3==='moder'?'Límite (1.0-1.1) — vigilancia estrecha':'Normal (≥1.0)';
-    html+='<div class="alerta-box '+cls3+'" style="margin-bottom:6px"><strong>ICP (ACM/AU): '+icp2+'</strong><br><small>'+interp3+'</small></div>';
-    if(cls3!=='verde')findings.push('ICP alterado');
+    var icpRef2 = eg ? Math.round(icpP5(eg)*100)/100 : 1.0;
+    var icpLim2 = Math.round(icpRef2*1.08*100)/100;
+    var cls3 = icp2 < icpRef2 ? 'alto' : icp2 < icpLim2 ? 'moder' : 'verde';
+    var interp3 = cls3==='alto'
+      ? 'ALTERADO <P5 ('+icpRef2+') — redistribución cerebral. Evaluar RCIU hemodinámico'
+      : cls3==='moder'
+      ? 'Límite (P5–P8) — vigilancia estrecha. Repetir en 1 semana'
+      : 'Normal (≥P5 para EG '+Math.round(eg||0)+' sem)';
+    html+='<div class="alerta-box '+cls3+'" style="margin-bottom:6px">'
+      +'<strong>ICP (ACM/AU): '+icp2+'</strong> <span style="font-size:.7rem;opacity:.8">P5='+icpRef2+' a '+Math.round(eg||0)+'sem</span>'
+      +'<br><small>'+interp3+'</small></div>';
+    if(cls3!=='verde')findings.push('ICP <P5');
   }
   // ACM PSV (anemia)
   if(psv){
@@ -3909,7 +3943,15 @@ function calcDopplerPercentil(){
   if(!au&&!acm&&!psv&&dv===null&&dv_ip===null){
     html+='<div style="font-size:.75rem;color:var(--slate)">Ingresá al menos un parámetro Doppler</div>';
   }
-  html+='<div style="font-size:.65rem;color:var(--slate);margin-top:8px">Ref: Arduini & Rizzo 1990 · Baschat 2003 · Mari 2000</div>';
+  // Guardar estado Doppler global para que calcPFE() lo use en clasificación
+  window._dopplerFindings = findings;
+  window._dopplerAU_alto = au && findings.includes('AU elevada');
+  window._dopplerICP_alto = au && acm && findings.includes('ICP <P5');
+  window._dopplerACM_bajo = acm && findings.includes('ACM disminuida');
+  window._dopplerDV_alto = (dv!==null && findings.some(function(f){return f.indexOf('DV')>=0;}));
+  // Recalcular PFE si está activo, para actualizar clasificación
+  if(typeof calcPFE==='function' && window._pfe) calcPFE();
+  html+='<div style="font-size:.65rem;color:var(--slate);margin-top:8px">Ref: Baschat AA, Gembruch U. UOG 2003 · Arduini &amp; Rizzo 1990 · Mari NEJM 2000</div>';
   html+='</div>';
   result.innerHTML=html;
   result.style.display='block';
@@ -4145,34 +4187,96 @@ function calcPFE(){
   let clasif='', clasifCol='', alertaHTML='';
   const percLabel = perc!==null?`p${perc}`:'—';
 
+  // ══════════════════════════════════════════════════════════════
+  // CLASIFICACIÓN PFE — MFB 2024 / Figueras / ISUOG
+  // Lógica: percentil + Doppler combinados
+  // Ref: Figueras F. EJOGR 2008 · Protocolo MFB Nov 2024
+  // ══════════════════════════════════════════════════════════════
   if(perc!==null){
-    if(perc<3){ clasif='RCIU grave (<p3)'; clasifCol='var(--red)'; }
-    else if(perc<10){ clasif='RCIU moderado (p3–p9)'; clasifCol='var(--red)'; }
-    else if(perc<90){ clasif='Normal (p10–p89)'; clasifCol='var(--green)'; }
-    else if(perc<95){ clasif='Grande para EG (p90–p94)'; clasifCol='var(--amber)'; }
-    else{ clasif='Macrosomía probable (≥p95)'; clasifCol='var(--red)'; }
+    // Leer estado Doppler (si ya se calculó en la pestaña Doppler)
+    var doppAlt = !!(window._dopplerAU_alto || window._dopplerICP_alto ||
+                    window._dopplerACM_bajo || window._dopplerDV_alto);
+
+    if(perc < 3){
+      // P3 = criterio único de RCIU independientemente del Doppler (MFB)
+      clasif = 'PEG severo / RCIU (< P3)';
+      clasifCol = 'var(--red)';
+    } else if(perc < 10){
+      // P3–P10: depende del Doppler
+      if(doppAlt){
+        clasif = 'RCIU (P3–P10 + Doppler alterado)';
+        clasifCol = 'var(--red)';
+      } else {
+        clasif = 'PEG — Pequeño para EG (P3–P10, Doppler normal)';
+        clasifCol = 'var(--amber)';
+      }
+    } else if(perc < 90){
+      // Rango normal clásico P10–P90
+      clasif = 'AEG — Adecuado para EG (P10–P90)';
+      clasifCol = 'var(--green)';
+    } else if(perc < 97){
+      // P90–P97: vigilancia, GEG según criterio clásico
+      clasif = 'GEG — Grande para EG (P90–P97) · Vigilar macrosomía';
+      clasifCol = 'var(--amber)';
+    } else {
+      // ≥P97: GEG con riesgo real (MFB 2024)
+      clasif = 'GEG significativo (≥ P97) · Riesgo macrosomía';
+      clasifCol = 'var(--red)';
+    }
+  } else if(peso){
+    // Sin percentil (sin EG ingresada): clasificar solo por gramos
+    if(peso < 1000){ clasif = 'Extremo bajo peso (<1.000 g)'; clasifCol='var(--red)'; }
+    else if(peso < 1500){ clasif = 'Muy bajo peso (1.000–1.499 g)'; clasifCol='var(--red)'; }
+    else if(peso < 2500){ clasif = 'Bajo peso al nacer (<2.500 g) · OMS'; clasifCol='var(--amber)'; }
+    else if(peso < 4000){ clasif = 'Peso normal (2.500–3.999 g)'; clasifCol='var(--green)'; }
+    else if(peso < 4500){ clasif = 'Macrosomía (≥4.000 g)'; clasifCol='var(--amber)'; }
+    else { clasif = 'Macrosomía severa (≥4.500 g)'; clasifCol='var(--red)'; }
   }
 
   const esMacro4000 = peso>=4000;
   const esMacro4500 = peso>=4500;
   const esMacroModer = peso>=3800 && peso<4000;
+  const doppAltPFE = !!(window._dopplerAU_alto || window._dopplerICP_alto ||
+                        window._dopplerACM_bajo || window._dopplerDV_alto);
 
   let chipsHTML = `<div class="pfe-chip ${esMacro4000?'macro':esMacroModer?'mac-moder':''}">
     <div class="pc-label">PFE</div><div class="pc-val">${peso.toLocaleString('es')} g</div>
   </div>`;
-  if(perc!==null) chipsHTML += `<div class="pfe-chip ${perc<10||perc>=95?'macro':perc>=90?'mac-moder':''}">
+  if(perc!==null) chipsHTML += `<div class="pfe-chip ${perc<10||perc>=97?'macro':perc>=90?'mac-moder':''}">
     <div class="pc-label">Percentil</div><div class="pc-val" style="color:${clasifCol}">${percLabel}</div>
   </div>`;
   chipsHTML += `<div class="pfe-chip">
     <div class="pc-label">Clasificación</div><div class="pc-val" style="font-size:.72rem;color:${clasifCol||'var(--navy)'}">${clasif||'—'}</div>
   </div>`;
 
+  // Nota si Doppler no fue ingresado y el PFE está en zona P3-P10
+  if(perc!==null && perc>=3 && perc<10 && !doppAltPFE){
+    var doppIngresado = window._dopplerFindings !== undefined;
+    if(!doppIngresado){
+      chipsHTML += `<div style="font-size:.68rem;color:var(--amber);margin-top:4px;padding:4px 6px;background:#FEF3CD;border-radius:4px">⚡ PFE entre P3 y P10 — ingresá el Doppler para distinguir PEG de RCIU</div>`;
+    } else {
+      chipsHTML += `<div style="font-size:.68rem;color:var(--green);margin-top:4px;padding:4px 6px;background:#EDF5E5;border-radius:4px">✓ Doppler normal — compatible con PEG (pequeño sano). Control c/2-3 sem.</div>`;
+    }
+  }
+
   // Alertas
-  if(esMacro4500) alertaHTML=`<div class="alerta-box alto">⚠️ <strong>PFE ≥4500 g:</strong> Cesárea programada recomendada (ACOG). Riesgo alto de distocia de hombros (incidencia 14–22%). Discutir con paciente. En diabéticas: umbral ≥4500 g.</div>`;
-  else if(esMacro4000) alertaHTML=`<div class="alerta-box moder">⚡ <strong>PFE ≥4000 g:</strong> Macrosomía. Riesgo aumentado de distocia de hombros (3–4%). Vigilancia estrecha intraparto. En diabéticas: considerar cesárea.</div>`;
-  else if(esMacroModer) alertaHTML=`<div class="alerta-box moder">⚡ <strong>PFE 3800–3999 g:</strong> Límite superior. Vigilar evolución. Biometría seriada.</div>`;
-  else if(perc!==null&&perc<10) alertaHTML=`<div class="alerta-box alto">⚠️ <strong>RCIU:</strong> Biometría seriada c/2 sem. Doppler umbilical y ACM. Vigilancia fetal intensiva. Valorar finalización según EG y Doppler.</div>`;
-  else if(perc!==null&&perc<3) alertaHTML=`<div class="alerta-box alto">⚠️ <strong>RCIU grave (&lt;p3):</strong> Derivar Medicina Fetal urgente. Doppler deteriorado → finalización individualizada.</div>`;
+  if(esMacro4500){
+    alertaHTML=`<div class="alerta-box alto">⚠️ <strong>PFE ≥4.500 g — Macrosomía severa:</strong> Cesárea programada recomendada (ACOG/NICE). Riesgo distocia de hombros 14–22%. En diabéticas: umbral ≥4.500 g (ACOG 2016).</div>`;
+  } else if(esMacro4000){
+    alertaHTML=`<div class="alerta-box moder">⚡ <strong>PFE ≥4.000 g — Macrosomía:</strong> Vigilancia estrecha. Riesgo distocia de hombros 3–4%. En diabéticas: considerar cesárea. Control ecográfico 38–39 sem (MFB 2024).</div>`;
+  } else if(esMacroModer){
+    alertaHTML=`<div class="alerta-box moder">⚡ <strong>PFE 3.800–3.999 g:</strong> Límite superior. Biometría seriada. Vigilar en población diabética.</div>`;
+  } else if(perc!==null && perc<3){
+    alertaHTML=`<div class="alerta-box alto">⚠️ <strong>PFE &lt; P3 — RCIU (criterio único MFB):</strong> Derivar Medicina Fetal. Doppler completo urgente (AU, ACM, ICP, DV). Biometría c/1-2 sem.</div>`;
+  } else if(perc!==null && perc<10 && doppAltPFE){
+    alertaHTML=`<div class="alerta-box alto">⚠️ <strong>RCIU — P3–P10 + Doppler alterado:</strong> Clasificar estadio I–IV (MFB). Seguimiento c/1-2 sem. Valorar finalización según EG y Doppler. Ref: Protocolo MFB Nov 2024.</div>`;
+  } else if(perc!==null && perc<10){
+    alertaHTML=`<div class="alerta-box moder">⚡ <strong>PEG — Pequeño para EG (P3–P10):</strong> Doppler normal → feto constitucionalmente pequeño. Biometría seriada c/2-3 sem. Finalización ≥40 sem si evolución favorable. Ref: Figueras F. EJOGR 2008 / MFB 2024.</div>`;
+  } else if(perc!==null && perc>=97){
+    alertaHTML=`<div class="alerta-box moder">⚡ <strong>GEG significativo (≥P97):</strong> Riesgo real de complicaciones. Control 38–39 sem. Evaluar macrosomía según peso absoluto. Ref: MFB Protocolo Macrosomía Sep 2024.</div>`;
+  } else if(perc!==null && perc>=90){
+    alertaHTML=`<div class="alerta-box moder" style="background:#FEF9EC">⚡ <strong>GEG limítrofe (P90–P96):</strong> Vigilar. GEG con riesgo clínico real inicia en P97 (MFB 2024). Control biometría 38 sem.</div>`;
+  }
 
   document.getElementById('pfe_chips').innerHTML = chipsHTML;
   // If hadlock mode, show which inputs were used
