@@ -582,7 +582,7 @@ function mostrarErrorClave(tipo, productoCorrecto){
   btn.textContent = 'Activar';
   if(tipo === 'ya_usada'){
     err.innerHTML = 'Esta clave ya fue activada en otro dispositivo 🔒<br><br>Cada clave de acceso es válida para un solo dispositivo. Te invitamos a adquirir una nueva licencia para habilitar este dispositivo de forma permanente, con acceso a todas las funciones completas de CaVeSal®, incluyendo futuras actualizaciones.';
-  } else if(tipo === 'no_existe'){
+  } else if(tipo === 'producto_incorrecto'){     err.innerHTML = 'Esta clave es para otra app (' + (productoCorrecto === 'hc' ? 'la Historia Clínica CaVeSal' : 'otra aplicación') + '), no para la Calculadora. Activala ahí: <a href="https://historia.cavesal.app" style="color:inherit;text-decoration:underline">historia.cavesal.app</a>';   } else if(tipo === 'no_existe'){
     err.innerHTML = 'Esa clave no existe. Revisá que la copiaste correctamente (sin espacios extra).';
   } else {
     err.innerHTML = 'Ocurrió un error al validar. Intentá nuevamente en unos segundos.';
