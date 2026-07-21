@@ -612,7 +612,7 @@ function validarClave(){
         localStorage.setItem(LICENSE_STORAGE_KEY, clave);
         ocultarGate();
       } else {
-        mostrarErrorClave(data.mensaje);
+        mostrarErrorClave(data.mensaje, data.productoCorrecto);
       }
     })
     .catch(() => {
