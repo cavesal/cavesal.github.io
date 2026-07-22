@@ -1394,8 +1394,33 @@ document.addEventListener('DOMContentLoaded', function(){
     <p class="sub-title">ECO 1T (11–13+6 sem) — Doppler y marcadores PE</p>
     <div class="note-box"><strong>Cortes FMF:</strong> PI uterinas ≥2.35 = &gt;p95 (alto riesgo PE); 1.90–2.34 = p90–95 (moderado). Doppler AO: ≥0.78 alto · 0.70–0.77 limítrofe.</div>
     <div class="row2">
-      <div class="field"><label>PI medio uterinas 1T</label><input type="number" id="pi1t" placeholder="—" step="0.01" oninput="actualizarPaneles()"><div class="hint">Suma D+I ÷ 2. Alto ≥2.35</div></div>
-      <div class="field"><label>Doppler AO ratio PSV2/PSV1</label><input type="number" id="ao" placeholder="—" step="0.01" oninput="actualizarPaneles()"><div class="hint">≥0.78 alto · 0.70–0.77 límite</div></div>
+      <div class="field">
+        <label>Art. Uterina Derecha — IP</label>
+        <input type="number" id="uta_d" placeholder="IP derecha" step="0.01" oninput="calcUtMedio1T()">
+      </div>
+      <div class="field">
+        <label>Art. Uterina Izquierda — IP</label>
+        <input type="number" id="uta_i" placeholder="IP izquierda" step="0.01" oninput="calcUtMedio1T()">
+      </div>
+    </div>
+    <div class="row2" style="margin-top:-4px">
+      <div class="field">
+        <label>IP medio uterinas 1T <span style="font-weight:400;color:var(--slate)">(calculado)</span></label>
+        <input type="number" id="pi1t" placeholder="—" step="0.01" oninput="actualizarPaneles()" style="background:var(--mist)">
+        <div class="hint">Calculado automáticamente · o ingresar directo · Alto ≥2.35</div>
+      </div>
+      <div class="field">
+        <label>Doppler AO — PSV1 y PSV2</label>
+        <div style="display:flex;gap:6px;align-items:center;margin-bottom:4px">
+          <input type="number" id="ao_psv1" placeholder="PSV1" step="0.01" style="width:80px" oninput="calcAORatio()">
+          <span style="font-size:.75rem;color:var(--slate)">÷</span>
+          <input type="number" id="ao_psv2" placeholder="PSV2" step="0.01" style="width:80px" oninput="calcAORatio()">
+        </div>
+        <label style="font-size:.72rem;color:var(--slate)">Ratio PSV2/PSV1 <span style="font-weight:400">(calculado)</span></label>
+        <input type="number" id="ao" placeholder="—" step="0.01" oninput="actualizarPaneles()" style="background:var(--mist)">
+        <div class="hint">≥0.78 alto · 0.70–0.77 límite</div>
+        <div id="ao_pronostico" style="display:none;margin-top:6px;padding:7px 10px;border-radius:8px;font-size:.72rem;line-height:1.5"></div>
+      </div>
     </div>
 
     <!-- CRIBADO CROMOSÓMICO -->
@@ -1505,7 +1530,17 @@ document.addEventListener('DOMContentLoaded', function(){
     <p class="sub-title" style="margin-top:16px">ECO 2T (19–22 sem) — Morfológica · PE · Cervicometría</p>
     <div class="note-box"><strong>PI uterinas 2T:</strong> ≥1.8 = &gt;p95 (alto) · ≥1.44 = p90–95 (moderado) | <strong>sFlt-1/PlGF:</strong> ≤38 descarta PE (1 sem) · 38–85 interm. (&lt;34s) / 38–110 (≥34s) · &gt;85/110 sospecha · &gt;655 inminente</div>
     <div class="row2">
-      <div class="field"><label>PI medio uterinas 2T</label><input type="number" id="pi2t" placeholder="—" step="0.01" oninput="actualizarPaneles()"><div class="hint">Alto ≥1.8 · Moder. ≥1.44</div></div>
+      <div class="field">
+        <label>Art. Uterina Derecha — IP</label>
+        <input type="number" id="uta2_d" placeholder="IP derecha" step="0.01" oninput="calcUtMedio2T()">
+      </div>
+      <div class="field">
+        <label>Art. Uterina Izquierda — IP</label>
+        <input type="number" id="uta2_i" placeholder="IP izquierda" step="0.01" oninput="calcUtMedio2T()">
+      </div>
+    </div>
+    <div class="row2" style="margin-top:-4px">
+      <div class="field"><label>IP medio uterinas 2T <span style="font-weight:400;color:var(--slate)">(calculado)</span></label><input type="number" id="pi2t" placeholder="—" step="0.01" oninput="actualizarPaneles()" style="background:var(--mist)"><div class="hint">Calculado automáticamente · o ingresar directo · Alto ≥1.8</div></div>
       <div class="field"><label>Cervicometría (mm)</label><input type="number" id="cervix" placeholder="—" oninput="actualizarPaneles()"><div class="hint">&lt;25 mm corto · &lt;15 mm muy corto</div></div>
     </div>
     <div class="row2">
@@ -2735,6 +2770,63 @@ function siguientePasoTri(cl,trisomia,tipoPrueba,nipt){
 function clPI1T(v){if(v===null)return null;if(v>=2.35)return'alto';if(v>=1.90)return'moder';return'normal'}
 function clPI2T(v){if(v===null)return null;if(v>=1.80)return'alto';if(v>=1.44)return'moder';return'normal'}
 function clAO(v){if(v===null)return null;if(v>=0.78)return'alto';if(v>=0.70)return'limite';return'normal'}
+
+// ── IP MEDIO UTERINAS — cálculo automático D e I ──
+function calcUtMedio1T(){
+  var d=parseFloat((document.getElementById('uta_d')||{}).value)||null;
+  var i=parseFloat((document.getElementById('uta_i')||{}).value)||null;
+  var c=document.getElementById('pi1t'); if(!c)return;
+  if(d!==null&&i!==null) c.value=Math.round((d+i)/2*100)/100;
+  else if(d!==null) c.value=d;
+  else if(i!==null) c.value=i;
+  else c.value='';
+  actualizarPaneles();
+}
+function calcUtMedio2T(){
+  var d=parseFloat((document.getElementById('uta2_d')||{}).value)||null;
+  var i=parseFloat((document.getElementById('uta2_i')||{}).value)||null;
+  var c=document.getElementById('pi2t'); if(!c)return;
+  if(d!==null&&i!==null) c.value=Math.round((d+i)/2*100)/100;
+  else if(d!==null) c.value=d;
+  else if(i!==null) c.value=i;
+  else c.value='';
+  actualizarPaneles();
+}
+
+// ── RATIO AO — PSV2/PSV1 + pronóstico HIE ──
+function calcAORatio(){
+  var psv1=parseFloat((document.getElementById('ao_psv1')||{}).value)||null;
+  var psv2=parseFloat((document.getElementById('ao_psv2')||{}).value)||null;
+  var cAO=document.getElementById('ao');
+  var divP=document.getElementById('ao_pronostico');
+  if(!cAO)return;
+  if(psv1!==null&&psv2!==null&&psv1>0){
+    var ratio=Math.round(psv2/psv1*100)/100;
+    cAO.value=ratio;
+    if(divP){
+      var txt='',bg='',col='';
+      if(ratio>=0.78){
+        txt='<strong>⚠️ Ratio AO ≥0.78 — ALTO RIESGO PE/RCIU:</strong> Predictor independiente. AAS obligatorio. Integrar con PI uterinas y PlGF.<br>';
+        txt+='<strong>En HIE/preeclampsia severa establecida:</strong> Ratio ≥0.78 indica compromiso vascular sistémico grave — mayor riesgo RCIU severo, PE precoz y mal pronóstico materno-fetal. Derivar Medicina Fetal urgente.';
+        bg='#fff0f0';col='#8b0000';
+      } else if(ratio>=0.70){
+        txt='<strong>⚡ Ratio AO 0.70–0.77 — Limítrofe:</strong> Vigilar con PI uterinas y PlGF. Repetir en 2T.<br>';
+        txt+='<strong>En HIE severa:</strong> Zona gris — monitoreo estrecho de PA, proteinuria y bienestar fetal.';
+        bg='#fffbe6';col='#7a5200';
+      } else {
+        txt='<strong>✓ Ratio AO '+ratio+' — Normal (&lt;0.70):</strong> Resistencia oftalmámica dentro de rango normal.<br>';
+        txt+='<strong>En HIE/PE severa establecida:</strong> Ratio normal sugiere menor compromiso vascular sistémico. Pronóstico relativo más favorable.';
+        bg='#f0fff4';col='#1a5c2a';
+      }
+      divP.style.cssText='display:block;margin-top:6px;padding:7px 10px;border-radius:8px;font-size:.72rem;line-height:1.5;background:'+bg+';color:'+col+';border:1px solid '+col+'33';
+      divP.innerHTML=txt+'<div style="font-size:.68rem;margin-top:4px;opacity:.75">📚 Ref: Gyselaers W et al. UOG 2020 · Verlohren S et al. 2012 · Medicina Fetal Barcelona · Kaituʻu-Lino TJ et al. UOG 2018</div>';
+    }
+  } else {
+    cAO.value='';
+    if(divP) divP.style.display='none';
+  }
+  actualizarPaneles();
+}
 function clPIGF(v){if(v===null)return null;if(v<0.5)return'alto';if(v<0.7)return'moder';return'normal'}
 function clPAPPA(v){if(v===null)return null;if(v<0.3)return'alto';if(v<0.4)return'moder';return'normal'}
 function clBHCG_PE(v){if(v===null)return null;if(v>3.0)return'alto';if(v>2.5)return'moder';return'normal'} // elevado como marcador PE
@@ -5671,6 +5763,8 @@ function limpiarFormulario(){
   (document.getElementById('lab_tgo')||{}).value='';
   (document.getElementById('tsh')||{}).value='';
   (document.getElementById('pi2t')||{}).value='';
+  (document.getElementById('uta2_d')||{}).value='';
+  (document.getElementById('uta2_i')||{}).value='';
   (document.getElementById('sflt')||{}).value='';
   (document.getElementById('sflt_eg')||{}).value='';
   (document.getElementById('bio_cc_biom')||{}).value='';
@@ -5682,7 +5776,12 @@ function limpiarFormulario(){
   (document.getElementById('asim_lf')||{}).value='';
   (document.getElementById('asim_eg')||{}).value='';
   (document.getElementById('pi1t')||{}).value='';
+  (document.getElementById('uta_d')||{}).value='';
+  (document.getElementById('uta_i')||{}).value='';
   (document.getElementById('ao')||{}).value='';
+  (document.getElementById('ao_psv1')||{}).value='';
+  (document.getElementById('ao_psv2')||{}).value='';
+  var _dp=document.getElementById('ao_pronostico'); if(_dp)_dp.style.display='none';
   (document.getElementById('pigf1t')||{}).value='';
   (document.getElementById('pappa')||{}).value='';
   (document.getElementById('nt_mm')||{}).value='';
@@ -5755,8 +5854,8 @@ function cargarEjemplo(tipo){ window._pfe=null;
       'gesta','partos','cesareas','abortos',
       'hb','glucemia','creatinina','lab_au','plaquetas','lab_tgo',
       'lab_ldh','lab_bili','lab_alt','lab_ast','tsh',
-      'pi1t','ao','pigf1t','pappa','nt_mm','nt_crl',
-      'pi2t','sflt','sflt_eg','cervix','sflt_pigf',
+      'pi1t','uta_d','uta_i','ao','ao_psv1','ao_psv2','pigf1t','pappa','nt_mm','nt_crl',
+      'pi2t','uta2_d','uta2_i','sflt','sflt_eg','cervix','sflt_pigf',
       'bio_cc_biom','bio_ca_biom','bio_lf_biom','bio_dbp',
       'asim_cc','asim_ca','asim_lf','asim_eg',
       'lab_au','plaquetas','lab_tgo','dext_eco_eg','dext_eco_fecha'];
