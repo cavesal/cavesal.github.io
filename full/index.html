@@ -2613,6 +2613,7 @@ Microcefalia: CC &lt;p3 para EG.</div>
       <strong style="color:var(--navy)">Índice cerebroplacentario (ICP) — P5 dinámico:</strong> Baschat AA &amp; Gembruch U. UOG 2003;22:529-536<br>
       <strong style="color:var(--navy)">Anemia fetal:</strong> Mari G et al. NEJM 2000 (Doppler ACM/PSV)<br>
       <strong style="color:var(--navy)">Gemelar monocorial / RCIUs:</strong> Torres X et al. Fetal Diagn Ther 2017 · Gratacós E. UOG 2007;30:28-34 · ISUOG 2020<br>
+      <strong style="color:var(--navy)">Arteria Oftálmica (AO) — PE y compromiso vascular:</strong> Gyselaers W et al. Ultrasound Obstet Gynecol 2020 · Verlohren S et al. Am J Obstet Gynecol 2012 · Kaituʻu-Lino TJ et al. Ultrasound Obstet Gynecol 2018 · Medicina Fetal Barcelona<br>
       <strong style="color:var(--navy)">Altura uterina:</strong> Gomes AG. RBGO 2001 · CLAP-OPS/OMS<br>
       <strong style="color:var(--navy)">Ganancia ponderal:</strong> IOM/NAS 2009 · ACOG<br>
       <strong style="color:var(--navy)">Vía de parto:</strong> Robson · Grobman (NICHD) · ACOG<br>
@@ -2826,6 +2827,37 @@ function calcAORatio(){
     if(divP) divP.style.display='none';
   }
   actualizarPaneles();
+}
+
+// ── RATIO AO 2T/3T — PSV2/PSV1 + pronóstico HIE diagnóstico ──
+function calcAORatio2T(){
+  var psv1=parseFloat((document.getElementById('dopp_ao_psv1')||{}).value)||null;
+  var psv2=parseFloat((document.getElementById('dopp_ao_psv2')||{}).value)||null;
+  var cRatio=document.getElementById('dopp_ao_ratio');
+  var divP=document.getElementById('dopp_ao_pronostico');
+  if(!cRatio)return;
+  if(psv1!==null&&psv2!==null&&psv1>0){
+    var ratio=Math.round(psv2/psv1*100)/100;
+    cRatio.value=ratio;
+    if(divP){
+      var txt='',bg='',col='';
+      if(ratio>=0.78){
+        txt='<strong>⚠️ Ratio AO ≥0.78 — Compromiso vascular sistémico GRAVE:</strong> Mayor riesgo RCIU severo y PE de inicio precoz. Mal pronóstico materno-fetal. <strong>Derivar a Medicina Fetal urgente.</strong> Evaluar sFlt-1/PlGF, función renal/hepática y bienestar fetal.';
+        bg='#fff0f0';col='#8b0000';
+      } else if(ratio>=0.70){
+        txt='<strong>⚡ Ratio AO 0.70–0.77 — Zona gris:</strong> Compromiso vascular intermedio. Monitoreo estrecho de PA, proteinuria y bienestar fetal. Repetir Doppler AO en 48–72 h. Evaluar sFlt-1/PlGF.';
+        bg='#fffbe6';col='#7a5200';
+      } else {
+        txt='<strong>✓ Ratio AO '+ratio+' — Normal (&lt;0.70):</strong> Sin compromiso vascular sistémico significativo. Pronóstico relativo más favorable. Continuar vigilancia habitual según EG y cuadro clínico.';
+        bg='#f0fff4';col='#1a5c2a';
+      }
+      divP.style.cssText='display:block;padding:8px 10px;border-radius:8px;font-size:.72rem;line-height:1.6;background:'+bg+';color:'+col+';border:1px solid '+col+'33';
+      divP.innerHTML=txt+'<div style="font-size:.68rem;margin-top:5px;opacity:.75">📚 Ref: Gyselaers W et al. UOG 2020 · Verlohren S et al. 2012 · Kaituʻu-Lino TJ et al. UOG 2018 · Medicina Fetal Barcelona</div>';
+    }
+  } else {
+    if(cRatio) cRatio.value='';
+    if(divP) divP.style.display='none';
+  }
 }
 function clPIGF(v){if(v===null)return null;if(v<0.5)return'alto';if(v<0.7)return'moder';return'normal'}
 function clPAPPA(v){if(v===null)return null;if(v<0.3)return'alto';if(v<0.4)return'moder';return'normal'}
@@ -3251,8 +3283,8 @@ function calcular(){
   }
   // Doppler AO
   if(ao!==null){
-    if(ao>=0.78) add('ECOGRAFÍA 1T','alto',`Doppler AO ratio ${ao} (≥0.78 – alto riesgo PE)`,'Predictor independiente PE (Medicina Fetal Barcelona). AAS obligatorio. Integrar con PI uterinas y PlGF.','Medicina Fetal BCN / FMF');
-    else if(ao>=0.70) add('ECOGRAFÍA 1T','moderado',`Doppler AO ratio ${ao} (0.70–0.77 – limítrofe)`,'Zona limítrofe. Vigilar junto con PI uterinas y PlGF. Repetir en 2T.','Medicina Fetal BCN');
+    if(ao>=0.78) add('ECOGRAFÍA 1T','alto',`Doppler AO ratio ${ao} (≥0.78 – alto riesgo PE/RCIU)`,'Cribado 1T: predictor independiente PE precoz (Medicina Fetal Barcelona). Iniciar AAS 100–150 mg/día. Integrar con PI uterinas, PAPP-A y PlGF para riesgo combinado FMF. Repetir Doppler AO en 2T.','Medicina Fetal BCN / Gyselaers 2020');
+    else if(ao>=0.70) add('ECOGRAFÍA 1T','moderado',`Doppler AO ratio ${ao} (0.70–0.77 – limítrofe)`,'Cribado 1T: zona limítrofe. Vigilar junto con PI uterinas y PlGF. Repetir Doppler AO en 2T. AAS según riesgo combinado.','Medicina Fetal BCN / Gyselaers 2020');
   }
   // PAPP-A como marcador PE/RCIU
   if(pappa!==null){
@@ -5782,6 +5814,10 @@ function limpiarFormulario(){
   (document.getElementById('ao_psv1')||{}).value='';
   (document.getElementById('ao_psv2')||{}).value='';
   var _dp=document.getElementById('ao_pronostico'); if(_dp)_dp.style.display='none';
+  (document.getElementById('dopp_ao_psv1')||{}).value='';
+  (document.getElementById('dopp_ao_psv2')||{}).value='';
+  (document.getElementById('dopp_ao_ratio')||{}).value='';
+  var _dp2=document.getElementById('dopp_ao_pronostico'); if(_dp2)_dp2.style.display='none';
   (document.getElementById('pigf1t')||{}).value='';
   (document.getElementById('pappa')||{}).value='';
   (document.getElementById('nt_mm')||{}).value='';
@@ -5854,7 +5890,7 @@ function cargarEjemplo(tipo){ window._pfe=null;
       'gesta','partos','cesareas','abortos',
       'hb','glucemia','creatinina','lab_au','plaquetas','lab_tgo',
       'lab_ldh','lab_bili','lab_alt','lab_ast','tsh',
-      'pi1t','uta_d','uta_i','ao','ao_psv1','ao_psv2','pigf1t','pappa','nt_mm','nt_crl',
+      'pi1t','uta_d','uta_i','ao','ao_psv1','ao_psv2','pigf1t','pappa','nt_mm','nt_crl','dopp_ao_psv1','dopp_ao_psv2',
       'pi2t','uta2_d','uta2_i','sflt','sflt_eg','cervix','sflt_pigf',
       'bio_cc_biom','bio_ca_biom','bio_lf_biom','bio_dbp',
       'asim_cc','asim_ca','asim_lf','asim_eg',
