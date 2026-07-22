@@ -1620,6 +1620,27 @@ document.addEventListener('DOMContentLoaded', function(){
     </div>
     <div id="dopp_result" style="display:none;margin:10px 0"></div>
     <div style="font-size:.65rem;color:var(--slate);margin-bottom:10px">ICP normal &gt; P5 para EG · Ref: Baschat AA &amp; Gembruch U. UOG 2003;22:529-536</div>
+
+    <!-- ARTERIA OFTÁLMICA 2T/3T — pronóstico HIE/PE -->
+    <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin:14px 0 4px">👁️ Arteria Oftálmica — Pronóstico HIE/PE</div>
+    <div class="note-box" style="margin-bottom:8px">En paciente con HIE/PE establecida, el ratio PSV2/PSV1 evalúa el <strong>grado de compromiso vascular sistémico</strong>. Ratio ≥0.78: compromiso grave. 0.70–0.77: limítrofe. &lt;0.70: favorable.</div>
+    <div class="row2">
+      <div class="field">
+        <label>AO — PSV1 (cm/s)</label>
+        <input type="number" id="dopp_ao_psv1" placeholder="Pico sistólico 1" step="0.01" oninput="calcAORatio2T()">
+      </div>
+      <div class="field">
+        <label>AO — PSV2 (cm/s)</label>
+        <input type="number" id="dopp_ao_psv2" placeholder="Pico sistólico 2" step="0.01" oninput="calcAORatio2T()">
+      </div>
+    </div>
+    <div class="row2" style="margin-top:-4px">
+      <div class="field">
+        <label style="font-size:.72rem">Ratio PSV2/PSV1 <span style="font-weight:400;color:var(--slate)">(calculado)</span></label>
+        <input type="number" id="dopp_ao_ratio" placeholder="—" step="0.01" style="background:var(--mist)" readonly>
+      </div>
+    </div>
+    <div id="dopp_ao_pronostico" style="display:none;margin:6px 0 10px"></div>
   </div>
 </div>
 
