@@ -19,14 +19,16 @@
   .price{font-size:2.6rem;font-weight:800;color:var(--navy);margin:10px 0}
   .price span{font-size:1rem;font-weight:600;color:var(--slate)}
   .price-note{font-size:.85rem;color:var(--slate);margin-bottom:20px}
-  ul.features{text-align:left;margin:20px 0;padding-left:20px}
-  ul.features li{font-size:.92rem;margin-bottom:8px}
+  .group-title{font-size:.7rem;font-weight:800;color:var(--slate);text-transform:uppercase;letter-spacing:.6px;margin:16px 0 6px;text-align:left}
+  ul.features{text-align:left;margin:6px 0 14px;padding-left:20px}
+  ul.features li{font-size:.9rem;margin-bottom:7px}
   .payment-note{background:var(--teal-lt);border-radius:10px;padding:14px 16px;font-size:.85rem;color:var(--navy);margin-top:20px;text-align:left}
   .payment-note strong{color:var(--teal)}
   section{background:#fff;border-radius:14px;padding:20px 22px;margin-top:16px;box-shadow:0 2px 12px rgba(14,165,183,.10)}
   section h3{font-size:.95rem;color:var(--teal);margin-bottom:8px}
   section p{font-size:.88rem}
   a{color:var(--teal)}
+  .legal-note{font-size:.76rem;color:var(--slate);text-align:left;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);line-height:1.5}
 </style>
 </head>
 <body>
@@ -42,29 +44,61 @@
   <h2>Versión Completa</h2>
   <div class="price">USD 19.90 <span>/ pago único</span></div>
   <div class="price-note">Precio de lanzamiento 2026 · Sin suscripción</div>
+
+  <div class="group-title">Cribado y riesgo</div>
   <ul class="features">
-    <li>Cribado cromosómico FMF (1er y 2do trimestre)</li>
-    <li>Cribado de preeclampsia (protocolo FMF)</li>
-    <li>Peso fetal estimado (INTERGROWTH-21 y Figueras 2008)</li>
-    <li>Percentiles de biometría fetal completos</li>
-    <li>Evaluación Doppler fetal (ACM, arteria umbilical, ductus venoso)</li>
-    <li>Pronóstico de vía de parto</li>
-    <li>Valores de referencia de laboratorio</li>
-    <li>Gestión de fichas de pacientes</li>
+    <li>Cribado cromosómico (1er y 2do trimestre) según criterios FMF/Nicolaides</li>
+    <li>Translucencia nucal — selector Snijders/FMF 1998 o Sharifzadeh 2019</li>
+    <li>Apoyo al cribado de preeclampsia (Presión Arterial Media, clasificación WHO/NICE/ISUOG/FMF/ACOG)</li>
   </ul>
+
+  <div class="group-title">Metabolismo y nutrición</div>
+  <ul class="features">
+    <li>Diabetes gestacional — selector de protocolo IADPSG / ALAD / ADA (1 o 2 pasos)</li>
+    <li>Ganancia de peso gestacional (IOM/NAS 2009), con meta y tasa semanal</li>
+  </ul>
+
+  <div class="group-title">Biometría y crecimiento fetal</div>
+  <ul class="features">
+    <li>Estimación de peso fetal — Hadlock (CA+LF y 4 parámetros), INTERGROWTH-21 y Figueras 2008</li>
+    <li>Percentiles de biometría fetal completos por edad gestacional</li>
+    <li>Altura uterina con percentil (CLAP/Gomes 2001) y sugerencias diagnósticas</li>
+    <li>Detección de asimetría fetal (ratio LF/CA) y estimación de EG por CC/LF en 3er trimestre</li>
+    <li>Clasificación de crecimiento fetal (PEG/RCIU/AEG/GEG), vinculada al Doppler</li>
+  </ul>
+
+  <div class="group-title">Doppler fetal</div>
+  <ul class="features">
+    <li>Arteria umbilical y arteria cerebral media (Ciobanu et al., FMF 2019), con percentil estimado</li>
+    <li>Índice cerebroplacentario con umbral P5 dinámico según edad gestacional (Baschat 2003)</li>
+    <li>Ductus venoso (PIV) y detección de anemia fetal por Doppler de ACM (Mari 2000)</li>
+  </ul>
+
+  <div class="group-title">Seguimiento del embarazo</div>
+  <ul class="features">
+    <li>Apoyo al pronóstico de vía de parto</li>
+    <li>Valores de referencia de laboratorio (incluye función tiroidea por trimestre)</li>
+    <li>Calendario de vacunación</li>
+    <li>Gestión de fichas de pacientes con backup exportable</li>
+  </ul>
+
   <div class="payment-note">
-    <strong>Pago único, sin renovación.</strong> Al completar la compra, recibirás una clave de licencia por correo electrónico para desbloquear la versión completa dentro de la app CaVeSal®, ya instalada de forma gratuita desde Google Play Store o cavesal.app/demo/.
+    <strong>Pago único, sin renovación.</strong> Al completar la compra, recibirás una clave de licencia por correo electrónico para desbloquear la versión completa dentro de la app CaVeSal®, ya instalada de forma gratuita desde cavesal.app/demo/.
+  </div>
+
+  <div class="legal-note">
+    CaVeSal® es una herramienta de apoyo a la decisión clínica dirigida exclusivamente a profesionales de la salud habilitados. No diagnostica, no reemplaza el juicio clínico del médico tratante ni las guías oficiales. La mención de FMF, ACOG, FIGO, IADPSG, IOM, OMS y otras referencias tiene fines de atribución bibliográfica; ninguna de estas instituciones patrocina, avala ni certifica CaVeSal®. Ver <a href="https://cavesal.app/terminos.html">Términos de Servicio</a>.
   </div>
 </div>
 
 <section>
   <h3>¿Cómo funciona la compra?</h3>
-  <p>La app CaVeSal® se descarga gratis (versión demo) desde Google Play Store o directamente desde <a href="https://cavesal.app/demo/">cavesal.app/demo/</a>. Al adquirir la Versión Completa aquí, recibirás una clave de licencia única que ingresás dentro de la propia app para desbloquear todas las funciones.</p>
+  <p>La app CaVeSal® se descarga gratis (versión demo) directamente desde <a href="https://cavesal.app/demo/">cavesal.app/demo/</a>. Al adquirir la Versión Completa aquí, recibirás una clave de licencia única que ingresás dentro de la propia app para desbloquear todas las funciones.</p>
 </section>
 
 <section>
   <h3>Métodos de pago</h3>
-  <p>El pago se procesa de forma segura a través de Paddle, nuestro proveedor de pagos, que acepta tarjetas de crédito/débito internacionales.</p>
+  <p>El pago se procesa de forma segura a través de Gumroad, nuestro proveedor de pagos, que acepta tarjetas de crédito/débito internacionales.</p>
 </section>
 
 <section>
