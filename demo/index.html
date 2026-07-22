@@ -967,6 +967,28 @@ main{padding:14px;max-width:680px;margin:0 auto}
   <div class="locked-preview"><div class="locked-items"><span class="lp-item">Solo ECO</span><span class="lp-item">Combinado</span><span class="lp-item">NIPT</span><span class="lp-item">NT · Doppler · ILA</span></div>
   <button class="btn-unlock">🔓 Desbloquear</button></div>
 </div>
+
+<!-- DOPPLER 2T/3T LOCK -->
+<div class="section-card locked-section" onclick="mostrarModalUpgrade('doppler')">
+  <div class="section-head"><span class="icon">🌊</span><h2>Doppler fetal — 2T/3T</h2><span class="lock-badge">🔒 Versión completa</span></div>
+  <div class="locked-preview"><div class="locked-items"><span class="lp-item">AU — IP percentil</span><span class="lp-item">ACM — IP percentil</span><span class="lp-item">ICP dinámico (Baschat)</span><span class="lp-item">Ducto venoso</span><span class="lp-item">Art. Oftálmica PSV1/PSV2</span><span class="lp-item">Pronóstico HIE/PE</span></div>
+  <button class="btn-unlock">🔓 Desbloquear</button></div>
+</div>
+
+<!-- METABOLISMO / DIABETES LOCK -->
+<div class="section-card locked-section" onclick="mostrarModalUpgrade('metabolismo')">
+  <div class="section-head"><span class="icon">🩸</span><h2>Metabolismo · Diabetes · Ganancia ponderal</h2><span class="lock-badge">🔒 Versión completa</span></div>
+  <div class="locked-preview"><div class="locked-items"><span class="lp-item">SOG/TTOG (IADPSG · ADA)</span><span class="lp-item">Glucemia ayuno</span><span class="lp-item">Ganancia ponderal (IOM)</span><span class="lp-item">IMC pregestacional</span><span class="lp-item">Insulinorresistencia</span></div>
+  <button class="btn-unlock">🔓 Desbloquear</button></div>
+</div>
+
+<!-- DOPPLER ACM ANEMIA LOCK -->
+<div class="section-card locked-section" onclick="mostrarModalUpgrade('anemia')">
+  <div class="section-head"><span class="icon">🩸</span><h2>Doppler ACM — Anemia Fetal</h2><span class="lock-badge">🔒 Versión completa</span></div>
+  <div class="locked-preview"><div class="locked-items"><span class="lp-item">PSV ACM percentil (Mari 2000)</span><span class="lp-item">Clasificación anemia leve/mod./grave</span><span class="lp-item">Indicación transfusión fetal</span></div>
+  <button class="btn-unlock">🔓 Desbloquear</button></div>
+</div>
+
 <button class="btn-calc" onclick="calcular()">⚡ Calcular riesgo prenatal completo</button>
 </div><!-- /formulario -->
 
@@ -1149,9 +1171,14 @@ main{padding:14px;max-width:680px;margin:0 auto}
       <strong style="color:var(--navy)">Diabetes gestacional:</strong> IADPSG 2010 · ADA 2026 · ALAD 2019 · OMS<br>
       <strong style="color:var(--navy)">Tiroides:</strong> ATA · Endocrine Society<br>
       <strong style="color:var(--navy)">Suplementación:</strong> OMS · ACOG · NICE · FIGO · Endocrine Society 2024 · EBCOG 2024 · Cochrane<br>
-      <strong style="color:var(--navy)">Biometría:</strong> Hadlock 1984 · Jeanty 1983 · Goldstein 1987 · Chitty 1994 · INTERGROWTH-21 · Figueras 2008<br>
-      <strong style="color:var(--navy)">Anemia fetal:</strong> Mari 2000 (Doppler ACM/PSV)<br>
-      <strong style="color:var(--navy)">Altura uterina:</strong> Gomes 2001 · CLAP-OPS/OMS<br>
+      <strong style="color:var(--navy)">Biometría fetal:</strong> Hadlock 1984 · Jeanty 1983 · Goldstein 1987 · Chitty 1994 · INTERGROWTH-21st · Figueras &amp; Gratacós 2008<br>
+      <strong style="color:var(--navy)">Crecimiento fetal / PEG / RCIU:</strong> Figueras F. EJOGR 2008 · Protocolo MFB Nov 2024 · ISUOG Delphi Consensus 2020<br>
+      <strong style="color:var(--navy)">Doppler AU, ACM e ICP:</strong> Ciobanu A et al. (FMF) UOG 2019;53:465-472<br>
+      <strong style="color:var(--navy)">Índice cerebroplacentario (ICP) — P5 dinámico:</strong> Baschat AA &amp; Gembruch U. UOG 2003;22:529-536<br>
+      <strong style="color:var(--navy)">Anemia fetal:</strong> Mari G et al. NEJM 2000 (Doppler ACM/PSV)<br>
+      <strong style="color:var(--navy)">Gemelar monocorial / RCIUs:</strong> Torres X et al. Fetal Diagn Ther 2017 · Gratacós E. UOG 2007;30:28-34 · ISUOG 2020<br>
+      <strong style="color:var(--navy)">Arteria Oftálmica (AO) — PE y compromiso vascular:</strong> Gyselaers W et al. Ultrasound Obstet Gynecol 2020 · Verlohren S et al. Am J Obstet Gynecol 2012 · Kaituʻu-Lino TJ et al. Ultrasound Obstet Gynecol 2018 · Medicina Fetal Barcelona<br>
+      <strong style="color:var(--navy)">Altura uterina:</strong> Gomes AG. RBGO 2001 · CLAP-OPS/OMS<br>
       <strong style="color:var(--navy)">Ganancia ponderal:</strong> IOM/NAS 2009 · ACOG<br>
       <strong style="color:var(--navy)">Vía de parto:</strong> Robson · Grobman (NICHD) · ACOG<br>
       <strong style="color:var(--navy)">Seguimiento:</strong> ACOG · FIGO · NICE
