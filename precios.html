@@ -29,6 +29,23 @@
   section p{font-size:.88rem}
   a{color:var(--teal)}
   .legal-note{font-size:.76rem;color:var(--slate);text-align:left;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);line-height:1.5}
+  .combo-card{background:linear-gradient(135deg,#0D1B2D,#1536C5);color:#fff;border:none;}
+  .combo-card h2{color:#63D7D5;}
+  .combo-card .price{color:#fff;}
+  .combo-card .price span{color:rgba(255,255,255,.7);}
+  .combo-card .price-note{color:rgba(255,255,255,.7);}
+  .combo-card .group-title{color:rgba(255,255,255,.55);}
+  .combo-card ul.features li{color:rgba(255,255,255,.88);}
+  .combo-card .payment-note{background:rgba(255,255,255,.1);color:#fff;}
+  .combo-card .payment-note strong{color:#63D7D5;}
+  .combo-card .legal-note{color:rgba(255,255,255,.5);border-top-color:rgba(255,255,255,.15);}
+  .combo-card .legal-note a{color:#63D7D5;}
+  .combo-card a{color:#63D7D5;}
+  .mas-elegido{text-align:center;font-size:.75rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#1536C5;margin-top:32px;margin-bottom:8px;}
+  .btn-comprar{display:block;width:100%;padding:14px;background:linear-gradient(135deg,#0EA5B7,#63D7D5);color:#0D1B2D;border:none;border-radius:12px;font-size:.95rem;font-weight:800;cursor:pointer;text-align:center;text-decoration:none;margin-top:20px;}
+  .btn-comprar-dark{display:block;width:100%;padding:14px;background:linear-gradient(135deg,#0D1B2D,#0EA5B7);color:#fff;border:none;border-radius:12px;font-size:.95rem;font-weight:800;cursor:pointer;text-align:center;text-decoration:none;margin-top:20px;}
+  .cierre{text-align:center;margin:32px auto 0;max-width:480px;font-size:.85rem;color:var(--slate);line-height:1.8;padding:24px 20px;background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(14,165,183,.08);border-left:4px solid var(--teal);}
+  .cierre strong{color:var(--navy);}
 </style>
 </head>
 <body>
@@ -83,7 +100,8 @@
   </ul>
 
   <div class="payment-note">
-    <strong>Pago único, sin renovación.</strong> Al completar la compra, recibirás una clave de licencia por correo electrónico para desbloquear la versión completa dentro de la app correspondiente, ya instalada de forma gratuita desde cavesal.app/demo/ (Calculadora) o historia.cavesal.app (Historia Clínica).   </div>    <div class="legal-note">     CaVeSal® es una herramienta de apoyo a la decisión clínica y al registro clínico, dirigida exclusivamente a profesionales de la salud habilitados. No diagnostica, no reemplaza el juicio clínico del médico tratante ni las guías oficiales. La mención de FMF, ACOG, FIGO, IADPSG, IOM, OMS y otras referencias tiene fines de atribución bibliográfica; ninguna de estas instituciones patrocina, avala ni certifica CaVeSal®. Ver <a href="https://cavesal.app/terminos.html">Términos de Servicio</a>.   </div> </div>  <div class="price-card" style="margin-top:24px;">   <h2>Historia Clínica CaVeSal®</h2>   <div class="price">USD 19.90 <span>/ pago único</span></div>   <div class="price-note">Precio de lanzamiento 2026 · Sin suscripción</div>    <div class="group-title">Registro clínico</div>   <ul class="features">     <li>Historia clínica prenatal completa (CLAP/OMS): identificación, antecedentes, gestación actual, examen físico, plan y controles</li>     <li>17 guías de referencia clínica desplegables, con fuente citada</li>   </ul>    <div class="group-title">Seguimiento</div>   <ul class="features">     <li>Curvas graficadas: altura uterina, tensión arterial y peso materno</li>     <li>Puente directo con la Calculadora CaVeSal®</li>   </ul>    <div class="group-title">Gestión y exportación</div>   <ul class="features">     <li>Exportación PDF, Word, email, WhatsApp e impresión</li>     <li>Backup local y sincronización opcional con Google Drive</li>   </ul> </div>  <div class="price-card" style="margin-top:24px;border-color:#0D1B2D;">   <h2 style="color:#0D1B2D;">⭐ Combo — Mejor precio</h2>   <div class="price">USD 29.90 <span>/ pago único</span></div>   <div class="price-note">Calculadora + Historia Clínica · Ahorrás USD 9.90 vs. comprar por separado</div>    <ul class="features">     <li>Todo lo de la Calculadora CaVeSal®</li>     <li>Todo lo de la Historia Clínica CaVeSal®</li>     <li>Integración completa entre ambas apps</li>   </ul>    <div class="payment-note">
+    <strong>Pago único, sin renovación.</strong> Al completar la compra, recibirás una clave de licencia por correo electrónico para desbloquear la versión completa dentro de la app correspondiente, ya instalada de forma gratuita desde cavesal.app/demo/ (Calculadora) o historia.cavesal.app (Historia Clínica).   </div>    <div class="legal-note">     CaVeSal® es una herramienta de apoyo a la decisión clínica y al registro clínico, dirigida exclusivamente a profesionales de la salud habilitados. No diagnostica, no reemplaza el juicio clínico del médico tratante ni las guías oficiales. La mención de FMF, ACOG, FIGO, IADPSG, IOM, OMS y otras referencias tiene fines de atribución bibliográfica; ninguna de estas instituciones patrocina, avala ni certifica CaVeSal®. Ver <a href="https://cavesal.app/terminos.html">Términos de Servicio</a>.   </div> </div>  <div class="price-card" style="margin-top:24px;">   <h2>Historia Clínica CaVeSal®</h2>   <div class="price">USD 19.90 <span>/ pago único</span></div>   <div class="price-note">Precio de lanzamiento 2026 · Sin suscripción</div>    <div class="group-title">Registro clínico</div>   <ul class="features">     <li>Historia clínica prenatal completa (CLAP/OMS): identificación, antecedentes, gestación actual, examen físico, plan y controles</li>     <li>17 guías de referencia clínica desplegables, con fuente citada</li>   </ul>    <div class="group-title">Seguimiento</div>   <ul class="features">     <li>Curvas graficadas: altura uterina, tensión arterial y peso materno</li>     <li>Puente directo con la Calculadora CaVeSal®</li>   </ul>    <div class="group-title">Gestión y exportación</div>   <ul class="features">     <li>Exportación PDF, Word, email, WhatsApp e impresión</li>     <li>Backup local y sincronización opcional con Google Drive</li>   </ul> </div>  <p class="mas-elegido">⭐ Más elegido</p>
+<div class="price-card combo-card" style="margin-top:0;">   <h2>⭐ Combo — Mejor precio</h2>   <div class="price">USD 29.90 <span>/ pago único</span></div>   <div class="price-note">Calculadora + Historia Clínica · Ahorrás USD 9.90 vs. comprar por separado</div>    <ul class="features">     <li>Todo lo de la Calculadora CaVeSal®</li>     <li>Todo lo de la Historia Clínica CaVeSal®</li>     <li>Integración completa entre ambas apps</li>   </ul>    <div class="payment-note">
   </div>
 
   <div class="legal-note">
@@ -105,6 +123,12 @@
   <h3>Más información</h3>
   <p>Consultá nuestra <a href="https://cavesal.app/privacidad.html">Política de Privacidad</a>, <a href="https://cavesal.app/terminos.html">Términos de Servicio</a> y <a href="https://cavesal.app/reembolsos.html">Política de Reembolsos</a>.</p>
 </section>
+
+<div class="cierre">
+  <strong>Diseñada por un obstetra. Usada en guardia real.</strong><br>
+  Sin suscripciones. Sin depender de internet.<br>
+  Recibirás tu clave de licencia por email en minutos.
+</div>
 
 </main>
 </body>
