@@ -4198,7 +4198,7 @@ window.addEventListener('load',function(){
 window.addEventListener('online',function(){var b=document.getElementById('offline_banner');if(b)b.classList.remove('show');});
 window.addEventListener('offline',function(){var b=document.getElementById('offline_banner');if(b)b.classList.add('show');});
 
-function abrirContacto(){
+function mostrarBienvenidaSiCorresponde(){   try {     if (localStorage.getItem('cavesal_calc_welcome_seen')) return;   } catch(e){}   var w = document.getElementById('welcome_modal');   if (w) w.style.display = 'flex'; } function cerrarBienvenida(){   try { localStorage.setItem('cavesal_calc_welcome_seen','1'); } catch(e){}   var w = document.getElementById('welcome_modal');   if (w) w.style.display = 'none'; } document.addEventListener('keydown', function(e){   if (e.key === 'Escape') {     var w = document.getElementById('welcome_modal');     if (w && w.style.display === 'flex') cerrarBienvenida();   } }); function abrirContacto(){
   // In Netlify production this opens the mail client directly
   // In Claude preview, show the modal as fallback
   var modal = document.getElementById('email_modal');
