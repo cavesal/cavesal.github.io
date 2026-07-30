@@ -6485,7 +6485,7 @@ function getSupleRecomendaciones(findings, hb, vitd, egSem){
   let caDosis, caNota, caAlerta;
   if(tienePE){ caDosis = '1.5–2 g/día'; caNota = 'Alto riesgo PE — asociado a ↑55% riesgo PE (Cochrane). Combinado con AAS desde 1T — OMS/ACOG'; caAlerta = 'alto'; }
   else if(tieneVegana){ caDosis = '500–1000 mg/día'; caNota = 'Dieta vegetariana/vegana: baja ingesta láctea. Preferir calcio citrato (mejor absorción). Verificar aporte dietético total.'; caAlerta = 'moder'; }
-  else { caDosis = 'No rutina en dieta normal'; caNota = '500–1000 mg/día si baja ingesta láctea. Asociado a ↓ preeclampsia — valorar ingesta dietética'; caAlerta = 'bajo'; }a. Asociado a ↓ preeclampsia — valorar ingesta dietética'; caAlerta = 'bajo'; }
+  else { caDosis = 'No rutina en dieta normal'; caNota = '500–1000 mg/día si baja ingesta láctea. Asociado a ↓ preeclampsia — valorar ingesta dietética'; caAlerta = 'bajo'; }
   recs.push({icon:'🦴', supl:'Calcio', dosis:caDosis, nota:caNota, alerta:caAlerta,
     pie:'No se recomienda suplementación rutinaria más allá de dieta adecuada en población general de países con ingesta normal'});
 
@@ -6507,7 +6507,7 @@ function getSupleRecomendaciones(findings, hb, vitd, egSem){
   let omDosis, omNota, omAlerta;
   if(tienePreterm){ omDosis = '800–1000 mg/día DHA'; omNota = 'Antecedente PTB — EBCOG 2024 ✓. Iniciar antes sem 20. Asociado a ↑42% parto prematuro <34 sem (Cochrane 2018)'; omAlerta = 'alto'; }
   else if(tieneVegana){ omDosis = '250–600 mg/día DHA (algas)'; omNota = 'Dieta vegana: sin ingesta de pescado. Usar DHA de algas micromarinas (fuente vegana de DHA preformado). Evitar aceite de linaza como única fuente (conversión ALA→DHA muy baja).'; omAlerta = 'moder'; }
-  else { omDosis = '250–600 mg/día DHA'; omNota = 'Sin factores de riesgo de PTB. Mayor beneficio en ingesta baja de pescado (<2 raciones/sem). Asociado a ↓ riesgo parto prematuro'; omAlerta = 'bajo'; }s/sem). Asociado a ↓ riesgo parto prematuro'; omAlerta = 'bajo'; }
+  else { omDosis = '250–600 mg/día DHA'; omNota = 'Sin factores de riesgo de PTB. Mayor beneficio en ingesta baja de pescado (<2 raciones/sem). Asociado a ↓ riesgo parto prematuro'; omAlerta = 'bajo'; }
   recs.push({icon:'🐟', supl:'Omega-3 (DHA/EPA)', dosis:omDosis, nota:omNota, alerta:omAlerta,
     pie:'No es suplementación de rutina universal en todos los protocolos. OMS/NICE/ACOG: solo dieta con pescado. EBCOG 2024 / Australia NHMRC: recomiendan suplemento en baja ingesta. Valorar ingesta dietética'});
 
