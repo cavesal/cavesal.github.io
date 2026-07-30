@@ -2606,7 +2606,7 @@ Microcefalia: CC &lt;p3 para EG.</div>
       <li>Miembro de Sociedades Científicas en Paraguay (FPGO, SOGON, SOGIA, SODIAP y SEGIRP).</li>
       <li>Presidente de la FPGO (2023–2026).</li>
     </ul>
-    <a href="https://cavesal.app/instrucciones.html" target="_blank" rel="noreferrer" style="display:block;background:linear-gradient(135deg,#0D1B2D,#0EA5B7);color:#fff;border-radius:10px;padding:12px 14px;text-align:center;text-decoration:none;font-weight:700;font-size:.86rem;margin-bottom:10px">🔓 ¿Cómo activo la versión completa?</a>     <div style="display:flex;gap:8px;justify-content:center;margin-bottom:14px;font-size:.72rem">       <a href="https://cavesal.app/precios.html" style="color:var(--teal)">Precios</a> ·       <a href="https://cavesal.app/terminos.html" style="color:var(--teal)">Términos</a> ·       <a href="https://cavesal.app/privacidad.html" style="color:var(--teal)">Privacidad</a>     </div>     <button onclick="abrirContacto()"
+    <button onclick="abrirContacto()"
       style="display:flex;align-items:center;gap:10px;background:var(--teal-lt);border:1.5px solid var(--teal);border-radius:10px;padding:11px 13px;cursor:pointer;width:100%;text-align:left">
       <span style="font-size:1.2rem">✉️</span>
       <div>
@@ -4379,10 +4379,37 @@ function calcDMG(){
     else if(alterados===1&&cls==='verde'){cls='moder';dx='1 valor alterado — no dx (requiere ≥2)';}
     else if(alterados===0&&cls==='verde')dx='Sin criterios de DMG';
   }
+  var guiaDG='';
+  if(cls==='alto'&&dx.indexOf('GESTACIONAL')>=0){
+    guiaDG='<div style="background:#fff3cd;border-left:3px solid #e6a817;border-radius:8px;padding:10px;margin-top:8px;font-size:.78rem;line-height:1.6">';
+    guiaDG+='<div style="font-weight:800;color:#7a4f00;margin-bottom:6px">📋 Conducta recomendada</div>';
+    guiaDG+='<div style="color:#5a3e00">• <strong>Médico clínico / internista:</strong> evaluación integral y control glucémico</div>';
+    guiaDG+='<div style="color:#5a3e00">• <strong>Endocrinólogo:</strong> manejo de DG, ajuste dietético e insulinoterapia si necesario</div>';
+    guiaDG+='<div style="color:#5a3e00">• <strong>Nutricionista/dietista:</strong> plan nutricional individualizado (carbohidratos 40–45%)</div>';
+    guiaDG+='<div style="color:#5a3e00">• Autocontrol glucémico: ayunas &lt;95 mg/dL · 1h postprandial &lt;140 · 2h &lt;120</div>';
+    guiaDG+='<div style="color:#5a3e00">• Biometría fetal seriada desde semana 28</div>';
+    guiaDG+='</div>';
+  } else if(cls==='alto'&&dx.indexOf('PREEXISTENTE')>=0){
+    guiaDG='<div style="background:#fde8e8;border-left:3px solid #c0392b;border-radius:8px;padding:10px;margin-top:8px;font-size:.78rem;line-height:1.6">';
+    guiaDG+='<div style="font-weight:800;color:#7b1e1e;margin-bottom:6px">📌 DM pregestacional — Conducta urgente</div>';
+    guiaDG+='<div style="color:#5a1a1a">• Derivar a <strong>endocrinólogo</strong> urgente — manejo como DM pregestacional</div>';
+    guiaDG+='<div style="color:#5a1a1a">• <strong>HbA1c objetivo: &lt;6.5%</strong> durante el embarazo</div>';
+    guiaDG+='<div style="color:#5a1a1a">• Ecocardiografía fetal + ECO morfológica detallada</div>';
+    guiaDG+='<div style="color:#5a1a1a">• Biometría fetal mensual</div>';
+    guiaDG+='<div style="color:#5a1a1a">• Autocontrol estricto: ayunas &lt;95 mg/dL · 2h postprandial &lt;120</div>';
+    guiaDG+='</div>';
+  } else if(cls==='moder'&&criterios.some(function(c){return c.indexOf('prediabetes')>=0;})){
+    guiaDG='<div style="background:#fff8e1;border-left:3px solid #f0ad4e;border-radius:8px;padding:10px;margin-top:8px;font-size:.78rem;line-height:1.6">';
+    guiaDG+='<div style="font-weight:800;color:#7a5f00;margin-bottom:4px">⚠️ Prediabetes — Mayor riesgo de DG</div>';
+    guiaDG+='<div style="color:#5a4000">• Intervención en estilo de vida: dieta y actividad física</div>';
+    guiaDG+='<div style="color:#5a4000">• Realizar SOG 75g entre semanas 24–28</div>';
+    guiaDG+='<div style="color:#5a4000">• Control nutricional con <strong>nutricionista</strong></div>';
+    guiaDG+='</div>';
+  }
   var html='<div class="alerta-box '+cls+'" style="margin-bottom:6px">';
   if(dx)html+='<div style="font-size:.84rem;font-weight:800;margin-bottom:6px">🩸 '+dx+'</div>';
-  criterios.forEach(function(c){html+='<div style="font-size:.73rem;margin-bottom:3px">• '+c+'</div>';});
-  html+='</div><div style="font-size:.64rem;color:var(--slate)">Ref: IADPSG 2010 · ADA 2026 · ALAD 2019 · HbA1c NO es criterio DMG</div>';
+  criterios.forEach(function(c){html+='<div style="font-size:.76rem;margin-bottom:3px">• '+c+'</div>';});
+  html+='</div>'+guiaDG+'<div style="font-size:.64rem;color:var(--slate);margin-top:6px">Ref: IADPSG 2010 · ADA 2026 · ALAD 2019 · HbA1c NO es criterio DMG</div>';
   res.innerHTML=html;res.style.display='block';
 }
 
@@ -5884,6 +5911,88 @@ function limpiarFormulario(){
   var pr=document.getElementById('pfe_result');if(pr)pr.style.display='none';
   window._pfe=null;
   if(typeof calcViaParto==='function')calcViaParto();
+  // ═══ Reset Laboratorio (campos faltantes) ═══
+  ['lab_sog_0','lab_sog_1','lab_sog_2','lab_fa','lab_ferrit','lab_hdl','lab_ldl',
+   'lab_kptt','lab_rni','lab_sat_transf','lab_tgp','lab_trig','lab_urea','lab_vitd',
+   'antitpo','t4l','tsh_trim',
+   'lab_hba1c'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el){if(el.tagName==='SELECT')el.value='';else el.value='';}
+  });
+  // ═══ Reset SEROLOGÍAS ═══
+  ['toxo_igg','toxo_igm','toxo_avidez',
+   'cmv_igg','cmv_igm','cmv_avidez',
+   'rub_igg','rub_igm',
+   'sif_rapido','sif_vdrl','sif_titulo',
+   'vih_test','vih_wb',
+   'hbv_hbsag','hbv_antihbs','hbv_hbeag',
+   'hcv_test',
+   'chagas_1','chagas_2',
+   'lb_sgb','lb_prot','lb_uro'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el){if(el.tagName==='SELECT')el.value='';else el.checked=false;}
+  });
+  var lbl_lb=['lbl_lb_prot','lbl_lb_uro'];
+  lbl_lb.forEach(function(id){var el=document.getElementById(id);if(el)el.classList.remove('checked');});
+  // ═══ Reset NT marcadores 1T ═══
+  ['nt_nasal','nt_dv','nt_tricusp'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.value='';
+  });
+  var nt_r=document.getElementById('nt_result');if(nt_r){nt_r.innerHTML='';nt_r.style.display='none';}
+  // ═══ Reset Doppler percentil ═══
+  ['dopp_eg_sem','dopp_eg_dias','dopp_au_pi','dopp_au_ir',
+   'dopp_acm_pi','dopp_acm_psv','dopp_dv','dopp_dv_ip'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.value='';
+  });
+  var dopp_r=document.getElementById('dopp_result');if(dopp_r){dopp_r.innerHTML='';dopp_r.style.display='none';}
+  var dopp_icp=document.getElementById('dopp_icp_display');if(dopp_icp){dopp_icp.innerHTML='';dopp_icp.style.display='none';}
+  // ═══ Reset ACM anemia ═══
+  ['acm_eg','acm_psv'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  var acm_r=document.getElementById('acm_result');if(acm_r){acm_r.innerHTML='';acm_r.style.display='none';}
+  // ═══ Reset Líquido amniótico ═══
+  ['eco_bolson','eco_ila'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  var la_r=document.getElementById('la_result');if(la_r){la_r.innerHTML='';la_r.style.display='none';}
+  // ═══ Reset Biometría avanzada ═══
+  ['bio_crl','bio_crl_eg','bio_cerebelo','bio_dtc_eg',
+   'bio_humero','bio_humero_eg','bio_humero_lf',
+   'eg_cc_asim','eg_lf_asim'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.value='';
+  });
+  ['bio_crl_result','bio_crl_val','bio_crl_fum','bio_crl_eg',
+   'bio_dtc_result','bio_dtc_val','bio_dtc_alerta',
+   'bio_humero_result','bio_humero_val','bio_humero_ratio','bio_humero_alerta',
+   'bio_biom_results','bio_asimetria','bio_biom_discordancia',
+   'asim_result','asim_bar','asim_ratio_val','asim_interpretacion','asim_microcefalia',
+   'eg_asim_result','eg_asim_nota'].forEach(function(id){
+    var el=document.getElementById(id);if(el){el.innerHTML='';el.style.display='none';}
+  });
+  // ═══ Reset Vía de parto ═══
+  ['vp_pv','vp_ces','vp_abort_esp','vp_talla','vp_eg','gr_edad','gr_imc'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.value='';
+  });
+  ['vp_cicatriz','vp_indic_ces','vp_presentacion','vp_encaje'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.value='';
+  });
+  ['vp_pgr','vp_alto_valor','vp_cx_uterina','gr_pv_prev','gr_pv_post_ces','gr_trab_espon','gr_ind_no_rec'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.checked=false;
+  });
+  ['lbl_vp_pgr','lbl_vp_alto_valor','lbl_vp_cx_uterina','lbl_gr_pv_prev','lbl_gr_pv_post_ces','lbl_gr_trab_espon','lbl_gr_ind_no_rec'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.classList.remove('checked');
+  });
+  var vp_r=document.getElementById('vp_result');if(vp_r){vp_r.innerHTML='';vp_r.style.display='none';}
+  // ═══ Reset Bishop ═══
+  ['bp_dilat','bp_borr','bp_estac','bp_cons','bp_pos'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.value='';
+  });
+  // ═══ Reset DMG result ═══
+  var dmg_r=document.getElementById('dmg_result');if(dmg_r){dmg_r.innerHTML='';dmg_r.style.display='none';}
+  // ═══ Reset Cribado Cromosómico 1T
+  ['t21','t18','t13','pappa','bhcg','pigf1t','nt_mm','nt_crl'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.value='';
+  });
+  var nipt=document.getElementById('nipt_res');if(nipt)nipt.value='no';
+  var cpanel=document.getElementById('cromo-panel-live');
+  if(cpanel){cpanel.innerHTML='';cpanel.style.display='none';}
   // Reset Metabolismo
   ['dmg_ayuno','dmg_1h','dmg_2h','dmg_3h','dmg_hba1c','dmg_50g',
    'gan_peso_pre','gan_talla','gan_peso_actual','gan_eg',
