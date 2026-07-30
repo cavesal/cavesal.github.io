@@ -3249,14 +3249,33 @@ function calcular(){
   if(rni!==null&&rni>1.3) add('LABORATORIO','moderado',`RIN ${rni} (↑)`,'Evaluar en contexto de PE/HELLP. Descartar coagulopatía. Repetir con plaquetas y fibrinógeno.','ACOG');
   if(kptt!==null&&kptt>45) add('LABORATORIO','moderado',`KPTT ${kptt} seg (↑)`,'KPTT prolongado: descartar déficit de factores, anticoagulante lúpico. Hematología.','ACOG');
 
-  // ── SOG / DG ──
-  const sog0=val('lab_sog_0'),sog1=val('lab_sog_1'),sog2=val('lab_sog_2'),hba1c=val('lab_hba1c');
+  // ── SOG / DG ── (lee campos del formulario principal Y del módulo Metabolismo)
+  const sog0=val('lab_sog_0')||val('dmg_ayuno'),
+        sog1=val('lab_sog_1')||val('dmg_1h'),
+        sog2=val('lab_sog_2')||val('dmg_2h'),
+        sog3=val('dmg_3h'),
+        hba1c=val('lab_hba1c')||val('dmg_hba1c'),
+        sog50=val('dmg_50g');
+  const usandoADA2p=(typeof dmgRef!=='undefined'&&dmgRef==='ada2p');
   let dgConfirmado=false;
-  if(sog0!==null&&sog0>=92){dgConfirmado=true; add('LABORATORIO','alto',`SOG ayunas ${sog0} mg/dL (≥92 — criterio IADPSG)`,'Diagnóstico de DG. Dieta, autocontrol glucémico. Valorar insulina si no se alcanzan objetivos. Biometría desde sem 28.','IADPSG / ADA');}
-  if(sog1!==null&&sog1>=180){dgConfirmado=true; add('LABORATORIO','alto',`SOG 1h ${sog1} mg/dL (≥180 — criterio IADPSG)`,'Diagnóstico de DG. Manejo nutricional e insulina si necesario.','IADPSG / ADA');}
-  if(sog2!==null&&sog2>=153){dgConfirmado=true; add('LABORATORIO','alto',`SOG 2h ${sog2} mg/dL (≥153 — criterio IADPSG)`,'Diagnóstico de DG. Dieta, autocontrol glucémico. Biometría seriada desde sem 28.','IADPSG / ADA');}
-  if(hba1c!==null&&hba1c>=6.5) add('LABORATORIO','alto',`HbA1c ${hba1c}% (≥6.5% — DM en embarazo)`,'No es DG — es DM pregestacional no diagnosticada. Manejo como DM pregestacional: autocontrol estricto, biometría mensual, ecocardiografía fetal.','ADA / ACOG');
-  else if(hba1c!==null&&hba1c>=5.7&&!dgConfirmado) add('LABORATORIO','moderado',`HbA1c ${hba1c}% (prediabetes)`,'Mayor riesgo de DG. Vigilar SOG. Intervención en estilo de vida.','ADA');
+  // IADPSG / ADA 1 paso
+  if(!usandoADA2p){
+    if(sog0!==null&&sog0>=92){dgConfirmado=true; add('LABORATORIO','alto',`SOG ayunas ${sog0} mg/dL (≥92 — criterio IADPSG)`,'⚠️ EMBARAZO DE ALTO RIESGO — Diagnóstico de DM Gestacional (IADPSG/ADA). Conducta: derivar a clínico/internista y endocrinólogo. Nutricionista: dieta con 40–45% carbohidratos. Autocontrol glucémico: ayunas <95 mg/dL, 1h postprandial <140, 2h <120. Insulina si no se alcanzan objetivos en 1–2 semanas. Biometría seriada desde sem 28. Próxima visita en 2 semanas.','IADPSG 2010 / ADA 2026 / ALAD 2019');}
+    if(sog1!==null&&sog1>=180){dgConfirmado=true; add('LABORATORIO','alto',`SOG 1h ${sog1} mg/dL (≥180 — criterio IADPSG)`,'⚠️ EMBARAZO DE ALTO RIESGO — DM Gestacional confirmada. Manejo nutricional inmediato. Endocrinólogo + nutricionista. Insulina si glucemia no controlada en 1–2 semanas. Biometría seriada.','IADPSG 2010 / ADA 2026');}
+    if(sog2!==null&&sog2>=153){dgConfirmado=true; add('LABORATORIO','alto',`SOG 2h ${sog2} mg/dL (≥153 — criterio IADPSG)`,'⚠️ EMBARAZO DE ALTO RIESGO — DM Gestacional confirmada. Dieta, autocontrol glucémico. Derivar endocrinólogo y nutricionista. Biometría seriada desde sem 28.','IADPSG 2010 / ADA 2026');}
+  } else {
+    // ADA 2 pasos
+    let alteradosADA=0;
+    if(sog0!==null&&sog0>=95) alteradosADA++;
+    if(sog1!==null&&sog1>=180) alteradosADA++;
+    if(sog2!==null&&sog2>=155) alteradosADA++;
+    if(sog3!==null&&sog3>=140) alteradosADA++;
+    if(alteradosADA>=2){dgConfirmado=true; add('LABORATORIO','alto',`DM Gestacional (ADA 2 pasos — ${alteradosADA} valores alterados)`,'⚠️ EMBARAZO DE ALTO RIESGO — DM Gestacional (crit. ADA). Derivar endocrinólogo + nutricionista. Autocontrol glucémico. Insulina si objetivos no alcanzados. Biometría seriada desde sem 28.','ADA 2026 / ACOG');}
+    else if(alteradosADA===1&&!dgConfirmado) add('LABORATORIO','moderado',`SOG 100g: 1 valor alterado (ADA)`,'Ûn valor alterado no alcanza diagnóstico (requiere ≥2). Repetir SOG en 4 semanas si factores de riesgo persisten. Intervención en estilo de vida.','ADA 2026');
+  }
+  // HbA1c
+  if(hba1c!==null&&hba1c>=6.5) add('LABORATORIO','alto',`HbA1c ${hba1c}% (≥6.5% — DM PREGESTACIONAL)`,'⚠️ EMBARAZO DE ALTO RIESGO — DM pregestacional no diagnosticada (NO es DMG). Derivar URGENTE a endocrinólogo. Objetivo HbA1c <6.5% durante el embarazo. Autocontrol estricto: ayunas <95 mg/dL, 2h postprandial <120. Ecocardiografía fetal + ECO morfológica. Biometría mensual.','ADA 2026 / ACOG');
+  else if(hba1c!==null&&hba1c>=5.7&&!dgConfirmado) add('LABORATORIO','moderado',`HbA1c ${hba1c}% (prediabetes — mayor riesgo DG)`,'Prediabetes: mayor riesgo de desarrollar DM Gestacional. Intervención en estilo de vida (dieta, actividad física). Realizar SOG 75g entre semanas 24–28. Control nutricional con nutricionista.','ADA 2026');
 
   // ── ÁCIDO ÚRICO ──
   const au=val('lab_au');
