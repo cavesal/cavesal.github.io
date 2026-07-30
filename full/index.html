@@ -4984,12 +4984,22 @@ document.addEventListener('DOMContentLoaded',function(){
 // ════════════════════════════════════════════════
 // PWA — SPLASH + OFFLINE
 // ════════════════════════════════════════════════
-window.addEventListener('load', ()=>{
-  setTimeout(()=>{
-    const splash = document.getElementById('splash');
-    if(splash){ splash.classList.add('hidden'); setTimeout(function(){try{if(splash&&splash.parentNode)splash.parentNode.removeChild(splash);}catch(e){}}, 500); }
-  }, 1400);
-});
+// Función robusta para ocultar el splash (se llama desde múltiples eventos)
+function _hideSplash(){
+  if(window._splashHidden) return;
+  window._splashHidden = true;
+  const splash = document.getElementById('splash');
+  if(splash){
+    splash.classList.add('hidden');
+    setTimeout(function(){try{if(splash&&splash.parentNode)splash.parentNode.removeChild(splash);}catch(e){}}, 500);
+  }
+}
+// Fallback 1: window.load
+window.addEventListener('load', function(){ setTimeout(_hideSplash, 1200); });
+// Fallback 2: DOMContentLoaded (por si load no dispara en iframes)
+document.addEventListener('DOMContentLoaded', function(){ setTimeout(_hideSplash, 1800); });
+// Fallback 3: timer duro — la app SIEMPRE muestra en máx 3.5s
+setTimeout(_hideSplash, 3500);
 
 window.addEventListener('online',  ()=>document.getElementById('offline_banner').classList.remove('show'));
 window.addEventListener('offline', ()=>document.getElementById('offline_banner').classList.add('show'));
