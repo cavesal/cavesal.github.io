@@ -715,15 +715,15 @@ document.addEventListener('DOMContentLoaded', function(){
   <div class="section-body open">
     <div class="row2">
       <div class="field"><label>Edad (años)</label><input type="number" id="edad" placeholder="32"></div>
-      <div class="field"><label>FUM — Fecha última menstruación</label><input type="date" id="fum" onchange="actualizarSemaforo();syncFUM('fum')"><div class="hint">Se sincroniza automáticamente con EG·Parto, semáforo de vacunas y vía de parto</div>
+      <div class="field"><label>FUM — Fecha última menstruación</label><input type="date" id="fum" onchange="actualizarSemaforo();syncFUM('fum');syncMetabolismo()"><div class="hint">Se sincroniza automáticamente con EG·Parto, semáforo de vacunas y vía de parto</div>
 <div class="note-box" style="font-size:.72rem;margin-top:6px;line-height:1.7">
   📌 <strong>Corrección de FUM por ECO:</strong> ECO 1T (&lt;14 sem) → corregir si ≥5 días de diferencia · ECO 2T (14–28 sem) → corregir si ≥7 días · ECO 3T (&gt;28 sem) → NO corregir; usar CC, LF o Cerebelo para EG.
 </div></div>
     </div>
     <div class="row3">
-      <div class="field"><label>Talla (cm)</label><input type="number" id="talla" placeholder="165"></div>
-      <div class="field"><label>Peso pregest. (kg)</label><input type="number" id="pesoPreg" placeholder="60" step="0.1"></div>
-      <div class="field"><label>Peso actual (kg)</label><input type="number" id="pesoActual" placeholder="68" step="0.1"></div>
+      <div class="field"><label>Talla (cm)</label><input type="number" id="talla" placeholder="165" oninput="syncMetabolismo()"></div>
+      <div class="field"><label>Peso pregest. (kg)</label><input type="number" id="pesoPreg" placeholder="60" step="0.1" oninput="syncMetabolismo()"></div>
+      <div class="field"><label>Peso actual (kg)</label><input type="number" id="pesoActual" placeholder="68" step="0.1" oninput="syncMetabolismo()"></div>
     </div>
     <div class="row2">
       <div class="field"><label>PA Sistólica (mmHg)</label><input type="number" id="pas" placeholder="120"></div>
@@ -777,6 +777,7 @@ document.addEventListener('DOMContentLoaded', function(){
       <label class="check-item" id="lbl_p_hta"><input type="checkbox" id="p_hta" onchange="toggleCheck('lbl_p_hta',this)"><span>HTA crónica</span></label>
       <label class="check-item" id="lbl_p_dm"><input type="checkbox" id="p_dm" onchange="toggleCheck('lbl_p_dm',this)"><span>Diabetes pregestacional</span></label>
       <label class="check-item" id="lbl_p_renal"><input type="checkbox" id="p_renal" onchange="toggleCheck('lbl_p_renal',this)"><span>Enfermedad renal crónica</span></label>
+      <label class="check-item" id="lbl_p_ob"><input type="checkbox" id="p_ob" onchange="toggleCheck('lbl_p_ob',this)"><span>Obesidad pregestacional (IMC ≥30)</span></label>
       <label class="check-item" id="lbl_p_asma"><input type="checkbox" id="p_asma" onchange="toggleCheck('lbl_p_asma',this)"><span>Asma moderada/grave</span></label>
     </div>
 
@@ -833,6 +834,7 @@ document.addEventListener('DOMContentLoaded', function(){
     <p class="sub-title">Neurológico / Inmunológico</p>
     <div class="checks">
       <label class="check-item" id="lbl_p_epi"><input type="checkbox" id="p_epi" onchange="toggleCheck('lbl_p_epi',this)"><span>Epilepsia</span></label>
+      <label class="check-item" id="lbl_p_mthfr"><input type="checkbox" id="p_mthfr" onchange="toggleCheck('lbl_p_mthfr',this)"><span>Polimorfismo MTHFR documentado (C677T / A1298C)</span></label>
       <label class="check-item" id="lbl_p_ai"><input type="checkbox" id="p_ai" onchange="toggleCheck('lbl_p_ai',this)"><span>Enfermedad autoinmune (LES, AR, Sjögren, esclerodermia)</span></label>
       <label class="check-item" id="lbl_p_sm"><input type="checkbox" id="p_sm" onchange="toggleCheck('lbl_p_sm',this)"><span>Salud mental (depresión / ansiedad / trastorno bipolar)</span></label>
     </div>
@@ -887,6 +889,7 @@ document.addEventListener('DOMContentLoaded', function(){
       <label class="check-item" id="lbl_h_dro"><input type="checkbox" id="h_dro" onchange="toggleCheck('lbl_h_dro',this)"><span>Consumo de drogas</span></label>
       <label class="check-item" id="lbl_h_vd"><input type="checkbox" id="h_vd" onchange="toggleCheck('lbl_h_vd',this)"><span>Violencia doméstica</span></label>
       <label class="check-item" id="lbl_h_vs"><input type="checkbox" id="h_vs" onchange="toggleCheck('lbl_h_vs',this)"><span>Vulnerabilidad socioeconómica</span></label>
+      <label class="check-item" id="lbl_h_veg"><input type="checkbox" id="h_veg" onchange="toggleCheck('lbl_h_veg',this)"><span>Dieta vegetariana / vegana</span></label>
     </div>
   </div>
 </div>
@@ -913,6 +916,19 @@ document.addEventListener('DOMContentLoaded', function(){
       <label class="check-item" id="lbl_e_aud"><input type="checkbox" id="e_aud" onchange="toggleCheck('lbl_e_aud',this)"><span>Altura uterina discordante</span></label>
       <label class="check-item" id="lbl_e_itu"><input type="checkbox" id="e_itu" onchange="toggleCheck('lbl_e_itu',this)"><span>ITU sintomática</span></label>
       <label class="check-item" id="lbl_e_vag"><input type="checkbox" id="e_vag" onchange="toggleCheck('lbl_e_vag',this)"><span>Vaginosis/vaginitis</span></label>
+    </div>
+
+    <p class="sub-title" style="margin-top:14px">Patología activa del embarazo (ya diagnosticada)</p>
+    <div class="note-box" style="font-size:.73rem;margin-bottom:8px">Marcar si la paciente acude con diagnóstico ya establecido en este embarazo.</div>
+    <div class="checks">
+      <label class="check-item" id="lbl_e_pe"><input type="checkbox" id="e_pe" onchange="toggleCheck('lbl_e_pe',this)"><span>Preeclampsia (PE) en curso</span></label>
+      <label class="check-item" id="lbl_e_hta_gest"><input type="checkbox" id="e_hta_gest" onchange="toggleCheck('lbl_e_hta_gest',this)"><span>Hipertensión gestacional</span></label>
+      <label class="check-item" id="lbl_e_dg"><input type="checkbox" id="e_dg" onchange="toggleCheck('lbl_e_dg',this)"><span>Diabetes gestacional (DG) ya diagnosticada</span></label>
+      <label class="check-item" id="lbl_e_rciu"><input type="checkbox" id="e_rciu" onchange="toggleCheck('lbl_e_rciu',this)"><span>RCIU confirmada por biometría</span></label>
+      <label class="check-item" id="lbl_e_col"><input type="checkbox" id="e_col" onchange="toggleCheck('lbl_e_col',this)"><span>Colestasis intrahepática del embarazo (CIE)</span></label>
+      <label class="check-item" id="lbl_e_hg"><input type="checkbox" id="e_hg" onchange="toggleCheck('lbl_e_hg',this)"><span>Hiperémesis gravidarum / vómitos incoercibles</span></label>
+      <label class="check-item" id="lbl_e_hellp"><input type="checkbox" id="e_hellp" onchange="toggleCheck('lbl_e_hellp',this)"><span>Síndrome HELLP</span></label>
+      <label class="check-item" id="lbl_e_dppni"><input type="checkbox" id="e_dppni" onchange="toggleCheck('lbl_e_dppni',this)"><span>DPPNI (desprendimiento prematuro de placenta normoinserta)</span></label>
     </div>
   </div>
 </div>
@@ -3065,6 +3081,21 @@ function calcular(){
   const findings=[];
   function add(domain,nivel,hallazgo,conducta,fuente){findings.push({domain,nivel,hallazgo,conducta,fuente})}
 
+  // ── SINCRONIZACIÓN BIDIRECCIONAL: Laboratorio ↔ Módulo DG ──
+  // Si hay valor en lab_, cópialo a dmg_ si dmg_ está vacío, y viceversa
+  (function syncLabDMG(){
+    const pairs = [
+      ['lab_sog_0','dmg_ayuno'],['lab_sog_1','dmg_1h'],
+      ['lab_sog_2','dmg_2h'],['lab_hba1c','dmg_hba1c']
+    ];
+    pairs.forEach(function([lab,dmg]){
+      const elLab=document.getElementById(lab), elDmg=document.getElementById(dmg);
+      if(!elLab||!elDmg) return;
+      if(elLab.value!==''&&elDmg.value==='') elDmg.value=elLab.value;
+      else if(elDmg.value!==''&&elLab.value==='') elLab.value=elDmg.value;
+    });
+  })();
+
   const edad=val('edad'),fumStr=document.getElementById('fum').value;
   const talla=val('talla'),pesoP=val('pesoPreg'),pesoA=val('pesoActual');
   const pas=val('pas'),pad=val('pad'),ig=val('intergenesico'),cesarN=val('cesareas');
@@ -3084,7 +3115,7 @@ function calcular(){
   if(imcP){
     if(imcP>=35) add('ESTADO NUTRICIONAL','alto',`IMC pregest. ${imcP.toFixed(1)} (obesidad gr. II-III)`,'AAS 150 mg/día desde sem 12. Cribado DG precoz. Vigilar PA. Derivar nutrición. Considerar metformina preventiva.','ACOG / NICE');
     else if(imcP>=30) add('ESTADO NUTRICIONAL','moderado',`IMC pregest. ${imcP.toFixed(1)} (obesidad)`,'AAS 100–150 mg/día desde sem 12. Cribado precoz DG. Vigilar PA. Valorar nutricionista.','ACOG / NICE');
-    else if(imcP>=25) add('ESTADO NUTRICIONAL','bajo',`IMC pregest. ${imcP.toFixed(1)} (sobrepeso)`,'Controlar ganancia ponderal. Cribado DG estándar.','OMS');
+    else if(imcP>=25) add('ESTADO NUTRICIONAL','moderado',`IMC pregest. ${imcP.toFixed(1)} (sobrepeso)`,'Riesgo moderado de DG, PE y macrosomía. Controlar ganancia ponderal (meta: 7–11.5 kg). Cribado DG estándar sem 24–28. Vigilar PA desde 1T. Valorar plan nutricional.','ACOG 2021 / OMS');
     else if(imcP<18.5) add('ESTADO NUTRICIONAL','moderado',`IMC pregest. ${imcP.toFixed(1)} (bajo peso)`,'Riesgo RCIU y pretérmino. Suplementación calórica y proteica. Biometría seriada.','OMS / ACOG');
 
     // Ganancia de peso recomendada para todo el embarazo, según IMC pregestacional (guía IOM 2009)
@@ -3094,6 +3125,24 @@ function calcular(){
     else if(imcP<30) gananciaTxt = '7–11.5 kg en total (sobrepeso)';
     else gananciaTxt = '5–9 kg en total (obesidad)';
     add('ESTADO NUTRICIONAL','bajo',`Ganancia de peso recomendada: ${gananciaTxt}`,'Meta de ganancia ponderal para todo el embarazo según IMC pregestacional. En embarazo gemelar las metas son mayores; consultar guía específica.','IOM 2009 / ACOG');
+    // ═ Ganancia ponderal real (desde módulo Metabolismo o campos principales) ═
+    const ganPesoP=parseFloat((document.getElementById('gan_peso_pre')||{}).value)||pesoP||null;
+    const ganTalla=parseFloat((document.getElementById('gan_talla')||{}).value)||talla||null;
+    const ganPesoA=parseFloat((document.getElementById('gan_peso_actual')||{}).value)||parseFloat((document.getElementById('pesoActual')||{}).value)||null;
+    const ganEG=parseFloat((document.getElementById('gan_eg')||{}).value)||(eg?eg.sem+(eg.dias/7):null);
+    if(ganPesoP&&ganTalla&&ganPesoA&&ganEG){
+      const ganActual=ganPesoA-ganPesoP;
+      let sem1T=0,semPost=0,minT=0,maxT=0;
+      if(imcP<18.5){sem1T=0.5;semPost=0.51;minT=12.5;maxT=18;}
+      else if(imcP<25){sem1T=0.4;semPost=0.42;minT=11.5;maxT=16;}
+      else if(imcP<30){sem1T=0.3;semPost=0.28;minT=7;maxT=11.5;}
+      else{sem1T=0.2;semPost=0.22;minT=5;maxT=9;}
+      const ganEsp=ganEG<=13?sem1T*ganEG:sem1T*13+semPost*(ganEG-13);
+      const diff=Math.round((ganActual-ganEsp)*10)/10;
+      if(diff>1.5) add('ESTADO NUTRICIONAL','moderado',`Ganancia ponderal por encima: ${ganActual.toFixed(1)} kg a semana ${Math.round(ganEG)} (esperado ~${Math.max(0,ganEsp).toFixed(1)} kg)`,'Exceso de ganancia ponderal. Evaluar DG y macrosomía. Reforzar plan nutricional con nutricionista. Reducir carbohidratos simples y grasas saturadas.','IOM 2009 / ACOG');
+      else if(diff<-1.5) add('ESTADO NUTRICIONAL','moderado',`Ganancia ponderal insuficiente: ${ganActual.toFixed(1)} kg a semana ${Math.round(ganEG)} (esperado ~${Math.max(0,ganEsp).toFixed(1)} kg)`,'Ganancia insuficiente. Evaluar RCIU, náuseas, hiperemesís. Suplementación calórico-proteica. Biometría fetal.','IOM 2009 / ACOG');
+      else add('ESTADO NUTRICIONAL','bajo',`Ganancia ponderal adecuada: ${ganActual.toFixed(1)} kg a semana ${Math.round(ganEG)} (✓ rango IOM)`,'Ganancia ponderal dentro del rango recomendado. Continuar plan nutricional actual.','IOM 2009');
+    }
   }
 
   // PA
@@ -3127,11 +3176,18 @@ function calcular(){
   if(chk('obs_hpp')) add('ANTECEDENTE OBSTÉTRICO','alto','HPP previa','Plan de parto con protocolo HPP activo. Hemoderivados disponibles. Manejo activo del alumbramiento.','ACOG / FIGO');
   if(chk('obs_iso')) add('ANTECEDENTE OBSTÉTRICO','alto','Isoinmunización previa','Titulación anticuerpos c/4 sem. Doppler ACM (PSV >1.5 MoM = anemia grave). Derivar Medicina Fetal.','FMF / ACOG');
   if(chk('obs_ic')) add('ANTECEDENTE OBSTÉTRICO','alto','Incompetencia cervical previa','Cerclaje profiláctico 12–14 sem. Progesterona vaginal 200 mg/noche. Cervicometría seriada.','FMF / ACOG');
+  if(chk('obs_macro')) add('ANTECEDENTE OBSTÉTRICO','moderado','Macrosomía previa (>4000 g)','Descartar DG actual (SOG precoz <20 sem). Biometría seriada desde sem 28. Evaluar vía de parto si PFE >4500 g.','ACOG / FIGO');
+  if(chk('obs_dpp')) add('ANTECEDENTE OBSTÉTRICO','moderado','Depresión postparto previa','Mayor riesgo de depresión perinatal actual. Screening EPDS desde 1T. Apoyo psicológico. Valorar psiquiatría si EPDS ≥13.','ACOG / OMS / NICE');
+  if(chk('obs_cx')) add('ANTECEDENTE OBSTÉTRICO','alto','Cirugía uterina previa','Riesgo acretismo y rotura uterina. Localizar placenta con ECO. Si placenta anterior sobre cicatriz: ECO 3D/Doppler para descartar acreta. Derivar Medicina Fetal.','ACOG / FIGO');
   if(cesarN>0) add('ANTECEDENTE OBSTÉTRICO','moderado',`${cesarN} cesárea(s) previa(s)`,'Valorar PVDC según criterios. Localización placentaria (descartar previa/acreta). ECO cicatriz.','ACOG / SEGO');
   if(ig&&ig<18) add('ANTECEDENTE OBSTÉTRICO','moderado',`Período intergenésico ${ig} m (<18)`,'Mayor riesgo perinatal, anemia y RCIU. Vigilar nutrición y biometría fetal.','OMS / ACOG');
   if(ig&&ig>60) add('ANTECEDENTE OBSTÉTRICO','moderado',`Período intergenésico ${ig} m (>60)`,'Comportamiento similar a primigesta. Vigilar PE y trabajo de parto.','ACOG');
 
   // PERSONALES
+  if(chk('p_ob')&&!(imcP&&imcP>=30)) add('ANTECEDENTE PERSONAL','alto','Obesidad pregestacional (IMC ≥30)','AAS 100–150 mg/día desde sem 12. Cribado DG precoz (SOG a las 24–28 sem, o precoz si IMC ≥35). Valorar nutricionista. Vigilar PA. Asociada a ↑ riesgo PE, DG, cesárea, macrosomía.','ACOG / NICE');
+  if(chk('p_asma')) add('ANTECEDENTE PERSONAL','moderado','Asma bronquial','Continuar tratamiento. Asma no controlada ↑ riesgo de PE, RCIU y prematurez. Evitar AINE si asma aspirina-sensible. Monitoreo de PEF si moderada-grave.','ACOG / GINA 2024');
+  if(chk('p_hepb')) add('ANTECEDENTE PERSONAL','alto','Hepatitis B (HBsAg positiva)','Derivar a hepatología. Carga viral HBV. Tenofovir si carga viral >200.000 UI/mL. Profilaxis neonatal obligatoria: Hep B + IGHB en primeras 12 horas. Lactancia permitida.','ACOG / AASLD');
+  if(chk('p_hepc')) add('ANTECEDENTE PERSONAL','alto','Hepatitis C (anti-VHC positiva)','No hay antivirales seguros en embarazo (DAA contraindicados). Transmisión vertical ~5%. Evitar monitoreo invasivo. Lactancia permitida si sin grietas. Testear RN a los 18 meses.','ACOG / EASL');
   if(chk('p_hta')) add('ANTECEDENTE PERSONAL','alto','HTA crónica','AAS 100–150 mg/día desde sem 12. Monitoreo domiciliario. Ajuste antihipertensivo (labetalol, nifedipino, metildopa). Descartar PE sobreagregada.','ACOG / ISH');
   if(chk('p_dm')) add('ANTECEDENTE PERSONAL','alto','Diabetes pregestacional','HbA1c <6.5% objetivo. Autocontrol estricto (ayunas <95 mg/dL, 2h <120). ECO morfológica + ecocardiografía. Biometría mensual.','ADA / ACOG');
   if(chk('p_trombo')) add('ANTECEDENTE PERSONAL','alto','Trombofilia hereditaria','HBPM profiláctica según genotipo y riesgo (inicio en 1T, continuar hasta 6 sem postparto). Medias de compresión elástica. Evitar inmovilización prolongada. Hematología.','ACOG / RCOG / ASH');
@@ -3153,6 +3209,7 @@ function calcular(){
   if(chk('p_hipotiro_notrat')) add('ANTECEDENTE PERSONAL','alto','Hipotiroidismo sin tratamiento / Anti-TPO+','Iniciar levotiroxina urgente. TSH >2.5 en 1T asociada a déficit neurodesarrollo fetal, aborto y PE. Anti-TPO+ sin hipotiroidismo: mayor riesgo de hipotiroidismo gestacional — monitoreo estrecho.','ATA / ACOG');
   if(chk('p_hipertiro')) add('ANTECEDENTE PERSONAL','alto','Hipertiroidismo / Enfermedad de Graves','PTU en 1T (metimazol en 2T-3T). Nunca yodo radiactivo en embarazo. Anti-TRAb+: vigilar hipertiroidismo fetal/neonatal por ECO (biometría, FC, bocio). Endocrinología + obstetricia.','ATA / ACOG / FMF');
   if(chk('p_epi')) add('ANTECEDENTE PERSONAL','alto','Epilepsia','AF 5 mg/día preconcepcional. Monoterapia al mínimo efectivo. Evitar valproato. Neurología+obstetricia.','ACOG / AAN');
+  if(chk('p_mthfr')) add('ANTECEDENTE PERSONAL','moderado','Polimorfismo MTHFR (C677T / A1298C)','Usar 5-metiltetrahidrofolato (5-MTHF/Metilfolato) 400–800 µg/día en lugar de ácido fólico sintético. Combinado con Vitamina B12 (metilcobalamina). Evitar ácido fólico no metabolizado. Riesgo: hiperhomocisteinemia, DTN, pérdida gestacional recurrente.','ACOG / revisiones MTHFR 2022–2024');
   if(chk('p_vih')) add('ANTECEDENTE PERSONAL','alto','VIH materna','TAR durante todo el embarazo. CV indetectable objetivo. Cesárea si CV >1000 copias. Profilaxis neonatal.','ACOG / CDC');
   if(chk('p_sif')) add('ANTECEDENTE PERSONAL','alto','Sífilis','Penicilina G benzatínica según estadio. VDRL seriado. Seguimiento neonatal. Notificación.','CDC / PAHO');
   if(chk('p_sm')) add('SALUD MENTAL','moderado','Salud mental: depresión/ansiedad','Screening Edimburgo 1T y 3T. Psicología perinatal. Valorar ISRS si indicado (sertralina/fluoxetina).','ACOG / NICE');
@@ -3165,6 +3222,7 @@ function calcular(){
   if(chk('h_dro')) add('HÁBITOS','alto','Consumo de sustancias','Derivar unidad drogodependencia. Vigilar RCIU, DPPNI, síndrome abstinencia neonatal.','ACOG');
   if(chk('h_vd')) add('HÁBITOS','alto','Violencia doméstica','Protocolo seguridad. Trabajo social. Consultas individuales sin acompañante.','OMS / ACOG');
   if(chk('h_vs')) add('HÁBITOS','moderado','Vulnerabilidad socioeconómica','Trabajo social. Programas de apoyo nutricional y prenatal. Mayor frecuencia de controles.','OMS');
+  if(chk('h_veg')) add('HÁBITOS','moderado','Dieta vegetariana / vegana','Déficit frecuente de: B12, hierro, calcio, yodo, omega-3, zinc y vitamina D. Suplementación reforzada obligatoria. Derivar a nutricionista especializada en embarazo plant-based. Ver panel de suplementación personalizada.','OMS / ACOG / EBCOG 2024');
 
   // EMBARAZO ACTUAL
   if(chk('e_mult')) add('EMBARAZO ACTUAL','alto','Embarazo múltiple','Corionicidad/amnionicidad en 1T. Monocorial: Doppler seriado (STFF). Bicorial: biometría c/4 sem. Derivar Medicina Fetal.','FMF / ACOG');
@@ -3179,6 +3237,17 @@ function calcular(){
   if(chk('e_mfd')) add('EMBARAZO ACTUAL','moderado','Movimientos fetales disminuidos','NST urgente. BPP si NST no reactivo. Doppler fetal.','ACOG / RCOG');
   if(chk('e_itu')) add('EMBARAZO ACTUAL','moderado','ITU sintomática','Antibioterapia según urocultivo. Control urocultivo 1–2 sem postratamiento. Profilaxis si recurrente.','ACOG');
   if(chk('e_vag')) add('EMBARAZO ACTUAL','moderado','Vaginosis/vaginitis','Tratar si sintomática o BV en 1T (metronidazol/clindamicina). Asociada a pretérmino.','ACOG / CDC');
+  if(chk('e_aud')) add('EMBARAZO ACTUAL','moderado','Altura uterina discordante','Biometría ecográfica para confirmar EG y peso fetal. Descartar RCIU (AU pequeña) o macrosomía (AU grande). Usar curvas CLAP/Gomes 2001.','CLAP / OMS');
+  if(chk('e_sgb')) add('EMBARAZO ACTUAL','alto','SGB positivo (35–37 sem)','Profilaxis intraparto obligatoria: Penicilina G 5 mill UI IV al inicio del parto, luego 2.5 mill c/4h hasta el parto. Alternativa: ampicilina. Informar equipo neonatal.','ACOG / CDC / CLAP');
+  // PATOLOGÍA ACTIVA DEL EMBARAZO
+  if(chk('e_pe')) add('EMBARAZO ACTUAL — PATOLOGÍA ACTIVA','alto','⚠️ PREECLAMPSIA EN CURSO','Control PA c/6h. Si PA ≥160/110: antihipertensivo urgente (labetalol IV, nifedipino oral, hidralazina). Sulfato Mg (prevención eclamsia) si grave o ≤ 34 sem. Laboratorio completo (plaquetas, creatinina, LDH, TGO/TGP, proteinuria). Valorar finalización según EG y gravedad.','ACOG / ISSHP / FIGO');
+  if(chk('e_hta_gest')) add('EMBARAZO ACTUAL — PATOLOGÍA ACTIVA','alto','Hipertensión gestacional','PA ≥140/90 sin proteinuria ni datos de gravedad. Monitoreo domiciliario. Laboratorio c/sem. Descartar progresión a PE (proteinuria, síntomas, plaquetas). Control fetal c/2 sem.','ACOG / ISSHP');
+  if(chk('e_dg')) add('EMBARAZO ACTUAL — PATOLOGÍA ACTIVA','alto','⚠️ DIABETES GESTACIONAL (DG) — EMBARAZO DE ALTO RIESGO','Autocontrol glucémico (ayunas <95 mg/dL · 1h pp <140 · 2h pp <120). Plan nutricional con nutricionista. Biometría fetal c/4 sem. Si metas no alcanzadas en 2 sem: iniciar insulina. Control endocrinológico. SOG 6–12 sem postparto.','ADA 2024 / ACOG / IADPSG');
+  if(chk('e_rciu')) add('EMBARAZO ACTUAL — PATOLOGÍA ACTIVA','alto','RCIU confirmada','Doppler umbilical, ACM y ductus venoso. Biometría c/2 sem. NST/PBF según EG. Betametasona si <34 sem. Valorar hospitalización según Doppler y EG. Derivar Medicina Fetal.','FMF / ACOG / ISUOG');
+  if(chk('e_col')) add('EMBARAZO ACTUAL — PATOLOGÍA ACTIVA','alto','Colestasis intrahepática del embarazo (CIE)','AUDT sérico (normal <10 µmol/L; grave ≥40 µmol/L). Ácido ursodeoxicólico 10–15 mg/kg/día. NST semanal desde 32 sem. Valorar finalización sem 36–37 si AUDT ≥40. ↓ Riesgo muerte fetal súbita.','ACOG / RCOG / EASL');
+  if(chk('e_hg')) add('EMBARAZO ACTUAL — PATOLOGÍA ACTIVA','moderado','Hiperémesis gravidarum / vómitos incoercibles','Hidratación IV si deshidratada. Tiamina 100 mg IV antes de dextrosá. Antieméticos (ondansetrón, metoclopramida, prometazina). Control electrolítico. Descartar hipercalcemia, mola, gemelar, DM. Control TSH (hipertiroidismo gestacional transitorio).','ACOG / RCOG');
+  if(chk('e_hellp')) add('EMBARAZO ACTUAL — PATOLOGÍA ACTIVA','alto','⚠️ SÍNDROME HELLP','URGENCIA OBSTÉTRICA. Hemolísis + ↑ enzimas hepáticas + ↓ plaquetas. Sulfato Mg. Control PA. Corticoides. Hemoderivados si plaq <50.000. Finalizar embarazo preferentemente sép 34 sem o antes según gravedad. Derivar UCIO.','ACOG / ISSHP');
+  if(chk('e_dppni')) add('EMBARAZO ACTUAL — PATOLOGÍA ACTIVA','alto','⚠️ DPPNI (Desprendimiento prematuro de placenta)','EMERGENCIA OBSTÉTRICA. Evaluar estado fetal (FCF, NST). Sangre disponible. Si FCF patológica o hemorragia severa: cesaréa de emergencia. Betametasona si <34 sem y estabilidad hemodinámica. Control coagulación (CID).','ACOG / RCOG');
 
   // LABORATORIO
   const hb=val('hb'),plaq=val('plaquetas'),gluc=val('glucemia'),creat=val('creatinina'),tsh=val('tsh');
@@ -3311,6 +3380,26 @@ function calcular(){
 
   if(chk('lb_prot')) add('LABORATORIO','alto','Proteinuria positiva','Proteinuria 24h o ratio proteína/creatinina. Si >300 mg/24h + HTA: criterio PE. sFlt-1/PlGF urgente.','ACOG / ISSHP');
   if(chk('lb_uro')) add('LABORATORIO','moderado','Urocultivo positivo','Tratar según antibiograma (7 días). Control urocultivo postratamiento.','ACOG / EAU');
+  // ── UREA ──
+  const labUrea=val('lab_urea');
+  if(labUrea!==null&&labUrea>40) add('LABORATORIO','moderado',`Urea ${labUrea} mg/dL (>40)`,'Evaluar función renal. Complementar con creatinina. Si persiste: descartar preeclampsia o nefropatía subyacente.','ACOG');
+
+  // ── FOSFATASA ALCALINA ──
+  const labFA=val('lab_fa');
+  if(labFA!==null){
+    if(labFA>500) add('LABORATORIO','alto',`FA ${labFA} UI/L (↑↑)`,'FA muy elevada: descartar colestasis intrahepática del embarazo (CIE). Solicitar ácidos biliares. Hepatología.','ACOG / EASL');
+    else if(labFA>300) add('LABORATORIO','moderado',`FA ${labFA} UI/L (elevada)`,'FA >3× LSN. En embarazo puede ser placentaria. Correlacionar con bilirrubina, TGO/TGP y ácidos biliares.','ACOG');
+  }
+
+  // ── LÍPIDOS ──
+  const labColT=val('lab_col_total'), labTrig=val('lab_trig');
+  const labHDL=val('lab_hdl'), labLDL=val('lab_ldl');
+  if(labTrig!==null&&labTrig>400) add('LABORATORIO','alto',`Triglicéridos ${labTrig} mg/dL (>400)`,'Riesgo de pancreatitis aguda. Dieta estricta (sin grasa saturada). Derivar nutricionista. Valorar hospitalización si >1000 mg/dL.','ACOG / AHA');
+  else if(labTrig!==null&&labTrig>200) add('LABORATORIO','moderado',`Triglicéridos ${labTrig} mg/dL (elevados)`,'Hipertrigliceridemia: vigilar. En embarazo valores de hasta 200–300 mg/dL son fisiológicos. Dieta baja en grasas saturadas.','ACOG');
+  if(labColT!==null&&labColT>300) add('LABORATORIO','moderado',`Colesterol total ${labColT} mg/dL (>300)`,'Hipercolesterolemia: vigilar. Fisiológico leve aumento en embarazo. Si >300 con HDL bajo: valorar riesgo CV. Las estatinas están contraindicadas en el embarazo.','ACOG / ESC');
+  if(labHDL!==null&&labHDL<40) add('LABORATORIO','moderado',`HDL ${labHDL} mg/dL (bajo)`,'HDL bajo: factor de riesgo CV. En embarazo puede descender fisiológicamente. Asociar con perfil lipídico completo.','ACOG');
+  if(labLDL!==null&&labLDL>160) add('LABORATORIO','moderado',`LDL ${labLDL} mg/dL (>160)`,'LDL elevado. Statinas contraindicadas. Dieta. Derivar cardiología si LDL >190 o antecedente familiar.','ESC / ACOG');
+
   if(chk('lb_toxo')) add('LABORATORIO','alto','Toxoplasmosis IgM+','Confirmar con IgG avidez. Si infección activa: espiramicina hasta sem 18, luego triple terapia. Derivar Medicina Fetal.','ACOG / SFMFM');
 
   // ECOGRAFÍA
@@ -5717,11 +5806,20 @@ function limpiarFormulario(){
   (document.getElementById('e_sgb')||{}).checked=false;
   (document.getElementById('e_tra')||{}).checked=false;
   (document.getElementById('e_vag')||{}).checked=false;
+  (document.getElementById('e_pe')||{}).checked=false;
+  (document.getElementById('e_hta_gest')||{}).checked=false;
+  (document.getElementById('e_dg')||{}).checked=false;
+  (document.getElementById('e_rciu')||{}).checked=false;
+  (document.getElementById('e_col')||{}).checked=false;
+  (document.getElementById('e_hg')||{}).checked=false;
+  (document.getElementById('e_hellp')||{}).checked=false;
+  (document.getElementById('e_dppni')||{}).checked=false;
   (document.getElementById('h_alc')||{}).checked=false;
   (document.getElementById('h_dro')||{}).checked=false;
   (document.getElementById('h_tab')||{}).checked=false;
   (document.getElementById('h_vd')||{}).checked=false;
   (document.getElementById('h_vs')||{}).checked=false;
+  (document.getElementById('h_veg')||{}).checked=false;
   (document.getElementById('obs_cx')||{}).checked=false;
   (document.getElementById('obs_dg')||{}).checked=false;
   (document.getElementById('obs_dpp')||{}).checked=false;
@@ -5735,12 +5833,14 @@ function limpiarFormulario(){
   (document.getElementById('obs_pt')||{}).checked=false;
   (document.getElementById('obs_rciu')||{}).checked=false;
   (document.getElementById('p_ai')||{}).checked=false;
+  (document.getElementById('p_ob')||{}).checked=false;
   (document.getElementById('p_asma')||{}).checked=false;
   (document.getElementById('p_cancer_act')||{}).checked=false;
   (document.getElementById('p_cancer_prev')||{}).checked=false;
   (document.getElementById('p_cardio')||{}).checked=false;
   (document.getElementById('p_dm')||{}).checked=false;
   (document.getElementById('p_epi')||{}).checked=false;
+  (document.getElementById('p_mthfr')||{}).checked=false;
   (document.getElementById('p_hepb')||{}).checked=false;
   (document.getElementById('p_hepc')||{}).checked=false;
   (document.getElementById('p_hipertiro')||{}).checked=false;
@@ -5810,11 +5910,20 @@ function limpiarFormulario(){
   (document.getElementById('lbl_e_sgb')||{}).classList.remove('checked');
   (document.getElementById('lbl_e_tra')||{}).classList.remove('checked');
   (document.getElementById('lbl_e_vag')||{}).classList.remove('checked');
+  (document.getElementById('lbl_e_pe')||{}).classList.remove('checked');
+  (document.getElementById('lbl_e_hta_gest')||{}).classList.remove('checked');
+  (document.getElementById('lbl_e_dg')||{}).classList.remove('checked');
+  (document.getElementById('lbl_e_rciu')||{}).classList.remove('checked');
+  (document.getElementById('lbl_e_col')||{}).classList.remove('checked');
+  (document.getElementById('lbl_e_hg')||{}).classList.remove('checked');
+  (document.getElementById('lbl_e_hellp')||{}).classList.remove('checked');
+  (document.getElementById('lbl_e_dppni')||{}).classList.remove('checked');
   (document.getElementById('lbl_h_alc')||{}).classList.remove('checked');
   (document.getElementById('lbl_h_dro')||{}).classList.remove('checked');
   (document.getElementById('lbl_h_tab')||{}).classList.remove('checked');
   (document.getElementById('lbl_h_vd')||{}).classList.remove('checked');
   (document.getElementById('lbl_h_vs')||{}).classList.remove('checked');
+  (document.getElementById('lbl_h_veg')||{}).classList.remove('checked');
   (document.getElementById('lbl_obs_cx')||{}).classList.remove('checked');
   (document.getElementById('lbl_obs_dg')||{}).classList.remove('checked');
   (document.getElementById('lbl_obs_dpp')||{}).classList.remove('checked');
@@ -5828,12 +5937,14 @@ function limpiarFormulario(){
   (document.getElementById('lbl_obs_pt')||{}).classList.remove('checked');
   (document.getElementById('lbl_obs_rciu')||{}).classList.remove('checked');
   (document.getElementById('lbl_p_ai')||{}).classList.remove('checked');
+  (document.getElementById('lbl_p_ob')||{}).classList.remove('checked');
   (document.getElementById('lbl_p_asma')||{}).classList.remove('checked');
   (document.getElementById('lbl_p_cancer_act')||{}).classList.remove('checked');
   (document.getElementById('lbl_p_cancer_prev')||{}).classList.remove('checked');
   (document.getElementById('lbl_p_cardio')||{}).classList.remove('checked');
   (document.getElementById('lbl_p_dm')||{}).classList.remove('checked');
   (document.getElementById('lbl_p_epi')||{}).classList.remove('checked');
+  (document.getElementById('lbl_p_mthfr')||{}).classList.remove('checked');
   (document.getElementById('lbl_p_hepb')||{}).classList.remove('checked');
   (document.getElementById('lbl_p_hepc')||{}).classList.remove('checked');
   (document.getElementById('lbl_p_hipertiro')||{}).classList.remove('checked');
@@ -6054,14 +6165,14 @@ function cargarEjemplo(tipo){ window._pfe=null;
     });
     var _allChk=['ant_pe','p_hta','em_gemelar','em_hta_gest','pr_hie',
       'p_dm','p_renal','p_saf','p_cardio','p_trombo','p_tvp','p_tep',
-      'p_ai','p_hipotiro','p_hipertiro','p_asma','p_sm','p_epi',
+      'p_ai','p_hipotiro','p_hipertiro','p_ob','p_asma','p_sm','p_epi','p_mthfr',
       'p_vih','p_sif','p_hepb','p_hepc','p_cancer_prev','p_cancer_act',
       'p_pti','p_vw','p_vd','p_vs','obs_pe','obs_rciu','obs_pt',
       'obs_hpp','obs_dpp','obs_malform','obs_mf','obs_ic','obs_iso',
       'obs_cx','obs_dg','obs_macro','e_rh','e_sgb','e_mult','e_pp',
       'e_apt','e_poli','e_oligo','e_sang','e_tra','e_mfd','e_vag',
-      'e_itu','e_cx','e_aud','e_coombs',
-      'h_tab','h_alc','h_dro','h_vs','h_vd',
+      'e_itu','e_cx','e_aud','e_coombs','e_pe','e_hta_gest','e_dg','e_rciu','e_col','e_hg','e_hellp','e_dppni',
+      'h_tab','h_alc','h_dro','h_vs','h_vd','h_veg',
       'pr_aas','pr_af','pr_ac_folico','pr_hie','pr_grip','pr_vsr',
       'pr_covid','pr_tdpa','pr_hepbvac','em_hta_gest','em_gemelar'];
     _allChk.forEach(function(c){
@@ -6339,18 +6450,27 @@ function getSupleRecomendaciones(findings, hb, vitd, egSem){
   const tieneAnemiaLeve = hb !== null && hb >= 9 && hb < 11;
   const tienePE = findings.some(f => f.conducta && f.conducta.includes('AAS'));
   const tienePreterm = findings.some(f => f.domain === 'ANTECEDENTE OBSTÉTRICO' && f.hallazgo.includes('pretérmino'));
-  const tieneVegana = false; // Could check from habits
+  const tieneVegana = (document.getElementById('h_veg')&&document.getElementById('h_veg').checked)||false;
   
   // ── ÁCIDO FÓLICO ──
   let afDosis = '400 µg/día';
   let afNota = 'Población general — OMS/ACOG';
   let afAlerta = 'bajo';
-  const tieneDTN = findings.some(f => f.hallazgo && (f.hallazgo.includes('epilepsia') || f.hallazgo.includes('Epilepsia') || f.hallazgo.includes('DTN')));
-  const tieneObesidad = findings.some(f => f.hallazgo && f.hallazgo.includes('obesidad'));
-  const tieneDM = findings.some(f => f.hallazgo && (f.hallazgo.includes('Diabetes pregestacional') || f.hallazgo.includes('DM en embarazo')));
-  const tieneMTHFR = false;
-  if(tieneDTN || tieneObesidad || tieneDM){ afDosis = '4–5 mg/día'; afNota = 'Dosis alta: antecedente DTN / epilepsia con antifolatos / obesidad / DM — OMS/NICE/ACOG/FIGO'; afAlerta = 'alto'; }
-  else if(tieneMTHFR){ afDosis = '400–800 µg/día Metilfolato (5-MTHF)'; afNota = 'Polimorfismo MTHFR documentado'; afAlerta = 'moder'; }
+  const tieneDTN = findings.some(f => f.hallazgo && (f.hallazgo.includes('epilepsia') || f.hallazgo.includes('Epilepsia') || f.hallazgo.includes('DTN') || f.hallazgo.includes('malformación fetal')));
+  const tieneObesidad = findings.some(f => f.hallazgo && (f.hallazgo.includes('obesidad') || f.hallazgo.includes('Obesidad')));
+  const tieneDM = findings.some(f => f.hallazgo && (
+    f.hallazgo.includes('Diabetes pregestacional') ||
+    f.hallazgo.includes('DM en embarazo') ||
+    f.hallazgo.includes('DM Gestacional') ||
+    f.hallazgo.includes('DM PREGESTACIONAL') ||
+    f.hallazgo.includes('GESTACIONAL') ||
+    f.hallazgo.includes('diabetes gestacional previa') ||
+    (f.domain === 'ANTECEDENTE OBSTÉTRICO' && f.hallazgo.toLowerCase().includes('diabetes')) ||
+    (f.domain === 'EMBARAZO ACTUAL — PATOLOGÍA ACTIVA' && f.hallazgo.includes('DIABETES'))
+  ));
+  const tieneMTHFR = (document.getElementById('p_mthfr')&&document.getElementById('p_mthfr').checked)||false;
+  if(tieneDTN || tieneObesidad || tieneDM){ afDosis = '4–5 mg/día'; afNota = 'Dosis alta: antecedente/diagnóstico DTN / epilepsia / obesidad / DM gestacional o pregestacional — OMS/NICE/ACOG/FIGO'; afAlerta = 'alto'; }
+  else if(tieneMTHFR){ afDosis = '400–800 µg/día Metilfolato (5-MTHF)'; afNota = 'Polimorfismo MTHFR C677T o A1298C: usar 5-metiltetrahidrofolato (5-MTHF) en lugar de ácido fólico sintético. Combinado con B12 (metilcobalamina). Evitar ácido fólico sin metabolizar. — ACOG / revisiones 2022–2024'; afAlerta = 'moder'; }
   recs.push({icon:'🟢', supl:'Ácido fólico / Metilfolato', dosis:afDosis, nota:afNota, alerta:afAlerta});
 
   // ── HIERRO ──
@@ -6363,8 +6483,9 @@ function getSupleRecomendaciones(findings, hb, vitd, egSem){
 
   // ── CALCIO ──
   let caDosis, caNota, caAlerta;
-  if(tienePE){ caDosis = '1.5–2 g/día'; caNota = 'Alto riesgo PE — asociado a ↓55% riesgo PE (Cochrane). Combinado con AAS desde 1T — OMS/ACOG'; caAlerta = 'alto'; }
-  else { caDosis = 'No rutina en dieta normal'; caNota = '500–1000 mg/día si vegetariana/vegana o baja ingesta láctea. Asociado a ↓ preeclampsia — valorar ingesta dietética'; caAlerta = 'bajo'; }
+  if(tienePE){ caDosis = '1.5–2 g/día'; caNota = 'Alto riesgo PE — asociado a ↑55% riesgo PE (Cochrane). Combinado con AAS desde 1T — OMS/ACOG'; caAlerta = 'alto'; }
+  else if(tieneVegana){ caDosis = '500–1000 mg/día'; caNota = 'Dieta vegetariana/vegana: baja ingesta láctea. Preferir calcio citrato (mejor absorción). Verificar aporte dietético total.'; caAlerta = 'moder'; }
+  else { caDosis = 'No rutina en dieta normal'; caNota = '500–1000 mg/día si baja ingesta láctea. Asociado a ↓ preeclampsia — valorar ingesta dietética'; caAlerta = 'bajo'; }a. Asociado a ↓ preeclampsia — valorar ingesta dietética'; caAlerta = 'bajo'; }
   recs.push({icon:'🦴', supl:'Calcio', dosis:caDosis, nota:caNota, alerta:caAlerta,
     pie:'No se recomienda suplementación rutinaria más allá de dieta adecuada en población general de países con ingesta normal'});
 
@@ -6384,14 +6505,39 @@ function getSupleRecomendaciones(findings, hb, vitd, egSem){
 
   // ── OMEGA-3 ──
   let omDosis, omNota, omAlerta;
-  if(tienePreterm){ omDosis = '800–1000 mg/día DHA'; omNota = 'Antecedente PTB — EBCOG 2024 ✓. Iniciar antes sem 20. Asociado a ↓42% parto prematuro <34 sem (Cochrane 2018)'; omAlerta = 'alto'; }
-  else { omDosis = '250–600 mg/día DHA'; omNota = 'Sin factores de riesgo de PTB. Mayor beneficio en ingesta baja de pescado (<2 raciones/sem). Asociado a ↓ riesgo parto prematuro'; omAlerta = 'bajo'; }
+  if(tienePreterm){ omDosis = '800–1000 mg/día DHA'; omNota = 'Antecedente PTB — EBCOG 2024 ✓. Iniciar antes sem 20. Asociado a ↑42% parto prematuro <34 sem (Cochrane 2018)'; omAlerta = 'alto'; }
+  else if(tieneVegana){ omDosis = '250–600 mg/día DHA (algas)'; omNota = 'Dieta vegana: sin ingesta de pescado. Usar DHA de algas micromarinas (fuente vegana de DHA preformado). Evitar aceite de linaza como única fuente (conversión ALA→DHA muy baja).'; omAlerta = 'moder'; }
+  else { omDosis = '250–600 mg/día DHA'; omNota = 'Sin factores de riesgo de PTB. Mayor beneficio en ingesta baja de pescado (<2 raciones/sem). Asociado a ↓ riesgo parto prematuro'; omAlerta = 'bajo'; }s/sem). Asociado a ↓ riesgo parto prematuro'; omAlerta = 'bajo'; }
   recs.push({icon:'🐟', supl:'Omega-3 (DHA/EPA)', dosis:omDosis, nota:omNota, alerta:omAlerta,
     pie:'No es suplementación de rutina universal en todos los protocolos. OMS/NICE/ACOG: solo dieta con pescado. EBCOG 2024 / Australia NHMRC: recomiendan suplemento en baja ingesta. Valorar ingesta dietética'});
 
   // ── YODO ──
-  recs.push({icon:'🧂', supl:'Yodo', dosis:'150–250 µg/día', nota:'Dieta mediterránea: valorar individual. Vegetariana/vegana: OBLIGATORIO. Zona endémica con déficit: universal desde preconcepcional — OMS: 250 µg/día', alerta:'moder',
+  const yodoDosis = tieneVegana ? '200–250 µg/día (OBLIGATORIO)' : '150–250 µg/día';
+  const yodoAlerta = tieneVegana ? 'alto' : 'moder';
+  const yodoNota = tieneVegana
+    ? 'Dieta vegana: sin pescado ni lácteos — riesgo alto de déficit de yodo. Suplementación obligatoria. Daño neurológico fetal irreversible en 1T. Preferir yoduro potásico.'
+    : 'Dieta mediterránea: valorar individual. Zona endémica con déficit: universal desde preconcepcional — OMS: 250 µg/día';
+  recs.push({icon:'🧂', supl:'Yodo', dosis:yodoDosis, nota:yodoNota, alerta:yodoAlerta,
     pie:'⚠️ El yodo tiene la ventana terapéutica más estrecha de todos los suplementos. Déficit y exceso son perjudiciales. Daño neurológico fetal por déficit es IRREVERSIBLE en 1T. No rutina en dieta normal con sal yodada'});
+
+
+  // ── VITAMINA B12 ──
+  let b12Dosis, b12Nota, b12Alerta;
+  if(tieneVegana){
+    b12Dosis = '250 µg/día (cianocobalamina) o 1000 µg 2–3×/sem';
+    b12Nota = 'Dieta vegana: fuente exclusiva animal — déficit muy frecuente. Déficit severo causa anemia megaloblástica y daño neurológico fetal irreversible. Monitorear B12 sérica en cada trimestre. Preferir cianocobalamina (estabilidad superior).';
+    b12Alerta = 'alto';
+  } else if(tieneMTHFR){
+    b12Dosis = '250–500 µg/día (metilcobalamina)';
+    b12Nota = 'Polimorfismo MTHFR: la B12 es cofactor del ciclo del folato. Metilcobalamina preferida (forma activa). Complementar con metilfolato 400–800 µg/día.';
+    b12Alerta = 'moder';
+  } else {
+    b12Dosis = 'No requiere suplementación rutinaria';
+    b12Nota = 'Dieta omnívora: requerimiento cubierto con dieta habitual. Valorar en: vegetarianas no veganas, gastritis atrófica, uso crónico de IBP o metformina.';
+    b12Alerta = 'bajo';
+  }
+  recs.push({icon:'🔵', supl:'Vitamina B12 (cobalamina)', dosis:b12Dosis, nota:b12Nota, alerta:b12Alerta,
+    pie:'Déficit clínico severo en embarazo es raro en dieta omnívora, pero puede presentarse en veganas estrictas o con malabsorción. B12 <150 pg/mL = déficit; 150–300 = insuficiencia'});
 
   return recs;
 }
