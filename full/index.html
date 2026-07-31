@@ -3175,6 +3175,27 @@ function calcular(){
     }
   }
 
+  // ── ALTURA UTERINA ──
+  {
+    var auCm = parseFloat((document.getElementById('au_cm')||{}).value)||null;
+    var auEg = leerEGDecimal('au_eg','au_eg_dias');
+    if(auCm && auEg && auEg>=26 && auEg<=40){
+      var auRow = auPercentil(Math.round(auEg));
+      var auMm = auCm * 10;
+      if(auMm < auRow.p10){
+        add('ALTURA UTERINA','alto',
+          'AU pequena para EG (' + auCm.toFixed(1) + ' cm, <P10 a ' + semDias(auEg) + ' sem)',
+          'Descartar: RCIU (solicitar biometria ecografica + Doppler AU/ACM/ICP), oligoamnios, discordancia con amenorrea. Derivar a medicina fetal si se confirma restriction de crecimiento.',
+          'CLAP / OMS / ISUOG 2020');
+      } else if(auMm > auRow.p90){
+        add('ALTURA UTERINA','moderado',
+          'AU grande para EG (' + auCm.toFixed(1) + ' cm, >P90 a ' + semDias(auEg) + ' sem)',
+          'Descartar: macrosomia fetal (biometria + PFE), polihidramnios (ILA/MVP), gemelar no diagnosticado, miomas uterinos, diabetes gestacional. Solicitar ecografia.',
+          'CLAP / OMS / ACOG');
+      }
+    }
+  }
+
   // PA
   if(pas&&pad){
     if(pas>=160||pad>=110) add('PRESIÓN ARTERIAL','alto',`PA ${pas}/${pad} mmHg (HTA severa)`,'Antihipertensivo urgente (labetalol IV / nifedipino). Descartar PE. Función hepática/renal, LDH, plaquetas. Valorar hospitalización.','ACOG / NICE / ISH');
