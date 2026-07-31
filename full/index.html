@@ -1635,8 +1635,57 @@ document.addEventListener('DOMContentLoaded', function(){
     <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin:8px 0 4px">🩸 Ducto Venoso</div>
     <div class="row2">
       <div class="field"><label>DV — PIV</label><input type="number" id="dopp_dv" placeholder="PIV ducto venoso" step="0.01" oninput="calcDopplerPercentil()"></div>
-      <div class="field"><label>DV — IP</label><input type="number" id="dopp_dv_ip" placeholder="IP ducto venoso" step="0.01" oninput="calcDopplerPercentil()"></div>
+
     </div>
+    <div style="font-size:.65rem;color:var(--slate);margin:4px 0 8px;padding:6px 8px;background:var(--mist);border-radius:6px;line-height:1.5">
+      <strong>⚠️ Doppler hemodinámico avanzado</strong> — Indicar solo cuando AU, ACM o ICP estén alterados. Son marcadores de estadio tardío en RCIU severo (compromiso cardiovascular fetal). Ref: ISUOG 2020 · Baschat 2011 · TRUFFLE Study.
+    </div>
+
+    <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin:8px 0 4px">❤️ Regurgitación Tricuspídea (RT) 2T/3T</div>
+    <div style="font-size:.63rem;color:var(--slate);margin-bottom:5px;line-height:1.4">Marcador de disfunción cardíaca fetal derecha. Indicar si DV alterado o sospecha de cardiomiopatía fetal. <em>Solo en 2T/3T — no confundir con RT del 1T (cribado cromosómico).</em></div>
+    <div class="row2">
+      <div class="field">
+        <label>RT — 2T/3T</label>
+        <select id="dopp_rt" onchange="calcDopplerPercentil()">
+          <option value="">—</option>
+          <option value="ausente">Ausente (normal)</option>
+          <option value="leve">Leve</option>
+          <option value="moderada">Moderada</option>
+          <option value="severa">Severa</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin:8px 0 4px">🩺 Istmo Aórtico (AoI)</div>
+    <div style="font-size:.63rem;color:var(--slate);margin-bottom:5px;line-height:1.4">Refleja redistribución cerebral y postcarga ventricular izquierda. Flujo retrógrado = compromiso neurológico grave. Indicar si ACM o ICP alterados en RCIU pretérmino.</div>
+    <div class="row2">
+      <div class="field"><label>AoI — IP</label><input type="number" id="dopp_aoi" placeholder="IP istmo aórtico" step="0.01" oninput="calcDopplerPercentil()"></div>
+      <div class="field">
+        <label>AoI — flujo diastólico</label>
+        <select id="dopp_aoi_flujo" onchange="calcDopplerPercentil()">
+          <option value="">—</option>
+          <option value="anterogrado">Anterógrado (normal)</option>
+          <option value="reducido">Reducido</option>
+          <option value="ausente">Ausente</option>
+          <option value="retrogrado">Retrógrado</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin:8px 0 4px">🔵 Vena Umbilical Pulsátil (VUP)</div>
+    <div style="font-size:.63rem;color:var(--slate);margin-bottom:5px;line-height:1.4">Pulsatilidad venosa umbilical = signo tardío de descompensación fetal. Indica fallo cardíaco fetal con congestión venosa. Asociada a mortalidad perinatal elevada.</div>
+    <div class="row2">
+      <div class="field">
+        <label>VU — pulsatilidad</label>
+        <select id="dopp_vup" onchange="calcDopplerPercentil()">
+          <option value="">—</option>
+          <option value="no">No pulsátil (normal)</option>
+          <option value="leve">Pulsatilidad leve</option>
+          <option value="franca">Pulsatilidad franca</option>
+        </select>
+      </div>
+    </div>
+
     <div class="row2">
       <div class="field"><label style="font-size:.68rem">ICP = ACM/AU (automático)</label><div id="dopp_icp_display" style="padding:8px;background:var(--mist);border-radius:8px;font-size:.78rem;font-weight:700;color:var(--navy)">—</div></div>
     </div>
@@ -2677,6 +2726,9 @@ Microcefalia: CC &lt;p3 para EG.</div>
       <strong style="color:var(--navy)">Biometría fetal:</strong> Hadlock 1984 · Robinson &amp; Fleming 1975 (CRL/FUM) · Chitty &amp; Altman 2002 (húmero) · Goldstein 1987 (cerebelo) · Jeanty 1983 · Chitty 1994 · INTERGROWTH-21st · Figueras &amp; Gratacós 2008<br>
       <strong style="color:var(--navy)">Crecimiento fetal / PEG / RCIU:</strong> Figueras F. EJOGR 2008 · Protocolo MFB Nov 2024 · ISUOG Delphi Consensus 2020<br>
       <strong style="color:var(--navy)">Doppler AU, ACM e ICP:</strong> Ciobanu A et al. (FMF) UOG 2019;53:465-472<br>
+      <strong style="color:var(--navy)">Doppler hemodinámico avanzado (DV, TR, AoI, VUP):</strong> Baschat AA. Obstet Gynecol 2011 · TRUFFLE Study Group. UOG 2020 · ISUOG Practice Guidelines RCIU 2020 · Gratacós E &amp; Torres X. MFB Protocol 2023<br>
+      <strong style="color:var(--navy)">Maduración pulmonar fetal (&lt;34 sem):</strong> ACOG Practice Bulletin 127 · RCOG Green-top Guideline 7<br>
+      <strong style="color:var(--navy)">Neuroprotección con MgSO₄ (&lt;32 sem):</strong> ACOG Practice Bulletin 455 · WHO Recommendation 2015<br>
       <strong style="color:var(--navy)">ACM PSV — algoritmo propio (anemia fetal):</strong> Basado en análisis de literatura · Mari G et al. NEJM 2000;342:9-14 · Detti L et al. AJOG 2002<br>
       <strong style="color:var(--navy)">Índice cerebroplacentario (ICP) — P5 dinámico:</strong> Baschat AA &amp; Gembruch U. UOG 2003;22:529-536<br>
       <strong style="color:var(--navy)">Anemia fetal:</strong> Mari G et al. NEJM 2000 (Doppler ACM/PSV)<br>
@@ -4171,7 +4223,12 @@ function calcDopplerPercentil(){
   var acm=parseFloat((document.getElementById('dopp_acm_pi')||{}).value)||null;
   var psv=parseFloat((document.getElementById('dopp_acm_psv')||{}).value)||null;
   var dv=parseFloat((document.getElementById('dopp_dv')||{}).value)||null;
-  var dv_ip=parseFloat((document.getElementById('dopp_dv_ip')||{}).value)||null;
+  var rt=((document.getElementById('dopp_rt')||{}).value)||null;
+  var aoi=parseFloat((document.getElementById('dopp_aoi')||{}).value)||null;
+  var aoi_flujo=((document.getElementById('dopp_aoi_flujo')||{}).value)||null;
+  var vup=((document.getElementById('dopp_vup')||{}).value)||null;
+  var egSemDopp=parseFloat((document.getElementById('dopp_eg_sem')||{}).value)||null;
+
   var result=document.getElementById('dopp_result');
   var icpDisp=document.getElementById('dopp_icp_display');
   if(!result)return;
@@ -4366,14 +4423,86 @@ function calcDopplerPercentil(){
     html+='<div class="alerta-box '+cls5+'" style="margin-bottom:6px"><strong>DV PIV: '+dv+'</strong><br><small>'+interp5+'</small></div>';
     if(cls5!=='verde')findings.push('DV alterado');
   }
-  // DV IP
-  if(dv_ip!==null){
-    var cls6=dv_ip<0?'alto':dv_ip>1.0?'moder':'verde';
-    var interp6=cls6==='alto'?'IP negativo — flujo reverso. Descompensación severa':cls6==='moder'?'IP elevado — posible disfunción venosa':'Normal';
-    html+='<div class="alerta-box '+cls6+'" style="margin-bottom:6px"><strong>DV IP: '+dv_ip+'</strong><br><small>'+interp6+'</small></div>';
-    if(cls6!=='verde')findings.push('DV IP alterado');
+
+  // ── RT — Regurgitación Tricuspídea 2T/3T ──
+  if(rt && rt!==''){
+    var clsRT='verde', interpRT='';
+    if(rt==='severa'){
+      clsRT='alto';
+      interpRT='RT severa — disfuncion cardiaca fetal grave. Finalizar gestion urgente. Derivacion a medicina fetal y neonatologia.';
+    } else if(rt==='moderada'){
+      clsRT='alto';
+      interpRT='RT moderada — compromiso cardiaco fetal significativo. Control biofisico diario. Considerar finalizacion segun EG y contexto clinico.';
+    } else if(rt==='leve'){
+      clsRT='moder';
+      interpRT='RT leve — vigilancia estrecha. Repetir Doppler en 48-72h. Evaluar contexto (DV, ICP, biofisico).';
+    } else {
+      clsRT='verde'; interpRT='RT ausente — funcion cardiaca fetal preservada.';
+    }
+    if(clsRT!=='verde'){
+      html+='<div class="alerta-box '+clsRT+'" style="margin-bottom:6px"><strong>Regurgitacion tricuspidea: '+rt+'</strong><br><small>'+interpRT+'</small></div>';
+      findings.push('RT '+rt);
+    }
   }
-  if(!au&&!acm&&!psv&&dv===null&&dv_ip===null){
+
+  // ── AoI — Istmo Aortico ──
+  if(aoi!==null || (aoi_flujo && aoi_flujo!=='')){
+    var clsAoI='verde', interpAoI='';
+    var flujoDesc = aoi_flujo||'';
+    if(flujoDesc==='retrogrado'){
+      clsAoI='alto';
+      interpAoI='Istmo aortico con flujo retrogrado — redistribucion cerebral maxima + fallo cardiaco izquierdo. Finalizacion urgente. Neuroproteccion y maduracion si corresponde por EG.';
+    } else if(flujoDesc==='ausente'){
+      clsAoI='alto';
+      interpAoI='Istmo aortico: flujo diastolico ausente — compromiso hemodinamico grave. Finalizacion inminente segun contexto. Control biofisico urgente.';
+    } else if(flujoDesc==='reducido'){
+      clsAoI='moder';
+      interpAoI='Istmo aortico: flujo reducido — inicio de redistribucion severa. Vigilancia intensiva. Repetir Doppler en 24-48h.';
+    } else if(aoi!==null){
+      if(aoi>1.4){ clsAoI='moder'; interpAoI='IP istmo aortico elevado ('+aoi+') — posible redistribucion cerebral avanzada. Correlacionar con ICP y biofisico.'; }
+      else { clsAoI='verde'; interpAoI='IP istmo aortico normal ('+aoi+').'; }
+    }
+    if(clsAoI!=='verde'){
+      html+='<div class="alerta-box '+clsAoI+'" style="margin-bottom:6px"><strong>Istmo Aortico</strong><br><small>'+interpAoI+'</small></div>';
+      findings.push('AoI alterado');
+    }
+  }
+
+  // ── VUP — Vena Umbilical Pulsatil ──
+  if(vup && vup!=='' && vup!=='no'){
+    var clsVUP = vup==='franca'?'alto':'moder';
+    var interpVUP = vup==='franca'
+      ? 'Vena umbilical pulsatil franca — signo de descompensacion fetal tardia. Fallo cardiaco con congestion venosa. Finalizacion urgente. Coordinar con neonatologia.'
+      : 'Vena umbilical pulsatil leve — vigilancia intensiva. Repetir Doppler en 24h. Considerar finalizacion segun EG y contexto clinico.';
+    html+='<div class="alerta-box '+clsVUP+'" style="margin-bottom:6px"><strong>Vena umbilical pulsatil: '+vup+'</strong><br><small>'+interpVUP+'</small></div>';
+    findings.push('VUP '+vup);
+  }
+
+  // ── Conductas por EG cuando hay Doppler avanzado alterado ──
+  var dopp_avanzado_alto = findings.some(function(f){
+    return f.indexOf('RT ')>=0 || f.indexOf('AoI')>=0 || f.indexOf('VUP')>=0 || f.indexOf('DV')>=0;
+  });
+  if(dopp_avanzado_alto && egSemDopp){
+    if(egSemDopp < 32){
+      html+='<div class="alerta-box alto" style="margin-top:8px"><strong>⚠️ Doppler avanzado alterado — EG ' + egSemDopp + ' sem (&lt;32 sem)</strong><br>'
+        +'<span style="font-size:.74rem;line-height:1.6">'
+        +'<strong>Maduracion pulmonar:</strong> Betametasona 12mg IM c/24h x2 dosis (si no recibio en las ultimas 2 sem). Ref: ACOG PB 127 / RCOG.<br>'
+        +'<strong>Neuroproteccion:</strong> Sulfato de magnesio 4g IV en 20 min + 1g/h hasta el parto. Ref: ACOG PB 455 / WHO 2015.<br>'
+        +'<strong>Finalizacion:</strong> Coordinar con neonatologia. Derivar a centro de alta complejidad.'
+        +'</span></div>';
+    } else if(egSemDopp < 34){
+      html+='<div class="alerta-box alto" style="margin-top:8px"><strong>⚠️ Doppler avanzado alterado — EG ' + egSemDopp + ' sem (&lt;34 sem)</strong><br>'
+        +'<span style="font-size:.74rem;line-height:1.6">'
+        +'<strong>Maduracion pulmonar:</strong> Betametasona 12mg IM c/24h x2 dosis. Ref: ACOG PB 127 / RCOG.<br>'
+        +'<strong>Finalizacion:</strong> Segun evolucion clinica y biofisico. Coordinar con neonatologia.'
+        +'</span></div>';
+    } else {
+      html+='<div class="alerta-box moder" style="margin-top:8px"><strong>Doppler avanzado alterado — EG ' + egSemDopp + ' sem (≥34 sem)</strong><br>'
+        +'<span style="font-size:.74rem">Finalizacion segun contexto clinico. Coordinar con neonatologia. Biofisico de urgencia.</span></div>';
+    }
+  }
+
+  if(!au&&!acm&&!psv&&dv===null&&!rt&&aoi===null&&!vup){
     html+='<div style="font-size:.75rem;color:var(--slate)">Ingresá al menos un parámetro Doppler</div>';
   }
   // Guardar estado Doppler global para que calcPFE() lo use en clasificación
@@ -4381,7 +4510,7 @@ function calcDopplerPercentil(){
   window._dopplerAU_alto = au && findings.includes('AU elevada');
   window._dopplerICP_alto = au && acm && findings.includes('ICP <P5');
   window._dopplerACM_bajo = acm && findings.includes('ACM disminuida');
-  window._dopplerDV_alto = (dv!==null && findings.some(function(f){return f.indexOf('DV')>=0;}));
+  window._dopplerDV_alto = (dv!==null && findings.some(function(f){return f.indexOf('DV')>=0;}))
   // Recalcular PFE si está activo, para actualizar clasificación
   if(typeof calcPFE==='function' && window._pfe) calcPFE();
   html+='<div style="font-size:.65rem;color:var(--slate);margin-top:8px">Ref: Baschat AA, Gembruch U. UOG 2003 · Arduini &amp; Rizzo 1990 · Mari NEJM 2000</div>';
@@ -6147,7 +6276,10 @@ function limpiarFormulario(){
   var nt_r=document.getElementById('nt_result');if(nt_r){nt_r.innerHTML='';nt_r.style.display='none';}
   // ═══ Reset Doppler percentil ═══
   ['dopp_eg_sem','dopp_eg_dias','dopp_au_pi','dopp_au_ir',
-   'dopp_acm_pi','dopp_acm_psv','dopp_dv','dopp_dv_ip'].forEach(function(id){
+   'dopp_acm_pi','dopp_acm_psv','dopp_dv','dopp_aoi'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.value='';
+  });
+  ['dopp_rt','dopp_aoi_flujo','dopp_vup'].forEach(function(id){
     var el=document.getElementById(id);if(el)el.value='';
   });
   var dopp_r=document.getElementById('dopp_result');if(dopp_r){dopp_r.innerHTML='';dopp_r.style.display='none';}
@@ -6232,6 +6364,7 @@ function cargarEjemplo(tipo){ window._pfe=null;
       'hb','glucemia','creatinina','lab_au','plaquetas','lab_tgo',
       'lab_ldh','lab_bili','lab_alt','lab_ast','tsh',
       'pi1t','uta_d','uta_i','ao','ao_psv1','ao_psv2','pigf1t','pappa','nt_mm','nt_crl','dopp_ao_psv1','dopp_ao_psv2',
+      'dopp_eg_sem','dopp_eg_dias','dopp_au_pi','dopp_acm_pi','dopp_acm_psv','dopp_dv','dopp_aoi',
       'pi2t','uta2_d','uta2_i','sflt','sflt_eg','sflt_eg_dias','cervix','sflt_pigf',
       'bio_cc_biom','bio_ca_biom','bio_lf_biom','bio_dbp',
       'asim_cc','asim_ca','asim_lf','asim_eg','asim_eg_dias',
@@ -6257,6 +6390,10 @@ function cargarEjemplo(tipo){ window._pfe=null;
     // Limpiar etiquetas visuales
     document.querySelectorAll('.check-item').forEach(function(el){
       el.classList.remove('checked');
+    });
+    // Reset selects Doppler avanzado
+    ['dopp_rt','dopp_aoi_flujo','dopp_vup'].forEach(function(id){
+      var el=document.getElementById(id); if(el) el.value='';
     });
     // ── Ahora cargar solo datos básicos ──
     var fumDate = new Date();
@@ -6309,6 +6446,14 @@ function cargarEjemplo(tipo){ window._pfe=null;
     // ECO
     if(typeof setPrueba==='function') setPrueba('cc');
     set('pi2t','1.95'); set('sflt','95'); set('sflt_eg','30'); set('sflt_eg_dias','1');
+    // Doppler 2T/3T — RCIU con compromiso hemodinámico
+    set('dopp_eg_sem','30'); set('dopp_eg_dias','1');
+    set('dopp_au_pi','1.85');    // AU PI elevado — resistencia placentaria alta
+    set('dopp_acm_pi','0.95');   // ACM PI bajo — redistribución cerebral
+    set('dopp_dv','1.25');       // DV PIV elevado — compromiso venoso
+    // RT moderada + AoI reducido — estadio avanzado
+    var _rt=document.getElementById('dopp_rt'); if(_rt) _rt.value='moderada';
+    var _aoi=document.getElementById('dopp_aoi_flujo'); if(_aoi) _aoi.value='reducido';
     // Profilaxis
     chkOn('pr_ac_folico'); chkOn('pr_hie');
     // EG·Parto — Dextograma
@@ -6323,7 +6468,7 @@ function cargarEjemplo(tipo){ window._pfe=null;
     window._dextNeedsUpdate = true; // will recalculate when EG·Parto tab opens
     if(typeof calcBiom==='function') calcBiom();
     showTab('formulario');
-    alert('⚠️ Ejemplo cargado: Secundigesta · 38 años · 30+1 sem · Alto riesgo\n\nExplorá cada pestaña (EG·Parto, Biometría) o presionar ⚡ Calcular para ver alertas y plan de acción completo.');
+    alert('⚠️ Ejemplo cargado: Secundigesta · 38a · 30+1 sem · RCIU + compromiso hemodinámico\n\nDoppler cargado: AU PI 1.85 · ACM PI 0.95 · DV PIV 1.25 · RT moderada · AoI reducido\nPresioná ⚡ Calcular para ver estadificación completa y conductas.');
   }
 }
 
