@@ -3160,19 +3160,18 @@ function calcular(){
     const ganPesoP=parseFloat((document.getElementById('gan_peso_pre')||{}).value)||pesoP||null;
     const ganTalla=parseFloat((document.getElementById('gan_talla')||{}).value)||talla||null;
     const ganPesoA=parseFloat((document.getElementById('gan_peso_actual')||{}).value)||parseFloat((document.getElementById('pesoActual')||{}).value)||null;
-    // ganEG ahora es eg (leerEGDecimal arriba)
-    if(ganPesoP&&ganTalla&&ganPesoA&&ganEG){
+    if(ganPesoP&&ganTalla&&ganPesoA&&eg){
       const ganActual=ganPesoA-ganPesoP;
       let sem1T=0,semPost=0,minT=0,maxT=0;
       if(imcP<18.5){sem1T=0.5;semPost=0.51;minT=12.5;maxT=18;}
       else if(imcP<25){sem1T=0.4;semPost=0.42;minT=11.5;maxT=16;}
       else if(imcP<30){sem1T=0.3;semPost=0.28;minT=7;maxT=11.5;}
       else{sem1T=0.2;semPost=0.22;minT=5;maxT=9;}
-      const ganEsp=ganEG<=13?sem1T*ganEG:sem1T*13+semPost*(ganEG-13);
+      const ganEsp=eg<=13?sem1T*eg:sem1T*13+semPost*(eg-13);
       const diff=Math.round((ganActual-ganEsp)*10)/10;
-      if(diff>1.5) add('ESTADO NUTRICIONAL','moderado',`Ganancia ponderal por encima: ${ganActual.toFixed(1)} kg a semana ${Math.round(ganEG)} (esperado ~${Math.max(0,ganEsp).toFixed(1)} kg)`,'Exceso de ganancia ponderal. Evaluar DG y macrosomía. Reforzar plan nutricional con nutricionista. Reducir carbohidratos simples y grasas saturadas.','IOM 2009 / ACOG');
-      else if(diff<-1.5) add('ESTADO NUTRICIONAL','moderado',`Ganancia ponderal insuficiente: ${ganActual.toFixed(1)} kg a semana ${Math.round(ganEG)} (esperado ~${Math.max(0,ganEsp).toFixed(1)} kg)`,'Ganancia insuficiente. Evaluar RCIU, náuseas, hiperemesís. Suplementación calórico-proteica. Biometría fetal.','IOM 2009 / ACOG');
-      else add('ESTADO NUTRICIONAL','bajo',`Ganancia ponderal adecuada: ${ganActual.toFixed(1)} kg a semana ${Math.round(ganEG)} (✓ rango IOM)`,'Ganancia ponderal dentro del rango recomendado. Continuar plan nutricional actual.','IOM 2009');
+      if(diff>1.5) add('ESTADO NUTRICIONAL','moderado',`Ganancia ponderal por encima: ${ganActual.toFixed(1)} kg a semana ${Math.round(eg)} (esperado ~${Math.max(0,ganEsp).toFixed(1)} kg)`,'Exceso de ganancia ponderal. Evaluar DG y macrosomía. Reforzar plan nutricional con nutricionista. Reducir carbohidratos simples y grasas saturadas.','IOM 2009 / ACOG');
+      else if(diff<-1.5) add('ESTADO NUTRICIONAL','moderado',`Ganancia ponderal insuficiente: ${ganActual.toFixed(1)} kg a semana ${Math.round(eg)} (esperado ~${Math.max(0,ganEsp).toFixed(1)} kg)`,'Ganancia insuficiente. Evaluar RCIU, náuseas, hiperemesís. Suplementación calórico-proteica. Biometría fetal.','IOM 2009 / ACOG');
+      else add('ESTADO NUTRICIONAL','bajo',`Ganancia ponderal adecuada: ${ganActual.toFixed(1)} kg a semana ${Math.round(eg)} (✓ rango IOM)`,'Ganancia ponderal dentro del rango recomendado. Continuar plan nutricional actual.','IOM 2009');
     }
   }
 
