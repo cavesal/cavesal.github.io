@@ -1174,6 +1174,9 @@ main{padding:14px;max-width:680px;margin:0 auto}
       <strong style="color:var(--navy)">Biometría fetal:</strong> Hadlock 1984 · Robinson &amp; Fleming 1975 (CRL/FUM) · Chitty &amp; Altman 2002 (húmero) · Goldstein 1987 (cerebelo) · Jeanty 1983 · Chitty 1994 · INTERGROWTH-21st · Figueras &amp; Gratacós 2008<br>
       <strong style="color:var(--navy)">Crecimiento fetal / PEG / RCIU:</strong> Figueras F. EJOGR 2008 · Protocolo MFB Nov 2024 · ISUOG Delphi Consensus 2020<br>
       <strong style="color:var(--navy)">Doppler AU, ACM e ICP:</strong> Ciobanu A et al. (FMF) UOG 2019;53:465-472<br>
+      <strong style="color:var(--navy)">Doppler hemodinámico avanzado (DV · TR · AoI · VUP):</strong> Baschat AA. Obstet Gynecol 2011 · TRUFFLE Study Group. UOG 2020 · ISUOG Practice Guidelines RCIU 2020 · Gratacós E &amp; Torres X. MFB Protocol 2023<br>
+      <strong style="color:var(--navy)">Maduración pulmonar fetal (&lt;34 sem):</strong> ACOG Practice Bulletin 127 · RCOG Green-top Guideline 7<br>
+      <strong style="color:var(--navy)">Neuroprotección con MgSO₄ (&lt;32 sem):</strong> ACOG Practice Bulletin 455 · WHO Recommendation 2015<br>
       <strong style="color:var(--navy)">ACM PSV — algoritmo propio (anemia fetal):</strong> Basado en análisis de literatura · Mari G et al. NEJM 2000;342:9-14 · Detti L et al. AJOG 2002<br>
       <strong style="color:var(--navy)">Índice cerebroplacentario (ICP) — P5 dinámico:</strong> Baschat AA &amp; Gembruch U. UOG 2003;22:529-536<br>
       <strong style="color:var(--navy)">Anemia fetal:</strong> Mari G et al. NEJM 2000 (Doppler ACM/PSV)<br>
@@ -1183,6 +1186,36 @@ main{padding:14px;max-width:680px;margin:0 auto}
       <strong style="color:var(--navy)">Ganancia ponderal:</strong> IOM/NAS 2009 · ACOG<br>
       <strong style="color:var(--navy)">Vía de parto:</strong> Robson · Grobman (NICHD) · ACOG · Clasificación EG (término / pretérmino / postérmino): ACOG Practice Bulletin<br>
       <strong style="color:var(--navy)">Seguimiento:</strong> ACOG · FIGO · NICE
+    </div>
+  </div>
+</div>
+
+<div class="section-card" style="margin-bottom:10px;border:2px solid var(--teal)">
+  <div class="section-head" onclick="toggleSection(this)" style="background:linear-gradient(135deg,var(--teal-lt) 0%,#e8f8f5 100%)">
+    <span class="icon">🚀</span><h2 style="color:var(--teal)">Versión Full — ¿Qué más incluye?</h2><span class="chevron">▼</span>
+  </div>
+  <div class="section-body" style="padding:14px">
+    <div style="font-size:.76rem;color:var(--slate);line-height:1.9">
+      <div style="font-size:.8rem;font-weight:700;color:var(--navy);margin-bottom:8px">Esta demo incluye los módulos esenciales. La versión completa agrega:</div>
+      <div style="margin-bottom:6px">🩺 <strong>Doppler hemodinámico 2T/3T completo</strong><br>
+        <span style="font-size:.72rem;padding-left:1.2rem;display:block">AU · ACM · PSV ACM (anemia fetal) · ICP dinámico · DV PIV · Regurgitación Tricuspídea · Istmo Aórtico · Vena Umbilical Pulsátil</span>
+      </div>
+      <div style="margin-bottom:6px">📊 <strong>Estadificación RCIU completa (FMF/MFB)</strong><br>
+        <span style="font-size:.72rem;padding-left:1.2rem;display:block">Clasificación por estadio hemodinámico · Conductas específicas por EG · Criterios de finalización</span>
+      </div>
+      <div style="margin-bottom:6px">💊 <strong>Conductas automáticas por EG</strong><br>
+        <span style="font-size:.72rem;padding-left:1.2rem;display:block">Maduración pulmonar si &lt;34 sem · Neuroprotección con MgSO₄ si &lt;32 sem · Derivación a centro de alta complejidad</span>
+      </div>
+      <div style="margin-bottom:6px">🔬 <strong>Módulos adicionales</strong><br>
+        <span style="font-size:.72rem;padding-left:1.2rem;display:block">Arteria oftálmica · sFlt-1/PlGF ratio completo · Altura uterina con percentiles · Historia clínica exportable</span>
+      </div>
+      <button onclick="abrirContacto()" style="margin-top:10px;display:flex;align-items:center;gap:10px;background:var(--teal);border:none;border-radius:10px;padding:12px 16px;cursor:pointer;width:100%;text-align:left">
+        <span style="font-size:1.3rem">🔓</span>
+        <div>
+          <div style="font-size:.78rem;font-weight:700;color:#fff">Acceder a la Versión Full</div>
+          <div style="font-size:.72rem;color:rgba(255,255,255,.85)">drverasalerno@gmail.com · cavesal.gumroad.com</div>
+        </div>
+      </button>
     </div>
   </div>
 </div>
@@ -3785,7 +3818,7 @@ function cargarEjemplo(tipo){
     const tshEl2=document.getElementById('tsh_trim'); if(tshEl2) tshEl2.value='3';
     // ECO
     if(typeof setPrueba==='function') setPrueba('cc');
-    set('pi2t','1.95'); set('sflt','95'); set('sflt_eg','30');
+    set('pi2t','1.95'); set('sflt','95'); set('sflt_eg','30'); set('sflt_eg_dias','1');
     // Profilaxis
     chkOn('pr_ac_folico'); chkOn('pr_hie');
     // EG·Parto — Dextograma
@@ -3800,7 +3833,7 @@ function cargarEjemplo(tipo){
     window._dextNeedsUpdate = true; // will recalculate when EG·Parto tab opens
     if(typeof calcBiom==='function') calcBiom();
     showTab('formulario');
-    alert('⚠️ Ejemplo cargado: Secundigesta · 38 años · 30+1 sem · Alto riesgo\n\nExplorá cada pestaña (EG·Parto, Biometría) o presionar ⚡ Calcular para ver alertas y plan de acción completo.');
+    alert('⚠️ Ejemplo: Secundigesta · 38a · 30+1 sem · Alto riesgo\n\n🔴 Cuadro clínico: HTA gestacional · Gemelar · Anemia · PE en evolución\n📊 Módulos disponibles en esta demo: sFlt-1/PlGF · Biometría · Análisis de riesgo\n\n🔒 Versión Full: incluye Doppler AU/ACM/ICP/DV · Regurgitación tricuspídea · Istmo aórtico · Vena umbilical pulsátil · Estadificación RCIU completa con conductas y maduración pulmonar.\n\nPresioná ⚡ Calcular para ver el análisis disponible en esta demo.');
   }
 }
 
