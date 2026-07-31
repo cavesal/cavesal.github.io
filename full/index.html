@@ -4468,7 +4468,7 @@ function calcAU(){
   }
   var html='<div class="alerta-box '+cls+'" style="margin-bottom:6px">'
     +'<div style="font-size:.82rem;font-weight:800;margin-bottom:4px">📏 '+interp+'</div>'
-    +'<div style="font-size:.75rem;margin-bottom:4px">AU: <strong>'+au+' cm</strong> · Percentil: <strong>'+perc+'</strong> · EG: '+egR+' sem</div>'
+    +'<div style="font-size:.75rem;margin-bottom:4px">AU: <strong>'+au+' cm</strong> · Percentil: <strong>'+perc+'</strong> · EG: '+semDias(eg)+' sem</div>'
     +'<div style="font-size:.72rem;color:var(--slate)">P10: '+(p10/10).toFixed(1)+'cm · P50: '+(p50/10).toFixed(1)+'cm · P90: '+(p90/10).toFixed(1)+'cm</div>'
     +(conducta?'<div style="font-size:.74rem;margin-top:6px;line-height:1.5">'+conducta+'</div>':'')
     +'</div>'
@@ -6212,9 +6212,9 @@ function cargarEjemplo(tipo){ window._pfe=null;
       'hb','glucemia','creatinina','lab_au','plaquetas','lab_tgo',
       'lab_ldh','lab_bili','lab_alt','lab_ast','tsh',
       'pi1t','uta_d','uta_i','ao','ao_psv1','ao_psv2','pigf1t','pappa','nt_mm','nt_crl','dopp_ao_psv1','dopp_ao_psv2',
-      'pi2t','uta2_d','uta2_i','sflt','sflt_eg','cervix','sflt_pigf',
+      'pi2t','uta2_d','uta2_i','sflt','sflt_eg','sflt_eg_dias','cervix','sflt_pigf',
       'bio_cc_biom','bio_ca_biom','bio_lf_biom','bio_dbp',
-      'asim_cc','asim_ca','asim_lf','asim_eg',
+      'asim_cc','asim_ca','asim_lf','asim_eg','asim_eg_dias',
       'lab_au','plaquetas','lab_tgo','dext_eco_eg','dext_eco_fecha'];
     _allFields.forEach(function(f){
       var el=document.getElementById(f); if(el) el.value='';
@@ -6288,7 +6288,7 @@ function cargarEjemplo(tipo){ window._pfe=null;
     const tshEl2=document.getElementById('tsh_trim'); if(tshEl2) tshEl2.value='3';
     // ECO
     if(typeof setPrueba==='function') setPrueba('cc');
-    set('pi2t','1.95'); set('sflt','95'); set('sflt_eg','30');
+    set('pi2t','1.95'); set('sflt','95'); set('sflt_eg','30'); set('sflt_eg_dias','1');
     // Profilaxis
     chkOn('pr_ac_folico'); chkOn('pr_hie');
     // EG·Parto — Dextograma
@@ -6298,7 +6298,7 @@ function cargarEjemplo(tipo){ window._pfe=null;
     set('bio_cc_biom','278'); set('bio_ca_biom','255');
     set('bio_lf_biom','57'); set('bio_dbp','76');
     set('asim_cc','278'); set('asim_ca','255');
-    set('asim_lf','57'); set('asim_eg','30');
+    set('asim_lf','57'); set('asim_eg','30'); set('asim_eg_dias','1');
     if(typeof actualizarSemaforo==='function') actualizarSemaforo();
     window._dextNeedsUpdate = true; // will recalculate when EG·Parto tab opens
     if(typeof calcBiom==='function') calcBiom();
