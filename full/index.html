@@ -4235,9 +4235,11 @@ function calcDopplerPercentil(){
   // ── ICP: P5 ajustado por EG (Baschat 2003 / MFB) ──
   // El ICP NO tiene umbral fijo. P5 varía con la EG.
   // Ref: Baschat AA, Gembruch U. Ultrasound Obstet Gynecol 2003;22:529-536
+  // ICP P5 por EG — algoritmo propio CaVeSal® basado en Arduini & Rizzo 1990 + Baschat & Gembruch UOG 2003
+  // P5 real del ICP (ACM PI/AU PI): ICP por debajo de este valor = redistribución cerebral
   var ICP_P5_EG = {
-    20:1.05, 22:1.04, 24:1.03, 26:1.02, 28:1.02,
-    30:1.01, 32:1.00, 34:0.98, 36:0.96, 38:0.93, 40:0.90
+    20:1.08, 22:1.10, 24:1.10, 26:1.09, 28:1.08,
+    30:1.08, 32:1.08, 34:1.07, 36:1.06, 38:1.05, 40:1.04
   };
   function icpP5(egSem){
     var egR = Math.round(egSem/2)*2;
