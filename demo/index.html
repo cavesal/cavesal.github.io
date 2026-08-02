@@ -1203,6 +1203,14 @@ main{padding:14px;max-width:680px;margin:0 auto}
       <strong style="color:var(--navy)">Doppler hemodinámico avanzado (DV · TR · AoI · VUP):</strong> Baschat AA. Obstet Gynecol 2011 · TRUFFLE Study Group. UOG 2020 · ISUOG Practice Guidelines RCIU 2020 · Gratacós E &amp; Torres X. MFB Protocol 2023<br>
       <strong style="color:var(--navy)">Maduración pulmonar fetal (&lt;34 sem):</strong> ACOG Practice Bulletin 127 · RCOG Green-top Guideline 7<br>
       <strong style="color:var(--navy)">Neuroprotección con MgSO₄ (&lt;32 sem):</strong> ACOG Practice Bulletin 455 · WHO Recommendation 2015<br>
+      <strong style="color:var(--navy)">Serología — VIH en embarazo:</strong> ETMI Plus Paraguay 2024 · DHHS Guidelines 2024 · OPS/PAHO · ACOG Practice Bulletin<br>
+      <strong style="color:var(--navy)">Serología — Sífilis:</strong> CDC STI Treatment Guidelines 2021 · OPS Eliminación TV 2024 · ETMI Plus 2024 · ACOG<br>
+      <strong style="color:var(--navy)">Serología — Toxoplasmosis:</strong> SFMFM Consult Series · Montoya &amp; Remington 2008 · OPS 2024<br>
+      <strong style="color:var(--navy)">Serología — CMV:</strong> Rawlinson WD et al. J Clin Virol 2017 · Leruez-Ville M et al. Am J Obstet Gynecol 2020<br>
+      <strong style="color:var(--navy)">Serología — Chagas:</strong> OPS/PAHO 2023 · ETMI Plus 2024 · Torrico F et al. Lancet 2018<br>
+      <strong style="color:var(--navy)">Serología — Hepatitis B:</strong> EASL Clinical Practice Guidelines 2017 · ACOG · ETMI Plus 2024<br>
+      <strong style="color:var(--navy)">Serología — Hepatitis C:</strong> EASL Recommendations 2020 · AASLD · ACOG<br>
+      <strong style="color:var(--navy)">Serología — Rubéola:</strong> CDC · OPS/PAHO · ACOG<br>
       <strong style="color:var(--navy)">ACM PSV — algoritmo propio (anemia fetal):</strong> Basado en análisis de literatura · Mari G et al. NEJM 2000;342:9-14 · Detti L et al. AJOG 2002<br>
       <strong style="color:var(--navy)">Índice cerebroplacentario (ICP) — P5 dinámico:</strong> Baschat AA &amp; Gembruch U. UOG 2003;22:529-536<br>
       <strong style="color:var(--navy)">Anemia fetal:</strong> Mari G et al. NEJM 2000 (Doppler ACM/PSV)<br>
@@ -3745,6 +3753,7 @@ function limpiarFormulario(){
   // ═══ Navigate to formulario ═══
   window.scrollTo(0,0);
   showTab('formulario');
+  var _vs=document.getElementById('vac_semaforo');if(_vs)_vs.innerHTML='';
 }// ════ MOSTRAR EJEMPLOS ════
 function mostrarEjemplos(){
   const m=document.getElementById('modal_ejemplos');
@@ -3847,6 +3856,15 @@ function cargarEjemplo(tipo){
     set('pi2t','1.95'); set('sflt','95'); set('sflt_eg','30'); set('sflt_eg_dias','1');
     // Profilaxis
     chkOn('pr_ac_folico'); chkOn('pr_hie');
+    // Serología — ejemplo clínico representativo
+    set('vih_test','react');          // VIH test rápido reactivo (pendiente WB)
+    set('sif_rapido','react');        // Sífilis test rápido reactivo
+    set('sif_vdrl','pos');            // VDRL reactivo
+    set('sif_titulo','1_4');          // Título 1:4
+    set('toxo_igg','neg');            // Toxo susceptible
+    set('toxo_igm','neg');
+    set('hbv_hbsag','pos');           // HBsAg positivo
+    set('lb_sgb','desc');             // SGB desconocido
     // EG·Parto — Dextograma
     set('dext_fum', fumStr);
     set('dext_fecha_calc', new Date().toISOString().split('T')[0]);
