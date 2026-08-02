@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tutorial y Manual de Uso · Calculadora CaVeSal®</title>
+<style>
+  :root{
+    --navy:#0D1B2D;--teal:#0EA5B7;--teal-lt:#e6f7f9;--slate:#4a6274;--mist:#f2f7f9;--border:#d0e8ed;--gold:#c9a227;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--mist);color:var(--navy);line-height:1.6}
+  header{background:linear-gradient(135deg,#0D1B2D,#0EA5B7);color:#fff;padding:32px 20px;text-align:center}
+  header h1{font-size:1.4rem;font-weight:800}
+  header p{font-size:.9rem;opacity:.85;margin-top:6px}
+  main{max-width:760px;margin:0 auto;padding:28px 20px 60px}
+
+  nav.toc{background:#fff;border-radius:14px;padding:18px 20px;margin-bottom:22px;box-shadow:0 2px 12px rgba(14,165,183,.10)}
+  nav.toc h2{font-size:1rem;color:var(--teal);margin-bottom:10px}
+  nav.toc ol{padding-left:20px;font-size:.86rem}
+  nav.toc li{margin-bottom:4px}
+  nav.toc a{color:var(--navy);text-decoration:none}
+  nav.toc a:hover{color:var(--teal)}
+
+  section{background:#fff;border-radius:14px;padding:22px;margin-bottom:18px;box-shadow:0 2px 12px rgba(14,165,183,.10);scroll-margin-top:16px}
+  section h2{font-size:1.1rem;color:var(--teal);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+  section .ref{font-size:.74rem;color:var(--slate);margin-bottom:14px;font-style:italic}
+  section p{font-size:.9rem;margin-bottom:10px}
+
+  .step{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start}
+  .step-num{background:var(--teal);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.76rem;font-weight:800;flex-shrink:0;margin-top:2px}
+  .step p{font-size:.88rem;margin:0}
+
+  .tip{background:var(--teal-lt);border-left:3px solid var(--teal);border-radius:8px;padding:12px 14px;font-size:.85rem;margin-top:10px}
+  .warn{background:#fff8e6;border-left:3px solid var(--gold);border-radius:8px;padding:12px 14px;font-size:.85rem;margin-top:10px}
+
+  .shot{border:2px dashed var(--border);border-radius:12px;padding:22px;text-align:center;color:var(--slate);font-size:.82rem;margin:14px 0;background:#fafdfe}
+  .shot .cam{font-size:1.6rem;display:block;margin-bottom:6px}
+  .shot code{background:#eef7f9;padding:2px 6px;border-radius:5px;font-size:.78rem;color:var(--navy)}
+
+  .updated{font-size:.78rem;color:var(--slate);text-align:center;margin-top:20px}
+  a{color:var(--teal)}
+  .back-top{display:inline-block;margin-top:14px;font-size:.78rem}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📊 Tutorial y Manual de Uso · Calculadora CaVeSal®</h1>
+  <p>Aprendé a usar cada módulo, paso a paso</p>
+</header>
+
+<main>
+
+<nav class="toc" id="top">
+  <h2>Contenido</h2>
+  <ol>
+    <li><a href="#intro">Antes de empezar</a></li>
+    <li><a href="#como-leer">Cómo leer los resultados</a></li>
+    <li><a href="#riesgo-integral">Cálculo de riesgo prenatal integral</a></li>
+    <li><a href="#eg-calendario">Edad gestacional y calendario (FUM / ECO precoz)</a></li>
+    <li><a href="#riesgo-cromosomico">Riesgo cromosómico y Translucencia Nucal (TN)</a></li>
+    <li><a href="#doppler-uterinas-ao">Doppler de arterias uterinas y Arteria Oftálmica (cribado PE)</a></li>
+    <li><a href="#preeclampsia">Cribado de preeclampsia (PAM)</a></li>
+    <li><a href="#diabetes">Diabetes gestacional</a></li>
+    <li><a href="#ganancia-peso">Ganancia de peso gestacional</a></li>
+    <li><a href="#pfe">Peso Fetal Estimado (PFE) y crecimiento</a></li>
+    <li><a href="#biometria-avanzada">Biometría avanzada (cerebelo, asimetría, EG por parámetro)</a></li>
+    <li><a href="#altura-uterina">Altura uterina</a></li>
+    <li><a href="#doppler">Doppler fetal 2T/3T (AU, ACM, ICP, ductus venoso, avanzado, AO pronóstico)</a></li>
+    <li><a href="#anemia-fetal">Doppler ACM — Anemia Fetal</a></li>
+    <li><a href="#via-parto">Vía de parto (Bishop, Robson, Grobman)</a></li>
+    <li><a href="#laboratorio">Laboratorio</a></li>
+    <li><a href="#vacunacion">Profilaxis y vacunación</a></li>
+    <li><a href="#pacientes">Gestión de pacientes y backup</a></li>
+  </ol>
+</nav>
+
+<section id="intro">
+  <h2>ℹ️ Antes de empezar</h2>
+  <p>La Calculadora CaVeSal® funciona por <strong>pestañas/secciones colapsables</strong>: tocá el encabezado de cada módulo para abrirlo, cargá los datos disponibles, y el resultado se actualiza automáticamente a medida que escribís — no hace falta ningún botón de "Calcular".</p>
+  <p>Todos los cálculos se hacen <strong>en tu propio dispositivo</strong>, sin conexión a internet ni envío de datos a servidores externos.</p>
+  <div class="warn">⚠️ Es una herramienta de <strong>apoyo a la decisión clínica</strong>. No reemplaza el juicio del profesional tratante ni las guías oficiales vigentes.</div>
+  <div style="margin:14px 0">
+    <img src="img/manual-calc-00-portada.png" alt="Pantalla Acerca de CaVeSal" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px">
+    <img src="img/manual-calc-00-formulario.png" alt="Formulario principal con datos generales" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15)">
+  </div>
+</section>
+
+<section id="como-leer">
+  <h2>🎨 Cómo leer los resultados</h2>
+  <p>Todos los módulos de la Calculadora usan el mismo lenguaje visual, para que interpretar un resultado sea siempre igual de rápido, sin importar qué estés calculando:</p>
+  <div class="step"><div class="step-num">1</div><p><strong>Código de color por nivel de riesgo/alerta:</strong> 🟢 verde = normal/bajo riesgo · 🟡 amarillo/naranja = moderado, requiere seguimiento más cercano · 🔴 rojo = alto riesgo, requiere acción o derivación.</p></div>
+  <div class="step"><div class="step-num">2</div><p>Cada resultado con hallazgo relevante incluye, en este orden: el <strong>valor o dato</strong> que disparó la alerta, la <strong>interpretación clínica</strong> en lenguaje llano, la <strong>conducta sugerida</strong> (qué hacer, con qué frecuencia, a quién derivar), y la <strong>fuente</strong> de la que sale la recomendación (FMF, ACOG, NICE, OMS, CLAP, Medicina Fetal Barcelona, etc.).</p></div>
+  <div class="step"><div class="step-num">3</div><p>Cuando el "⚡ Calcular riesgo prenatal completo" arma el informe global, agrupa automáticamente estos mismos hallazgos en un <strong>"Plan de acción"</strong>, ordenado por urgencia: primero lo que requiere atención <strong>hoy/urgente</strong>, después el <strong>seguimiento</strong> de rutina, con la próxima fecha de consulta sugerida según el nivel de riesgo global.</p></div>
+  <div class="tip">💡 Si un dato está dentro de rango normal, generalmente no genera una alerta destacada — solo se listan los hallazgos que ameritan tu atención, para no saturar el informe con información sin relevancia clínica.</div>
+</section>
+
+<section id="riesgo-integral">
+  <h2>⚡ Cálculo de riesgo prenatal integral</h2>
+  <p>Esta es la función principal del formulario general (no una calculadora aislada): a medida que cargás los datos de la paciente en las distintas pestañas del formulario, la app va acumulando la información, y al tocar el botón <strong>"⚡ Calcular riesgo prenatal completo"</strong> genera un <strong>informe consolidado</strong> con todos los hallazgos relevantes juntos.</p>
+  <div class="step"><div class="step-num">1</div><p>Cargá en el formulario principal: <strong>edad materna, FUM, talla, peso pregestacional y actual, presión arterial, período intergenésico, número de cesáreas previas</strong>, y marcá los <strong>antecedentes obstétricos y personales de riesgo</strong> (checkboxes: preeclampsia previa, diabetes gestacional previa, parto pretérmino previo, RCIU previo, muerte fetal previa, malformación previa, HPP previa, isoinmunización previa, incompetencia cervical previa, etc.).</p></div>
+  <div class="step"><div class="step-num">2</div><p>Si tenés datos de <strong>ecografía de 1er trimestre</strong> (Doppler de Arteria Oftálmica, PAPP-A, PlGF, β-hCG, o NT si el cribado es solo por eco), cargalos también — se integran automáticamente al informe.</p></div>
+  <div class="step"><div class="step-num">3</div><p>Tocá <strong>"⚡ Calcular riesgo prenatal completo"</strong>. La app recorre todos los datos cargados y arma una lista de <strong>hallazgos por dominio clínico</strong> (Edad materna, Estado nutricional, Antecedente obstétrico, Presión arterial, Ecografía 1T, Cribado cromosómico, etc.), cada uno con:</p></div>
+  <div class="tip">
+    📋 <strong>Cada hallazgo del informe incluye:</strong><br>
+    🔹 El <strong>dato o valor</strong> que disparó la alerta (ej. "IMC pregest. 32.1 — obesidad").<br>
+    🔹 El <strong>nivel de riesgo</strong>: bajo, moderado o alto.<br>
+    🔹 La <strong>conducta sugerida</strong> (ej. dosis de AAS, frecuencia de controles, estudios adicionales a solicitar).<br>
+    🔹 La <strong>fuente</strong> de la recomendación (FMF, ACOG, NICE, OMS, etc.).
+  </div>
+  <div class="step"><div class="step-num">4</div><p>Si no hay hallazgos de riesgo en algún dominio, simplemente no aparece en el informe — solo se listan los dominios donde hay algo para señalar.</p></div>
+  <div class="step"><div class="step-num">5</div><p>El informe también arma automáticamente una <strong>Suplementación recomendada según el perfil</strong> de la paciente: ácido fólico/metilfolato (dosis según población general o riesgo aumentado), hierro (dosis según grado de anemia), calcio (si hay riesgo de PE, con la reducción de riesgo asociada), yodo, y omega-3/DHA — cada uno con su dosis exacta y referencia.</p></div>
+  <div class="step"><div class="step-num">6</div><p>Incluye además dos <strong>calendarios de componente básico</strong>, marcando qué corresponde a la EG actual (etiquetado "AHORA" / "PERÍODO ACTUAL"), qué ya pasó, y qué falta:</p></div>
+  <div class="tip">
+    🔹 <strong>Calendario ecográfico:</strong> ECO 1T precoz (sem 7–9), ECO marcadores cromosómicos (sem 11–14), ECO morfológica (sem 20–24), ECO crecimiento y desarrollo (sem 28–32), ECO final (sem 35–38) — cada una con lo que debe evaluar.<br><br>
+    🔹 <strong>Calendario de laboratorios:</strong> panel de 1T (primera consulta: hemograma, crasis, grupo/Rh, serologías, TSH, glucemia, perfil lipídico, urocultivo, etc.), panel de 2T (24–28 sem: hemograma, SOG 75g, urocultivo, VDRL, VIH, toxoplasmosis si corresponde), y panel de 3T (35–37 sem: hemograma, crasis, perfil renal/hepático, VDRL, VIH, SGB).
+  </div>
+  <div class="warn">⚠️ Este informe es un <strong>resumen orientador</strong>, no reemplaza la evaluación clínica individualizada de cada hallazgo — cada conducta sugerida debe contextualizarse con el cuadro clínico completo de la paciente.</div>
+  <div style="margin:14px 0">
+  <img src="img/manual-calc-ri-01.png" alt="Captura de pantalla" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px">
+  <img src="img/manual-calc-ri-02.png" alt="Captura de pantalla" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px">
+  <img src="img/manual-calc-ri-03.png" alt="Captura de pantalla" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px">
+</div>
+</section>
+
+<section id="eg-calendario">
+  <h2>🗓️ Edad gestacional y calendario (FUM / ECO precoz)</h2>
+  <p>Este módulo es la base de todos los demás — la edad gestacional (EG) que calculás acá se sincroniza automáticamente con el resto de la calculadora.</p>
+  <div class="step"><div class="step-num">1</div><p>Elegí el modo: <strong>"Por FUM"</strong> (fecha de última menstruación) o <strong>"Por ECO precoz"</strong> si tenés una ecografía temprana con la EG ya determinada.</p></div>
+  <div class="step"><div class="step-num">2</div><p><strong>Modo FUM:</strong> cargá la fecha de última menstruación. La app calcula la EG a la fecha de hoy (o a cualquier otra fecha que elijas en "Calcular para fecha").</p></div>
+  <div class="step"><div class="step-num">3</div><p><strong>Modo ECO precoz:</strong> cargá la fecha de la ecografía y la EG que arrojó ese estudio (formato semanas+días, ej. "8+3"). La app compara automáticamente esa EG contra la FUM cargada y te indica si corresponde <strong>corregir la FUM</strong>, según estos criterios:</p></div>
+  <div class="tip">
+    📌 <strong>Criterios de corrección de FUM por ECO:</strong><br>
+    🟢 <strong>1er trimestre (&lt;14 sem):</strong> se corrige si la diferencia es ≥5 días.<br>
+    🟡 <strong>2do trimestre (14–28 sem):</strong> se corrige si la diferencia es ≥7 días.<br>
+    🔴 <strong>3er trimestre (&gt;28 sem):</strong> no se corrige la FUM — para EG dudosa en 3T conviene usar CC, LF o cerebelo como parámetro aislado (ver sección de Biometría avanzada).
+  </div>
+  <div class="step"><div class="step-num">4</div><p>Con la EG calculada, la app muestra un <strong>calendario semana a semana</strong> (22 a 42 semanas) con la fecha calendario correspondiente a cada semana de embarazo, marcando el rango de término (37–40 sem) y el postérmino.</p></div>
+  <div class="step"><div class="step-num">5</div><p>También incluye un <strong>cálculo inverso</strong>: indicá una semana puntual (ej. "36") y la app te dice qué fecha calendario corresponde a esa semana, para esta paciente.</p></div>
+  <div style="margin:14px 0">
+  <img src="img/manual-calc-eg-calendario.png" alt="Captura de pantalla" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px">
+</div>
+</section>
+
+<section id="riesgo-cromosomico">
+  <h2>🧬 Riesgo cromosómico y Translucencia Nucal (TN)</h2>
+  <p class="ref">Ref: Snijders/FMF 1998 · Sharifzadeh 2019</p>
+  <div class="step"><div class="step-num">1</div><p>Cargá la <strong>edad materna</strong> y la <strong>longitud céfalo-caudal (CRL)</strong> del feto, en milímetros.</p></div>
+  <div class="step"><div class="step-num">2</div><p>Ingresá el valor de <strong>translucencia nucal (NT)</strong> medido, también en mm.</p></div>
+  <div class="step"><div class="step-num">3</div><p>Opcionalmente, marcá los hallazgos de <strong>hueso nasal</strong>, <strong>ductus venoso</strong> y <strong>regurgitación tricuspídea</strong> si los evaluaste.</p></div>
+  <div class="step"><div class="step-num">4</div><p>La app muestra la NT esperada para ese CRL (mediana y percentil 95), el MoM calculado, y una <strong>clasificación categórica de riesgo</strong> (bajo / moderado / alto) — no un número 1:N, por decisión clínica deliberada.</p></div>
+  <div class="tip">💡 Si hay marcadores adicionales alterados (hueso nasal ausente, ductus invertido, etc.), la app los señala por separado y ajusta la recomendación.</div>
+  <div style="margin:14px 0">
+  <img src="img/manual-calc-01-cribado.png" alt="Captura de pantalla" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px">
+</div>
+</section>
+
+<section id="doppler-uterinas-ao">
+  <h2>🩸 Doppler de arterias uterinas y Arteria Oftálmica (cribado PE)</h2>
+  <p class="ref">Ref: Medicina Fetal Barcelona · Gyselaers 2020 · Verlohren 2012</p>
+  <p>Este módulo es distinto del Doppler fetal (AU, ACM) — acá se evalúa el <strong>Doppler materno</strong>, para cribado de preeclampsia y compromiso vascular sistémico.</p>
+  <div class="step"><div class="step-num">1</div><p><strong>Arterias uterinas (IP):</strong> cargá el IP derecho e izquierdo, tanto en 1er como en 2do trimestre — la app calcula automáticamente el <strong>IP medio</strong> de ambas.</p></div>
+  <div class="step"><div class="step-num">2</div><p>La app clasifica el IP medio uterino: en 1T, alerta desde IP ≥1.90 (moderado) y ≥2.35 (alto); en 2T, desde IP ≥1.44 (moderado) y ≥1.80 (alto).</p></div>
+  <div class="step"><div class="step-num">3</div><p><strong>Arteria Oftálmica (AO):</strong> cargá el <strong>PSV1</strong> (primer pico sistólico) y <strong>PSV2</strong> (segundo pico) — la app calcula el <strong>ratio PSV2/PSV1</strong> automáticamente.</p></div>
+  <div class="step"><div class="step-num">4</div><p>El ratio AO se interpreta igual en 1T y 2T/3T: ≥0.70 es zona limítrofe, ≥0.78 es alto riesgo de preeclampsia/compromiso vascular — en ese caso, la app recomienda integrar el dato con PI uterinas y PlGF.</p></div>
+  <div class="tip">💡 <strong>Dos contextos de uso distintos para el mismo cálculo:</strong><br>
+  🔹 <strong>Cribado en 1er trimestre:</strong> ratio AO junto con PI uterinas y PlGF, para estimar riesgo de desarrollar preeclampsia más adelante.<br>
+  🔹 <strong>Pronóstico en preeclampsia/HIE ya instalada (2do-3er trimestre):</strong> el mismo ratio AO se usa para evaluar <strong>severidad del compromiso vascular sistémico</strong> en una paciente que ya cursa preeclampsia — un ratio ≥0.78 en este contexto se asocia a mayor riesgo de RCIU severo, preeclampsia precoz y peor pronóstico materno-fetal, y amerita derivación urgente a Medicina Fetal.</div>
+  <div style="margin:14px 0">
+  <img src="img/manual-calc-uterinas-ao.png" alt="Captura de pantalla" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px">
+</div>
+</section>
+
+<section id="preeclampsia">
+  <h2>🩺 Cribado de preeclampsia (PAM)</h2>
+  <p class="ref">Ref: WHO / NICE / ISUOG / FMF / ACOG</p>
+  <div class="step"><div class="step-num">1</div><p>Cargá la <strong>presión arterial sistólica y diastólica</strong>, y la edad gestacional del control.</p></div>
+  <div class="step"><div class="step-num">2</div><p>Marcá los <strong>antecedentes obstétricos de riesgo</strong> si corresponde (preeclampsia previa, etc.) — esto ajusta la interpretación.</p></div>
+  <div class="step"><div class="step-num">3</div><p>La app calcula la <strong>Presión Arterial Media (PAM)</strong> y la clasifica según el trimestre, indicando si corresponde vigilancia habitual, AAS profiláctico, o estudio ampliado.</p></div>
+  <div style="margin:14px 0">
+  <img src="img/manual-calc-02-pam.png" alt="Captura de pantalla" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px">
+</div>
+</section>
+
+<section id="diabetes">
+  <h2>🍬 Diabetes gestacional</h2>
+  <p class="ref">Ref: IADPSG · ALAD · ADA · OMS</p>
+  <div class="step"><div class="step-num">1</div><p>Elegí el <strong>protocolo</strong> a usar: IADPSG (1 paso) o ALAD/ADA (2 pasos) — desde el selector correspondiente.</p></div>
+  <div class="step"><div class="step-num">2</div><p>Cargá los valores de la <strong>curva de glucosa</strong> (basal, 1h, 2h según el protocolo elegido).</p></div>
+  <div class="step"><div class="step-num">3</div><p>La app indica si los valores confirman diagnóstico de diabetes gestacional según los puntos de corte del protocolo seleccionado.</p></div>
+  <div style="margin:14px 0">
+  <img src="img/manual-calc-03-dg.png" alt="Captura de pantalla" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px">
+</div>
+</section>
+
+<section id="ganancia-peso">
+  <h2>⚖️ Ganancia de peso gestacional</h2>
+  <p class="ref">Ref: IOM/NAS 2009 · ACOG</p>
+  <div class="step"><div class="step-num">1</div><p>Cargá el <strong>peso pregestacional</strong>, la <strong>talla</strong>, y el <strong>peso actual</strong> con su edad gestacional.</p></div>
+  <div class="step"><div class="step-num">2</div><p>La app calcula el <strong>IMC pregestacional</strong> y ubica a la paciente en su categoría (bajo peso, normal, sobrepeso, obesidad).</p></div>
+  <div class="step"><div class="step-num">3</div><p>Muestra la <strong>meta de ganancia total</strong> para el embarazo y la <strong>tasa semanal recomendada</strong> según esa categoría, comparándola con la ganancia real hasta el momento.</p></div>
+  <div style="margin:14px 0">
+  <img src="img/manual-calc-04-peso.png" alt="Captura de pantalla" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px">
+</div>
+</section>
+
+<section id="pfe">
+  <h2>👶 Peso Fetal Estimado (PFE) y crecimiento</h2>
+  <p class="ref">Ref: Hadlock 1984 · INTERGROWTH-21 · Figueras 2008 · Protocolo MFB 2024</p>
+  <div class="step"><div class="step-num">1</div><p>Elegí el <strong>modo de cálculo</strong>: peso y percentil directo, peso + edad gestacional, o biometría Hadlock (circunferencia abdominal + longitud femoral).</p></div>
+  <div class="step"><div class="step-num">2</div><p>Cargá los valores según el modo elegido.</p></div>
+  <div class="step"><div class="step-num">3</div><p>La app calcula el <strong>percentil de peso fetal</strong> y lo clasifica: PEG, AEG, GEG, o RCIU según el percentil y — si ya cargaste el Doppler — combinando ambos criterios (ver sección Doppler).</p></div>
+  <div class="tip">💡 Si además cargás el Doppler en su propio módulo, el sistema combina peso y Doppler automáticamente para la clasificación de RCIU/PEG, siguiendo el protocolo de Medicina Fetal Barcelona.</div>
+  <div style="margin:14px 0">
+  <img src="img/manual-calc-05-pfe.png" alt="Captura de pantalla" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px">
+</div>
+</section>
+
+<section id="biometria-avanzada">
+  <h2>🧠 Biometría fetal avanzada</h2>
+  <p>Este módulo tiene <strong>5 sub-pestañas</strong>, cada una para un uso clínico distinto: CRL·1T, Biometrías 2T/3T, Húmero, Cerebelo, y Asimetría LF/CA.</p>
+
+  <h3 style="font-size:.95rem;color:var(--navy);margin:14px 0 6px">📐 CRL · 1T (EG por longitud cráneo-caudal)</h3>
+  <p class="ref">Ref: Robinson &amp; Fleming 1975 (estándar FMF/Nicolaides)</p>
+  <div class="step"><div class="step-num">1</div><p>Cargá el <strong>CRL en mm</strong> (rango válido: 10–84 mm, aprox. 6+3 a 13+6 semanas).</p></div>
+  <div class="step"><div class="step-num">2</div><p>La app calcula la EG con la fórmula EG(días) = 8.052×√(CRL×1.037)+23.73, con margen de error ±5 días — es la medida más precisa para datar el embarazo, y muestra la FUM corregida y la FPP correspondiente.</p></div>
+  <div class="tip">💡 Se recomienda corregir la FUM si la diferencia con la EG por CRL es ≥5 días respecto de la amenorrea.</div>
+
+  <h3 style="font-size:.95rem;color:var(--navy);margin:14px 0 6px">📏 Biometrías · 2T/3T</h3>
+  <p class="ref">Ref: Hadlock 1984</p>
+  <div class="step"><div class="step-num">1</div><p>Cargá los parámetros disponibles: <strong>DBP, CC, CA, LF</strong> (en mm) — cada uno calcula su propia EG estimada por separado.</p></div>
+  <div class="step"><div class="step-num">2</div><p>Criterio de uso: en <strong>2T</strong> usar DBP o LF (margen ±1 semana); en <strong>3T</strong> preferir CC o LF (menor variabilidad que DBP); en <strong>EG dudosa o discordante en 3T</strong>, usar CC o LF para la estimación, sin corrección formal de FUM.</p></div>
+  <div class="step"><div class="step-num">3</div><p>Si hay una <strong>discordancia significativa entre parámetros (≥7 días)</strong>, la app alerta y sugiere evaluar asimetría fetal — considerando RCIU asimétrico si la CA es el parámetro rezagado — y recomienda pasar a la sub-pestaña "Asimetría LF/CA" para el análisis.</p></div>
+
+  <h3 style="font-size:.95rem;color:var(--navy);margin:14px 0 6px">🦴 Húmero</h3>
+  <div class="step"><div class="step-num">1</div><p>Cargá la longitud del húmero (mm) como parámetro adicional de EG, útil como alternativa o complemento al fémur, especialmente si hay sospecha de displasia esquelética.</p></div>
+
+  <h3 style="font-size:.95rem;color:var(--navy);margin:14px 0 6px">🧠 Cerebelo (DTC)</h3>
+  <p class="ref">Ref: Goldstein et al. 1987</p>
+  <div class="step"><div class="step-num">1</div><p>Cargá el <strong>diámetro transverso del cerebelo (DTC) en mm</strong>. Entre las semanas 14–28, el DTC en mm equivale aproximadamente a la EG en semanas (después de sem. 28 la correlación deja de ser lineal, y la app usa las tablas de Goldstein).</p></div>
+  <div class="step"><div class="step-num">2</div><p><strong>Ventaja clave:</strong> el DTC es <strong>independiente de las restricciones de crecimiento</strong> — no se afecta en RCIU, por lo que es el parámetro más confiable para estimar EG en fetos con RCIU o asimetría severa.</p></div>
+  <div class="step"><div class="step-num">3</div><p>Un DTC <strong>conservado</strong> en un feto con sospecha de RCIU <strong>confirma que la EG asignada es correcta</strong>; un DTC pequeño para la EG es marcador de patología del SNC (hipoplasia cerebelosa, síndrome de Dandy-Walker) y amerita derivación.</p></div>
+
+  <h3 style="font-size:.95rem;color:var(--navy);margin:14px 0 6px">⚖️ Asimetría LF/CA</h3>
+  <p class="ref">Ref: Campbell &amp; Thoms 1977</p>
+  <div class="step"><div class="step-num">1</div><p><strong>Concepto:</strong> en RCIU tardío y asimétrico, el feto redistribuye flujo (brain sparing) — el crecimiento abdominal se restringe antes que el cefálico. El ratio LF/CA detecta esta asimetría precozmente.</p></div>
+  <div class="step"><div class="step-num">2</div><p>Cargá <strong>LF, CA</strong> (en mm), y opcionalmente <strong>CC</strong> (para chequeo de microcefalia: CC &lt;p3 para la EG) y la EG actual.</p></div>
+  <div class="step"><div class="step-num">3</div><p>Interpretación del <strong>ratio LF/CA</strong>: normal 0.20–0.24 · <strong>&lt;0.16</strong> = LF desproporcionadamente corto respecto a CA → sospecha de acortamiento de extremidades (enanismo, displasia esquelética) · <strong>&gt;0.235</strong> = CA desproporcionadamente pequeña respecto a LF → asimetría / RCIU asimétrico tardío (brain sparing), amerita Doppler (umbilical y ACM) y biometría seriada c/2 semanas.</p></div>
+
+  <div style="margin:14px 0">
+  <img src="img/manual-calc-biometria.png" alt="Captura de pantalla" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px">
+</div>
+</section>
+
+<section id="altura-uterina">
+  <h2>📏 Altura uterina</h2>
+  <p class="ref">Ref: Gomes AG 2001 · CLAP-OPS/OMS · fórmula de McDonald (sínfisis-fondo)</p>
+  <div class="step"><div class="step-num">1</div><p>Cargá la <strong>altura uterina en cm</strong> (medida sínfisis-fondo, técnica de McDonald) y la <strong>edad gestacional</strong> en semanas+días.</p></div>
+  <div class="step"><div class="step-num">2</div><p>La app muestra el <strong>percentil</strong> (con los valores de referencia P10/P50/P90 para esa EG) y clasifica el resultado: AU normal para EG, AU alta para EG (&gt;P90), o AU baja para EG (&lt;P10) — válido en el rango 20–36 semanas, donde AU(cm)≈EG±2.</p></div>
+  <div class="step"><div class="step-num">3</div><p>Según la clasificación, sugiere qué descartar: <strong>AU alta</strong> → macrosomía fetal, polihidramnios, gemelar no diagnosticado, miomas uterinos, diabetes gestacional (solicitar ecografía). <strong>AU baja</strong> → RCIU, oligoamnios, discordancia de EG (ecografía con PFE urgente, valorar Doppler AU/ACM).</p></div>
+  <div style="margin:14px 0">
+  <img src="img/manual-calc-06-au.png" alt="Captura de pantalla" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px">
+</div>
+</section>
+
+<section id="doppler">
+  <h2>🩸 Doppler fetal — 2T/3T (AU, ACM, ICP, ductus venoso, avanzado)</h2>
+  <p class="ref">Ref: Baschat AA &amp; Gembruch U. UOG 2003 · Arduini &amp; Rizzo 1990 · Mari NEJM 2000 · ISUOG 2020 · TRUFFLE Study</p>
+
+  <h3 style="font-size:.95rem;color:var(--navy);margin:14px 0 6px">Doppler básico</h3>
+  <div class="step"><div class="step-num">1</div><p>Cargá la <strong>EG al estudio</strong> (semanas+días), y los valores disponibles: <strong>Arteria Umbilical</strong> (IP, IR), <strong>Arteria Cerebral Media</strong> (IP, y PSV en cm/s para cribado de anemia), y <strong>Ductus Venoso</strong> (PIV).</p></div>
+  <div class="step"><div class="step-num">2</div><p>La app calcula automáticamente el <strong>ICP = ACM/AU</strong>, con su umbral P5 dinámico según la EG (ej. a las 33 semanas, P5≈1.07) y lo marca como alterado si cae por debajo.</p></div>
+  <div class="step"><div class="step-num">3</div><p>El resultado muestra <strong>cada parámetro con su percentil individual</strong> (AU PI, ACM PI, ICP, DV PIV), señalando cuáles están alterados y qué significan (ej. AU aumentada = resistencia placentaria; ICP alterado = redistribución hemodinámica).</p></div>
+  <div class="tip">💡 Para cribado de anemia fetal por isoinmunización (PSV de ACM), ver el módulo aparte "Doppler ACM — Anemia Fetal" más abajo.</div>
+
+  <h3 style="font-size:.95rem;color:var(--navy);margin:14px 0 6px">Doppler hemodinámico avanzado</h3>
+  <div class="warn">⚠️ Indicar <strong>solo cuando AU, ACM o ICP estén alterados</strong> — son marcadores de estadio tardío en RCIU severo (compromiso cardiovascular fetal).</div>
+  <div class="step"><div class="step-num">4</div><p><strong>Regurgitación tricuspídea (RT) 2T/3T:</strong> marcador de disfunción cardíaca derecha. Indicar si DV alterado o sospecha de cardiomiopatía fetal (no confundir con la RT del 1T, que es cribado cromosómico).</p></div>
+  <div class="step"><div class="step-num">5</div><p><strong>Istmo Aórtico (AoI):</strong> cargá IP y flujo diastólico (normal/reducido/ausente/reverso). Refleja redistribución cerebral y postcarga ventricular izquierda — flujo retrógrado indica compromiso neurológico grave. Indicar si ACM o ICP alterados en RCIU pretérmino.</p></div>
+  <div class="step"><div class="step-num">6</div><p><strong>Vena Umbilical Pulsátil (VUP):</strong> la pulsatilidad venosa umbilical es signo tardío de descompensación fetal — indica fallo cardíaco con congestión venosa, asociada a mortalidad perinatal elevada.</p></div>
+  <div class="step"><div class="step-num">7</div><p>Si el Doppler avanzado sale alterado y la EG es <strong>&lt;34 semanas</strong>, la app recuerda la <strong>maduración pulmonar</strong> (betametasona 12mg IM c/24h x2 dosis, ref. ACOG PB 127/RCOG) y que la finalización se define según evolución clínica y biofísica, coordinando con neonatología.</p></div>
+
+  <h3 style="font-size:.95rem;color:var(--navy);margin:14px 0 6px">Arteria Oftálmica — Pronóstico HIE/PE (2T/3T)</h3>
+  <div class="step"><div class="step-num">8</div><p>En paciente con <strong>HIE/preeclampsia ya establecida</strong>, cargá <strong>PSV1 y PSV2</strong> de arteria oftálmica — el ratio PSV2/PSV1 evalúa el grado de compromiso vascular sistémico: <strong>≥0.78</strong> compromiso grave · <strong>0.70–0.77</strong> limítrofe · <strong>&lt;0.70</strong> favorable.</p></div>
+  <div class="step"><div class="step-num">9</div><p>Un ratio ≥0.78 indica mayor riesgo de RCIU severo y PE de inicio precoz, con mal pronóstico materno-fetal — la app recomienda <strong>derivar a Medicina Fetal urgente</strong> y evaluar sFlt-1/PlGF, función renal/hepática y bienestar fetal.</p></div>
+
+  <div style="margin:14px 0">
+  <img src="img/manual-calc-07-doppler.png" alt="Captura de pantalla" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px">
+</div>
+</section>
+
+<section id="anemia-fetal">
+  <h2>🩸 Doppler ACM — Anemia Fetal</h2>
+  <p class="ref">Ref: Mari G. et al. NEJM 2000 · Algoritmo propio CaVeSal® · Umbral MoM ≥1.50</p>
+  <p>Módulo específico para cribado de <strong>anemia fetal por isoinmunización Rh/Kell</strong> mediante el pico sistólico de velocidad de la ACM (PSV-ACM).</p>
+  <div class="step"><div class="step-num">1</div><p>Cargá la <strong>EG</strong> (semanas+días) y el <strong>PSV de ACM en cm/s</strong>.</p></div>
+  <div class="step"><div class="step-num">2</div><p>La app calcula el <strong>MoM</strong> (comparando contra la mediana esperada para esa EG) y clasifica: <strong>Normal</strong> (MoM &lt;1.29, sin evidencia de anemia, control según protocolo) · <strong>Anemia leve posible</strong> (MoM 1.29–1.49, vigilancia, repetir en 1–2 semanas) · <strong>Anemia moderada-severa</strong> (MoM ≥1.50, indicación de cordocentesis y transfusión intrauterina urgente).</p></div>
+  <div class="warn">⚠️ Requisito técnico para una medición válida: ángulo de insonación ≤15°, ACM tomada en su segmento proximal (cerca del polígono de Willis), sin compresión cefálica de la sonda.</div>
+  <div style="margin:14px 0">
+  <img src="img/manual-calc-anemia.png" alt="Captura de pantalla" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px">
+</div>
+</section>
+
+<section id="via-parto">
+  <h2>🏥 Pronóstico de vía de parto</h2>
+  <p class="ref">Ref: Robson · Grobman (ACOG/NICHD) · Bishop</p>
+  <div class="step"><div class="step-num">1</div><p>Cargá <strong>paridad y antecedentes</strong> (partos vaginales previos, cesáreas previas, abortos espontáneos), <strong>talla materna</strong> (referencia: &lt;150cm riesgo de desproporción céfalo-pélvica, &lt;145cm pelvis límite), y <strong>estado fetal 3T</strong> (presentación, encajamiento, EG actual).</p></div>
+  <div class="step"><div class="step-num">2</div><p>La app clasifica automáticamente a la paciente en su <strong>Grupo de Robson</strong> correspondiente (ej. Grupo 5: cesárea previa + cefálica; Grupo 7: multípara pélvica), con la interpretación de ese grupo.</p></div>
+  <div class="step"><div class="step-num">3</div><p>Si hay <strong>cesárea previa</strong>, se habilita el <strong>Score de Grobman</strong> (validado ACOG/NICHD, predice probabilidad de éxito de parto vaginal después de cesárea). Cargá <strong>tipo de cicatriz uterina</strong>, <strong>indicación de la cesárea anterior</strong> (recurrente o no), y marcá si hubo parto vaginal previo, trabajo de parto espontáneo previo, pérdida gestacional recurrente, embarazo de alto valor, o cirugía uterina previa.</p></div>
+  <div class="step"><div class="step-num">4</div><p>Según esos datos, la app indica si es <strong>"Candidata a PVDC"</strong> (parto vaginal después de cesárea) — listando los criterios favorables encontrados — o si corresponde <strong>"Cesárea programada indicada"</strong>, con la justificación específica (ej. PFE ≥4500g, embarazo de alto valor).</p></div>
+  <div class="step"><div class="step-num">5</div><p>Si cargás el <strong>examen cervical</strong> (dilatación, borramiento, estación, consistencia, posición), la app calcula el <strong>Score de Bishop</strong> y lo clasifica (favorable/desfavorable), sugiriendo maduración cervical si corresponde.</p></div>
+  <div class="tip">💡 El módulo también integra automáticamente el <strong>PFE</strong> (percentil y clasificación) cuando está cargado — por ejemplo, un PFE ≥4500g con percentil ≥97 se marca como macrosomía severa, con la conducta específica (cesárea programada en ACOG/NICE, umbral distinto si es paciente diabética).</p></div>
+  <div class="warn">⚠️ Si la EG actual es pretérmino, la app lo señala aparte y recuerda evaluar madurez pulmonar/betametasona si corresponde, coordinando con neonatología.</div>
+  <div style="margin:14px 0">
+  <img src="img/manual-calc-08-viaparto.png" alt="Captura de pantalla" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px">
+</div>
+</section>
+
+<section id="laboratorio">
+  <h2>🧪 Laboratorio</h2>
+  <p class="ref">Ref: OMS · ACOG · ISSHP · Endocrine Society 2024 · CDC · ETMI Plus 2024/OPS</p>
+  <p>Módulo extenso, organizado en sub-áreas. Cargá solo los valores que tengas disponibles — cada uno se interpreta de forma independiente.</p>
+
+  <h3 style="font-size:.95rem;color:var(--navy);margin:14px 0 6px">🩸 Hemograma y coagulación</h3>
+  <div class="step"><div class="step-num">1</div><p><strong>Hemoglobina:</strong> anemia si &lt;11 g/dL en 1T o &lt;10.5 g/dL en 2T-3T (OMS). <strong>Plaquetas:</strong> normal 150–400 (×10³/mL), &lt;150 = trombocitopenia. <strong>TP/RIN</strong> (normal en embarazo 0.8–1.2) y <strong>KPTT</strong> (normal 25–40 seg). También podés marcar <strong>proteinuria positiva</strong> y <strong>urocultivo positivo</strong> como hallazgos.</p></div>
+
+  <h3 style="font-size:.95rem;color:var(--navy);margin:14px 0 6px">🫘 Perfil renal</h3>
+  <div class="step"><div class="step-num">2</div><p><strong>Creatinina</strong> (normal en embarazo &lt;0.8 mg/dL), <strong>ácido úrico</strong> (normal &lt;5.5 mg/dL — marcador precoz de PE si elevado junto con HTA), <strong>urea</strong> (normal 10–40 mg/dL).</p></div>
+
+  <h3 style="font-size:.95rem;color:var(--navy);margin:14px 0 6px">🫀 Perfil hepático</h3>
+  <div class="step"><div class="step-num">3</div><p><strong>TGO/AST</strong> y <strong>TGP/ALT</strong> (normal &lt;40 UI/L, sospecha si &gt;70), <strong>LDH</strong> (&gt;600 UI/L = criterio de HELLP), <strong>bilirrubina total</strong> (normal &lt;1.2, sospecha colestasis), <strong>fosfatasa alcalina</strong> (normal hasta 3× LSN por origen placentario). La app combina automáticamente: <strong>TGO/LDH elevadas + trombocitopenia = criterio de HELLP</strong>, con conducta de hospitalización inmediata, maduración pulmonar si &lt;34 sem, y finalización individualizada.</p></div>
+
+  <h3 style="font-size:.95rem;color:var(--navy);margin:14px 0 6px">🍔 Perfil lipídico</h3>
+  <div class="step"><div class="step-num">4</div><p><strong>Colesterol total</strong> (aumenta fisiológicamente en embarazo), <strong>triglicéridos</strong> (&gt;400 mg/dL = riesgo de pancreatitis), HDL, LDL.</p></div>
+
+  <h3 style="font-size:.95rem;color:var(--navy);margin:14px 0 6px">🔬 Serología TORCH</h3>
+  <div class="step"><div class="step-num">5</div><p><strong>Toxoplasmosis</strong> (IgG/IgM/avidez IgG — clave: IgG+ en 1T = inmune, no repetir; IgG− = susceptible, repetir cada trimestre; IgM+ = solicitar test de avidez), <strong>Rubeola</strong> (IgG/IgM), <strong>CMV</strong> (IgG/IgM/avidez IgG).</p></div>
+
+  <h3 style="font-size:.95rem;color:var(--navy);margin:14px 0 6px">🧬 Vitamina D, Ferritina y Saturación de transferrina</h3>
+  <div class="step"><div class="step-num">6</div><p><strong>Vitamina D sérica:</strong> solicitar en obesidad, piel oscura, poca exposición solar, o vegetarianas (déficit &lt;20, insuficiencia 20–29, óptimo ≥30 — Endocrine Society 2024). <strong>Ferritina:</strong> solicitar en sospecha de anemia ferropénica (déficit &lt;15, bajo 15–30, normal &gt;30). <strong>Saturación de transferrina:</strong> normal 16–45%, &lt;16% = déficit funcional de hierro.</p></div>
+
+  <h3 style="font-size:.95rem;color:var(--navy);margin:14px 0 6px">🦋 Tiroides</h3>
+  <div class="step"><div class="step-num">7</div><p>Cargá <strong>TSH</strong> junto con el <strong>trimestre del análisis</strong> — la app aplica el valor de referencia correspondiente (1T: 0.1–2.5 µUI/mL · 2T: 0.2–3.0 µUI/mL · 3T: 0.3–3.5 µUI/mL), más <strong>T4 libre</strong> (normal 0.8–1.8 ng/dL) y <strong>anti-TPO</strong> (&gt;35 UI/mL = positivo).</p></div>
+
+  <h3 style="font-size:.95rem;color:var(--navy);margin:14px 0 6px">🦠 Estreptococo grupo B (SGB) e ITS/Serología infecciosa</h3>
+  <div class="step"><div class="step-num">8</div><p><strong>SGB:</strong> cribado obligatorio a las 35–37 semanas (cultivo vaginal+perianal). Si es positivo, la app indica <strong>profilaxis intraparto obligatoria</strong> (penicilina G, o clindamicina según antibiograma si hay alergia).</p></div>
+  <div class="step"><div class="step-num">9</div><p><strong>Hepatitis B</strong> (HBsAg/anti-HBs/HBeAg — HBsAg+ implica inmunoprofilaxis neonatal obligatoria en las primeras 12h, y si la carga viral es &gt;200.000 UI/mL se agrega tenofovir desde semana 28), <strong>VIH</strong> (test rápido/ELISA + Western Blot de confirmación — un test rápido reactivo no es diagnóstico definitivo, amerita infectología urgente sin suspender TAR si ya la recibe; con WB confirmado se inicia TAR de inmediato con objetivo de carga viral indetectable al parto), <strong>Chagas</strong> (requiere 2 técnicas reactivas de principio distinto para confirmar — ELISA + HAI/IFI; con 1 sola técnica reactiva es indeterminado y amerita segunda técnica), y <strong>Hepatitis C</strong> (anti-VHC, confirmar con ARN-VHC).</p></div>
+  <div class="step"><div class="step-num">10</div><p><strong>Sífilis</strong> — la interpretación depende de la combinación de resultados:</p></div>
+  <div class="tip">
+    🔹 <strong>Treponémico reactivo + VDRL reactivo:</strong> sífilis activa confirmada (el treponémico ya es la prueba de referencia, no requiere confirmación adicional). Dosis de penicilina G benzatínica según estadio: primaria/secundaria/latente temprana (&lt;1 año) → dosis única 2.4 millones UI IM; latente tardía o duración desconocida → 3 dosis semanales. VDRL mensual postratamiento, control neonatal (VDRL en sangre de cordón), notificación obligatoria.<br><br>
+    🔹 <strong>Treponémico reactivo + VDRL aún no disponible:</strong> conducta urgente — solicitar VDRL cuantitativo, pero <strong>no diferir el tratamiento</strong>: iniciar penicilina G ya (esquema de latente tardía/duración desconocida) mientras se obtiene el resultado.<br><br>
+    🔹 <strong>Treponémico reactivo + VDRL no reactivo:</strong> posible cicatriz serológica (tratamiento previo), ventana serológica muy temprana, o falso positivo del test rápido. Si no hay tratamiento documentado, tratar como latente tardía; VDRL de control en 4 semanas; notificar a infectología.<br><br>
+    🔹 <strong>VDRL reactivo sin treponémico confirmatorio:</strong> el VDRL (no treponémico) puede dar falso positivo en embarazo, LES o infecciones virales — requiere confirmación con test treponémico antes de tratar.
+  </div>
+  <p class="ref">Ref: CDC STI Treatment Guidelines 2021 · OPS Eliminación TV 2024 · ETMI Plus 2024 · ACOG</p>
+
+  <div class="tip">💡 Cada valor fuera de rango que cargues se refleja automáticamente en el informe de <strong>riesgo integral</strong>, agrupado bajo el dominio "LABORATORIO" con su nivel y conducta — por ejemplo, SGB positivo, VIH reactivo, sospecha de HELLP y proteinuria positiva aparecen listados como "HOY/URGENTE" en el Plan de acción.</div>
+  <div style="margin:14px 0">
+  <img src="img/manual-calc-09-lab-a.png" alt="Captura de pantalla" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px">
+  <img src="img/manual-calc-09-lab-b.png" alt="Captura de pantalla" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px">
+  <img src="img/manual-calc-09-lab-sifilis.png" alt="Captura de pantalla" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px">
+</div>
+</section>
+
+<section id="vacunacion">
+  <h2>💉 Profilaxis y vacunación</h2>
+  <p class="ref">Ref: CDC · OMS · ACOG · FIGO 2024 · Comité Nacional de Inmunización</p>
+  <div class="step"><div class="step-num">1</div><p>Marcá las vacunas ya aplicadas (Tdpa, antigripal, VSR, COVID-19, Hepatitis B) con su fecha y edad gestacional, y si corresponde, si iniciaste <strong>ácido fólico</strong> (este último se agrupa junto con las vacunas bajo el dominio "Profilaxis" del informe).</p></div>
+  <div class="step"><div class="step-num">2</div><p>La app indica el <strong>estado del esquema</strong> y qué queda pendiente según la EG actual, con la conducta específica de cada una:</p></div>
+  <div class="tip">
+    🔹 <strong>Ácido fólico:</strong> si no está registrado, 0.4–0.8 mg/día desde preconcepcional hasta mínimo semana 12.<br><br>
+    🔹 <strong>Antigripal:</strong> vacuna inactivada, segura en cualquier trimestre. Prioridad en cardiopatía, diabetes, asma, obesidad, inmunosupresión, VIH. <strong>Nunca</strong> usar vacuna de virus vivos atenuados (LAIV) en el embarazo.<br><br>
+    🔹 <strong>COVID-19:</strong> vacunas ARNm (Pfizer/Moderna) recomendadas por OMS, CDC, ACOG y FIGO. Seguras en cualquier trimestre — las embarazadas tienen mayor riesgo de COVID grave. Refuerzo si pasaron &gt;6 meses desde la última dosis.
+  </div>
+  <div style="margin:14px 0">
+  <img src="img/manual-calc-10-vacunas.png" alt="Captura de pantalla" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px">
+</div>
+</section>
+
+<section id="pacientes">
+  <h2>👤 Gestión de pacientes y backup</h2>
+  <div class="step"><div class="step-num">1</div><p>Desde la pestaña de <strong>Pacientes</strong>, tocá "Nueva paciente" para crear una ficha, o buscá una existente por documento.</p></div>
+  <div class="step"><div class="step-num">2</div><p>Los datos que cargues en los módulos clínicos se guardan automáticamente dentro de la ficha de la paciente activa. Si marcaste <strong>reproducción asistida (TRA)</strong> en antecedentes (FIV/ICSI, IIU, PGR), la app lo señala como hallazgo de riesgo (mayor riesgo de placenta previa, preeclampsia y gemelar).</p></div>
+  <div class="step"><div class="step-num">3</div><p>Cada ficha muestra automáticamente la <strong>fórmula obstétrica</strong> (G/P/C/A: gestas, partos, cesáreas, abortos) calculada a partir de los antecedentes cargados, junto con talla/peso y la clasificación de riesgo global.</p></div>
+  <div class="step"><div class="step-num">4</div><p><strong>Historial de visitas:</strong> dentro de la ficha de la paciente, tocá "+ Visita" para registrar cada control prenatal con: fecha, EG (autocalculada desde la FUM), peso actual, PA, laboratorio (Hb, glucemia, TSH), ecografía (PFE + percentil, cervicometría, presentación fetal), Doppler/sFlt-1-PlGF en texto libre, observaciones/plan, y fecha de próxima cita.</p></div>
+  <div class="step"><div class="step-num">5</div><p>Cada visita queda en un listado cronológico editable — podés modificar o eliminar cualquier visita cargada, y desde ahí también podés volver a abrir esa paciente directo en la calculadora ("⚡ Abrir en calculadora") para recalcular su riesgo con los datos actualizados.</p></div>
+  <div class="step"><div class="step-num">6</div><p>Desde <strong>"Mis pacientes"</strong>, tocá <strong>"Backup local (.json)"</strong> para descargar un archivo con todas tus pacientes (tarjeta "Descargar .json"), y guardalo en tu propio Google Drive (tarjeta "Abrir Google Drive") — así podés sincronizar entre PC, celular o tablet manualmente, copiando el archivo de un dispositivo a otro.</p></div>
+  <div class="step"><div class="step-num">7</div><p>Para <strong>"Importar backup"</strong>, elegí el archivo .json y el modo: <strong>"Combinar"</strong> (agrega las pacientes del backup sin borrar las que ya tenés) o <strong>"Reemplazar todo"</strong> (borra los datos actuales y los reemplaza por los del backup).</p></div>
+  <div class="tip">💡 Si también usás la Historia Clínica CaVeSal®, podés enviar los datos clínicos de una paciente directo desde ahí hacia la Calculadora, sin recargar nada a mano (función de la versión completa).</div>
+  <div style="margin:14px 0">
+  <img src="img/manual-calc-11-pacientes.png" alt="Captura de pantalla" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px">
+</div>
+</section>
+
+<p class="updated">¿Dudas sobre algún módulo? Escribinos a <a href="mailto:drverasalerno@gmail.com">drverasalerno@gmail.com</a> · Última actualización: julio de 2026</p>
+<p style="text-align:center"><a class="back-top" href="#top">↑ Volver al índice</a></p>
+
+</main>
+</body>
+</html>
