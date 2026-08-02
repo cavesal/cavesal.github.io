@@ -1250,7 +1250,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     <p class="sub-title">Estreptococo grupo B (SGB)</p>
     <div class="note-box">⚠️ <strong>Cribado obligatorio 35–37 sem:</strong> cultivo vaginal + perianal. SGB+: penicilina G intraparto. Alergia: clindamicina según antibiograma.</div>
-    <div class="field"><label>Resultado SGB</label>
+    <div class="field"><label for="lb_sgb">Resultado SGB</label>
       <select id="lb_sgb">
         <option value="">No realizado / Pendiente</option>
         <option value="neg">Negativo</option>
@@ -1265,21 +1265,21 @@ document.addEventListener('DOMContentLoaded', function(){
       <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin-bottom:8px">🦠 Toxoplasmosis</div>
       <div class="note-box" style="margin-bottom:8px"><strong>Clave:</strong> IgG+ en 1T = inmune → NO repetir. IgG− = susceptible → repetir c/trimestre. IgM+ → solicitar test de avidez.</div>
       <div class="row3">
-        <div class="field"><label>IgG</label>
+        <div class="field"><label for="toxo_igg">IgG</label>
           <select id="toxo_igg">
             <option value="">—</option>
             <option value="neg">Negativa (susceptible)</option>
             <option value="pos">Positiva (inmune)</option>
           </select>
         </div>
-        <div class="field"><label>IgM</label>
+        <div class="field"><label for="toxo_igm">IgM</label>
           <select id="toxo_igm">
             <option value="">—</option>
             <option value="neg">Negativa</option>
             <option value="pos">Positiva ⚠️</option>
           </select>
         </div>
-        <div class="field"><label>Avidez IgG</label>
+        <div class="field"><label for="toxo_avidez">Avidez IgG</label>
           <select id="toxo_avidez">
             <option value="">— (si IgM+)</option>
             <option value="alta">Alta (&gt;0.30–0.65*) — descarta reciente</option>
@@ -1314,13 +1314,13 @@ document.addEventListener('DOMContentLoaded', function(){
     <div style="background:#f8f9fa;border-radius:10px;padding:12px;margin-bottom:10px;border:1px solid var(--border)">
       <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin-bottom:8px">🦠 CMV</div>
       <div class="row3">
-        <div class="field"><label>IgG</label>
+        <div class="field"><label for="cmv_igg">IgG</label>
           <select id="cmv_igg"><option value="">—</option><option value="neg">Negativa</option><option value="pos">Positiva</option></select>
         </div>
-        <div class="field"><label>IgM</label>
+        <div class="field"><label for="cmv_igm">IgM</label>
           <select id="cmv_igm"><option value="">—</option><option value="neg">Negativa</option><option value="pos">Positiva ⚠️</option></select>
         </div>
-        <div class="field"><label>Avidez IgG</label>
+        <div class="field"><label for="cmv_avidez">Avidez IgG</label>
           <select id="cmv_avidez"><option value="">—</option><option value="alta">Alta</option><option value="baja">Baja ⚠️</option></select>
         </div>
       </div>
@@ -1329,10 +1329,10 @@ document.addEventListener('DOMContentLoaded', function(){
     <div style="background:#f8f9fa;border-radius:10px;padding:12px;margin-bottom:10px;border:1px solid var(--border)">
       <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin-bottom:8px">🦠 Chagas (zonas endémicas)</div>
       <div class="row2">
-        <div class="field"><label>Serología 1 (ELISA)</label>
+        <div class="field"><label for="chagas_1">Serología 1 (ELISA)</label>
           <select id="chagas_1"><option value="">—</option><option value="neg">No reactiva</option><option value="pos">Reactiva ⚠️</option></select>
         </div>
-        <div class="field"><label>Serología 2 (HAI/IFI)</label>
+        <div class="field"><label for="chagas_2">Serología 2 (HAI/IFI)</label>
           <select id="chagas_2"><option value="">—</option><option value="neg">No reactiva</option><option value="pos">Reactiva ⚠️</option></select>
         </div>
       </div>
@@ -1344,7 +1344,7 @@ document.addEventListener('DOMContentLoaded', function(){
     <div style="background:#f8f9fa;border-radius:10px;padding:12px;margin-bottom:10px;border:1px solid var(--border)">
       <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin-bottom:8px">🦠 Hepatitis B</div>
       <div class="row3">
-        <div class="field"><label>HBsAg</label>
+        <div class="field"><label for="hbv_hbsag">HBsAg</label>
           <select id="hbv_hbsag"><option value="">—</option><option value="neg">Negativo</option><option value="pos">Positivo ⚠️</option></select>
         </div>
         <div class="field"><label>Anti-HBs</label>
@@ -1360,10 +1360,10 @@ document.addEventListener('DOMContentLoaded', function(){
     <div style="background:#f8f9fa;border-radius:10px;padding:12px;margin-bottom:10px;border:1px solid var(--border)">
       <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin-bottom:8px">🦠 VIH</div>
       <div class="row2">
-        <div class="field"><label>Test rápido / ELISA</label>
+        <div class="field"><label for="vih_test">Test rápido / ELISA</label>
           <select id="vih_test"><option value="">—</option><option value="no_react">No reactivo</option><option value="react">Reactivo ⚠️</option></select>
         </div>
-        <div class="field"><label>Western Blot</label>
+        <div class="field"><label for="vih_wb">Western Blot</label>
           <select id="vih_wb"><option value="">—</option><option value="neg">Negativo</option><option value="pos">Positivo ⚠️</option><option value="indet">Indeterminado</option></select>
         </div>
       </div>
@@ -1372,14 +1372,14 @@ document.addEventListener('DOMContentLoaded', function(){
     <div style="background:#f8f9fa;border-radius:10px;padding:12px;margin-bottom:10px;border:1px solid var(--border)">
       <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin-bottom:8px">🦠 Sífilis</div>
       <div class="row2">
-        <div class="field"><label>Test rápido (treponémico)</label>
+        <div class="field"><label for="sif_rapido">Test rápido (treponémico)</label>
           <select id="sif_rapido"><option value="">—</option><option value="no_react">No reactivo</option><option value="react">Reactivo ⚠️</option></select>
         </div>
-        <div class="field"><label>VDRL</label>
+        <div class="field"><label for="sif_vdrl">VDRL</label>
           <select id="sif_vdrl"><option value="">—</option><option value="neg">No reactivo</option><option value="pos">Reactivo</option></select>
         </div>
       </div>
-      <div class="field"><label>Título VDRL</label>
+      <div class="field"><label for="sif_titulo">Título VDRL</label>
         <select id="sif_titulo">
           <option value="">—</option><option value="1_2">1:2</option><option value="1_4">1:4</option>
           <option value="1_8">1:8</option><option value="1_16">1:16</option><option value="1_32">1:32 o mayor</option>
@@ -1390,7 +1390,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     <div style="background:#f8f9fa;border-radius:10px;padding:12px;margin-bottom:10px;border:1px solid var(--border)">
       <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin-bottom:8px">🦠 Hepatitis C</div>
-      <div class="field" style="margin-bottom:0"><label>Anti-VHC</label>
+      <div class="field" style="margin-bottom:0"><label for="hcv_test">Anti-VHC</label>
         <select id="hcv_test"><option value="">—</option><option value="neg">No reactivo</option><option value="pos">Reactivo ⚠️</option></select>
         <div class="hint">Anti-VHC+: confirmar con ARN-VHC. Transmisión vertical ~5%.</div>
       </div>
@@ -2729,6 +2729,14 @@ Microcefalia: CC &lt;p3 para EG.</div>
       <strong style="color:var(--navy)">Doppler hemodinámico avanzado (DV, TR, AoI, VUP):</strong> Baschat AA. Obstet Gynecol 2011 · TRUFFLE Study Group. UOG 2020 · ISUOG Practice Guidelines RCIU 2020 · Gratacós E &amp; Torres X. MFB Protocol 2023<br>
       <strong style="color:var(--navy)">Maduración pulmonar fetal (&lt;34 sem):</strong> ACOG Practice Bulletin 127 · RCOG Green-top Guideline 7<br>
       <strong style="color:var(--navy)">Neuroprotección con MgSO₄ (&lt;32 sem):</strong> ACOG Practice Bulletin 455 · WHO Recommendation 2015<br>
+      <strong style="color:var(--navy)">Serología — VIH en embarazo:</strong> ETMI Plus Paraguay 2024 · DHHS Guidelines 2024 · OPS/PAHO · ACOG Practice Bulletin<br>
+      <strong style="color:var(--navy)">Serología — Sífilis:</strong> CDC STI Treatment Guidelines 2021 · OPS Eliminación TV 2024 · ETMI Plus 2024 · ACOG<br>
+      <strong style="color:var(--navy)">Serología — Toxoplasmosis:</strong> SFMFM Consult Series · Montoya &amp; Remington 2008 · OPS 2024<br>
+      <strong style="color:var(--navy)">Serología — CMV:</strong> Rawlinson WD et al. J Clin Virol 2017 · Leruez-Ville M et al. Am J Obstet Gynecol 2020<br>
+      <strong style="color:var(--navy)">Serología — Chagas:</strong> OPS/PAHO 2023 · ETMI Plus 2024 · Torrico F et al. Lancet 2018<br>
+      <strong style="color:var(--navy)">Serología — Hepatitis B:</strong> EASL Clinical Practice Guidelines 2017 · ACOG · ETMI Plus 2024<br>
+      <strong style="color:var(--navy)">Serología — Hepatitis C:</strong> EASL Recommendations 2020 · AASLD · ACOG<br>
+      <strong style="color:var(--navy)">Serología — Rubéola:</strong> CDC · OPS/PAHO · ACOG<br>
       <strong style="color:var(--navy)">ACM PSV — algoritmo propio (anemia fetal):</strong> Basado en análisis de literatura · Mari G et al. NEJM 2000;342:9-14 · Detti L et al. AJOG 2002<br>
       <strong style="color:var(--navy)">Índice cerebroplacentario (ICP) — P5 dinámico:</strong> Baschat AA &amp; Gembruch U. UOG 2003;22:529-536<br>
       <strong style="color:var(--navy)">Anemia fetal:</strong> Mari G et al. NEJM 2000 (Doppler ACM/PSV)<br>
@@ -3382,40 +3390,168 @@ function calcular(){
   const sgbRes=document.getElementById('lb_sgb').value;
   if(sgbRes==='pos') add('LABORATORIO','alto','SGB positivo — profilaxis intraparto obligatoria','Penicilina G 5 mill UI IV al inicio del TP, luego 2.5 mill UI c/4h hasta el parto. Alternativa: ampicilina. Alergia a penicilina: clindamicina según antibiograma (resistencia ~20%).','CDC / ACOG');
   else if(sgbRes==='desconocido'&&eg&&eg.sem>=35) add('LABORATORIO','moderado','SGB: resultado desconocido','Profilaxis intraparto según factores de riesgo: fiebre intraparto, RPM >18h, pretérmino <37 sem, bacteriuria por SGB en este embarazo.','CDC / ACOG');
-  // Serología
+  // Serología — conductas ETMI Plus 2024 / OPS / OMS / FIGO / ACOG
+  // Algoritmo propio CaVeSal® · Análisis basado en literatura de referencia
+
+  // ── TOXOPLASMOSIS ──
+  const toxoIgG=document.getElementById('toxo_igg').value;
   const toxoIgM=document.getElementById('toxo_igm').value;
   const toxoAvidez=document.getElementById('toxo_avidez').value;
   if(toxoIgM==='pos'){
-    if(toxoAvidez==='baja') add('LABORATORIO','alto','Toxoplasmosis: IgM+ con avidez BAJA — infección reciente probable','Primoinfección confirmada. Espiramicina hasta sem 18, luego triple terapia (pirimetamina + sulfadiazina + ácido folínico). Derivar Medicina Fetal. ECO seriada (hidrocefalia, calcificaciones, RCIU).','ACOG / SFMFM');
-    else if(toxoAvidez==='alta') add('LABORATORIO','bajo','Toxoplasmosis: IgM+ pero avidez ALTA — infección anterior a 16 sem','Avidez alta descarta primoinfección reciente. Seguimiento habitual. Confirmar con segundo laboratorio si dudas.','ACOG / SFMFM');
-    else add('LABORATORIO','alto','Toxoplasmosis IgM+ — solicitar avidez IgG urgente','IgM positiva requiere test de avidez para determinar si infección es reciente. Sin avidez no se puede descartar primoinfección. Derivar Medicina Fetal.','ACOG / SFMFM');
+    if(toxoAvidez==='baja'){
+      add('LABORATORIO','alto','Toxoplasmosis: IgM+ · avidez BAJA — primoinfección reciente confirmada',
+        'Riesgo transmisión vertical directamente proporcional a EG (↑ en 3T: hasta 60%); daño fetal inversamente proporcional (más grave en 1T: hidrocefalia, calcificaciones). ' +
+        'Conducta: Espiramicina 1g c/8h VO hasta sem 18 (reduce TV ~60%). Desde sem 18 o si ECO fetal alterada: pirimetamina 25mg/día + sulfadiazina 1g c/6h + ácido folínico 10–15mg/día. ' +
+        'Derivar Medicina Fetal urgente. ECO morfológica seriada (hidrocefalia, calcificaciones periventriculares, RCIU, ascitis). Amniocentesis para PCR toxoplasma si EG >18 sem. ' +
+        'Neonato: PCR + serología al nacer y seguimiento 12 meses.',
+        'SFMFM / OPS 2024 / ACOG');
+    } else if(toxoAvidez==='alta'){
+      add('LABORATORIO','bajo','Toxoplasmosis: IgM+ pero avidez ALTA — infección previa (>16 sem de evolución)',
+        'Avidez alta descarta primoinfección reciente. Riesgo de transmisión vertical mínimo. Sin tratamiento específico indicado. ' +
+        'Confirmar con laboratorio de referencia si hay dudas. Seguimiento ecográfico habitual.',
+        'SFMFM / ACOG');
+    } else {
+      add('LABORATORIO','alto','Toxoplasmosis IgM+ — solicitar avidez IgG urgente',
+        'IgM positiva sin avidez: no se puede descartar primoinfección. Solicitar avidez IgG urgente. ' +
+        'Recordar: riesgo de transmisión vertical es directamente proporcional a la EG, pero el daño fetal es inversamente proporcional (más grave cuanto menor la EG). ' +
+        'Iniciar espiramicina 1g c/8h mientras se confirma. Derivar Medicina Fetal.',
+        'OPS 2024 / ACOG');
+    }
+  } else if(toxoIgG==='neg'&&toxoIgM==='neg'){
+    add('LABORATORIO','bajo','Toxoplasmosis: paciente susceptible (IgG e IgM negativas)',
+      'Sin inmunidad. Repetir serología cada trimestre. Medidas preventivas: evitar carnes crudas, lavar bien frutas y verduras, evitar contacto con heces de gato, usar guantes en jardinería.',
+      'OPS / ACOG');
   }
-  const rubIgG=document.getElementById('rub_igg').value;
-  const rubIgM=document.getElementById('rub_igm').value;
-  if(rubIgG==='suscept') add('LABORATORIO','moderado','Rubeola: paciente susceptible (IgG negativa)','No inmune. Vigilar exposición. Vacuna SRP contraindicada en embarazo. Vacunar en el postparto inmediato. Educación sobre evitar contacto con casos.','ACOG / CDC');
-  if(rubIgM==='pos') add('LABORATORIO','alto','Rubeola: IgM positiva — infección activa probable','Síndrome de rubeola congénita: cataratas, cardiopatía, sordera. Derivar urgente. Consejo sobre pronóstico. No existe tratamiento específico.','OPS / ACOG');
+
+  // ── RUBEOLA ──
+  const rubIgG=(document.getElementById('rub_igg')||{}).value||'';
+  const rubIgM=(document.getElementById('rub_igm')||{}).value||'';
+  if(rubIgG==='suscept') add('LABORATORIO','moderado','Rubeola: paciente susceptible (IgG negativa)',
+    'Sin inmunidad. Vacuna SRP contraindicada durante embarazo. Vacunar en puerperio inmediato (antes del alta). Evitar contacto con casos. Notificar a obstetra.',
+    'OPS / CDC');
+  if(rubIgM==='pos') add('LABORATORIO','alto','Rubeola: IgM positiva — infección activa probable',
+    'Síndrome de rubeola congénita (SRC): riesgo >85% en 1T (cataratas, cardiopatía congénita, sordera neurosensorial, microcefalia). No existe tratamiento específico ni antiviral eficaz. ' +
+    'Derivar urgente a Medicina Fetal y consejo genético. Notificación obligatoria.',
+    'OPS / CDC');
+
+  // ── CMV ──
   const cmvIgM=document.getElementById('cmv_igm').value;
   const cmvAvidez=document.getElementById('cmv_avidez').value;
   if(cmvIgM==='pos'){
-    if(cmvAvidez==='baja') add('LABORATORIO','alto','CMV: IgM+ con avidez BAJA — primoinfección probable','Primoinfección CMV: riesgo transmisión vertical 30–40%. Derivar Medicina Fetal urgente. ECO seriada (RCIU, hidrocefalia, calcificaciones cerebrales, hepatoesplenomegalia). Valorar valaciclovir materno.','FMF / SFMFM');
-    else add('LABORATORIO','moderado','CMV: IgM+ — solicitar avidez para confirmar primoinfección','Avidez IgG distingue primoinfección de reactivación. Derivar Medicina Fetal para ECO fetal.','FMF / SFMFM');
+    if(cmvAvidez==='baja'){
+      add('LABORATORIO','alto','CMV: IgM+ · avidez BAJA — primoinfección CMV probable',
+        'Primoinfección CMV: riesgo de transmisión vertical 30–40% (más grave en 1T). Secuelas: sordera neurosensorial, retraso cognitivo, microcefalia, RCIU. ' +
+        'Conducta: derivar Medicina Fetal urgente. ECO morfológica seriada. Amniocentesis para PCR CMV >21 sem (sensibilidad 70–90%). ' +
+        'Valorar valaciclovir materno 8g/día desde diagnóstico (reduce carga viral fetal — evidencia emergente). Neonato: PCR orina/saliva primeras 3 semanas.',
+        'SFMFM / Rawlinson 2017 / Leruez-Ville 2020');
+    } else {
+      add('LABORATORIO','moderado','CMV: IgM+ — solicitar avidez para diferenciar primo de reactivación',
+        'Avidez IgG distingue primoinfección (<30% = reciente) de reactivación (>60% = antigua). Reactivación tiene menor riesgo de transmisión. ' +
+        'Derivar Medicina Fetal para ECO fetal mientras se obtiene resultado.',
+        'SFMFM / FMF');
+    }
   }
+
+  // ── CHAGAS ──
   const chagas1=document.getElementById('chagas_1').value;
   const chagas2=document.getElementById('chagas_2').value;
-  if(chagas1==='pos'&&chagas2==='pos') add('LABORATORIO','alto','Chagas confirmado (2 técnicas reactivas)','Transmisión vertical ~5%. Neonato: PCR en sangre de cordón y a los 30 días. Si PCR+ en neonato: benznidazol. Notificación obligatoria. Infectología + neonatología.','OPS / PAHO');
-  else if(chagas1==='pos'||chagas2==='pos') add('LABORATORIO','moderado','Chagas: resultado indeterminado (1 técnica reactiva)','Requiere confirmación con segunda técnica diferente. Hasta confirmar: vigilancia neonatal. Infectología.','OPS');
+  if(chagas1==='pos'&&chagas2==='pos'){
+    add('LABORATORIO','alto','Chagas confirmado (2 técnicas reactivas — ELISA + HAI/IFI)',
+      'Transmisión vertical (TV) ~5–10%. Benznidazol y nifurtimox contraindicados en embarazo. ' +
+      'Conducta materna: seguimiento clínico, ECG si hay síntomas. Infectología. ' +
+      'Neonato: PCR en sangre de cordón umbilical al nacer y a los 30 días. Si PCR+: benznidazol 5–7 mg/kg/día x60 días. ' +
+      'Lactancia permitida si no hay grietas en el pezón ni mastitis. Notificación obligatoria.',
+      'OPS / ETMI Plus 2024');
+  } else if(chagas1==='pos'||chagas2==='pos'){
+    add('LABORATORIO','moderado','Chagas: resultado indeterminado (1 técnica reactiva)',
+      'Requiere confirmación con segunda técnica de diferente principio (ELISA + HAI o IFI). ' +
+      'Hasta confirmación: vigilancia neonatal con PCR en cordón. Infectología.',
+      'OPS / ETMI Plus 2024');
+  }
+
+  // ── HEPATITIS B ──
   const hbsag=document.getElementById('hbv_hbsag').value;
-  if(hbsag==='pos') add('LABORATORIO','alto','Hepatitis B: HBsAg positivo','Inmunoprofilaxis neonatal obligatoria (vacuna + HBIG) en primeras 12h. Carga viral materna: si >200.000 UI/mL considerar tenofovir desde sem 28. Lactancia permitida con inmunoprofilaxis neonatal completa. Hepatología.','ACOG / EASL');
+  if(hbsag==='pos'){
+    add('LABORATORIO','alto','Hepatitis B: HBsAg positivo',
+      'Inmunoprofilaxis neonatal obligatoria en primeras 12h: vacuna anti-HBV (0.5 mL IM) + HBIG 0.5 mL IM (sitios distintos). ' +
+      'Solicitar carga viral (ADN-HBV): si >200.000 UI/mL (o >6 log UI/mL) iniciar tenofovir 300mg/día VO desde sem 28 para reducir TV. ' +
+      'Lactancia materna permitida si neonato recibió inmunoprofilaxis completa. ' +
+      'Parto vaginal no contraindicado. Hepatología + neonatología.',
+      'EASL 2017 / ACOG / ETMI Plus 2024');
+  }
+
+  // ── VIH ──
   const vihTest=document.getElementById('vih_test').value;
   const vihWB=document.getElementById('vih_wb').value;
-  if(vihWB==='pos'||vihTest==='react') add('LABORATORIO','alto',vihWB==='pos'?'VIH confirmado':'VIH: test reactivo — pendiente confirmación',vihWB==='pos'?'TAR durante todo el embarazo. CV indetectable = objetivo. Cesárea si CV >1000 copias. Profilaxis neonatal obligatoria. Infectología.':'Confirmar con Western Blot urgente. No suspender TAR si ya recibe. Infectología.','ACOG / CDC');
+  if(vihWB==='pos'){
+    add('LABORATORIO','alto','VIH confirmado (Western Blot positivo)',
+      'Iniciar o continuar TAR combinada (TARc) de inmediato, independientemente de EG, CD4 o carga viral. ' +
+      'Esquema preferido: TDF + FTC/3TC + DTG (dolutegravir) — ETMI Plus 2024 ya no restringe inicio en 1T. ' +
+      'Monitoreo: CD4 y carga viral al inicio y cada 3 meses. Objetivo: carga viral indetectable (<50 copias/mL) al parto. ' +
+      'Vía de parto: vaginal si CV indetectable y sin otras indicaciones de cesárea. Cesárea electiva si CV >1000 copias a sem 36. ' +
+      'Lactancia: si CV indetectable con TARc, riesgo de TV por leche materna <1% — valorar con infectología y conforme a contexto regional. ' +
+      'Profilaxis neonatal: zidovudina 4 mg/kg c/12h x4 semanas (ajustar si alto riesgo). Neonatología + infectología.',
+      'ETMI Plus 2024 / OPS / DHHS 2024');
+  } else if(vihTest==='react'&&vihWB!=='pos'){
+    add('LABORATORIO','alto','VIH: test rápido reactivo — confirmar con Western Blot urgente',
+      'Test reactivo no es diagnóstico definitivo. Solicitar Western Blot o carga viral urgente. ' +
+      'No suspender TAR si ya la recibe. Si no tiene TAR: no iniciar hasta confirmación diagnóstica. ' +
+      'Infectología urgente. ETMI Plus 2024.',
+      'ETMI Plus 2024 / OPS');
+  } else if(vihWB==='indet'){
+    add('LABORATORIO','alto','VIH: Western Blot indeterminado',
+      'WB indeterminado: repetir serología en 2–4 semanas. Solicitar carga viral ARN-VIH cualitativa (PCR). ' +
+      'Si carga viral detectable: confirma infección — iniciar TAR. Si indetectable: probable falso positivo — repetir en 3 meses. ' +
+      'No iniciar TAR con WB indeterminado sin CV confirmatoria. Infectología urgente.',
+      'ETMI Plus 2024 / CDC / OPS');
+  }
+
+  // ── SÍFILIS ──
   const sifRap=document.getElementById('sif_rapido').value;
   const sifVDRL=document.getElementById('sif_vdrl').value;
   const sifTit=document.getElementById('sif_titulo').value;
-  if(sifRap==='react'&&sifVDRL==='pos') add('LABORATORIO','alto',`Sífilis activa confirmada${sifTit?' (VDRL '+sifTit+')':''}`, 'Penicilina G benzatínica según estadio (primaria/secundaria: 2.4 mill UI IM dosis única; latente: 3 dosis semanales). VDRL mensual postratamiento. Control neonatal. Notificación obligatoria.','CDC / PAHO / OMS');
-  else if(sifRap==='react'&&sifVDRL==='neg') add('LABORATORIO','bajo','Sífilis: test rápido reactivo + VDRL no reactivo — probable cicatriz serológica','Tratar como sífilis latente tardía si no hay tratamiento documentado previo. VDRL de control en 4 semanas.','CDC / PAHO');
+  if(sifRap==='react'){
+    if(sifVDRL==='pos'){
+      var titDesc = sifTit ? ' (VDRL '+sifTit+')' : '';
+      var estadio = (sifTit==='1_8'||sifTit==='1_16'||sifTit==='1_32'||sifTit==='1_64') ? 'secundaria/latente temprana' : 'evaluar estadio clínico';
+      add('LABORATORIO','alto','Sífilis activa confirmada'+titDesc,
+        'Test rápido treponémico (prueba confirmatoria) + VDRL reactivo = sífilis activa. No requiere confirmación adicional — el test rápido treponémico es la prueba de referencia actual. ' +
+        'Tratamiento: Penicilina G benzatínica IM (única opción válida en embarazo — eritromicina NO cruza placenta): ' +
+        '· Sífilis primaria/secundaria/latente temprana (<1 año): 2.4 millones UI IM dosis única. ' +
+        '· Sífilis latente tardía o de duración desconocida: 2.4 millones UI IM semanal x3 semanas. ' +
+        'VDRL mensual postratamiento (esperar descenso de 4 diluciones en 3–6 meses). ' +
+        'Alergia a penicilina: desensibilización — NO usar alternativas en embarazo. ' +
+        'Reacción de Jarisch-Herxheimer: frecuente en 2T/3T — monitoreo fetal por 24h. ' +
+        'Control neonatal: VDRL en sangre de cordón. Notificación obligatoria.',
+        'OPS / CDC / ETMI Plus 2024');
+    } else if(sifVDRL==='neg'){
+      add('LABORATORIO','moderado','Sífilis: test rápido reactivo + VDRL no reactivo',
+        'Posibles interpretaciones: (1) sífilis tratada previamente — cicatriz serológica treponémica (treponémicos persisten de por vida); ' +
+        '(2) sífilis muy temprana (ventana VDRL); (3) falso positivo del test rápido. ' +
+        'Conducta: revisar antecedentes de tratamiento. Si no hay tratamiento documentado: tratar como sífilis latente tardía (3 dosis semanales penicilina G benzatínica). ' +
+        'VDRL de control en 4 semanas. Notificar a infectología.',
+        'CDC / OPS / ETMI Plus 2024');
+    }
+  } else if(sifVDRL==='pos'&&sifRap!=='react'){
+    add('LABORATORIO','moderado','VDRL reactivo sin test treponémico confirmatorio',
+      'VDRL (no treponémico) requiere confirmación con test treponémico (test rápido, FTA-ABS o TPHA). ' +
+      'VDRL puede ser falso positivo en embarazo, LES, infecciones virales. Solicitar test rápido treponémico urgente. ' +
+      'VDRL es útil principalmente para seguimiento postratamiento (cuantitativo).',
+      'CDC / OPS');
+  }
+
+  // ── HEPATITIS C ──
   const hcvTest=document.getElementById('hcv_test').value;
-  if(hcvTest==='pos') add('LABORATORIO','moderado','Hepatitis C: Anti-VHC reactivo','Confirmar con ARN-VHC (PCR). Transmisión vertical ~5%. No existe profilaxis neonatal. Lactancia generalmente permitida si CV baja. Hepatología.','ACOG / EASL');
+  if(hcvTest==='pos'){
+    add('LABORATORIO','moderado','Hepatitis C: Anti-VHC reactivo',
+      'Confirmar con ARN-VHC (PCR cuantitativa) — Anti-VHC puede ser falso positivo. ' +
+      'Si ARN+ (viremia activa): transmisión vertical ~5–7% (hasta 11% si coinfección VIH). ' +
+      'No existe profilaxis neonatal ni tratamiento eficaz durante embarazo (antivirales de acción directa contraindicados en gestación). ' +
+      'Lactancia materna permitida si no hay grietas en el pezón ni carga viral muy alta. ' +
+      'Neonato: Anti-VHC a los 18 meses (anticuerpos maternos persisten hasta 12–18 meses) o ARN-VHC a los 2 meses. ' +
+      'Hepatología: valorar inicio de AAD postparto (curación >95%). Notificación.',
+      'EASL 2020 / ACOG / AASLD');
+  }
   // ── CRASIS ──
   const rni=val('lab_rni'), kptt=val('lab_kptt');
   if(rni!==null&&rni>1.3) add('LABORATORIO','moderado',`RIN ${rni} (↑)`,'Evaluar en contexto de PE/HELLP. Descartar coagulopatía. Repetir con plaquetas y fibrinógeno.','ACOG');
@@ -6250,7 +6386,7 @@ function limpiarFormulario(){
   if(typeof calcViaParto==='function')calcViaParto();
   // ═══ Reset Laboratorio (campos faltantes) ═══
   ['lab_sog_0','lab_sog_1','lab_sog_2','lab_fa','lab_ferrit','lab_hdl','lab_ldl',
-   'lab_kptt','lab_rni','lab_sat_transf','lab_tgp','lab_trig','lab_urea','lab_vitd',
+   'lab_kptt','lab_rni','lab_sat_transf','lab_tgp','lab_trig','lab_col_total','lab_urea','lab_vitd',
    'antitpo','t4l','tsh_trim',
    'lab_hba1c'].forEach(function(id){
     var el=document.getElementById(id);
@@ -6342,6 +6478,8 @@ function limpiarFormulario(){
   ['dmg_result','gan_result','au_result'].forEach(function(id){
     var el=document.getElementById(id);if(el)el.style.display='none';
   });
+  // Reset semáforo vacunación
+  var _vs=document.getElementById('vac_semaforo');if(_vs)_vs.innerHTML='';
 }// ════ MOSTRAR EJEMPLOS ════
 function mostrarEjemplos(){
   const m=document.getElementById('modal_ejemplos');
@@ -6458,6 +6596,15 @@ function cargarEjemplo(tipo){ window._pfe=null;
     var _aoi=document.getElementById('dopp_aoi_flujo'); if(_aoi) _aoi.value='reducido';
     // Profilaxis
     chkOn('pr_ac_folico'); chkOn('pr_hie');
+    // Serología — ejemplo clínico representativo
+    set('vih_test','react');          // VIH test rápido reactivo (pendiente WB)
+    set('sif_rapido','react');        // Sífilis test rápido reactivo
+    set('sif_vdrl','pos');            // VDRL reactivo
+    set('sif_titulo','1_4');          // Título 1:4
+    set('toxo_igg','neg');            // Toxo susceptible
+    set('toxo_igm','neg');
+    set('hbv_hbsag','pos');           // HBsAg positivo
+    set('lb_sgb','desc');             // SGB desconocido
     // EG·Parto — Dextograma
     set('dext_fum', fumStr);
     set('dext_fecha_calc', new Date().toISOString().split('T')[0]);
