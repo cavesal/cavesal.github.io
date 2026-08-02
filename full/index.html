@@ -3531,6 +3531,15 @@ function calcular(){
         'Conducta: revisar antecedentes de tratamiento. Si no hay tratamiento documentado: tratar como sífilis latente tardía (3 dosis semanales penicilina G benzatínica). ' +
         'VDRL de control en 4 semanas. Notificar a infectología.',
         'CDC / OPS / ETMI Plus 2024');
+    } else {
+      // Test rápido reactivo pero VDRL no completado
+      add('LABORATORIO','alto','Sífilis: test rápido reactivo — completar VDRL urgente',
+        'Test rápido treponémico reactivo sin VDRL cuantitativo. ' +
+        'Conducta inmediata: solicitar VDRL cuantitativo (título) para estadificar y monitorear respuesta al tratamiento. ' +
+        'No diferir tratamiento si no hay VDRL disponible: iniciar Penicilina G benzatínica 2.4 millones UI IM ' +
+        '(latente tardía/duración desconocida: 3 dosis semanales) mientras se obtiene VDRL. ' +
+        'Control neonatal y notificación obligatoria. · Algoritmo ETMI Plus 2024.',
+        'OPS / ETMI Plus 2024 / CDC');
     }
   } else if(sifVDRL==='pos'&&sifRap!=='react'){
     add('LABORATORIO','moderado','VDRL reactivo sin test treponémico confirmatorio',
