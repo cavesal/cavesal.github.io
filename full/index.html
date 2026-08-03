@@ -1187,7 +1187,16 @@ document.addEventListener('DOMContentLoaded', function(){
     <div class="row2">
       <div class="field"><label for="lab_audt">Ácidos biliares séricos (µmol/L)</label>
         <input type="number" id="lab_audt" placeholder="—" step="0.1">
-        <div class="hint">Normal &lt;10 · CIE leve 10–39 · Grave ≥40 · Muy grave ≥100 · Marcador específico colestasis</div>
+                <div class="hint">
+          <strong>Opcional</strong> — no disponible en muchos centros de la región. Sin AUDT: diagnosticar por clínica + laboratorio accesible (prurito + bilirrubina + TGO/TGP + FA/GGT).<br>
+          <table style="width:100%;font-size:.72rem;border-collapse:collapse;margin-top:4px">
+            <tr style="background:rgba(0,128,128,.1)"><th style="padding:2px 5px;text-align:left">Forma</th><th style="padding:2px 5px">AUDT</th><th style="padding:2px 5px">Criterio regional</th><th style="padding:2px 5px">Interrupción</th><th style="padding:2px 5px">Riesgo</th></tr>
+            <tr><td style="padding:2px 5px">Normal</td><td style="padding:2px 5px;text-align:center">&lt;10 µmol/L</td><td style="padding:2px 5px">—</td><td style="padding:2px 5px;text-align:center">—</td><td style="padding:2px 5px">Sin riesgo</td></tr>
+            <tr style="background:rgba(255,193,7,.12)"><td style="padding:2px 5px">Anictérica</td><td style="padding:2px 5px;text-align:center">10–39</td><td style="padding:2px 5px">Prurito + enzimas↑ · Bili normal</td><td style="padding:2px 5px;text-align:center">38 sem</td><td style="padding:2px 5px">Óbito fetal bajo · meconio</td></tr>
+            <tr style="background:rgba(255,152,0,.15)"><td style="padding:2px 5px">Ictérica</td><td style="padding:2px 5px;text-align:center">&ge;40</td><td style="padding:2px 5px">Prurito + enzimas↑ + Bili &gt;1.2</td><td style="padding:2px 5px;text-align:center">36 sem</td><td style="padding:2px 5px">↑↑ óbito fetal · meconio</td></tr>
+            <tr style="background:rgba(244,67,54,.12)"><td style="padding:2px 5px">Severa</td><td style="padding:2px 5px;text-align:center">&ge;100</td><td style="padding:2px 5px">Cualquier forma + síntomas graves</td><td style="padding:2px 5px;text-align:center">34–36 sem</td><td style="padding:2px 5px">Máx. riesgo óbito</td></tr>
+          </table>
+        </div>
       </div>
       <div class="field"><label for="sym_prurito">Prurito</label>
         <select id="sym_prurito">
@@ -1198,7 +1207,32 @@ document.addEventListener('DOMContentLoaded', function(){
         </select>
         <div class="hint">Síntoma cardinal CIE · Palmas y plantas típico · Sin lesión cutánea primaria</div>
       </div>
-    </div>
+
+    <div class="note-box" style="margin-top:6px">
+      <strong style="font-size:.8rem">Colestasis Intrahepática del Embarazo (CIE) — Clasificación y conducta</strong><br>
+      <table style="width:100%;font-size:.72rem;border-collapse:collapse;margin-top:5px">
+        <thead>
+          <tr style="background:var(--teal,#0d9488);color:#fff">
+            <th style="padding:3px 5px;text-align:left">Forma</th>
+            <th style="padding:3px 5px;text-align:center">AUDT*</th>
+            <th style="padding:3px 5px">Criterio accesible</th>
+            <th style="padding:3px 5px;text-align:center">Interrupción</th>
+            <th style="padding:3px 5px">Riesgo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:3px 5px">Normal</td><td style="padding:3px 5px;text-align:center">&lt;10 µmol/L</td><td style="padding:3px 5px">Sin síntomas</td><td style="padding:3px 5px;text-align:center">—</td><td style="padding:3px 5px">Sin riesgo</td></tr>
+          <tr style="background:rgba(255,193,7,.14)"><td style="padding:3px 5px"><strong>Anictérica</strong></td><td style="padding:3px 5px;text-align:center">10–39</td><td style="padding:3px 5px">Prurito + enzimas↑ · Bili normal</td><td style="padding:3px 5px;text-align:center"><strong>38 sem</strong></td><td style="padding:3px 5px">Óbito · meconio</td></tr>
+          <tr style="background:rgba(255,152,0,.18)"><td style="padding:3px 5px"><strong>Ictérica</strong></td><td style="padding:3px 5px;text-align:center">40–99</td><td style="padding:3px 5px">Prurito + enzimas↑ + Bili &gt;1.2</td><td style="padding:3px 5px;text-align:center"><strong>36 sem</strong></td><td style="padding:3px 5px">↑↑ óbito · meconio</td></tr>
+          <tr style="background:rgba(244,67,54,.13)"><td style="padding:3px 5px"><strong>Severa</strong></td><td style="padding:3px 5px;text-align:center">&ge;100</td><td style="padding:3px 5px">Cualquier forma + síntomas graves</td><td style="padding:3px 5px;text-align:center"><strong>34–36 sem</strong></td><td style="padding:3px 5px">Máx. óbito súbito</td></tr>
+        </tbody>
+      </table>
+      <div style="font-size:.69rem;color:var(--slate);margin-top:4px">
+        *AUDT = ácidos biliares séricos totales — <strong>opcional</strong>, no disponible en muchos centros de la región.<br>
+        ⚠️ Todos los casos: UDCA 10–15 mg/kg/día · Interrumpir ante compromiso del bienestar fetal independientemente de la EG.<br>
+        <em>Guía Perinatal MINSAL Chile 2015 · RCOG 2024 · SFMFM · Williamson C et al. Lancet 2018 · ACOG</em>
+      </div>
+    </div>    </div>
 
     <p class="sub-title">Perfil lipídico</p>
     <div class="row2">
@@ -2774,7 +2808,7 @@ Microcefalia: CC &lt;p3 para EG.</div>
       <strong style="color:var(--navy)">Serología — Hepatitis B:</strong> EASL Clinical Practice Guidelines 2017 · ACOG · ETMI Plus 2024<br>
       <strong style="color:var(--navy)">Serología — Hepatitis C:</strong> EASL Recommendations 2020 · AASLD · ACOG<br>
       <strong style="color:var(--navy)">Serología — Rubéola:</strong> CDC · OPS/PAHO · ACOG<br>
-      <strong style="color:var(--navy)">Colestasis intrahepática del embarazo (CIE):</strong> RCOG Green-top Guideline No. 43 (2024) · SFMFM Consult Series · Williamson C et al. <em>Lancet</em> 2018;391:1683–96 · Ovadia C et al. <em>Lancet</em> 2019;393:899–909 · ACOG · EASL<br>
+      <strong style="color:var(--navy)">Colestasis intrahepática del embarazo (CIE):</strong> Guía Perinatal MINSAL Chile 2015 (cap. 11) · RCOG Green-top Guideline No. 43 (2024) · SFMFM Consult Series No. 53 · Williamson C et al. <em>Lancet</em> 2018;391:1683–96 · Ovadia C et al. <em>Lancet</em> 2019;393:899–909 · ACOG · EASL · <em>Clasificación regional: ictérica (bili &gt;1.2 + enzimas↑) → 36 sem · anictérica → 38 sem</em><br>
       <strong style="color:var(--navy)">ACM PSV — algoritmo propio (anemia fetal):</strong> Basado en análisis de literatura · Mari G et al. NEJM 2000;342:9-14 · Detti L et al. AJOG 2002<br>
       <strong style="color:var(--navy)">Índice cerebroplacentario (ICP) — P5 dinámico:</strong> Baschat AA &amp; Gembruch U. UOG 2003;22:529-536<br>
       <strong style="color:var(--navy)">Anemia fetal:</strong> Mari G et al. NEJM 2000 (Doppler ACM/PSV)<br>
@@ -3728,6 +3762,7 @@ function calcular(){
   }
   // ── COLESTASIS INTRAHEPÁTICA DEL EMBARAZO (CIE) ──
   // Algoritmo propio CaVeSal® · Análisis basado en literatura de referencia
+  // Clasificación regional: ictérica (bili >1.2 + enzimas) → 36 sem | anictérica → 38 sem
   const audt=val('lab_audt');
   const prurito=document.getElementById('sym_prurito').value;
   const cie_bili = bili!==null && bili>1.2;
@@ -3737,86 +3772,71 @@ function calcular(){
   const cie_audt_severa = audt!==null && audt>=100;
 
   if(audt!==null||cie_bili||cie_prurito){
-    // Clasificar severidad
-    var cie_tipo = '';
-    var cie_nivel = '';
-    var cie_interrupcion = '';
-    var cie_color = 'moderado';
+    var cie_tipo='', cie_interrupcion='', cie_color='moderado', cie_icterica=false;
 
-    // Por ácidos biliares (marcador de oro)
-    if(audt!==null){
-      if(audt<10){ cie_nivel='normal'; }
-      else if(audt<40){ cie_nivel='leve'; cie_tipo='CIE leve'; cie_interrupcion='38 semanas'; cie_color='moderado'; }
-      else if(audt<100){ cie_nivel='grave'; cie_tipo='CIE moderada-grave'; cie_interrupcion='36–37 semanas'; cie_color='alto'; }
-      else { cie_nivel='severa'; cie_tipo='CIE severa'; cie_interrupcion='34–36 semanas'; cie_color='alto'; }
+    // Forma ictérica — criterio accesible regional: bili >1.2 + enzimas elevadas
+    if(cie_bili && cie_enzimas){
+      cie_icterica=true; cie_tipo='CIE ictérica'; cie_interrupcion='36 semanas'; cie_color='alto';
     }
-
-    // Ajuste por bilirrubina (forma ictérica)
-    var cie_icterica = cie_bili && cie_enzimas;
-    if(cie_icterica && cie_nivel!=='severa'){
-      cie_tipo = (cie_tipo||'CIE') + ' · Forma ictérica';
-      // Forma ictérica adelanta interrupción
-      if(cie_nivel==='leve'){ cie_interrupcion='36–37 semanas (ictérica)'; cie_color='alto'; }
-      else if(!cie_nivel){ cie_tipo='CIE ictérica'; cie_interrupcion='36 semanas'; cie_color='alto'; }
-    } else if(cie_bili && !cie_enzimas && !cie_audt_grave){
-      // Solo bilirrubina leve elevada sin enzimas ni AUDT
+    // Forma anictérica: prurito + enzimas sin bilirrubina franca
+    else if(cie_prurito && cie_enzimas){
+      cie_tipo='CIE anictérica'; cie_interrupcion='38 semanas'; cie_color='moderado';
+    }
+    // Solo bilirrubina leve sin enzimas
+    else if(cie_bili && !cie_enzimas){
       add('LABORATORIO','moderado',`Bilirrubina ${bili} mg/dL (↑)`,
-        'Bilirrubina levemente elevada. Descartar colestasis intrahepática del embarazo (CIE). ' +
-        'Solicitar ácidos biliares séricos totales (marcador específico) y transaminasas. ' +
-        'Evaluar prurito — especialmente palmas, plantas, de predominio nocturno.',
+        'Bilirrubina elevada. Descartar colestasis intrahepática del embarazo (CIE). ' +
+        'Solicitar TGO/TGP, FA, GGT. Evaluar prurito palmoplantar de predominio nocturno. ' +
+        'Si ácidos biliares séricos disponibles: solicitarlos (marcador específico de CIE).',
         'RCOG 2024 / ACOG / EASL');
     }
-
-    // Prurito intenso sin laboratorio → sospecha
-    if(!cie_nivel && prurito==='intenso' && !cie_bili){
-      add('LABORATORIO','moderado','Prurito intenso sin laboratorio — descartar CIE',
-        'Prurito intenso en embarazo: descartar colestasis intrahepática del embarazo (CIE). ' +
-        'Solicitar urgente: ácidos biliares séricos totales (BA), bilirrubina, TGO/TGP, FA. ' +
-        'El prurito puede preceder horas/días la elevación de laboratorio.',
+    // Solo prurito intenso sin laboratorio
+    else if(prurito==='intenso' && !cie_enzimas && !cie_bili){
+      add('LABORATORIO','moderado','Prurito intenso — descartar CIE',
+        'Prurito intenso en embarazo: descartar colestasis intrahepática. ' +
+        'Solicitar urgente: bilirrubina total, TGO/TGP, FA, GGT. ' +
+        'Si disponible: ácidos biliares séricos totales. ' +
+        'El prurito puede preceder horas/días la elevación del laboratorio.',
         'RCOG 2024 / Williamson 2018');
     }
 
-    // Emitir conducta si hay clasificación CIE establecida
+    // Refinamiento por AUDT si disponible
+    if(cie_tipo && audt!==null){
+      if(cie_audt_severa){ cie_tipo+=' · AUDT severa (≥100 µmol/L)'; cie_interrupcion='34–36 semanas'; cie_color='alto'; }
+      else if(cie_audt_grave && !cie_icterica){ cie_tipo+=' · AUDT grave (≥40 µmol/L)'; cie_interrupcion='36–37 semanas'; cie_color='alto'; }
+    }
+
     if(cie_tipo){
-      var cie_desc = '';
-
-      // Descripción del tipo
+      var cie_desc='';
       if(cie_icterica){
-        cie_desc += '⚠️ FORMA ICTÉRICA: bilirrubina elevada + transaminasas + prurito. Peor pronóstico perinatal. ';
+        cie_desc+='⚠️ FORMA ICTÉRICA: bilirrubina >1.2 mg/dL + enzimas hepáticas elevadas. Mayor riesgo de óbito fetal, meconio espeso, sufrimiento fetal agudo. ';
       } else {
-        cie_desc += 'Forma anictérica: bilirrubina normal o levemente elevada, predominio enzimático/ácidos biliares. ';
+        cie_desc+='Forma anictérica: prurito + enzimas elevadas, bilirrubina normal. Riesgo de óbito fetal presente aunque menor que la forma ictérica. ';
       }
-
-      // AUDT si disponible
       if(audt!==null && audt>=10){
-        cie_desc += `Ácidos biliares séricos: ${audt} µmol/L `;
-        if(cie_audt_severa) cie_desc += '(≥100 = severa — máximo riesgo muerte fetal súbita). ';
-        else if(cie_audt_grave) cie_desc += '(≥40 = grave — riesgo aumentado resultado perinatal adverso). ';
-        else cie_desc += '(10–39 = leve). ';
-      } else if(!audt){
-        cie_desc += 'Solicitar ácidos biliares séricos (BA total) para clasificar severidad. ';
+        cie_desc+=`Ácidos biliares séricos: ${audt} µmol/L `;
+        if(cie_audt_severa) cie_desc+='(≥100 = severa — máximo riesgo óbito fetal súbito). ';
+        else if(cie_audt_grave) cie_desc+='(≥40 = grave — riesgo aumentado). ';
+        else cie_desc+='(10–39 = leve). ';
+      } else if(audt===null){
+        cie_desc+='Diagnóstico por criterio clínico-bioquímico accesible (prurito + bilirrubina + TGO/TGP). Ácidos biliares séricos no disponibles en muchos centros de la región. ';
       }
-
-      // Tratamiento
-      cie_desc += '· TRATAMIENTO: Ácido ursodeoxicólico (UDCA) 10–15 mg/kg/día vía oral (primera línea — mejora prurito, perfil bioquímico y resultado perinatal; superior a colestiramina). ';
-      cie_desc += 'Vitamina K oral si colestasis prolongada (↓ absorción). ';
-
-      // Interrupción
+      cie_desc+='· TRATAMIENTO: Ácido ursodeoxicólico (UDCA) 10–15 mg/kg/día VO en 2–3 tomas (primera línea — mejora prurito y perfil bioquímico; superior a colestiramina). Vitamina K oral si colestasis prolongada. ';
       if(cie_interrupcion){
-        cie_desc += `· INTERRUPCIÓN: Inducción del trabajo de parto a las ${cie_interrupcion}. `;
+        cie_desc+=`· INTERRUPCIÓN: Inducción del trabajo de parto a las ${cie_interrupcion}. `;
+        if(cie_icterica||cie_audt_grave) cie_desc+='Forma ictérica/grave: 36 semanas por riesgo aumentado de óbito fetal y meconio espeso. ';
+        else cie_desc+='Forma anictérica: 38 semanas — existe riesgo de óbito fetal aunque menor. ';
       }
-      cie_desc += 'INDEPENDIENTEMENTE de la clasificación: interrumpir ante cualquier signo de compromiso del bienestar fetal (NST no reactivo, Doppler alterado, movimientos fetales reducidos) o deterioro materno. ';
-
-      // Monitoreo
-      cie_desc += '· MONITOREO: NST semanal desde sem 32. Ácidos biliares c/1–2 semanas. Laboratorio hepático c/2 semanas. Ecografía con Doppler si sospecha compromiso fetal. ';
-
-      // Referencia clasificación al pie
-      cie_desc += '· Clasificación: CIE leve: BA 10–39 µmol/L → parto ≥38 sem | CIE moderada-grave: BA 40–99 µmol/L → parto 36–37 sem | CIE severa: BA ≥100 µmol/L → parto 34–36 sem | Forma ictérica (bili↑ + enzimas↑): parto 35–36 sem. Fuente: RCOG 2024 / SFMFM / ACOG.';
+      cie_desc+='⚠️ INDEPENDIENTEMENTE de la clasificación: interrumpir ante cualquier signo de compromiso del bienestar fetal (NST no reactivo, Doppler alterado, movimientos fetales reducidos, meconio) o deterioro materno. ';
+      cie_desc+='· MONITOREO: NST semanal desde sem 32. Control laboratorio hepático c/2 semanas. ';
+      if(audt!==null) cie_desc+='Ácidos biliares c/1–2 semanas. ';
+      cie_desc+='· Resumen conducta: Anictérica (prurito + enzimas↑, bili normal) → UDCA + parto 38 sem | Ictérica (prurito + enzimas↑ + bili >1.2) → UDCA + parto 36 sem | Severa (AUDT ≥100 µmol/L) → UDCA + parto 34–36 sem. ';
+      cie_desc+='Fuente: Guía Perinatal MINSAL Chile 2015 · RCOG 2024 · SFMFM · ACOG.';
 
       add('LABORATORIO', cie_color,
         `🟡 ${cie_tipo} — Colestasis Intrahepática del Embarazo`,
         cie_desc,
-        'RCOG 2024 · SFMFM · Williamson C 2018 · ACOG · EASL');
+        'Guía Perinatal MINSAL Chile 2015 · RCOG 2024 · SFMFM · Williamson C et al. Lancet 2018 · Ovadia C et al. Lancet 2019 · ACOG · EASL');
     }
   }
 
