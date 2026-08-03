@@ -1150,6 +1150,26 @@ main{padding:14px;max-width:680px;margin:0 auto}
     <span style="margin-left:auto;color:var(--teal);font-size:1rem">›</span>
   </a>
 
+  <!-- Tutoriales -->
+  <a href="https://cavesal.app/manual-calculadora.html" target="_blank" rel="noopener"
+     style="display:flex;align-items:center;gap:10px;background:var(--teal);color:#fff;text-decoration:none;border-radius:10px;padding:12px 16px;font-weight:600;font-size:.9rem">
+    <span style="font-size:1.2rem">📊</span>
+    <div>
+      <div>Tutorial · Calculadora CaVeSal®</div>
+      <div style="font-size:.75rem;font-weight:400;opacity:.9">Guía completa de uso paso a paso</div>
+    </div>
+    <span style="margin-left:auto;font-size:1rem">↗</span>
+  </a>
+  <a href="https://historia.cavesal.app/manual-historia-clinica.html" target="_blank" rel="noopener"
+     style="display:flex;align-items:center;gap:10px;background:var(--teal-lt,#e0f2f1);color:var(--teal);text-decoration:none;border-radius:10px;padding:12px 16px;font-weight:600;font-size:.9rem;border:1.5px solid var(--teal)">
+    <span style="font-size:1.2rem">📋</span>
+    <div>
+      <div>Tutorial · Historia Clínica CaVeSal®</div>
+      <div style="font-size:.75rem;font-weight:400;opacity:.8">Guía completa de uso paso a paso</div>
+    </div>
+    <span style="margin-left:auto;font-size:1rem">↗</span>
+  </a>
+
 </div>
 
 <div style="text-align:center;padding:24px 16px 14px">
@@ -1211,6 +1231,7 @@ main{padding:14px;max-width:680px;margin:0 auto}
       <strong style="color:var(--navy)">Serología — Hepatitis B:</strong> EASL Clinical Practice Guidelines 2017 · ACOG · ETMI Plus 2024<br>
       <strong style="color:var(--navy)">Serología — Hepatitis C:</strong> EASL Recommendations 2020 · AASLD · ACOG<br>
       <strong style="color:var(--navy)">Serología — Rubéola:</strong> CDC · OPS/PAHO · ACOG<br>
+      <strong style="color:var(--navy)">Colestasis intrahepática del embarazo (CIE):</strong> RCOG Green-top Guideline No. 43 (2024) · SFMFM Consult Series · Williamson C et al. <em>Lancet</em> 2018 · Ovadia C et al. <em>Lancet</em> 2019 · ACOG · EASL<br>
       <strong style="color:var(--navy)">ACM PSV — algoritmo propio (anemia fetal):</strong> Basado en análisis de literatura · Mari G et al. NEJM 2000;342:9-14 · Detti L et al. AJOG 2002<br>
       <strong style="color:var(--navy)">Índice cerebroplacentario (ICP) — P5 dinámico:</strong> Baschat AA &amp; Gembruch U. UOG 2003;22:529-536<br>
       <strong style="color:var(--navy)">Anemia fetal:</strong> Mari G et al. NEJM 2000 (Doppler ACM/PSV)<br>
@@ -1774,7 +1795,7 @@ function calcular(){
     if(tgo!==null&&tgo>40) add('LABORATORIO','moderado',`TGO ${tgo} UI/L (↑)`,'Transaminasas elevadas. Descartar colestasis gestacional, hepatitis. Vigilar evolución.','ACOG');
     if(ldh!==null&&ldh>400) add('LABORATORIO','moderado',`LDH ${ldh} UI/L (↑)`,'LDH moderadamente elevada. Vigilar en contexto de HTA y trombocitopenia.','ACOG');
   }
-  if(bili!==null&&bili>1.5) add('LABORATORIO','moderado',`Bilirrubina ${bili} mg/dL (↑)`,'Descartar colestasis intrahepática del embarazo (CIE): prurito + bilis elevadas. Solicitar ácidos biliares. Mayor riesgo de muerte fetal súbita.','ACOG / EASL');
+  // CIE — módulo exclusivo versión full (laboratorio bloqueado en demo)
 
   // ── VITAMINA D SÉRICA ──
   const vitd=val('lab_vitd');
@@ -3865,6 +3886,10 @@ function cargarEjemplo(tipo){
     set('toxo_igm','neg');
     set('hbv_hbsag','pos');           // HBsAg positivo
     set('lb_sgb','desc');             // SGB desconocido
+    // CIE — colestasis intrahepática (forma ictérica moderada-grave)
+    set('lab_bili','1.8');            // Bilirrubina elevada → forma ictérica
+    set('lab_audt','55');             // Ácidos biliares 55 µmol/L → CIE moderada-grave
+    var _pr=document.getElementById('sym_prurito'); if(_pr) _pr.value='intenso'; // Prurito intenso
     // EG·Parto — Dextograma
     set('dext_fum', fumStr);
     set('dext_fecha_calc', new Date().toISOString().split('T')[0]);
