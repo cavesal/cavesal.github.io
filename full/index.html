@@ -1175,13 +1175,28 @@ document.addEventListener('DOMContentLoaded', function(){
       </div>
     </div>
     <div class="row2">
-      <div class="field"><label>Bilirrubina total (mg/dL)</label>
+      <div class="field"><label for="lab_bili">Bilirrubina total (mg/dL)</label>
         <input type="number" id="lab_bili" placeholder="—" step="0.1">
-        <div class="hint">Normal: &lt;1.2 · ↑ sospecha colestasis</div>
+        <div class="hint">Normal: &lt;1.2 · ↑ sospecha colestasis · CIE ictérica si &gt;1.2 + enzimas + prurito</div>
       </div>
-      <div class="field"><label>Fosfatasa alcalina (UI/L)</label>
+      <div class="field"><label for="lab_fa">Fosfatasa alcalina (UI/L)</label>
         <input type="number" id="lab_fa" placeholder="—">
         <div class="hint">Normal embarazo: hasta 3× LSN (origen placentario)</div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="lab_audt">Ácidos biliares séricos (µmol/L)</label>
+        <input type="number" id="lab_audt" placeholder="—" step="0.1">
+        <div class="hint">Normal &lt;10 · CIE leve 10–39 · Grave ≥40 · Muy grave ≥100 · Marcador específico colestasis</div>
+      </div>
+      <div class="field"><label for="sym_prurito">Prurito</label>
+        <select id="sym_prurito">
+          <option value="">— no consignado —</option>
+          <option value="ausente">Ausente</option>
+          <option value="leve">Leve (localizado, nocturno)</option>
+          <option value="intenso">Intenso (generalizado, incapacitante)</option>
+        </select>
+        <div class="hint">Síntoma cardinal CIE · Palmas y plantas típico · Sin lesión cutánea primaria</div>
       </div>
     </div>
 
@@ -2682,6 +2697,28 @@ Microcefalia: CC &lt;p3 para EG.</div>
   <div style="font-size:.65rem;color:#4a6274;margin-top:4px">v2.0 · Dr. Carlos Vera Salerno</div>
 </div>
 
+<!-- Tutoriales -->
+<div style="display:flex;flex-direction:column;gap:10px;padding:16px 16px 4px">
+  <a href="https://cavesal.app/manual-calculadora.html" target="_blank" rel="noopener"
+     style="display:flex;align-items:center;gap:10px;background:var(--teal);color:#fff;text-decoration:none;border-radius:10px;padding:12px 16px;font-weight:600;font-size:.9rem">
+    <span style="font-size:1.2rem">📊</span>
+    <div>
+      <div>Tutorial · Calculadora CaVeSal®</div>
+      <div style="font-size:.75rem;font-weight:400;opacity:.9">Guía completa de uso paso a paso</div>
+    </div>
+    <span style="margin-left:auto;font-size:1rem">↗</span>
+  </a>
+  <a href="https://historia.cavesal.app/manual-historia-clinica.html" target="_blank" rel="noopener"
+     style="display:flex;align-items:center;gap:10px;background:var(--teal-light,#e0f2f1);color:var(--teal);text-decoration:none;border-radius:10px;padding:12px 16px;font-weight:600;font-size:.9rem;border:1.5px solid var(--teal)">
+    <span style="font-size:1.2rem">📋</span>
+    <div>
+      <div>Tutorial · Historia Clínica CaVeSal®</div>
+      <div style="font-size:.75rem;font-weight:400;opacity:.8">Guía completa de uso paso a paso</div>
+    </div>
+    <span style="margin-left:auto;font-size:1rem">↗</span>
+  </a>
+</div>
+
 <div class="section-card" style="margin-bottom:10px">
   <div class="section-head open" onclick="toggleSection(this)"><span class="icon">👨‍⚕️</span><h2>Autor clínico</h2><span class="chevron">▼</span></div>
   <div class="section-body open" style="padding:14px">
@@ -2721,7 +2758,7 @@ Microcefalia: CC &lt;p3 para EG.</div>
       <strong style="color:var(--navy)">Cribado cromosómico:</strong> FMF / Nicolaides · Snijders 1998 · Sharifzadeh 2019 · Kagan · Cicero<br>
       <strong style="color:var(--navy)">Preeclampsia:</strong> FMF · ISSHP · Roche/BRAHMS (sFlt-1/PlGF) · Medicina Fetal Barcelona<br>
       <strong style="color:var(--navy)">Diabetes gestacional:</strong> IADPSG 2010 · ADA 2026 · ALAD 2019 · OMS<br>
-      <strong style="color:var(--navy)">Tiroides:</strong> ATA · Endocrine Society<br>
+      <strong style="color:var(--navy)">Tiroides (TSH · T4 libre · Anti-TPO):</strong> ATA Guidelines 2017 · Endocrine Society · ACOG<br>
       <strong style="color:var(--navy)">Suplementación:</strong> OMS · ACOG · NICE · FIGO · Endocrine Society 2024 · EBCOG 2024 · Cochrane<br>
       <strong style="color:var(--navy)">Biometría fetal:</strong> Hadlock 1984 · Robinson &amp; Fleming 1975 (CRL/FUM) · Chitty &amp; Altman 2002 (húmero) · Goldstein 1987 (cerebelo) · Jeanty 1983 · Chitty 1994 · INTERGROWTH-21st · Figueras &amp; Gratacós 2008<br>
       <strong style="color:var(--navy)">Crecimiento fetal / PEG / RCIU:</strong> Figueras F. EJOGR 2008 · Protocolo MFB Nov 2024 · ISUOG Delphi Consensus 2020<br>
@@ -2737,6 +2774,7 @@ Microcefalia: CC &lt;p3 para EG.</div>
       <strong style="color:var(--navy)">Serología — Hepatitis B:</strong> EASL Clinical Practice Guidelines 2017 · ACOG · ETMI Plus 2024<br>
       <strong style="color:var(--navy)">Serología — Hepatitis C:</strong> EASL Recommendations 2020 · AASLD · ACOG<br>
       <strong style="color:var(--navy)">Serología — Rubéola:</strong> CDC · OPS/PAHO · ACOG<br>
+      <strong style="color:var(--navy)">Colestasis intrahepática del embarazo (CIE):</strong> RCOG Green-top Guideline No. 43 (2024) · SFMFM Consult Series · Williamson C et al. <em>Lancet</em> 2018;391:1683–96 · Ovadia C et al. <em>Lancet</em> 2019;393:899–909 · ACOG · EASL<br>
       <strong style="color:var(--navy)">ACM PSV — algoritmo propio (anemia fetal):</strong> Basado en análisis de literatura · Mari G et al. NEJM 2000;342:9-14 · Detti L et al. AJOG 2002<br>
       <strong style="color:var(--navy)">Índice cerebroplacentario (ICP) — P5 dinámico:</strong> Baschat AA &amp; Gembruch U. UOG 2003;22:529-536<br>
       <strong style="color:var(--navy)">Anemia fetal:</strong> Mari G et al. NEJM 2000 (Doppler ACM/PSV)<br>
@@ -3386,6 +3424,43 @@ function calcular(){
     else if(tsh<0.1) add('LABORATORIO','alto',`${tshLabel} — hipertiroidismo`,'Descartar Graves. PTU en 1T (luego metimazol en 2T-3T). Nunca yodo radiactivo. Endocrinología. Vigilar tiroides fetal si Anti-TRAb+.','ATA / ACOG');
     else if(tsh<tshRef.min) add('LABORATORIO','moderado',`${tshLabel} — TSH bajo límite`,'Confirmar con T4L. Si hipertiroidismo subclínico: control c/4 sem. Descartar Graves.','ATA / ACOG');
   }
+  // ── T4 LIBRE ──
+  // Algoritmo propio CaVeSal® · Análisis basado en literatura de referencia
+  const t4l=val('t4l');
+  if(t4l!==null){
+    if(t4l<0.8) add('LABORATORIO','alto',`T4 libre ${t4l} ng/dL (↓ — hipotiroidismo clínico)`,
+      'T4 libre baja: hipotiroidismo clínico confirmado independientemente del TSH. ' +
+      'Iniciar/ajustar levotiroxina urgente. Riesgo: aborto, parto pretérmino, alteración neurodesarrollo fetal. ' +
+      'Objetivo: T4L en rango normal trimestral. Control c/4 sem hasta estabilización.',
+      'ATA 2017 / ACOG / Endocrine Society');
+    else if(t4l>1.8) add('LABORATORIO','moderado',`T4 libre ${t4l} ng/dL (↑ — hipertiroidismo)`,
+      'T4 libre elevada: confirmar con TSH. Si TSH suprimido + T4L alta: hipertiroidismo clínico. ' +
+      'Descartar Enfermedad de Graves (Anti-TRAb). ' +
+      'PTU en 1T (5–10 mg c/8h); metimazol en 2T–3T (5–20 mg/día). Nunca yodo radiactivo en embarazo. ' +
+      'Endocrinología urgente. Monitoreo FCF (riesgo tirotoxicosis fetal si Anti-TRAb+).',
+      'ATA 2017 / ACOG');
+  }
+  // ── ANTI-TPO ──
+  // Algoritmo propio CaVeSal® · Análisis basado en literatura de referencia
+  const antitpo=val('antitpo');
+  if(antitpo!==null && antitpo>34){
+    // Umbral positivo: >34 UI/mL (mayoría de laboratorios)
+    var antitpo_tsh = tsh||0;
+    if(antitpo_tsh>2.5){
+      add('LABORATORIO','alto',`Anti-TPO ${antitpo} UI/mL (↑) + TSH elevado`,
+        'Anti-TPO positivo con TSH sobre umbral trimestral: hipotiroidismo autoinmune. ' +
+        'Iniciar levotiroxina. Riesgo aumentado: aborto espontáneo, parto pretérmino, PE, DPPNI. ' +
+        'Control TSH c/4 sem. Screening hipotiroidismo neonatal.',
+        'ATA 2017 / ACOG / Endocrine Society');
+    } else {
+      add('LABORATORIO','moderado',`Anti-TPO ${antitpo} UI/mL (↑) — tiroiditis autoinmune`,
+        'Anti-TPO positivo con TSH normal: tiroiditis autoinmune sin disfunción actual. ' +
+        'Control TSH c/4–6 sem (riesgo hipotiroidismo gestacional aumentado 2–5×). ' +
+        'Control TSH postparto a las 6–12 semanas (riesgo tiroiditis postparto ~50%). ' +
+        'No requiere tratamiento si TSH normal. Considerar levotiroxina si TSH >2.5 en 1T con Anti-TPO+.',
+        'ATA 2017 / ACOG / Endocrine Society');
+    }
+  }
   // SGB
   const sgbRes=document.getElementById('lb_sgb').value;
   if(sgbRes==='pos') add('LABORATORIO','alto','SGB positivo — profilaxis intraparto obligatoria','Penicilina G 5 mill UI IV al inicio del TP, luego 2.5 mill UI c/4h hasta el parto. Alternativa: ampicilina. Alergia a penicilina: clindamicina según antibiograma (resistencia ~20%).','CDC / ACOG');
@@ -3478,6 +3553,45 @@ function calcular(){
       'Lactancia materna permitida si neonato recibió inmunoprofilaxis completa. ' +
       'Parto vaginal no contraindicado. Hepatología + neonatología.',
       'EASL 2017 / ACOG / ETMI Plus 2024');
+  }
+  // ── HBeAg (marcador replicación HBV) ──
+  // Algoritmo propio CaVeSal® · Análisis basado en literatura de referencia
+  const hbeag=document.getElementById('hbv_hbeag').value;
+  if(hbeag==='pos' && hbsag==='pos'){
+    add('LABORATORIO','alto','Hepatitis B: HBeAg positivo — alta replicación viral',
+      'HBeAg positivo indica replicación activa con alta carga viral. ' +
+      'Mayor riesgo de transmisión vertical (TV hasta 90% sin profilaxis vs. 10–15% con HBsAg+ solo). ' +
+      'Indicación reforzada de tenofovir desde sem 28 independientemente del nivel de ADN-HBV. ' +
+      'Inmunoprofilaxis neonatal obligatoria <12h: HBIG + vacuna. ' +
+      'Control ADN-HBV + ALT c/trimestre. Hepatología.',
+      'EASL 2017 / AASLD / ETMI Plus 2024');
+  } else if(hbeag==='pos' && hbsag!=='pos'){
+    add('LABORATORIO','moderado','HBeAg positivo — solicitar HBsAg',
+      'HBeAg positivo sin HBsAg consignado: completar perfil serológico HBV (HBsAg, Anti-HBc, ADN-HBV). ' +
+      'Puede indicar reactivación o perfil serológico inusual.',
+      'EASL 2017');
+  }
+  // ── Anti-HBs (estado vacunal / inmunidad HBV) ──
+  // Algoritmo propio CaVeSal® · Análisis basado en literatura de referencia
+  const antihbs=document.getElementById('hbv_antihbs').value;
+  if(antihbs!==null && antihbs!==''){
+    var antihbs_val = parseFloat(antihbs);
+    if(!isNaN(antihbs_val)){
+      if(antihbs_val<10){
+        add('LABORATORIO','moderado',`Anti-HBs ${antihbs_val} UI/L — sin inmunidad HBV`,
+          'Anti-HBs <10 UI/L: sin inmunidad protectora contra hepatitis B. ' +
+          'Si HBsAg negativo y Anti-HBc negativo: susceptible — iniciar esquema vacunación HBV (0–1–6 meses); ' +
+          'vacuna es segura en embarazo. Control Anti-HBs post-vacunación. ' +
+          'Si Anti-HBc positivo con Anti-HBs bajo: infección pasada resuelta — no requiere vacunación.',
+          'ACOG / EASL / ETMI Plus 2024');
+      } else if(antihbs_val>=10 && antihbs_val<100){
+        add('LABORATORIO','bajo',`Anti-HBs ${antihbs_val} UI/L — inmunidad límite`,
+          'Anti-HBs 10–99 UI/L: inmunidad presente pero en límite inferior. ' +
+          'Si vacunada previamente: considerar dosis de refuerzo. Control en próximo embarazo.',
+          'ACOG / EASL');
+      }
+      // Anti-HBs ≥100: inmunidad protectora adecuada — sin alerta
+    }
   }
 
   // ── VIH ──
@@ -3612,7 +3726,99 @@ function calcular(){
     if(tgo!==null&&tgo>40) add('LABORATORIO','moderado',`TGO ${tgo} UI/L (↑)`,'Transaminasas elevadas. Descartar colestasis gestacional, hepatitis. Vigilar evolución.','ACOG');
     if(ldh!==null&&ldh>400) add('LABORATORIO','moderado',`LDH ${ldh} UI/L (↑)`,'LDH moderadamente elevada. Vigilar en contexto de HTA y trombocitopenia.','ACOG');
   }
-  if(bili!==null&&bili>1.5) add('LABORATORIO','moderado',`Bilirrubina ${bili} mg/dL (↑)`,'Descartar colestasis intrahepática del embarazo (CIE): prurito + bilis elevadas. Solicitar ácidos biliares. Mayor riesgo de muerte fetal súbita.','ACOG / EASL');
+  // ── COLESTASIS INTRAHEPÁTICA DEL EMBARAZO (CIE) ──
+  // Algoritmo propio CaVeSal® · Análisis basado en literatura de referencia
+  const audt=val('lab_audt');
+  const prurito=document.getElementById('sym_prurito').value;
+  const cie_bili = bili!==null && bili>1.2;
+  const cie_enzimas = (tgo&&tgo>40)||(tgp&&tgp>40);
+  const cie_prurito = prurito==='leve'||prurito==='intenso';
+  const cie_audt_grave = audt!==null && audt>=40;
+  const cie_audt_severa = audt!==null && audt>=100;
+
+  if(audt!==null||cie_bili||cie_prurito){
+    // Clasificar severidad
+    var cie_tipo = '';
+    var cie_nivel = '';
+    var cie_interrupcion = '';
+    var cie_color = 'moderado';
+
+    // Por ácidos biliares (marcador de oro)
+    if(audt!==null){
+      if(audt<10){ cie_nivel='normal'; }
+      else if(audt<40){ cie_nivel='leve'; cie_tipo='CIE leve'; cie_interrupcion='38 semanas'; cie_color='moderado'; }
+      else if(audt<100){ cie_nivel='grave'; cie_tipo='CIE moderada-grave'; cie_interrupcion='36–37 semanas'; cie_color='alto'; }
+      else { cie_nivel='severa'; cie_tipo='CIE severa'; cie_interrupcion='34–36 semanas'; cie_color='alto'; }
+    }
+
+    // Ajuste por bilirrubina (forma ictérica)
+    var cie_icterica = cie_bili && cie_enzimas;
+    if(cie_icterica && cie_nivel!=='severa'){
+      cie_tipo = (cie_tipo||'CIE') + ' · Forma ictérica';
+      // Forma ictérica adelanta interrupción
+      if(cie_nivel==='leve'){ cie_interrupcion='36–37 semanas (ictérica)'; cie_color='alto'; }
+      else if(!cie_nivel){ cie_tipo='CIE ictérica'; cie_interrupcion='36 semanas'; cie_color='alto'; }
+    } else if(cie_bili && !cie_enzimas && !cie_audt_grave){
+      // Solo bilirrubina leve elevada sin enzimas ni AUDT
+      add('LABORATORIO','moderado',`Bilirrubina ${bili} mg/dL (↑)`,
+        'Bilirrubina levemente elevada. Descartar colestasis intrahepática del embarazo (CIE). ' +
+        'Solicitar ácidos biliares séricos totales (marcador específico) y transaminasas. ' +
+        'Evaluar prurito — especialmente palmas, plantas, de predominio nocturno.',
+        'RCOG 2024 / ACOG / EASL');
+    }
+
+    // Prurito intenso sin laboratorio → sospecha
+    if(!cie_nivel && prurito==='intenso' && !cie_bili){
+      add('LABORATORIO','moderado','Prurito intenso sin laboratorio — descartar CIE',
+        'Prurito intenso en embarazo: descartar colestasis intrahepática del embarazo (CIE). ' +
+        'Solicitar urgente: ácidos biliares séricos totales (BA), bilirrubina, TGO/TGP, FA. ' +
+        'El prurito puede preceder horas/días la elevación de laboratorio.',
+        'RCOG 2024 / Williamson 2018');
+    }
+
+    // Emitir conducta si hay clasificación CIE establecida
+    if(cie_tipo){
+      var cie_desc = '';
+
+      // Descripción del tipo
+      if(cie_icterica){
+        cie_desc += '⚠️ FORMA ICTÉRICA: bilirrubina elevada + transaminasas + prurito. Peor pronóstico perinatal. ';
+      } else {
+        cie_desc += 'Forma anictérica: bilirrubina normal o levemente elevada, predominio enzimático/ácidos biliares. ';
+      }
+
+      // AUDT si disponible
+      if(audt!==null && audt>=10){
+        cie_desc += `Ácidos biliares séricos: ${audt} µmol/L `;
+        if(cie_audt_severa) cie_desc += '(≥100 = severa — máximo riesgo muerte fetal súbita). ';
+        else if(cie_audt_grave) cie_desc += '(≥40 = grave — riesgo aumentado resultado perinatal adverso). ';
+        else cie_desc += '(10–39 = leve). ';
+      } else if(!audt){
+        cie_desc += 'Solicitar ácidos biliares séricos (BA total) para clasificar severidad. ';
+      }
+
+      // Tratamiento
+      cie_desc += '· TRATAMIENTO: Ácido ursodeoxicólico (UDCA) 10–15 mg/kg/día vía oral (primera línea — mejora prurito, perfil bioquímico y resultado perinatal; superior a colestiramina). ';
+      cie_desc += 'Vitamina K oral si colestasis prolongada (↓ absorción). ';
+
+      // Interrupción
+      if(cie_interrupcion){
+        cie_desc += `· INTERRUPCIÓN: Inducción del trabajo de parto a las ${cie_interrupcion}. `;
+      }
+      cie_desc += 'INDEPENDIENTEMENTE de la clasificación: interrumpir ante cualquier signo de compromiso del bienestar fetal (NST no reactivo, Doppler alterado, movimientos fetales reducidos) o deterioro materno. ';
+
+      // Monitoreo
+      cie_desc += '· MONITOREO: NST semanal desde sem 32. Ácidos biliares c/1–2 semanas. Laboratorio hepático c/2 semanas. Ecografía con Doppler si sospecha compromiso fetal. ';
+
+      // Referencia clasificación al pie
+      cie_desc += '· Clasificación: CIE leve: BA 10–39 µmol/L → parto ≥38 sem | CIE moderada-grave: BA 40–99 µmol/L → parto 36–37 sem | CIE severa: BA ≥100 µmol/L → parto 34–36 sem | Forma ictérica (bili↑ + enzimas↑): parto 35–36 sem. Fuente: RCOG 2024 / SFMFM / ACOG.';
+
+      add('LABORATORIO', cie_color,
+        `🟡 ${cie_tipo} — Colestasis Intrahepática del Embarazo`,
+        cie_desc,
+        'RCOG 2024 · SFMFM · Williamson C 2018 · ACOG · EASL');
+    }
+  }
 
   // ── VITAMINA D SÉRICA ──
   const vitd=val('lab_vitd');
@@ -6359,6 +6565,8 @@ function limpiarFormulario(){
   (document.getElementById('nt_crl')||{}).value='';
   (document.getElementById('lab_ldh')||{}).value='';
   (document.getElementById('lab_bili')||{}).value='';
+  (document.getElementById('lab_audt')||{}).value='';
+  (document.getElementById('sym_prurito')||{}).value='';
   (document.getElementById('lab_alt')||{}).value='';
   (document.getElementById('lab_ast')||{}).value='';
   (document.getElementById('cervix')||{}).value='';
@@ -6614,6 +6822,10 @@ function cargarEjemplo(tipo){ window._pfe=null;
     set('toxo_igm','neg');
     set('hbv_hbsag','pos');           // HBsAg positivo
     set('lb_sgb','desc');             // SGB desconocido
+    // CIE — colestasis intrahepática (forma ictérica moderada-grave)
+    set('lab_bili','1.8');            // Bilirrubina elevada → forma ictérica
+    set('lab_audt','55');             // Ácidos biliares 55 µmol/L → CIE moderada-grave
+    var _pr=document.getElementById('sym_prurito'); if(_pr) _pr.value='intenso'; // Prurito intenso
     // EG·Parto — Dextograma
     set('dext_fum', fumStr);
     set('dext_fecha_calc', new Date().toISOString().split('T')[0]);
