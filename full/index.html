@@ -7967,5 +7967,59 @@ function verDetallePaciente(id){
   });
 })();
 </script>
+
+<!-- ════ PUENTE: recepción de datos desde la Historia Clínica CaVeSal (?import=<base64>) ════ -->
+<script>
+(function(){
+  function aplicarImportCaVeSal(){
+    try{
+      var params = new URLSearchParams(window.location.search);
+      var raw = params.get('import');
+      if(!raw) return;
+
+      var json = decodeURIComponent(atob(raw));
+      var datos = JSON.parse(json);
+
+      // Si vienen datos de paciente (prefijo mp_), abrir primero "Nueva paciente"
+      // para que los datos queden visibles de inmediato, no ocultos en un modal cerrado.
+      var tieneDatosPaciente = Object.keys(datos).some(function(k){ return k.indexOf('mp_') === 0; });
+      if(tieneDatosPaciente && typeof showTab === 'function' && typeof abrirModalPaciente === 'function'){
+        showTab('pacientes');
+        abrirModalPaciente(null);
+      }
+
+      Object.keys(datos).forEach(function(key){
+        var el = document.getElementById(key);
+        if(!el) return;
+        var valor = datos[key];
+        if(el.type === 'checkbox'){
+          el.checked = (valor === true || valor === 'true' || valor === 1 || valor === '1');
+        } else {
+          el.value = valor;
+        }
+        el.dispatchEvent(new Event('change', {bubbles:true}));
+      });
+
+      // Limpiar el parámetro de la URL para no reimportar si se refresca la página
+      var url = new URL(window.location.href);
+      url.searchParams.delete('import');
+      window.history.replaceState({}, '', url.toString());
+
+      setTimeout(function(){
+        alert('✅ Datos recibidos desde la Historia Clínica CaVeSal y cargados en el formulario.');
+      }, 300);
+    } catch(e){
+      console.error('Error al importar datos desde la Historia Clínica CaVeSal:', e);
+    }
+  }
+
+  if(document.readyState === 'complete' || document.readyState === 'interactive'){
+    setTimeout(aplicarImportCaVeSal, 0);
+  } else {
+    document.addEventListener('DOMContentLoaded', aplicarImportCaVeSal);
+  }
+})();
+</script>
+
 </body>
 </html>
