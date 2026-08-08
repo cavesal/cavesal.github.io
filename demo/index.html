@@ -1606,6 +1606,35 @@ function calcular(){
   const findings=[];
   function add(domain,nivel,hallazgo,conducta,fuente){findings.push({domain,nivel,hallazgo,conducta,fuente})}
 
+  // ── GUARDA: solo calcular si hay al menos un dato real ingresado ──
+  // Evita diagnósticos/sugerencias basados en campos vacíos con placeholder
+  const _camposNum = ['edad','hb','glucemia','creatinina','lab_au','plaquetas',
+    'lab_tgo','lab_alt','lab_ast','lab_ldh','lab_bili','lab_audt','tsh',
+    'pas','pad','pesoPreg','pesoActual','talla','pi1t','uta_d','ao',
+    'sflt','dopp_au_pi','dopp_acm_pi','dopp_dv','t4l','antitpo','hbv_antihbs'];
+  const _camposSel = ['vih_test','sif_rapido','hbv_hbsag','toxo_igg','toxo_igm',
+    'hbv_hbeag','hbv_antihbs','sym_prurito','lb_sgb','rub_igg','cmv_igg','hcv_test','chagas_1'];
+  const _chkBase = ['p_hta','p_dm','p_renal','p_cardio','p_epi',
+    'obs_pe','obs_rciu','obs_pt','p_vih','p_sif'];
+
+  const _hayFUM = !!document.getElementById('fum').value;
+  const _hayNum = _camposNum.some(id=>{const el=document.getElementById(id);return el&&el.value!=='';});
+  const _haySel = _camposSel.some(id=>{const el=document.getElementById(id);return el&&el.value!=='';});
+  const _hayChk = _chkBase.some(id=>{const el=document.getElementById(id);return el&&el.checked;});
+  const _hayDatos = _hayFUM||_hayNum||_haySel||_hayChk;
+
+  if(!_hayDatos){
+    const _res=document.getElementById('results');
+    if(_res) _res.innerHTML='<div style="padding:20px;text-align:center;color:var(--slate,#64748b);font-size:.95rem">'
+      +'<strong>Sin datos ingresados.</strong><br>'
+      +'Ingresá los datos de la paciente o usá un ejemplo desde el botón "Datos de ejemplo".'
+      +'</div>';
+    const _rp=document.getElementById('results-panel');
+    if(_rp) _rp.style.display='block';
+    showTab('resultado');
+    return;
+  }
+
   const edad=val('edad'),fumStr=document.getElementById('fum').value;
   const talla=val('talla'),pesoP=val('pesoPreg'),pesoA=val('pesoActual');
   const pas=val('pas'),pad=val('pad'),ig=val('intergenesico'),cesarN=val('cesareas');
@@ -1730,9 +1759,10 @@ function calcular(){
   if(sgbRes==='pos') add('LABORATORIO','alto','SGB positivo — profilaxis intraparto obligatoria','Penicilina G 5 mill UI IV al inicio del TP, luego 2.5 mill UI c/4h hasta el parto. Alternativa: ampicilina. Alergia a penicilina: clindamicina según antibiograma (resistencia ~20%).','CDC / ACOG');
   else if(sgbRes==='desconocido'&&eg&&eg.sem>=35) add('LABORATORIO','moderado','SGB: resultado desconocido','Profilaxis intraparto según factores de riesgo: fiebre intraparto, RPM >18h, pretérmino <37 sem, bacteriuria por SGB en este embarazo.','CDC / ACOG');
   // Serología
+  const toxoIgG=document.getElementById('toxo_igg').value;
   const toxoIgM=document.getElementById('toxo_igm').value;
   const toxoAvidez=document.getElementById('toxo_avidez').value;
-  if(toxoIgM==='pos'){
+  if((toxoIgG!==''||toxoIgM!=='') && toxoIgM==='pos'){
     if(toxoAvidez==='baja') add('LABORATORIO','alto','Toxoplasmosis: IgM+ con avidez BAJA — infección reciente probable','Primoinfección confirmada. Espiramicina hasta sem 18, luego triple terapia (pirimetamina + sulfadiazina + ácido folínico). Derivar Medicina Fetal. ECO seriada (hidrocefalia, calcificaciones, RCIU).','ACOG / SFMFM');
     else if(toxoAvidez==='alta') add('LABORATORIO','bajo','Toxoplasmosis: IgM+ pero avidez ALTA — infección anterior a 16 sem','Avidez alta descarta primoinfección reciente. Seguimiento habitual. Confirmar con segundo laboratorio si dudas.','ACOG / SFMFM');
     else add('LABORATORIO','alto','Toxoplasmosis IgM+ — solicitar avidez IgG urgente','IgM positiva requiere test de avidez para determinar si infección es reciente. Sin avidez no se puede descartar primoinfección. Derivar Medicina Fetal.','ACOG / SFMFM');
@@ -1935,27 +1965,27 @@ function calcular(){
     else if(cl==='descarta') add('ECOGRAFÍA 2T/3T','bajo',`sFlt-1/PlGF ${sflt} (≤38 – descarta PE 1 sem)`,'VPN >99% para PE próxima semana. Control habitual.','Roche / BRAHMS');
   }
 
-  // PROFILAXIS FALTANTE
-  if(!chk('pr_af')) add('PROFILAXIS','moderado','Sin ácido fólico registrado',
+  // PROFILAXIS FALTANTE — solo si hay datos suficientes
+  if(_hayDatos && !chk('pr_af')) add('PROFILAXIS','moderado','Sin ácido fólico registrado',
     (chk('p_epi')||chk('p_dm')||(imcP&&imcP>=30)||chk('obs_malform'))?
     'Iniciar AF 5 mg/día (dosis alta indicada: epilepsia, obesidad, DM o antecedente DTN).':
     'Iniciar AF 0.4–0.8 mg/día desde preconcepcional hasta mínimo sem 12.','OMS / ACOG');
   // TDPA
-  if(!chk('pr_tdpa')){
+  if(_hayDatos&&!chk('pr_tdpa')){
     if(eg&&eg.sem>=27&&eg.sem<=36) add('PROFILAXIS','alto',`Tdpa pendiente — EG ${eg.sem} sem (ventana 27–36 sem)`,'Aplicar inmediatamente. Preferir 28–32 sem para máxima transferencia de anticuerpos. Indicada en cada embarazo independientemente de vacunaciones previas. Protege al neonato hasta los 2 meses de vida.','CDC / ACOG / OMS');
     else if(eg&&eg.sem>36) add('PROFILAXIS','moderado','Tdpa no aplicada — fuera de ventana gestacional','Aplicar en el postparto inmediato. Estrategia capullo: vacunar también a convivientes (pareja, abuelos, cuidadores) que no estén al día.','CDC / ACOG');
     else if(eg&&eg.sem<27) add('PROFILAXIS','bajo',`Tdpa pendiente — ventana: sem 27–36 (EG actual: ${eg.sem} sem)`,'Programar vacunación para semana 28–32 preferentemente.','CDC / ACOG');
   }
   // ANTIGRIPAL
-  if(!chk('pr_grip')) add('PROFILAXIS','moderado','Vacuna antigripal pendiente','Vacuna inactivada segura en cualquier trimestre. Prioridad en: cardiopatía, DM, asma, obesidad, inmunosupresión, VIH. NUNCA usar vacuna de virus vivos atenuados (LAIV) en el embarazo.','CDC / OMS / ACOG');
+  if(_hayDatos&&!chk('pr_grip')) add('PROFILAXIS','moderado','Vacuna antigripal pendiente','Vacuna inactivada segura en cualquier trimestre. Prioridad en: cardiopatía, DM, asma, obesidad, inmunosupresión, VIH. NUNCA usar vacuna de virus vivos atenuados (LAIV) en el embarazo.','CDC / OMS / ACOG');
   // VSR
-  if(!chk('pr_vsr')){
+  if(_hayDatos&&!chk('pr_vsr')){
     if(eg&&eg.sem>=28&&eg.sem<=36) add('PROFILAXIS','alto',`Vacuna VSR pendiente — EG ${eg.sem} sem (ventana 28–36 sem)`,'Aplicar inmediatamente si disponible. Abrysvo® (Pfizer) o mResvia® (Moderna). Dosis única IM. Protege al neonato en primeros 6 meses de vida. Verificar disponibilidad local.','FDA / EMA / OPS 2023');
     else if(eg&&eg.sem<28) add('PROFILAXIS','bajo',`Vacuna VSR pendiente — ventana: sem 28–36 (EG actual: ${eg.sem} sem)`,'Programar para semana 28–32 preferentemente. Verificar disponibilidad local (Abrysvo®/mResvia®).','FDA / EMA 2023');
     else if(eg&&eg.sem>36) add('PROFILAXIS','bajo','Vacuna VSR: fuera de ventana gestacional (>36 sem)','Considerar nirsevimab (anticuerpo monoclonal) al neonato postparto si disponible según programa nacional.','AAP / OPS 2024');
   }
   // COVID
-  if(!chk('pr_covid')) add('PROFILAXIS','moderado','Vacuna COVID-19 pendiente o no registrada','Vacunas ARNm (Pfizer/Moderna) recomendadas por OMS, CDC, ACOG y FIGO. Seguras en cualquier trimestre. Embarazadas con mayor riesgo de COVID grave. Refuerzo si >6 meses desde última dosis.','OMS / CDC / ACOG 2024');
+  if(_hayDatos&&!chk('pr_covid')) add('PROFILAXIS','moderado','Vacuna COVID-19 pendiente o no registrada','Vacunas ARNm (Pfizer/Moderna) recomendadas por OMS, CDC, ACOG y FIGO. Seguras en cualquier trimestre. Embarazadas con mayor riesgo de COVID grave. Refuerzo si >6 meses desde última dosis.','OMS / CDC / ACOG 2024');
   // HEPATITIS B
   const hepbEst=document.getElementById('pr_hepb_estado').value;
   if(hepbEst==='susceptible'&&!chk('pr_hepbvac')) add('PROFILAXIS','moderado','Hepatitis B: paciente susceptible sin vacuna','Anti-HBs− y HBsAg− → Iniciar esquema vacunal (3 dosis: 0, 1, 6 meses). Vacuna segura en embarazo. Completar esquema postparto si es necesario.','ACOG / CDC / EASL');
@@ -1974,7 +2004,7 @@ function calcular(){
   const tienePE=chk('obs_pe')||chk('p_hta')||chk('p_renal')||(pi1t&&pi1t>=1.9)||(ao&&ao>=0.70);
   const tienePreterm=chk('obs_pt')||chk('e_apt');
   const tieneOmega=tienePE||tienePreterm||chk('obs_rciu');
-  suple.push({pill:'Ácido fólico',text:tieneDTN?'5 mg/día (dosis alta: epilepsia, obesidad, DM o antecedente DTN). Iniciar preconcepcional.':'0.4–0.8 mg/día — Desde preconcepcional hasta sem 12 mínimo.'});
+  if(_hayDatos) suple.push({pill:'Ácido fólico',text:tieneDTN?'5 mg/día (dosis alta: epilepsia, obesidad, DM o antecedente DTN). Iniciar preconcepcional.':'0.4–0.8 mg/día — Desde preconcepcional hasta sem 12 mínimo.'});
   if(tieneAnemia) suple.push({pill:'Hierro',text:'60–200 mg/día hierro elemental oral según grado. Control Hb c/4 sem.'});
   else suple.push({pill:'Hierro',text:'30–60 mg/día profiláctico si ferritina <30 ng/mL o dieta insuficiente.'});
   suple.push({pill:'Yodo',text:'150–200 µg/día — Sal yodada + suplemento prenatal. Esencial para neurodesarrollo fetal.'});
