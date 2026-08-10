@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CaVeSal® · Suite clínica prenatal</title>
-  <meta name="description" content="CaVeSal® reúne una Calculadora Prenatal y una Historia Clínica Prenatal completa para especialistas en Medicina Materno-Fetal, Obstetricia y Ginecología." />
+  <meta name="description" content="CaVeSal® reúne una Calculadora Prenatal y una Historia Clínica Gineco-Obstétrica Integral para especialistas en Medicina Materno-Fetal, Obstetricia y Ginecología." />
   <style>
     :root {
       --bg-1: #0a4f61;
@@ -484,6 +484,52 @@
       .lead { font-size: 1.02rem; }
       .hero-logo { width: 220px; height: 220px; margin-bottom: 20px; }
     }
+
+    /* Ecosistema CaVeSal */
+    .eco-section { padding: 8px 0 6px; }
+    .eco-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 28px;
+    }
+    .eco-item {
+      background: var(--card-bg-2);
+      border-radius: var(--radius-sm);
+      padding: 14px 10px 16px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: transform .15s ease;
+    }
+    a.eco-item:hover { transform: translateY(-3px); }
+    .eco-item img { width: 100%; max-width: 92px; height: auto; margin: 0 auto 10px; border-radius: 12px; }
+    .eco-item span {
+      display: block;
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--card-text);
+      line-height: 1.25;
+    }
+    .eco-item.future { opacity: .55; }
+    .eco-badge {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      color: var(--accent-text);
+      background: var(--line);
+      border-radius: 999px;
+      padding: 2px 8px;
+    }
+    .eco-qr span { color: var(--card-muted); font-weight: 600; }
+    @media (max-width: 960px) {
+      .eco-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (max-width: 640px) {
+      .eco-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    }
   </style>
 </head>
 <body>
@@ -507,7 +553,7 @@
           <div class="hero-badge">Suite clínica prenatal para especialistas en Medicina Materno-Fetal</div>
           <h1>Dos aplicaciones clínicas.<br>Una sola suite profesional.</h1>
           <p class="lead">
-            CaVeSal® integra una <strong>Calculadora Prenatal</strong> y una <strong>Historia Clínica Prenatal</strong> que funcionan por separado, se complementan entre sí y pueden adquirirse individualmente o en Combo.
+            CaVeSal® integra una <strong>Calculadora Prenatal</strong> y una <strong>Historia Clínica Gineco-Obstétrica Integral</strong> que funcionan por separado, se complementan entre sí y pueden adquirirse individualmente o en Combo.
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="https://cavesal.app/demo/">Probar Calculadora</a>
@@ -527,8 +573,8 @@
               <p>Riesgo prenatal, biometría fetal, Doppler, cribado de preeclampsia y cromosómico, vía de parto, metabolismo y seguimiento clínico.</p>
             </div>
             <div class="mini-card">
-              <h3>📋 Historia Clínica Prenatal</h3>
-              <p>Registro prenatal completo, 19 guías de referencia clínica, curvas graficadas, Plan de seguimiento, Estudios (labs/ecografías), exportación y puente directo con la Calculadora.</p>
+              <h3>📋 Historia Clínica Gineco-Obstétrica Integral</h3>
+              <p>Registro gineco-obstétrico integral, 55 guías de referencia clínica, curvas graficadas, Plan de seguimiento, Estudios (labs/ecografías), exportación y puente directo con la Calculadora.</p>
             </div>
             <div class="mini-card">
               <h3>⭐ Combo integrado</h3>
@@ -547,6 +593,47 @@
   </div>
 
   <main>
+    <section class="eco-section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Ecosistema</span>
+          <h2>Un ecosistema, varias herramientas clínicas</h2>
+          <p>
+            CaVeSal® agrupa distintas aplicaciones especializadas para cada etapa de la atención materno-fetal y gineco-obstétrica, todas bajo la misma identidad y los mismos estándares clínicos.
+          </p>
+        </div>
+        <div class="eco-grid">
+          <a class="eco-item" href="https://cavesal.app/demo/">
+            <img src="img/CaVeSal_Calculadora_Prenatal.png" alt="CaVeSal Calculadora Prenatal" />
+            <span>Calculadora Prenatal</span>
+          </a>
+          <a class="eco-item" href="https://historia.cavesal.app">
+            <img src="img/CaVeSal_Historia_Clinica_Gineco_Obstetrica.png" alt="CaVeSal Historia Clínica Gineco-Obstétrica Integral" />
+            <span>Historia Clínica</span>
+          </a>
+          <div class="eco-item future">
+            <img src="img/CaVeSal_Mama.png" alt="CaVeSal Mamá" />
+            <span>CaVeSal Mamá</span>
+            <span class="eco-badge">Próximamente</span>
+          </div>
+          <div class="eco-item future">
+            <img src="img/CaVeSal_Emergencia_Obstetrica_y_Parto.png" alt="CaVeSal Emergencia Obstétrica y Parto" />
+            <span>Emergencia Obstétrica &amp; Parto</span>
+            <span class="eco-badge">Próximamente</span>
+          </div>
+          <div class="eco-item future">
+            <img src="img/CaVeSal_Neonatal.png" alt="CaVeSal Neonatal" />
+            <span>CaVeSal Neonatal</span>
+            <span class="eco-badge">Próximamente</span>
+          </div>
+          <div class="eco-item eco-qr">
+            <img src="img/CaVeSalQRcodenegro.png" alt="Código QR de cavesal.app" />
+            <span>cavesal.app</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section>
       <div class="container">
         <div class="section-head">
@@ -588,7 +675,7 @@
             </p>
             <ul class="feature-list">
               <li>Identificación, antecedentes, gestación actual, examen físico, plan y observaciones.</li>
-              <li>19 guías de referencia clínica desplegables, con fuente citada.</li>
+              <li>55 guías de referencia clínica desplegables, con fuente citada.</li>
               <li>Curvas graficadas de altura uterina, tensión arterial y peso materno.</li>
               <li>Exportación en PDF, Word, email, WhatsApp e impresión.</li>
               <li>Puente directo con la Calculadora CaVeSal® con un solo toque.</li>
@@ -655,7 +742,7 @@
             <h3>Historia Clínica</h3>
             <p><strong>USD 19.90</strong></p>
             <ul class="feature-list">
-              <li>Registro prenatal completo CLAP/OMS.</li>
+              <li>Registro gineco-obstétrico integral CLAP/OMS.</li>
               <li>Curvas, guías y exportación profesional.</li>
               <li>Envío directo de datos a la Calculadora.</li>
             </ul>
