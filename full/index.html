@@ -1656,53 +1656,62 @@ document.addEventListener('DOMContentLoaded', function(){
         <span style="color:var(--teal,#0d9488)"><strong>ACOG/SMFM 2022:</strong></span> &lt;5 cm oligoamnios · 5.1–8.0 borderline inf · <strong>8.1–18 cm Normal</strong> · 18.1–24.9 borderline sup · ≥25 polihidramnios<br>
         <em style="font-size:.69rem">Ver tabla de clasificación completa ↓</em>
       </div>
-      <div class="row2">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;max-width:100%">
         <div class="field">
           <label>Bolsón mayor (cm)</label>
           <input type="number" id="eco_bolson" placeholder="—" step="0.1" oninput="calcLA()">
-          <div class="hint">Normal SMFM/ACOG: 2–8 cm · ISUOG: 2–8 cm (mismo criterio para bolsón mayor)</div>
+          <div class="hint">Normal: 2–8 cm</div>
         </div>
         <div class="field">
-          <label for="eco_la_metodo">Método de clasificación ILA</label>
-          <select id="eco_la_metodo">
-            <option value="acog">ACOG / SMFM (rangos con límites)</option>
-            <option value="isuog">ISUOG (cortes absolutos clásicos)</option>
-          </select>
-          <div class="hint">ACOG/SMFM: método preferido — incluye zonas borderline. ISUOG: cortes absolutos, más difundido en práctica regional.</div>
-        </div>
-        <div class="field">
-          <label for="eco_ila">ILA — Índice líquido amniótico (cm)</label>
+          <label for="eco_ila">ILA (cm)</label>
           <input type="number" id="eco_ila" placeholder="—" step="0.1" oninput="calcLA()">
-          <div class="hint">Suma de 4 cuadrantes. Normal ACOG: 8.1–18.0 cm · Normal ISUOG: 5.1–24.9 cm</div>
+          <div class="hint">ACOG: 8–18 · ISUOG: 5–25</div>
         </div>
       </div>
+      <div class="field" style="margin-top:6px">
+        <label for="eco_la_metodo">Clasificar ILA según</label>
+        <select id="eco_la_metodo">
+          <option value="acog">ACOG/SMFM (con zonas borderline)</option>
+          <option value="isuog">ISUOG (cortes absolutos clásicos)</option>
+        </select>
+      </div>
       <div id="la_result" style="display:none"></div>
-      <div class="note-box" style="margin-top:6px">
-        <strong style="font-size:.8rem">Líquido Amniótico — Clasificación por método</strong><br>
-        <table style="width:100%;font-size:.71rem;border-collapse:collapse;margin-top:5px">
+      <div class="note-box" style="margin-top:6px;overflow-x:auto">
+        <strong style="font-size:.78rem">📊 Clasificación comparativa — Líquido Amniótico</strong><br>
+        <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:5px">
+        <table style="width:100%;font-size:.65rem;border-collapse:collapse;table-layout:fixed">
+          <colgroup>
+            <col style="width:38%">
+            <col style="width:31%">
+            <col style="width:31%">
+          </colgroup>
           <thead>
             <tr style="background:var(--teal,#0d9488);color:#fff">
-              <th style="padding:3px 5px;text-align:left">Categoría</th>
-              <th style="padding:3px 5px;text-align:center">ILA (ISUOG)</th>
-              <th style="padding:3px 5px;text-align:center">ILA (ACOG/SMFM)</th>
-              <th style="padding:3px 5px;text-align:center">Bolsón Mayor</th>
+              <th style="padding:3px 3px;text-align:left">Categoría</th>
+              <th style="padding:3px 3px;text-align:center">ILA<br><em style="font-weight:400;font-size:.6rem">ISUOG</em></th>
+              <th style="padding:3px 3px;text-align:center">ILA<br><em style="font-weight:400;font-size:.6rem">ACOG/SMFM</em></th>
             </tr>
           </thead>
           <tbody>
-            <tr style="background:rgba(244,67,54,.13)"><td style="padding:2px 5px"><strong>Anhidramnios</strong></td><td style="padding:2px 5px;text-align:center">0 cm</td><td style="padding:2px 5px;text-align:center">0 cm</td><td style="padding:2px 5px;text-align:center">0 cm</td></tr>
-            <tr style="background:rgba(244,67,54,.1)"><td style="padding:2px 5px"><strong>Oligoamnios severo</strong></td><td style="padding:2px 5px;text-align:center">&lt;5 cm</td><td style="padding:2px 5px;text-align:center">&lt;3 cm</td><td style="padding:2px 5px;text-align:center">&lt;1 cm</td></tr>
-            <tr style="background:rgba(244,67,54,.07)"><td style="padding:2px 5px"><strong>Oligoamnios</strong></td><td style="padding:2px 5px;text-align:center">&lt;5 cm</td><td style="padding:2px 5px;text-align:center">&lt;5 cm</td><td style="padding:2px 5px;text-align:center">&lt;2 cm</td></tr>
-            <tr style="background:rgba(255,193,7,.12)"><td style="padding:2px 5px">Borderline inferior</td><td style="padding:2px 5px;text-align:center">—</td><td style="padding:2px 5px;text-align:center">5.1–8.0 cm</td><td style="padding:2px 5px;text-align:center">—</td></tr>
-            <tr><td style="padding:2px 5px"><strong>Normal</strong></td><td style="padding:2px 5px;text-align:center">5.1–24.9 cm</td><td style="padding:2px 5px;text-align:center">8.1–18.0 cm</td><td style="padding:2px 5px;text-align:center">2.1–7.9 cm</td></tr>
-            <tr style="background:rgba(255,193,7,.12)"><td style="padding:2px 5px">Borderline superior</td><td style="padding:2px 5px;text-align:center">—</td><td style="padding:2px 5px;text-align:center">18.1–24.9 cm</td><td style="padding:2px 5px;text-align:center">7.1–7.9 cm</td></tr>
-            <tr style="background:rgba(255,152,0,.15)"><td style="padding:2px 5px">Polihidramnios leve</td><td style="padding:2px 5px;text-align:center">&ge;25 cm</td><td style="padding:2px 5px;text-align:center">25–29.9 cm</td><td style="padding:2px 5px;text-align:center">8.0–9.9 cm</td></tr>
-            <tr style="background:rgba(255,152,0,.2)"><td style="padding:2px 5px">Polihidramnios moderado</td><td style="padding:2px 5px;text-align:center">&ge;25 cm</td><td style="padding:2px 5px;text-align:center">30–34.9 cm</td><td style="padding:2px 5px;text-align:center">10–11.9 cm</td></tr>
-            <tr style="background:rgba(244,67,54,.1)"><td style="padding:2px 5px">Polihidramnios severo</td><td style="padding:2px 5px;text-align:center">&ge;25 cm</td><td style="padding:2px 5px;text-align:center">&ge;35 cm</td><td style="padding:2px 5px;text-align:center">&ge;12 cm</td></tr>
+            <tr style="background:rgba(244,67,54,.13)"><td style="padding:2px 3px"><strong>Anhidramnios</strong></td><td style="padding:2px 3px;text-align:center">0</td><td style="padding:2px 3px;text-align:center">0</td></tr>
+            <tr style="background:rgba(244,67,54,.1)"><td style="padding:2px 3px"><strong>Oligo severo</strong></td><td style="padding:2px 3px;text-align:center">&lt;5</td><td style="padding:2px 3px;text-align:center">&lt;3</td></tr>
+            <tr style="background:rgba(244,67,54,.07)"><td style="padding:2px 3px"><strong>Oligoamnios</strong></td><td style="padding:2px 3px;text-align:center">&lt;5</td><td style="padding:2px 3px;text-align:center">&lt;5</td></tr>
+            <tr style="background:rgba(255,193,7,.12)"><td style="padding:2px 3px">Borderline inf.</td><td style="padding:2px 3px;text-align:center">—</td><td style="padding:2px 3px;text-align:center">5.1–8.0</td></tr>
+            <tr><td style="padding:2px 3px"><strong>Normal</strong></td><td style="padding:2px 3px;text-align:center"><strong>5–24.9</strong></td><td style="padding:2px 3px;text-align:center"><strong>8.1–18</strong></td></tr>
+            <tr style="background:rgba(255,193,7,.12)"><td style="padding:2px 3px">Borderline sup.</td><td style="padding:2px 3px;text-align:center">—</td><td style="padding:2px 3px;text-align:center">18.1–24.9</td></tr>
+            <tr style="background:rgba(255,152,0,.15)"><td style="padding:2px 3px">Poli leve</td><td style="padding:2px 3px;text-align:center">≥25</td><td style="padding:2px 3px;text-align:center">25–29.9</td></tr>
+            <tr style="background:rgba(255,152,0,.2)"><td style="padding:2px 3px">Poli moderado</td><td style="padding:2px 3px;text-align:center">≥25</td><td style="padding:2px 3px;text-align:center">30–34.9</td></tr>
+            <tr style="background:rgba(244,67,54,.1)"><td style="padding:2px 3px">Poli severo</td><td style="padding:2px 3px;text-align:center">≥25</td><td style="padding:2px 3px;text-align:center">≥35</td></tr>
           </tbody>
         </table>
-        <div style="font-size:.69rem;color:var(--slate);margin-top:4px">
-          Bolsón Mayor (BME/SDP): método preferido por SMFM/ACOG — reduce intervenciones innecesarias.<br>
-          <em>ISUOG 2024 · SMFM Consult #46 (2018) · ACOG Clinical Consensus No.3 (2022)</em>
+        <div style="font-size:.63rem;color:var(--slate,#64748b);margin-top:3px">
+          Bolsón Mayor normal: 2–8 cm (SMFM/ACOG = ISUOG) · Todos los valores en cm<br>
+          <em>ISUOG 2024 · SMFM Consult #46 (2018) · ACOG CC No.3 (2022)</em>
+        </div>
+        </div>
+        <div style="font-size:.67rem;color:var(--slate);margin-top:4px">
+          Todos los valores en cm. Bolsón Mayor (BME/SDP) preferido por SMFM/ACOG.<br>
+          <em>ISUOG 2024 · SMFM Consult #46 (2018) · ACOG CC No.3 (2022)</em>
         </div>
       </div>
     </div>
