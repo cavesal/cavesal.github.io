@@ -726,8 +726,35 @@ document.addEventListener('DOMContentLoaded', function(){
       <div class="field"><label>Peso actual (kg)</label><input type="number" id="pesoActual" placeholder="68" step="0.1" oninput="syncMetabolismo()"></div>
     </div>
     <div class="row2">
-      <div class="field"><label>PA Sistólica (mmHg)</label><input type="number" id="pas" placeholder="120"></div>
-      <div class="field"><label>PA Diastólica (mmHg)</label><input type="number" id="pad" placeholder="80"></div>
+      <div class="field"><label for="pas">PA Sistólica (mmHg)</label><input type="number" id="pas" placeholder="120" oninput="syncHTA()"></div>
+      <div class="field"><label for="pad">PA Diastólica (mmHg)</label><input type="number" id="pad" placeholder="80" oninput="syncHTA()"></div>
+    </div>
+    <!-- Campos HTA ampliados — solo visibles si PA ingresada -->
+    <div id="hta-campos-extra" style="display:none;margin-top:8px">
+      <div class="row2" style="margin-bottom:8px">
+        <div class="field">
+          <label for="hta_proteinuria">Proteinuria</label>
+          <select id="hta_proteinuria">
+            <option value="">— Sin datos —</option>
+            <option value="neg">Negativa</option>
+            <option value="trazas">Trazas (+/−)</option>
+            <option value="1plus">≥ 1+ (tira reactiva)</option>
+            <option value="ipc">IPC &gt; 0.3 (índice prot/creat)</option>
+            <option value="300mg">≥ 300 mg/24h</option>
+            <option value="2g">≥ 2 g/24h (rango nefrótico PE severa)</option>
+          </select>
+          <div class="hint">Opcional — mejora la clasificación. Puede ingresarse como tira reactiva, IPC o proteínas/24h.</div>
+        </div>
+        <div class="field" style="display:flex;flex-direction:column;gap:4px">
+          <label style="font-size:.8rem;font-weight:600;color:var(--navy)">Síntomas de vasospasmo <span style="font-weight:400;color:var(--slate)">(opcional)</span></label>
+          <label class="check-item" style="font-size:.78rem"><input type="checkbox" id="sym_cefalea"><span>Cefalea severa / frontal</span></label>
+          <label class="check-item" style="font-size:.78rem"><input type="checkbox" id="sym_acufenos"><span>Acúfenos</span></label>
+          <label class="check-item" style="font-size:.78rem"><input type="checkbox" id="sym_fosfenos"><span>Fosfenos / escotomas</span></label>
+          <label class="check-item" style="font-size:.78rem"><input type="checkbox" id="sym_epigastralgia"><span>Epigastralgia / dolor HCD</span></label>
+          <label class="check-item" style="font-size:.78rem"><input type="checkbox" id="sym_disnea"><span>Disnea / edema pulmonar</span></label>
+          <div class="hint">Presencia de ≥1 síntoma + HTA ≥140/90 orienta a PE con criterios de severidad.</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -1631,17 +1658,47 @@ document.addEventListener('DOMContentLoaded', function(){
           <div class="hint">Normal: 2–8 cm</div>
         </div>
         <div class="field">
-          <label>ILA — Índice líquido amniótico (cm)</label>
+          <label for="eco_la_metodo">Método de clasificación ILA</label>
+          <select id="eco_la_metodo">
+            <option value="acog">ACOG / SMFM (rangos con límites)</option>
+            <option value="isuog">ISUOG (cortes absolutos clásicos)</option>
+          </select>
+          <div class="hint">ACOG/SMFM: método preferido — incluye zonas borderline. ISUOG: cortes absolutos, más difundido en práctica regional.</div>
+        </div>
+        <div class="field">
+          <label for="eco_ila">ILA — Índice líquido amniótico (cm)</label>
           <input type="number" id="eco_ila" placeholder="—" step="0.1" oninput="calcLA()">
-          <div class="hint">Normal: 8–18 cm</div>
+          <div class="hint">Suma de 4 cuadrantes. Normal ACOG: 8.1–18.0 cm · Normal ISUOG: 5.1–24.9 cm</div>
         </div>
       </div>
       <div id="la_result" style="display:none"></div>
-      <div class="bio-ref" style="margin-top:6px">
-        📚 <strong>Clasificación ILA:</strong>
-        &lt;2 cm = oligoamnios severo · 2–4.9 cm = oligoamnios · 5–7.9 cm = límite inferior normalidad ·
-        <strong>8–18 cm = Normal</strong> · 18.1–24 cm = límite superior normalidad ·
-        24.1–29 cm = polihidramnios leve · 30–34 cm = moderado · ≥35 cm = severo
+      <div class="note-box" style="margin-top:6px">
+        <strong style="font-size:.8rem">Líquido Amniótico — Clasificación por método</strong><br>
+        <table style="width:100%;font-size:.71rem;border-collapse:collapse;margin-top:5px">
+          <thead>
+            <tr style="background:var(--teal,#0d9488);color:#fff">
+              <th style="padding:3px 5px;text-align:left">Categoría</th>
+              <th style="padding:3px 5px;text-align:center">ILA (ISUOG)</th>
+              <th style="padding:3px 5px;text-align:center">ILA (ACOG/SMFM)</th>
+              <th style="padding:3px 5px;text-align:center">Bolsón Mayor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:rgba(244,67,54,.13)"><td style="padding:2px 5px"><strong>Anhidramnios</strong></td><td style="padding:2px 5px;text-align:center">0 cm</td><td style="padding:2px 5px;text-align:center">0 cm</td><td style="padding:2px 5px;text-align:center">0 cm</td></tr>
+            <tr style="background:rgba(244,67,54,.1)"><td style="padding:2px 5px"><strong>Oligoamnios severo</strong></td><td style="padding:2px 5px;text-align:center">&lt;5 cm</td><td style="padding:2px 5px;text-align:center">&lt;3 cm</td><td style="padding:2px 5px;text-align:center">&lt;1 cm</td></tr>
+            <tr style="background:rgba(244,67,54,.07)"><td style="padding:2px 5px"><strong>Oligoamnios</strong></td><td style="padding:2px 5px;text-align:center">&lt;5 cm</td><td style="padding:2px 5px;text-align:center">&lt;5 cm</td><td style="padding:2px 5px;text-align:center">&lt;2 cm</td></tr>
+            <tr style="background:rgba(255,193,7,.12)"><td style="padding:2px 5px">Borderline inferior</td><td style="padding:2px 5px;text-align:center">—</td><td style="padding:2px 5px;text-align:center">5.1–8.0 cm</td><td style="padding:2px 5px;text-align:center">—</td></tr>
+            <tr><td style="padding:2px 5px"><strong>Normal</strong></td><td style="padding:2px 5px;text-align:center">5.1–24.9 cm</td><td style="padding:2px 5px;text-align:center">8.1–18.0 cm</td><td style="padding:2px 5px;text-align:center">2.1–7.9 cm</td></tr>
+            <tr style="background:rgba(255,193,7,.12)"><td style="padding:2px 5px">Borderline superior</td><td style="padding:2px 5px;text-align:center">—</td><td style="padding:2px 5px;text-align:center">18.1–24.9 cm</td><td style="padding:2px 5px;text-align:center">7.1–7.9 cm</td></tr>
+            <tr style="background:rgba(255,152,0,.15)"><td style="padding:2px 5px">Polihidramnios leve</td><td style="padding:2px 5px;text-align:center">&ge;25 cm</td><td style="padding:2px 5px;text-align:center">25–29.9 cm</td><td style="padding:2px 5px;text-align:center">8.0–9.9 cm</td></tr>
+            <tr style="background:rgba(255,152,0,.2)"><td style="padding:2px 5px">Polihidramnios moderado</td><td style="padding:2px 5px;text-align:center">&ge;25 cm</td><td style="padding:2px 5px;text-align:center">30–34.9 cm</td><td style="padding:2px 5px;text-align:center">10–11.9 cm</td></tr>
+            <tr style="background:rgba(244,67,54,.1)"><td style="padding:2px 5px">Polihidramnios severo</td><td style="padding:2px 5px;text-align:center">&ge;25 cm</td><td style="padding:2px 5px;text-align:center">&ge;35 cm</td><td style="padding:2px 5px;text-align:center">&ge;12 cm</td></tr>
+          </tbody>
+        </table>
+        <div style="font-size:.69rem;color:var(--slate);margin-top:4px">
+          Bolsón Mayor (BME/SDP): método preferido por SMFM/ACOG — reduce intervenciones innecesarias.<br>
+          <em>ISUOG 2024 · SMFM Consult #46 (2018) · ACOG Clinical Consensus No.3 (2022)</em>
+        </div>
       </div>
     </div>
 
@@ -2815,7 +2872,9 @@ Microcefalia: CC &lt;p3 para EG.</div>
       <strong style="color:var(--navy)">Altura uterina:</strong> Algoritmo propio CaVeSal® · Análisis basado en Gomes AG. RBGO 2001 · CLAP-OPS/OMS<br>
       <strong style="color:var(--navy)">Ganancia ponderal:</strong> IOM/NAS 2009 · ACOG<br>
       <strong style="color:var(--navy)">Vía de parto:</strong> Robson · Grobman (NICHD) · ACOG · Clasificación EG (término / pretérmino / postérmino): ACOG Practice Bulletin<br>
-      <strong style="color:var(--navy)">Seguimiento:</strong> ACOG · FIGO · NICE
+      <strong style="color:var(--navy)">Seguimiento:</strong> ACOG · FIGO · NICE<br>
+      <strong style="color:var(--navy)">Líquido amniótico (ILA / Bolsón mayor):</strong> SMFM Consult Series #46: Oligohydramnios (2018) · ACOG Clinical Consensus No. 3: Polyhydramnios (2022) · ISUOG Practice Guidelines: Ultrasound assessment of fetal biometry and growth (2024)<br>
+      <strong style="color:var(--navy)">Trastornos hipertensivos del embarazo (HTA / Preeclampsia):</strong> ACOG Practice Bulletin No. 222: Gestational Hypertension and Preeclampsia (2020) · FIGO Guidelines on Preeclampsia Prevention and Management (2019) · ISSHP Classification, Diagnosis, and Management of the Hypertensive Disorders of Pregnancy (2021)
     </div>
   </div>
 <div class="section-card" style="margin-bottom:10px">
@@ -3355,11 +3414,123 @@ function calcular(){
     }
   }
 
-  // PA
+  // ── HIPERTENSIÓN Y TRASTORNOS HIPERTENSIVOS DEL EMBARAZO ──
+  // Algoritmo propio CaVeSal® · Análisis basado en literatura de referencia
+  // ACOG PB 222 (2020) · ISSHP 2021 · FIGO 2019 · NICE 2023
   if(pas&&pad){
-    if(pas>=160||pad>=110) add('PRESIÓN ARTERIAL','alto',`PA ${pas}/${pad} mmHg (HTA severa)`,'Antihipertensivo urgente (labetalol IV / nifedipino). Descartar PE. Función hepática/renal, LDH, plaquetas. Valorar hospitalización.','ACOG / NICE / ISH');
-    else if(pas>=140||pad>=90) add('PRESIÓN ARTERIAL','alto',`PA ${pas}/${pad} mmHg (HTA / PE probable)`,'Descartar PE: proteinuria, sFlt-1/PlGF, función hepática-renal. Vigilancia estrecha. Considerar hospitalización.','ACOG / ISSHP');
-    else if(pas>=130||pad>=80) add('PRESIÓN ARTERIAL','moderado',`PA ${pas}/${pad} mmHg (limítrofe)`,'Control PA cada 1–2 semanas. Educación signos de alarma. Dieta hiposódica.','ACOG 2017');
+    const htaProt=document.getElementById('hta_proteinuria')?document.getElementById('hta_proteinuria').value:'';
+    const htaCefalea=document.getElementById('sym_cefalea')?document.getElementById('sym_cefalea').checked:false;
+    const htaAcuf=document.getElementById('sym_acufenos')?document.getElementById('sym_acufenos').checked:false;
+    const htaFosf=document.getElementById('sym_fosfenos')?document.getElementById('sym_fosfenos').checked:false;
+    const htaEpig=document.getElementById('sym_epigastralgia')?document.getElementById('sym_epigastralgia').checked:false;
+    const htaDisn=document.getElementById('sym_disnea')?document.getElementById('sym_disnea').checked:false;
+    const sintVaso=[htaCefalea,htaAcuf,htaFosf,htaEpig,htaDisn];
+    const nSintVaso=sintVaso.filter(Boolean).length;
+    const htaAntecedente=chk('p_hta');
+    const egSem=eg?eg.sem:null;
+
+    // Lista síntomas para el texto
+    const _listaSint=[];
+    if(htaCefalea) _listaSint.push('cefalea severa');
+    if(htaAcuf) _listaSint.push('acúfenos');
+    if(htaFosf) _listaSint.push('fosfenos/escotomas');
+    if(htaEpig) _listaSint.push('epigastralgia/HCD');
+    if(htaDisn) _listaSint.push('disnea');
+    const _sintTxt=_listaSint.length?` + síntomas: ${_listaSint.join(', ')}`:'';
+
+    // Criterios de severidad: PAS≥160 o PAD≥110 o síntomas neurológicos
+    const esCrisisSevera=(pas>=160||pad>=110);
+    const esSeveridad=esCrisisSevera||nSintVaso>=1;
+    const tieneProteinuria=['1plus','ipc','300mg','2g'].includes(htaProt);
+    const tieneProtSevera=['2g'].includes(htaProt);
+
+    // ══ PRESENTACIÓN ATÍPICA <20 sem ══
+    if(egSem!==null && egSem<20 && (pas>=140||pad>=90)){
+      add('PRESIÓN ARTERIAL','alto',`PA ${pas}/${pad} mmHg — HTA antes de sem 20`,
+        'HTA antes de la semana 20 orienta a HTA crónica subyacente o enfermedad trofoblástica (mola hidatiforme). Descartar causa secundaria (renal, endocrina). Solicitar ecografía para descartar mola. Iniciar estudio etiológico.',
+        'ISSHP 2021 / ACOG');
+    }
+    // ══ CRISIS HIPERTENSIVA SEVERA (PAS≥160 o PAD≥110) ══
+    else if(esCrisisSevera){
+      const _htaSevCond=tieneProteinuria?'PE CON CRITERIOS DE SEVERIDAD':'HTA SEVERA / CRISIS HIPERTENSIVA';
+      const _dxHTA=htaAntecedente?'(probablemente HTA crónica con PE sobreagregada o crisis hipertensiva crónica)':'';
+      const _cRef='ACOG PB 222 / ISSHP 2021 / FIGO 2019';
+      add('PRESIÓN ARTERIAL','alto',`PA ${pas}/${pad} mmHg — ${_htaSevCond} ${_dxHTA}${_sintTxt}`,
+        '🔴 URGENCIA HIPERTENSIVA — Iniciar tratamiento antihipertensivo IV inmediato:\n'
+        +'• Labetalol IV: 20 mg → 40 mg → 80 mg c/10 min (máx. acumulado 300 mg)\n'
+        +'• Hidralazina IV: 5–10 mg c/20 min (máx. 20 mg)\n'
+        +'• Nifedipino 10–20 mg VO (NO sublingual — riesgo hipotensión brusca)\n'
+        +(tieneProteinuria||nSintVaso>=1?
+          '\n🛡️ Sulfato de Magnesio (profilaxis convulsiones):\n'
+          +'• Carga: 4–6 g en 100 mL SF en 15–20 min\n'
+          +'• Mantenimiento: 1–2 g/h IV continuo por 24 h postparto\n'
+          +'• Monitoreo: reflejo patelar + FR >12/min + diuresis >30 mL/h\n'
+          +'• Antídoto: Gluconato Ca 1 g IV (10 mL al 10%) en 10 min si toxicidad\n':'')
+        +'\n⚠️ Contraindicados en embarazo: IECA, ARA-II, inhibidores renina (teratogénicos — falla renal fetal)\n'
+        +'\n📋 En puerperio pueden usarse: Enalaprilato IV · Amlodipina VO (contraindicados en embarazo, seguros en puerperio)\n'
+        +'\n🔵 CÓDIGO AZUL THAE — Activar protocolo de trastornos hipertensivos. Para manejo completo de emergencia, utilizá CaVeSal® Emergencia Obstétrica & Parto (próximamente en cavesal.app).',
+        _cRef);
+    }
+    // ══ HTA ≥140/90 SIN CRISIS ══
+    else if(pas>=140||pad>=90){
+      if(tieneProteinuria&&esSeveridad){
+        // PE CON CRITERIOS SEVERIDAD (síntomas sin crisis)
+        add('PRESIÓN ARTERIAL','alto',`PA ${pas}/${pad} mmHg — PE CON CRITERIOS DE SEVERIDAD${_sintTxt}`,
+          '🔴 Preeclampsia con criterios de severidad (síntomas neurológicos).\n'
+          +'\n🛡️ Sulfato de Magnesio:\n'
+          +'• Carga: 4–6 g en 100 mL SF en 15–20 min\n'
+          +'• Mantenimiento: 1–2 g/h IV continuo por 24 h postparto\n'
+          +'\nAntihipertensivo VO intensificado:\n'
+          +'• Nifedipino retard 20–60 mg c/12–24 h (máx. 120 mg/día)\n'
+          +'• Labetalol 100–400 mg c/8–12 h (máx. 2400 mg/día)\n'
+          +'• Alfametildopa 250–500 mg c/6–8 h solo como 3a línea (inicio de acción lento)\n'
+          +'\n⚠️ Contraindicados: IECA, ARA-II.\n'
+          +'\n🔵 CÓDIGO AZUL THAE — Para manejo completo de emergencia, utilizá CaVeSal® Emergencia Obstétrica & Parto (próximamente en cavesal.app).',
+          'ACOG PB 222 / ISSHP 2021');
+      } else if(tieneProteinuria&&!esSeveridad){
+        // PE SIN CRITERIOS SEVERIDAD
+        add('PRESIÓN ARTERIAL','alto',`PA ${pas}/${pad} mmHg — PE SIN CRITERIOS DE SEVERIDAD${htaProt?` · Proteinuria: ${htaProt}`:''}`,
+          '⚠️ Preeclampsia sin criterios de severidad.\n'
+          +'\nAntihipertensivos VO de mantenimiento:\n'
+          +'• Nifedipino retard 20–60 mg c/12–24 h (máx. 120 mg/día) — 1a línea\n'
+          +'• Labetalol 100–400 mg c/8–12 h (máx. 2400 mg/día) — alternativa\n'
+          +'• Alfametildopa 250–500 mg c/6–8 h — solo si no hay otra opción (acción lenta)\n'
+          +'\nVigilancia fetal: Doppler uterinas/umbilical + biometría seriada. Control PA diario.\n'
+          +'Considerar finalización a partir de las 37 semanas.',
+          'ACOG PB 222 / ISSHP 2021');
+      } else if(esSeveridad&&!tieneProteinuria){
+        // HTA + síntomas pero sin proteinuria documentada
+        add('PRESIÓN ARTERIAL','alto',`PA ${pas}/${pad} mmHg — HTA CON SÍNTOMAS VASOSPASMO (descartar PE severa)${_sintTxt}`,
+          '⚠️ HTA con síntomas neurológicos — alta sospecha de PE severa incluso sin proteinuria documentada.\n'
+          +'La proteinuria puede estar ausente en PE severa (criterios ACOG 2020 no la requieren obligatoriamente).\n'
+          +'Solicitar urgente: LDH, TGO/TGP, plaquetas, creatinina, sFlt-1/PlGF. Proteinuria en 24 h o IPC.\n'
+          +'\n🔵 CÓDIGO AZUL THAE — Para manejo completo de emergencia, utilizá CaVeSal® Emergencia Obstétrica & Parto (próximamente en cavesal.app).',
+          'ACOG PB 222 / ISSHP 2021');
+      } else if(htaAntecedente){
+        // HTA CRÓNICA CON PE SOBREAGREGADA (antecedente + actual ≥140/90 sin proteinuria)
+        add('PRESIÓN ARTERIAL','alto',`PA ${pas}/${pad} mmHg — HTA GESTACIONAL / HTA CRÓNICA DESCONTROLADA`,
+          '⚠️ Antecedente de HTA + PA ≥140/90 — descartar PE sobreagregada.\n'
+          +'Evaluar proteinuria basal (comparar con proteinuria previa). Solicitar LDH, función hepática/renal, plaquetas.\n'
+          +'\nAjuste antihipertensivo VO:\n'
+          +'• Nifedipino retard 20–60 mg c/12–24 h · Labetalol 100–400 mg c/8–12 h.\n'
+          +'\n⚠️ Contrainuados en embarazo: IECA, ARA-II (suspender si estaba en uso pregestacional).',
+          'ACOG PB 222 / ISSHP 2021');
+      } else {
+        // HTA GESTACIONAL SIN PROTEINURIA NI SÍNTOMAS
+        add('PRESIÓN ARTERIAL','alto',`PA ${pas}/${pad} mmHg — HTA GESTACIONAL`,
+          '⚠️ HTA gestacional (HTA ≥140/90 sin proteinuria ni síntomas).\n'
+          +'Monitoreo PA en casa. Control en 48–72 h. Descartar PE en evolución.\n'
+          +'Considerar antihipertensivo si PA ≥150/100 mmHg persistente.\n'
+          +'Biofísico fetal si EG ≥32 sem.',
+          'ACOG / ISSHP 2021');
+      }
+    }
+    // ══ PA LIMÍTROFE ══
+    else if(pas>=130||pad>=80){
+      add('PRESIÓN ARTERIAL','moderado',`PA ${pas}/${pad} mmHg (limítrofe)`,
+        'Control PA cada 1–2 semanas. Educación signos de alarma. Dieta hiposódica. Descartar HTA gestacional en evolución.',
+        'ACOG 2017');
+    }
   }
 
   // PAM — Presión Arterial Media (screening de preeclampsia)
@@ -3989,19 +4160,69 @@ function calcular(){
     else if(pi2t>=1.44) add('ECOGRAFÍA 2T','moderado',`PI uterinas 2T ${pi2t} (p90–95 FMF)`,'Riesgo moderado. Biometría seriada. Doppler 3T.','FMF');
   }
   // ── LÍQUIDO AMNIÓTICO ──
+  // Algoritmo propio CaVeSal® · Análisis basado en literatura de referencia
+  // ISUOG 2024 · SMFM Consult #46 (2018) · ACOG Clinical Consensus No.3 (2022)
   const ecoILA=val('eco_ila'), ecoBolson=val('eco_bolson');
+  const laMetodo=document.getElementById('eco_la_metodo')?document.getElementById('eco_la_metodo').value:'acog';
+  const laRef=laMetodo==='isuog'?'ISUOG 2024':'ACOG / SMFM 2022';
+
   if(ecoILA!==null){
-    if(ecoILA<2) add('ECOGRAFÍA 2T','alto',`ILA ${ecoILA} cm — Oligoamnios SEVERO`,'Derivar urgente. Descartar RPM, malformación renal, RCIU grave. Doppler umbilical urgente.','ACOG / FMF');
-    else if(ecoILA<5) add('ECOGRAFÍA 2T','alto',`ILA ${ecoILA} cm — Oligoamnios`,'Descartar RPM, RCIU, malformación renal. Doppler umbilical y ACM. Vigilancia fetal intensiva.','ACOG / FMF');
-    else if(ecoILA<8) add('ECOGRAFÍA 2T','moderado',`ILA ${ecoILA} cm — Límite inferior normalidad`,'Vigilar evolución. Doppler fetal. Control en 1–2 sem.','ACOG');
-    else if(ecoILA>34) add('ECOGRAFÍA 2T','alto',`ILA ${ecoILA} cm — Polihidramnios SEVERO`,'Estudio etiológico urgente. Considerar amniorreducción si sintomática. Derivar Medicina Fetal.','ACOG / FMF');
-    else if(ecoILA>29) add('ECOGRAFÍA 2T','alto',`ILA ${ecoILA} cm — Polihidramnios moderado`,'Estudio etiológico. Riesgo prolapso cordón, DPPNI, pretérmino. Vigilancia estrecha.','ACOG');
-    else if(ecoILA>24) add('ECOGRAFÍA 2T','moderado',`ILA ${ecoILA} cm — Polihidramnios leve`,'Descartar DG, malformación fetal, isoinmunización. Biometría seriada.','ACOG');
-    else if(ecoILA>18) add('ECOGRAFÍA 2T','bajo',`ILA ${ecoILA} cm — Límite superior normalidad`,'Zona límite. Descartar DG, infección. ECO morfológica si no realizada.','ACOG');
+    // Causas para conducta
+    const _cauOligo='Descartar: RPM (causa más frecuente), RCIU/insuf. placentaria, malformación urinaria fetal (agenesia renal, VUP), embarazo postérmino. Fármacos: IECA, ARA-II, AINEs/Indometacina reducen diuresis fetal. ';
+    const _cauPoli='Descartar: Diabetes gestacional o pregestacional mal controlada (causa más frecuente), malformación GI fetal (atresia esofágica/duodenal — signo doble burbuja), anomalías SNC (anencefalia, espina bífida), hidrops fetal, aneuploidías (T21, T18, T13), STFF feto receptor. 50–60% de polihidramnios leve = idiopático. ';
+
+    if(laMetodo==='isuog'){
+      // ISUOG: cortes absolutos simples
+      if(ecoILA===0) add('ECOGRAFÍA','alto',`ILA ${ecoILA} cm — Anhidramnios (ISUOG)`,
+        'Ausencia total de líquido amniótico. Causa urgente a descartar: rotura prematura de membranas, agenesia renal bilateral (Síndrome de Potter). Derivación urgente a Medicina Fetal. '+_cauOligo, laRef);
+      else if(ecoILA<5) add('ECOGRAFÍA','alto',`ILA ${ecoILA} cm — Oligoamnios (ISUOG)`,
+        'ILA <5 cm: oligoamnios confirmado según criterio ISUOG. '+_cauOligo+'Doppler umbilical y ACM urgente. Vigilancia fetal intensiva. Considerar hospitalización.', laRef);
+      else if(ecoILA>=25 && ecoILA<30) add('ECOGRAFÍA','moderado',`ILA ${ecoILA} cm — Polihidramnios (ISUOG)`,
+        'ILA ≥25 cm: polihidramnios según ISUOG. 80% de casos leves son idiopáticos o por DG. '+_cauPoli+'Biometría seriada. ECO morfológica si no realizada.', laRef);
+      else if(ecoILA>=30 && ecoILA<35) add('ECOGRAFÍA','alto',`ILA ${ecoILA} cm — Polihidramnios moderado (ISUOG)`,
+        'ILA ≥30 cm: polihidramnios moderado. '+_cauPoli+'Riesgo pretérmino, prolapso de cordón. Derivar Medicina Fetal.', laRef);
+      else if(ecoILA>=35) add('ECOGRAFÍA','alto',`ILA ${ecoILA} cm — Polihidramnios SEVERO (ISUOG)`,
+        'ILA ≥35 cm: polihidramnios severo (>50% asociado a malformación estructural o cromosomopatía). '+_cauPoli+'Estudio etiológico urgente. Considerar amniorreducción si sintomática. Derivar Medicina Fetal urgente.', laRef);
+    } else {
+      // ACOG/SMFM: rangos con borderline
+      if(ecoILA===0) add('ECOGRAFÍA','alto',`ILA ${ecoILA} cm — Anhidramnios (ACOG)`,
+        'Ausencia total de líquido amniótico. Causa urgente. '+_cauOligo+'Derivación urgente a Medicina Fetal.', laRef);
+      else if(ecoILA<3) add('ECOGRAFÍA','alto',`ILA ${ecoILA} cm — Oligoamnios SEVERO (ACOG)`,
+        'ILA <3 cm: oligoamnios severo. '+_cauOligo+'Doppler umbilical urgente. Hospitalización. Maduración pulmonar si EG ≥24 sem.', laRef);
+      else if(ecoILA<5) add('ECOGRAFÍA','alto',`ILA ${ecoILA} cm — Oligoamnios confirmado (ACOG)`,
+        'ILA <5 cm: oligoamnios. '+_cauOligo+'Doppler umbilical y ACM. Vigilancia fetal intensiva.', laRef);
+      else if(ecoILA<=8) add('ECOGRAFÍA','moderado',`ILA ${ecoILA} cm — Borderline inferior / LA marginal (ACOG)`,
+        'ILA 5.1–8.0 cm: zona borderline inferior. Riesgo de progresión a oligoamnios o asociación con RCIU. Control en 1 semana. Doppler fetal. Descartar RCIU.', laRef);
+      else if(ecoILA<=18) add('ECOGRAFÍA','bajo',`ILA ${ecoILA} cm — Normal (ACOG)`,
+        'ILA 8.1–18.0 cm: rango normal fisiológico (ACOG/SMFM).', laRef);
+      else if(ecoILA<25) add('ECOGRAFÍA','moderado',`ILA ${ecoILA} cm — Borderline superior (ACOG)`,
+        'ILA 18.1–24.9 cm: zona borderline superior. '+_cauPoli+'ECO morfológica si no realizada. Control en 2 semanas.', laRef);
+      else if(ecoILA<30) add('ECOGRAFÍA','moderado',`ILA ${ecoILA} cm — Polihidramnios leve (ACOG)`,
+        'ILA 25–29.9 cm: polihidramnios leve (80% idiopático o DG). '+_cauPoli+'Biometría seriada. ECO morfológica.', laRef);
+      else if(ecoILA<35) add('ECOGRAFÍA','alto',`ILA ${ecoILA} cm — Polihidramnios moderado (ACOG)`,
+        'ILA 30–34.9 cm: polihidramnios moderado. '+_cauPoli+'Riesgo pretérmino, prolapso cordón, DPPNI. Derivar Medicina Fetal.', laRef);
+      else add('ECOGRAFÍA','alto',`ILA ${ecoILA} cm — Polihidramnios SEVERO (ACOG)`,
+        'ILA ≥35 cm: polihidramnios severo (>50% asociado a malformación o cromosomopatía). '+_cauPoli+'Estudio etiológico urgente. Considerar amniorreducción si sintomática. Derivar Medicina Fetal urgente.', laRef);
+    }
   }
   if(ecoBolson!==null){
-    if(ecoBolson<2) add('ECOGRAFÍA 2T','alto',`Bolsón mayor ${ecoBolson} cm — Oligoamnios`,'Confirmar con ILA. Manejo urgente.','ACOG');
-    else if(ecoBolson>8) add('ECOGRAFÍA 2T','moderado',`Bolsón mayor ${ecoBolson} cm — Polihidramnios`,'Confirmar con ILA completo. Estudio etiológico.','ACOG');
+    // Bolsón mayor (BME/SDP) — método preferido SMFM/ACOG
+    if(ecoBolson===0) add('ECOGRAFÍA','alto',`Bolsón mayor ${ecoBolson} cm — Anhidramnios`,
+      'Ausencia de bolsillo líquido. Derivar urgente.','SMFM / ACOG');
+    else if(ecoBolson<1) add('ECOGRAFÍA','alto',`Bolsón mayor ${ecoBolson} cm — Oligoamnios SEVERO`,
+      'BME <1 cm: oligoamnios severo. Confirmar con ILA. Manejo urgente. Descartar RPM, malformación renal.','SMFM / ACOG');
+    else if(ecoBolson<2) add('ECOGRAFÍA','alto',`Bolsón mayor ${ecoBolson} cm — Oligoamnios`,
+      'BME <2 cm: oligoamnios confirmado. Doppler umbilical. Vigilancia fetal intensiva.','SMFM / ACOG');
+    else if(ecoBolson<=7) add('ECOGRAFÍA','bajo',`Bolsón mayor ${ecoBolson} cm — Normal`,
+      'BME 2.1–7.9 cm: rango normal (método SMFM/ACOG preferido por menor tasa de intervenciones).','SMFM / ACOG');
+    else if(ecoBolson<8) add('ECOGRAFÍA','moderado',`Bolsón mayor ${ecoBolson} cm — Borderline superior`,
+      'BME 7.1–7.9 cm: límite superior de la normalidad. Confirmar con ILA. Control en 1–2 sem.','SMFM / ACOG');
+    else if(ecoBolson<10) add('ECOGRAFÍA','moderado',`Bolsón mayor ${ecoBolson} cm — Polihidramnios leve`,
+      'BME 8.0–9.9 cm: polihidramnios leve. Descartar DG, malformación fetal. Biometría seriada.','SMFM / ACOG');
+    else if(ecoBolson<12) add('ECOGRAFÍA','alto',`Bolsón mayor ${ecoBolson} cm — Polihidramnios moderado`,
+      'BME 10–11.9 cm: polihidramnios moderado. Estudio etiológico. Derivar Medicina Fetal.','SMFM / ACOG');
+    else add('ECOGRAFÍA','alto',`Bolsón mayor ${ecoBolson} cm — Polihidramnios SEVERO`,
+      'BME ≥12 cm: polihidramnios severo (alta asociación con malformación o cromosomopatía). Estudio etiológico urgente. Derivar Medicina Fetal.','SMFM / ACOG');
   }
   if(cervix!==null){
     if(cervix<15) add('ECOGRAFÍA 2T','alto',`Cervicometría ${cervix} mm (muy corto)`,'Cerclaje urgente si <23+6 sem. Progesterona 200 mg/noche. Hospitalización según contexto.','FMF / ACOG');
@@ -4351,6 +4572,15 @@ function parseEGStr(s){
   return parseInt(parts[0])*7 + parseInt(parts[1]||0);
 }
 
+function syncHTA(){
+  const pasEl=document.getElementById('pas');
+  const padEl=document.getElementById('pad');
+  const extra=document.getElementById('hta-campos-extra');
+  if(!extra) return;
+  const p=parseFloat(pasEl?pasEl.value:'');
+  const d=parseFloat(padEl?padEl.value:'');
+  extra.style.display=((p&&p>=120)||(d&&d>=80))?'block':'none';
+}
 function calcDextograma(){
   const fechaCalcStr = document.getElementById('dext_fecha_calc').value;
   const fechaCalc = fechaCalcStr ? new Date(fechaCalcStr) : new Date();
@@ -6691,7 +6921,14 @@ function limpiarFormulario(){
   var acm_r=document.getElementById('acm_result');if(acm_r){acm_r.innerHTML='';acm_r.style.display='none';}
   // ═══ Reset Líquido amniótico ═══
   ['eco_bolson','eco_ila'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  var la_metodo_el=document.getElementById('eco_la_metodo');if(la_metodo_el)la_metodo_el.value='acog';
   var la_r=document.getElementById('la_result');if(la_r){la_r.innerHTML='';la_r.style.display='none';}
+  // ═══ Reset HTA ampliado ═══
+  var hta_prot_el=document.getElementById('hta_proteinuria');if(hta_prot_el)hta_prot_el.value='';
+  ['sym_cefalea','sym_acufenos','sym_fosfenos','sym_epigastralgia','sym_disnea'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.checked=false;
+  });
+  var htaExtra=document.getElementById('hta-campos-extra');if(htaExtra)htaExtra.style.display='none';
   // ═══ Reset Biometría avanzada ═══
   ['bio_crl','bio_crl_eg','bio_cerebelo','bio_dtc_eg',
    'bio_humero','bio_humero_eg','bio_humero_lf',
