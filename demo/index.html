@@ -1966,31 +1966,41 @@ function calcular(){
   }
 
   // PROFILAXIS FALTANTE — solo si hay datos suficientes
-  if(_hayDatos && !chk('pr_af')) add('PROFILAXIS','moderado','Sin ácido fólico registrado',
-    (chk('p_epi')||chk('p_dm')||(imcP&&imcP>=30)||chk('obs_malform'))?
-    'Iniciar AF 5 mg/día (dosis alta indicada: epilepsia, obesidad, DM o antecedente DTN).':
-    'Iniciar AF 0.4–0.8 mg/día desde preconcepcional hasta mínimo sem 12.','OMS / ACOG');
-  // TDPA
-  if(_hayDatos&&!chk('pr_tdpa')){
-    if(eg&&eg.sem>=27&&eg.sem<=36) add('PROFILAXIS','alto',`Tdpa pendiente — EG ${eg.sem} sem (ventana 27–36 sem)`,'Aplicar inmediatamente. Preferir 28–32 sem para máxima transferencia de anticuerpos. Indicada en cada embarazo independientemente de vacunaciones previas. Protege al neonato hasta los 2 meses de vida.','CDC / ACOG / OMS');
-    else if(eg&&eg.sem>36) add('PROFILAXIS','moderado','Tdpa no aplicada — fuera de ventana gestacional','Aplicar en el postparto inmediato. Estrategia capullo: vacunar también a convivientes (pareja, abuelos, cuidadores) que no estén al día.','CDC / ACOG');
-    else if(eg&&eg.sem<27) add('PROFILAXIS','bajo',`Tdpa pendiente — ventana: sem 27–36 (EG actual: ${eg.sem} sem)`,'Programar vacunación para semana 28–32 preferentemente.','CDC / ACOG');
+  const _hayDatosProf = chk('pr_af')||chk('pr_tdpa')||chk('pr_grip')||chk('pr_vsr')||chk('pr_covid')||chk('pr_aas')||
+    (document.getElementById('pr_hepb_estado').value!=='')||
+    chk('p_epi')||chk('p_dm')||chk('p_hta')||chk('p_cardio')||chk('obs_pe')||chk('obs_pt');
+
+  if(_hayDatos && !_hayDatosProf) {
+    add('PROFILAXIS','bajo','Estado vacunal y profilaxis no registrados',
+      'No se ingresaron datos de vacunación ni profilaxis. Se recomienda revisar en consulta: Ácido fólico · Tdpa (sem 27–36) · Antigripal · VSR (sem 28–36) · COVID-19 · AAS si alto riesgo PE. Registrar en el formulario para obtener evaluación personalizada.',
+      'OMS / CDC / ACOG / FIGO');
+  } else if(_hayDatos) {
+    if(!chk('pr_af')) add('PROFILAXIS','moderado','Sin ácido fólico registrado',
+      (chk('p_epi')||chk('p_dm')||(imcP&&imcP>=30)||chk('obs_malform'))?
+      'Iniciar AF 5 mg/día (dosis alta indicada: epilepsia, obesidad, DM o antecedente DTN).':
+      'Iniciar AF 0.4–0.8 mg/día desde preconcepcional hasta mínimo sem 12.','OMS / ACOG');
+    // TDPA
+    if(!chk('pr_tdpa')){
+      if(eg&&eg.sem>=27&&eg.sem<=36) add('PROFILAXIS','alto',`Tdpa pendiente — EG ${eg.sem} sem (ventana 27–36 sem)`,'Aplicar inmediatamente. Preferir 28–32 sem para máxima transferencia de anticuerpos. Indicada en cada embarazo independientemente de vacunaciones previas. Protege al neonato hasta los 2 meses de vida.','CDC / ACOG / OMS');
+      else if(eg&&eg.sem>36) add('PROFILAXIS','moderado','Tdpa no aplicada — fuera de ventana gestacional','Aplicar en el postparto inmediato. Estrategia capullo: vacunar también a convivientes (pareja, abuelos, cuidadores) que no estén al día.','CDC / ACOG');
+      else if(eg&&eg.sem<27) add('PROFILAXIS','bajo',`Tdpa pendiente — ventana: sem 27–36 (EG actual: ${eg.sem} sem)`,'Programar vacunación para semana 28–32 preferentemente.','CDC / ACOG');
+    }
+    // ANTIGRIPAL
+    if(!chk('pr_grip')) add('PROFILAXIS','moderado','Vacuna antigripal pendiente','Vacuna inactivada segura en cualquier trimestre. Prioridad en: cardiopatía, DM, asma, obesidad, inmunosupresión, VIH. NUNCA usar vacuna de virus vivos atenuados (LAIV) en el embarazo.','CDC / OMS / ACOG');
+    // VSR
+    if(!chk('pr_vsr')){
+      if(eg&&eg.sem>=28&&eg.sem<=36) add('PROFILAXIS','alto',`Vacuna VSR pendiente — EG ${eg.sem} sem (ventana 28–36 sem)`,'Aplicar inmediatamente si disponible. Abrysvo® (Pfizer) o mResvia® (Moderna). Dosis única IM. Protege al neonato en primeros 6 meses de vida. Verificar disponibilidad local.','FDA / EMA / OPS 2023');
+      else if(eg&&eg.sem<28) add('PROFILAXIS','bajo',`Vacuna VSR pendiente — ventana: sem 28–36 (EG actual: ${eg.sem} sem)`,'Programar para semana 28–32 preferentemente. Verificar disponibilidad local (Abrysvo®/mResvia®).','FDA / EMA 2023');
+      else if(eg&&eg.sem>36) add('PROFILAXIS','bajo','Vacuna VSR: fuera de ventana gestacional (>36 sem)','Considerar nirsevimab (anticuerpo monoclonal) al neonato postparto si disponible según programa nacional.','AAP / OPS 2024');
+    }
+    // COVID
+    if(!chk('pr_covid')) add('PROFILAXIS','moderado','Vacuna COVID-19 pendiente o no registrada','Vacunas ARNm (Pfizer/Moderna) recomendadas por OMS, CDC, ACOG y FIGO. Seguras en cualquier trimestre. Embarazadas con mayor riesgo de COVID grave. Refuerzo si >6 meses desde última dosis.','OMS / CDC / ACOG 2024');
+    // HEPATITIS B
+    const hepbEst=document.getElementById('pr_hepb_estado').value;
+    if(hepbEst==='susceptible'&&!chk('pr_hepbvac')) add('PROFILAXIS','moderado','Hepatitis B: paciente susceptible sin vacuna','Anti-HBs− y HBsAg− → Iniciar esquema vacunal (3 dosis: 0, 1, 6 meses). Vacuna segura en embarazo. Completar esquema postparto si es necesario.','ACOG / CDC / EASL');
+    // AAS
+    if(!chk('pr_aas')&&findings.some(f=>f.conducta.includes('AAS'))) add('PROFILAXIS','moderado','AAS indicado pero no registrado como iniciado','Verificar e iniciar AAS 100–150 mg/día según perfil de riesgo PE.','FMF / ACOG');
   }
-  // ANTIGRIPAL
-  if(_hayDatos&&!chk('pr_grip')) add('PROFILAXIS','moderado','Vacuna antigripal pendiente','Vacuna inactivada segura en cualquier trimestre. Prioridad en: cardiopatía, DM, asma, obesidad, inmunosupresión, VIH. NUNCA usar vacuna de virus vivos atenuados (LAIV) en el embarazo.','CDC / OMS / ACOG');
-  // VSR
-  if(_hayDatos&&!chk('pr_vsr')){
-    if(eg&&eg.sem>=28&&eg.sem<=36) add('PROFILAXIS','alto',`Vacuna VSR pendiente — EG ${eg.sem} sem (ventana 28–36 sem)`,'Aplicar inmediatamente si disponible. Abrysvo® (Pfizer) o mResvia® (Moderna). Dosis única IM. Protege al neonato en primeros 6 meses de vida. Verificar disponibilidad local.','FDA / EMA / OPS 2023');
-    else if(eg&&eg.sem<28) add('PROFILAXIS','bajo',`Vacuna VSR pendiente — ventana: sem 28–36 (EG actual: ${eg.sem} sem)`,'Programar para semana 28–32 preferentemente. Verificar disponibilidad local (Abrysvo®/mResvia®).','FDA / EMA 2023');
-    else if(eg&&eg.sem>36) add('PROFILAXIS','bajo','Vacuna VSR: fuera de ventana gestacional (>36 sem)','Considerar nirsevimab (anticuerpo monoclonal) al neonato postparto si disponible según programa nacional.','AAP / OPS 2024');
-  }
-  // COVID
-  if(_hayDatos&&!chk('pr_covid')) add('PROFILAXIS','moderado','Vacuna COVID-19 pendiente o no registrada','Vacunas ARNm (Pfizer/Moderna) recomendadas por OMS, CDC, ACOG y FIGO. Seguras en cualquier trimestre. Embarazadas con mayor riesgo de COVID grave. Refuerzo si >6 meses desde última dosis.','OMS / CDC / ACOG 2024');
-  // HEPATITIS B
-  const hepbEst=document.getElementById('pr_hepb_estado').value;
-  if(hepbEst==='susceptible'&&!chk('pr_hepbvac')) add('PROFILAXIS','moderado','Hepatitis B: paciente susceptible sin vacuna','Anti-HBs− y HBsAg− → Iniciar esquema vacunal (3 dosis: 0, 1, 6 meses). Vacuna segura en embarazo. Completar esquema postparto si es necesario.','ACOG / CDC / EASL');
-  // AAS
-  if(!chk('pr_aas')&&findings.some(f=>f.conducta.includes('AAS'))) add('PROFILAXIS','moderado','AAS indicado pero no registrado como iniciado','Verificar e iniciar AAS 100–150 mg/día según perfil de riesgo PE.','FMF / ACOG');
 
   // NIVEL GLOBAL
   let maxNivel='bajo';
