@@ -1746,7 +1746,7 @@ function calcular(){
   }
   if(creat!==null&&creat>=0.8) add('LABORATORIO','moderado',`Creatinina ${creat} mg/dL (↑ en gestación)`,'Normal embarazo <0.8. Solicitar clearance, proteinuria 24h. Nefrología si progresivo.','ACOG');
   if(tsh!==null){
-    const tshTrim=parseInt(document.getElementById('tsh_trim').value)||1;
+    const tshTrim=parseInt((document.getElementById('tsh_trim')||{value:''}).value)||1;
     const tshRef=getTSHRef(tshTrim);
     const tshLabel=`TSH ${tsh} µUI/mL (ref ${tshTrim}T: ${tshRef.min}–${tshRef.max})`;
     if(tsh>tshRef.max+1.5) add('LABORATORIO','alto',`${tshLabel} — hipotiroidismo`,'Iniciar/ajustar levotiroxina urgente. Riesgo neurodesarrollo fetal. Control c/2–4 sem hasta TSH en rango.','ATA / ACOG');
@@ -1755,43 +1755,43 @@ function calcular(){
     else if(tsh<tshRef.min) add('LABORATORIO','moderado',`${tshLabel} — TSH bajo límite`,'Confirmar con T4L. Si hipertiroidismo subclínico: control c/4 sem. Descartar Graves.','ATA / ACOG');
   }
   // SGB
-  const sgbRes=document.getElementById('lb_sgb').value;
+  const sgbRes=(document.getElementById('lb_sgb')||{value:''}).value;
   if(sgbRes==='pos') add('LABORATORIO','alto','SGB positivo — profilaxis intraparto obligatoria','Penicilina G 5 mill UI IV al inicio del TP, luego 2.5 mill UI c/4h hasta el parto. Alternativa: ampicilina. Alergia a penicilina: clindamicina según antibiograma (resistencia ~20%).','CDC / ACOG');
   else if(sgbRes==='desconocido'&&eg&&eg.sem>=35) add('LABORATORIO','moderado','SGB: resultado desconocido','Profilaxis intraparto según factores de riesgo: fiebre intraparto, RPM >18h, pretérmino <37 sem, bacteriuria por SGB en este embarazo.','CDC / ACOG');
   // Serología
-  const toxoIgG=document.getElementById('toxo_igg').value;
-  const toxoIgM=document.getElementById('toxo_igm').value;
-  const toxoAvidez=document.getElementById('toxo_avidez').value;
+  const toxoIgG=(document.getElementById('toxo_igg')||{value:''}).value;
+  const toxoIgM=(document.getElementById('toxo_igm')||{value:''}).value;
+  const toxoAvidez=(document.getElementById('toxo_avidez')||{value:''}).value;
   if((toxoIgG!==''||toxoIgM!=='') && toxoIgM==='pos'){
     if(toxoAvidez==='baja') add('LABORATORIO','alto','Toxoplasmosis: IgM+ con avidez BAJA — infección reciente probable','Primoinfección confirmada. Espiramicina hasta sem 18, luego triple terapia (pirimetamina + sulfadiazina + ácido folínico). Derivar Medicina Fetal. ECO seriada (hidrocefalia, calcificaciones, RCIU).','ACOG / SFMFM');
     else if(toxoAvidez==='alta') add('LABORATORIO','bajo','Toxoplasmosis: IgM+ pero avidez ALTA — infección anterior a 16 sem','Avidez alta descarta primoinfección reciente. Seguimiento habitual. Confirmar con segundo laboratorio si dudas.','ACOG / SFMFM');
     else add('LABORATORIO','alto','Toxoplasmosis IgM+ — solicitar avidez IgG urgente','IgM positiva requiere test de avidez para determinar si infección es reciente. Sin avidez no se puede descartar primoinfección. Derivar Medicina Fetal.','ACOG / SFMFM');
   }
-  const rubIgG=document.getElementById('rub_igg').value;
-  const rubIgM=document.getElementById('rub_igm').value;
+  const rubIgG=(document.getElementById('rub_igg')||{value:''}).value;
+  const rubIgM=(document.getElementById('rub_igm')||{value:''}).value;
   if(rubIgG==='suscept') add('LABORATORIO','moderado','Rubeola: paciente susceptible (IgG negativa)','No inmune. Vigilar exposición. Vacuna SRP contraindicada en embarazo. Vacunar en el postparto inmediato. Educación sobre evitar contacto con casos.','ACOG / CDC');
   if(rubIgM==='pos') add('LABORATORIO','alto','Rubeola: IgM positiva — infección activa probable','Síndrome de rubeola congénita: cataratas, cardiopatía, sordera. Derivar urgente. Consejo sobre pronóstico. No existe tratamiento específico.','OPS / ACOG');
-  const cmvIgM=document.getElementById('cmv_igm').value;
-  const cmvAvidez=document.getElementById('cmv_avidez').value;
+  const cmvIgM=(document.getElementById('cmv_igm')||{value:''}).value;
+  const cmvAvidez=(document.getElementById('cmv_avidez')||{value:''}).value;
   if(cmvIgM==='pos'){
     if(cmvAvidez==='baja') add('LABORATORIO','alto','CMV: IgM+ con avidez BAJA — primoinfección probable','Primoinfección CMV: riesgo transmisión vertical 30–40%. Derivar Medicina Fetal urgente. ECO seriada (RCIU, hidrocefalia, calcificaciones cerebrales, hepatoesplenomegalia). Valorar valaciclovir materno.','FMF / SFMFM');
     else add('LABORATORIO','moderado','CMV: IgM+ — solicitar avidez para confirmar primoinfección','Avidez IgG distingue primoinfección de reactivación. Derivar Medicina Fetal para ECO fetal.','FMF / SFMFM');
   }
-  const chagas1=document.getElementById('chagas_1').value;
-  const chagas2=document.getElementById('chagas_2').value;
+  const chagas1=(document.getElementById('chagas_1')||{value:''}).value;
+  const chagas2=(document.getElementById('chagas_2')||{value:''}).value;
   if(chagas1==='pos'&&chagas2==='pos') add('LABORATORIO','alto','Chagas confirmado (2 técnicas reactivas)','Transmisión vertical ~5%. Neonato: PCR en sangre de cordón y a los 30 días. Si PCR+ en neonato: benznidazol. Notificación obligatoria. Infectología + neonatología.','OPS / PAHO');
   else if(chagas1==='pos'||chagas2==='pos') add('LABORATORIO','moderado','Chagas: resultado indeterminado (1 técnica reactiva)','Requiere confirmación con segunda técnica diferente. Hasta confirmar: vigilancia neonatal. Infectología.','OPS');
-  const hbsag=document.getElementById('hbv_hbsag').value;
+  const hbsag=(document.getElementById('hbv_hbsag')||{value:''}).value;
   if(hbsag==='pos') add('LABORATORIO','alto','Hepatitis B: HBsAg positivo','Inmunoprofilaxis neonatal obligatoria (vacuna + HBIG) en primeras 12h. Carga viral materna: si >200.000 UI/mL considerar tenofovir desde sem 28. Lactancia permitida con inmunoprofilaxis neonatal completa. Hepatología.','ACOG / EASL');
-  const vihTest=document.getElementById('vih_test').value;
-  const vihWB=document.getElementById('vih_wb').value;
+  const vihTest=(document.getElementById('vih_test')||{value:''}).value;
+  const vihWB=(document.getElementById('vih_wb')||{value:''}).value;
   if(vihWB==='pos'||vihTest==='react') add('LABORATORIO','alto',vihWB==='pos'?'VIH confirmado':'VIH: test reactivo — pendiente confirmación',vihWB==='pos'?'TAR durante todo el embarazo. CV indetectable = objetivo. Cesárea si CV >1000 copias. Profilaxis neonatal obligatoria. Infectología.':'Confirmar con Western Blot urgente. No suspender TAR si ya recibe. Infectología.','ACOG / CDC');
-  const sifRap=document.getElementById('sif_rapido').value;
-  const sifVDRL=document.getElementById('sif_vdrl').value;
-  const sifTit=document.getElementById('sif_titulo').value;
+  const sifRap=(document.getElementById('sif_rapido')||{value:''}).value;
+  const sifVDRL=(document.getElementById('sif_vdrl')||{value:''}).value;
+  const sifTit=(document.getElementById('sif_titulo')||{value:''}).value;
   if(sifRap==='react'&&sifVDRL==='pos') add('LABORATORIO','alto',`Sífilis activa confirmada${sifTit?' (VDRL '+sifTit+')':''}`, 'Penicilina G benzatínica según estadio (primaria/secundaria: 2.4 mill UI IM dosis única; latente: 3 dosis semanales). VDRL mensual postratamiento. Control neonatal. Notificación obligatoria.','CDC / PAHO / OMS');
   else if(sifRap==='react'&&sifVDRL==='neg') add('LABORATORIO','bajo','Sífilis: test rápido reactivo + VDRL no reactivo — probable cicatriz serológica','Tratar como sífilis latente tardía si no hay tratamiento documentado previo. VDRL de control en 4 semanas.','CDC / PAHO');
-  const hcvTest=document.getElementById('hcv_test').value;
+  const hcvTest=(document.getElementById('hcv_test')||{value:''}).value;
   if(hcvTest==='pos') add('LABORATORIO','moderado','Hepatitis C: Anti-VHC reactivo','Confirmar con ARN-VHC (PCR). Transmisión vertical ~5%. No existe profilaxis neonatal. Lactancia generalmente permitida si CV baja. Hepatología.','ACOG / EASL');
   // ── CRASIS ──
   const rni=val('lab_rni'), kptt=val('lab_kptt');
