@@ -1648,7 +1648,7 @@ function calcular(){
   // EDAD
   if(edad>=40) add('EDAD MATERNA','alto',`Edad materna avanzada (${edad} años)`,'Cribado aneuploidías obligatorio. NIPT indicado. Vigilar PA, glucemia, tiroides. Mayor riesgo PE y DG.','FMF / ACOG');
   else if(edad>=35) add('EDAD MATERNA','moderado',`Edad materna avanzada (${edad} años)`,'Ofrecer cribado combinado 1T + NIPT contingente. Vigilar PA y glucemia.','FMF / ACOG');
-  else if(edad<18) add('EDAD MATERNA','moderado',`Embarazo adolescente (${edad} años)`,'Mayor riesgo PE, bajo peso y depresión perinatal. Soporte psicosocial.','OMS');
+  else if(edad!==null&&edad<18) add('EDAD MATERNA','moderado',`Embarazo adolescente (${edad} años)`,'Mayor riesgo PE, bajo peso y depresión perinatal. Soporte psicosocial.','OMS');
 
   // IMC
   if(imcP){
