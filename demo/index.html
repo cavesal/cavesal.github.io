@@ -1606,29 +1606,6 @@ function calcular(){
   const findings=[];
   function add(domain,nivel,hallazgo,conducta,fuente){findings.push({domain,nivel,hallazgo,conducta,fuente})}
 
-  // ══════════ DEBUG BLOCK — REMOVER ANTES DE PRODUCCION ══════════
-  const _debugCampos = ['hb','plaquetas','tsh','creatinina','lab_rni','lab_vitd',
-    'lab_hba1c','lab_au','pi1t','ao','pigf1t','pi2t','sflt','nt_mm','nt_crl',
-    'cervix','eco_ila','eco_bolson','bhcg','t21','t18','t13'];
-  let _debugHtml = '<div style="background:#fff3cd;border:2px solid #f90;padding:10px;margin:10px 0;font-size:11px;font-family:monospace;border-radius:6px">';
-  _debugHtml += '<strong>DEBUG — val() en runtime:</strong><br>';
-  _debugCampos.forEach(id => {
-    const el = document.getElementById(id);
-    const elExists = !!el;
-    const elValue = el ? el.value : 'N/A';
-    const valResult = val(id);
-    _debugHtml += `<br>${id}: exists=${elExists}, el.value="${elValue}", val()=${JSON.stringify(valResult)}`;
-  });
-  _debugHtml += '</div>';
-  const _debugTarget = document.getElementById('results');
-  if(_debugTarget) _debugTarget.innerHTML = _debugHtml;
-  const _debugPanel = document.getElementById('results-panel');
-  if(_debugPanel) _debugPanel.style.display = 'block';
-  showTab('resultado');
-  return;
-  // ══════════ FIN DEBUG BLOCK ══════════
-
-
   // ── GUARDA: solo calcular si hay al menos un dato real ingresado ──
   // Evita diagnósticos/sugerencias basados en campos vacíos con placeholder
   const _camposNum = ['edad','hb','glucemia','creatinina','lab_au','plaquetas',
@@ -3507,7 +3484,7 @@ document.addEventListener('DOMContentLoaded', function(){
       const dias=Math.floor((new Date()-new Date(this.value))/86400000);
       if(dias>=0&&dias<=294){
         const vpEg=document.getElementById('vp_eg');
-        if(vpEg&&!vpEg.value) vpEg.value=Math.floor(dias/7);
+        if(vpEg&&vpEg.tagName&&!vpEg.value) vpEg.value=Math.floor(dias/7); // fix: tagName guard evita contaminar _dummy singleton
       }
     });
     dextFUM.addEventListener('change', function(){
