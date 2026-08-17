@@ -3361,7 +3361,7 @@ function calcular(){
   // EDAD
   if(edad>=40) add('EDAD MATERNA','alto',`Edad materna avanzada (${edad} años)`,'Cribado aneuploidías obligatorio. NIPT indicado. Vigilar PA, glucemia, tiroides. Mayor riesgo PE y DG.','FMF / ACOG');
   else if(edad>=35) add('EDAD MATERNA','moderado',`Edad materna avanzada (${edad} años)`,'Ofrecer cribado combinado 1T + NIPT contingente. Vigilar PA y glucemia.','FMF / ACOG');
-  else if(edad<18) add('EDAD MATERNA','moderado',`Embarazo adolescente (${edad} años)`,'Mayor riesgo PE, bajo peso y depresión perinatal. Soporte psicosocial.','OMS');
+  else if(edad!==null&&edad<18) add('EDAD MATERNA','moderado',`Embarazo adolescente (${edad} años)`,'Mayor riesgo PE, bajo peso y depresión perinatal. Soporte psicosocial.','OMS');
 
   // IMC
   if(imcP){
@@ -3704,32 +3704,59 @@ function calcular(){
   // Algoritmo propio CaVeSal® · Análisis basado en literatura de referencia
 
   // ── TOXOPLASMOSIS ──
+  // Algoritmo propio CaVeSal® · Análisis basado en literatura de referencia
+  // SFMFM Consult Series · Montoya & Remington 2008 · OPS 2024 · ACOG
   const toxoIgG=document.getElementById('toxo_igg').value;
   const toxoIgM=document.getElementById('toxo_igm').value;
   const toxoAvidez=document.getElementById('toxo_avidez').value;
+  // EG actual en semanas (puede ser null si no hay FUM)
+  const _toxoEgSem = eg ? eg.sem : null;
+
   if((toxoIgG!==''||toxoIgM!=='') && toxoIgM==='pos'){
     if(toxoAvidez==='baja'){
       add('LABORATORIO','alto','Toxoplasmosis: IgM+ · avidez BAJA — primoinfección reciente confirmada',
-        'Riesgo transmisión vertical directamente proporcional a EG (↑ en 3T: hasta 60%); daño fetal inversamente proporcional (más grave en 1T: hidrocefalia, calcificaciones). ' +
-        'Conducta: Espiramicina 1g c/8h VO hasta sem 18 (reduce TV ~60%). Desde sem 18 o si ECO fetal alterada: pirimetamina 25mg/día + sulfadiazina 1g c/6h + ácido folínico 10–15mg/día. ' +
-        'Derivar Medicina Fetal urgente. ECO morfológica seriada (hidrocefalia, calcificaciones periventriculares, RCIU, ascitis). Amniocentesis para PCR toxoplasma si EG >18 sem. ' +
+        'Riesgo transmisión vertical directamente proporcional a EG (↑ en 3T: hasta 60%); daño fetal inversamente proporcional (más grave en 1T). ' +
+        '▸ Prevención secundaria (proteger placenta): Espiramicina 1g c/8h VO hasta sem 18 — no cruza placenta, reduce transmisión vertical ~60%. ' +
+        '▸ Prevención terciaria (si feto infectado confirmado por PCR/amniocentesis ≥18 sem o ECO alterada): Pirimetamina 25mg/día + Sulfadiazina 1g c/6h + Ácido folínico 10–15mg/día — cruza placenta, trata al feto. CONTRAINDICADA en 1T (teratogénica) y último mes (riesgo kernicterus neonatal). ' +
+        'Derivar Medicina Fetal urgente. ECO morfológica seriada (hidrocefalia, calcificaciones periventriculares, RCIU, ascitis). Amniocentesis para PCR toxoplasma si EG ≥18 sem. ' +
         'Neonato: PCR + serología al nacer y seguimiento 12 meses.',
         'SFMFM / OPS 2024 / ACOG');
     } else if(toxoAvidez==='alta'){
-      add('LABORATORIO','bajo','Toxoplasmosis: IgM+ pero avidez ALTA — infección previa (>16 sem de evolución)',
-        'Avidez alta descarta primoinfección reciente. Riesgo de transmisión vertical mínimo. Sin tratamiento específico indicado. ' +
-        'Confirmar con laboratorio de referencia si hay dudas. Seguimiento ecográfico habitual.',
-        'SFMFM / ACOG');
+      // CORRECCIÓN: avidez alta solo descarta infección en las últimas ~16 semanas.
+      // Si EG al momento del análisis > 16 semanas, no se puede excluir 1T como ventana de infección.
+      // Calcular: EG_análisis − 16 semanas → si > 0, la infección pudo haber sido en el embarazo.
+      const _toxoVentana = _toxoEgSem !== null ? _toxoEgSem - 16 : null;
+      if(_toxoVentana === null){
+        // Sin EG conocida: no se puede evaluar la ventana temporal
+        add('LABORATORIO','moderado','Toxoplasmosis: IgM+ · avidez ALTA — evaluar ventana temporal',
+          'Avidez alta indica infección ocurrida >16 semanas antes del análisis. SIN edad gestacional registrada, no es posible determinar si esa ventana cae antes o dentro del embarazo. ' +
+          'Registrar FUM o fecha de ecografía para completar el análisis. Derivar Medicina Fetal para evaluación individualizada.',
+          'SFMFM / OPS 2024');
+      } else if(_toxoVentana <= 0){
+        // EG ≤16 sem al momento del análisis → infección fue necesariamente pregestacional
+        add('LABORATORIO','bajo','Toxoplasmosis: IgM+ · avidez ALTA — infección pregestacional confirmada',
+          'Con EG actual de ' + _toxoEgSem + ' sem, la avidez alta (>16 sem de evolución) sitúa la infección antes de la concepción. Riesgo de transmisión vertical mínimo. ' +
+          'Sin tratamiento específico indicado. Seguimiento ecográfico habitual.',
+          'SFMFM / ACOG');
+      } else {
+        // EG > 16 sem → la infección pudo haber ocurrido dentro del embarazo (incluyendo 1T)
+        add('LABORATORIO','moderado','Toxoplasmosis: IgM+ · avidez ALTA — no descarta infección en 1T',
+          'Con EG actual de ' + _toxoEgSem + ' sem, la avidez alta sitúa la infección antes de la sem ' + _toxoVentana + ' de gestación — lo que incluye el 1er trimestre (mayor daño fetal potencial, aunque menor probabilidad de transmisión). ' +
+          'No asumir tranquilidad automática. Derivar Medicina Fetal para evaluación individualizada: considerar ECO morfológica seriada y, si EG ≥18 sem, amniocentesis con PCR toxoplasma para descartar infección fetal. ' +
+          '▸ Si se confirma infección fetal: Pirimetamina + Sulfadiazina + Ácido folínico (CONTRAINDICADA en 1T y último mes).',
+          'SFMFM / OPS 2024 / ACOG');
+      }
     } else {
       add('LABORATORIO','alto','Toxoplasmosis IgM+ — solicitar avidez IgG urgente',
         'IgM positiva sin avidez: no se puede descartar primoinfección. Solicitar avidez IgG urgente. ' +
-        'Recordar: riesgo de transmisión vertical es directamente proporcional a la EG, pero el daño fetal es inversamente proporcional (más grave cuanto menor la EG). ' +
-        'Iniciar espiramicina 1g c/8h mientras se confirma. Derivar Medicina Fetal.',
+        'Riesgo de transmisión vertical directamente proporcional a la EG; daño fetal inversamente proporcional (más grave en 1T). ' +
+        '▸ Iniciar Espiramicina 1g c/8h VO mientras se confirma (prevención secundaria, no cruza placenta). Derivar Medicina Fetal.',
         'OPS 2024 / ACOG');
     }
   } else if(toxoIgG==='neg'&&toxoIgM==='neg'){
     add('LABORATORIO','bajo','Toxoplasmosis: paciente susceptible (IgG e IgM negativas)',
-      'Sin inmunidad. Repetir serología cada trimestre. Medidas preventivas: evitar carnes crudas, lavar bien frutas y verduras, evitar contacto con heces de gato, usar guantes en jardinería.',
+      '▸ Prevención primaria: evitar carnes crudas o mal cocidas, lavar bien frutas y verduras, evitar contacto con heces de gato (usar guantes en jardinería y limpieza de areneros), higiene de manos estricta. Sin tratamiento farmacológico. ' +
+      'Repetir serología cada trimestre.',
       'OPS / ACOG');
   }
 
