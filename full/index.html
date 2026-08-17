@@ -540,6 +540,16 @@ main{padding:14px;max-width:680px;margin:0 auto}
       Si en el futuro necesitás usar CaVeSal® en un dispositivo nuevo, te invitamos a adquirir una nueva licencia. La versión completa incluye además el módulo de Gestión de Pacientes, con almacenamiento local seguro en tu dispositivo. 🩺✨
     </div>
 
+    <!-- Aviso: ya tiene clave pero abrió desde el navegador, no desde el ícono instalado -->
+    <div id="lg_ya_activada_warning" style="display:none;text-align:left;background:#e8f5e9;border:1.5px solid #2e7d32;border-radius:12px;padding:14px 16px;margin-bottom:16px">
+      <div style="font-size:.9rem;font-weight:800;color:#1b5e20;margin-bottom:8px">✅ Ya tenés CaVeSal® activado</div>
+      <div style="font-size:.82rem;color:#0D1B2D;line-height:1.6;margin-bottom:8px">
+        Tu clave ya está registrada en este dispositivo, pero estás abriendo la app desde el <strong>navegador</strong> en lugar del <strong>ícono instalado</strong>.<br><br>
+        Cerrá esta pestaña y abrí CaVeSal® directamente desde el ícono en tu pantalla de inicio — no necesitás ingresar la clave de nuevo.
+      </div>
+      <div style="font-size:.76rem;color:#2e7d32;font-weight:600">💡 El navegador y la app instalada tienen datos separados.</div>
+    </div>
+
     <!-- Advertencia específica para iPhone/iPad en Safari, no instalado todavía -->
     <div id="lg_ios_warning" style="display:none;text-align:left;background:#fff8e6;border:1.5px solid #d97706;border-radius:12px;padding:14px 16px;margin-bottom:16px">
       <div style="font-size:.9rem;font-weight:800;color:#92400e;margin-bottom:8px">📱 Instalá la app antes de activar tu clave</div>
@@ -551,6 +561,18 @@ main{padding:14px;max-width:680px;margin:0 auto}
         <li>Recién ahí, ingresá tu clave</li>
       </ol>
       <div style="font-size:.74rem;color:#92400e">⚠️ Si activás la clave acá en Safari antes de instalar, no vas a poder volver a usarla al abrir la app instalada.</div>
+    </div>
+
+    <!-- Advertencia para Android/Chrome: no instalado todavía -->
+    <div id="lg_android_warning" style="display:none;text-align:left;background:#fff8e6;border:1.5px solid #d97706;border-radius:12px;padding:14px 16px;margin-bottom:16px">
+      <div style="font-size:.9rem;font-weight:800;color:#92400e;margin-bottom:8px">📱 Instalá la app antes de activar tu clave</div>
+      <ol style="padding-left:18px;font-size:.82rem;color:#0D1B2D;line-height:1.9;margin-bottom:6px">
+        <li>Tocá el menú <strong>⋮</strong> de Chrome (arriba a la derecha)</li>
+        <li>Elegí <strong>"Agregar a pantalla de inicio"</strong> o <strong>"Instalar app"</strong></li>
+        <li>Abrí CaVeSal® desde el <strong>ícono instalado</strong></li>
+        <li>Recién ahí, ingresá tu clave</li>
+      </ol>
+      <div style="font-size:.74rem;color:#92400e">⚠️ Si activás la clave en el navegador antes de instalar, tendrás que volver a ingresarla al abrir la app instalada.</div>
     </div>
 
     <div id="lg_form_wrapper">
@@ -628,18 +650,39 @@ function validarClave(){
   }
 })();
 
-// Detectar iOS/Safari sin instalar todavía — mostrar advertencia en vez del formulario
+// Detectar contexto de apertura: navegador vs app instalada
 (function(){
   const esIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+  const esAndroid = /android/i.test(navigator.userAgent);
   const enStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-  if(esIOS && !enStandalone){
-    document.addEventListener('DOMContentLoaded', function(){
-      const warning = document.getElementById('lg_ios_warning');
-      const formWrapper = document.getElementById('lg_form_wrapper');
-      if(warning) warning.style.display = 'block';
+  const claveGuardada = localStorage.getItem(LICENSE_STORAGE_KEY);
+
+  document.addEventListener('DOMContentLoaded', function(){
+    const formWrapper = document.getElementById('lg_form_wrapper');
+
+    // Caso 1: ya tiene clave pero NO está en standalone → abrió desde el navegador, no desde el ícono
+    if(claveGuardada && !enStandalone){
+      const w = document.getElementById('lg_ya_activada_warning');
+      if(w) w.style.display = 'block';
       if(formWrapper) formWrapper.style.display = 'none';
-    });
-  }
+      return;
+    }
+
+    // Caso 2: iOS en Safari sin instalar todavía
+    if(esIOS && !enStandalone){
+      const w = document.getElementById('lg_ios_warning');
+      if(w) w.style.display = 'block';
+      if(formWrapper) formWrapper.style.display = 'none';
+      return;
+    }
+
+    // Caso 3: Android en Chrome sin instalar todavía
+    if(esAndroid && !enStandalone){
+      const w = document.getElementById('lg_android_warning');
+      if(w) w.style.display = 'block';
+      // En Android sí dejamos el formulario visible para que pueda activar igual
+    }
+  });
 })();
 
 // Permitir Enter para activar
