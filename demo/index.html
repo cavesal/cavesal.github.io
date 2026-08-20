@@ -574,7 +574,7 @@ main{padding:14px;max-width:680px;margin:0 auto}
   <div class="tabs">
     <button class="tab active" onclick="showTab('formulario')">📋 Formulario</button>
     <button class="tab" onclick="showTab('resultado')">📊 Resultado</button>
-    <button class="tab" onclick="showTab('calculadoras')">🗓️ EG · Parto</button>
+    <button class="tab" onclick="showTab('calculadoras')">🗓️ Gestograma · Parto</button>
     <button class="tab" onclick="showTab('biometria')">📐 Biometría</button>
     <button class="tab" onclick="showTab('pacientes')">👤 Pacientes</button>
     <button class="tab" onclick="showTab('acerca')">ℹ️ Acerca</button>
@@ -1071,13 +1071,140 @@ main{padding:14px;max-width:680px;margin:0 auto}
 </div>
 
 
-<div class="calc-card locked-section" onclick="mostrarModalUpgrade('suplementacion')">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-    <h2 style="font-size:.92rem;font-weight:700;color:var(--navy)">💊 Suplementación prenatal</h2>
-    <span class="lock-badge">🔒 Versión completa</span>
+<div class="calc-card">
+  <h2 style="font-size:.92rem;font-weight:700;color:var(--navy);margin-bottom:4px;display:flex;align-items:center;gap:8px">💊 Suplementación prenatal</h2>
+  <p style="font-size:.75rem;color:var(--slate);margin-bottom:12px">Guías OMS · ACOG · NICE · FIGO · Endocrine Society 2024 · EBCOG 2024</p>
+
+  <!-- ÁCIDO FÓLICO / METILFOLATO -->
+  <div class="suple-expand-card">
+    <div class="suple-expand-head" onclick="toggleSuple(this)">
+      <span style="font-size:1.1rem">🟢</span>
+      <div style="flex:1"><div class="suple-expand-title">Ácido fólico / Metilfolato</div><div class="suple-expand-sub">Periconcepcional · Todo el embarazo</div></div>
+      <span class="suple-chevron">▼</span>
+    </div>
+    <div class="suple-expand-body">
+      <div class="note-box" style="margin-bottom:10px">Iniciar <strong>al menos 1 mes antes de la concepción</strong> y continuar durante el embarazo. La síntesis de tubo neural ocurre en los días 18–26 post-concepción.</div>
+      <table class="suple-table">
+        <tr><th>Perfil</th><th>Dosis</th><th>Forma</th></tr>
+        <tr><td>Sin factores de riesgo</td><td><strong>400 µg/día</strong></td><td>Ácido fólico</td></tr>
+        <tr class="suple-alto"><td>Alto riesgo DTN (antecedente hijo afecto, epilepsia con antifolatos, obesidad mórbida, DM mal controlada)</td><td><strong>4–5 mg/día</strong></td><td>Ácido fólico</td></tr>
+        <tr><td>Polimorfismo MTHFR documentado</td><td><strong>400–800 µg/día</strong></td><td>Metilfolato (5-MTHF)</td></tr>
+      </table>
+      <div class="bio-ref">📚 OMS · NICE · ACOG · FIGO. Nota: muchas guías ya establecen 4–5 mg (no 800 µg) para alto riesgo. El metilfolato (5-MTHF) se recomienda en portadoras de variante MTHFR C677T homocigota documentada.</div>
+    </div>
   </div>
-  <div class="locked-preview"><div class="locked-items"><span class="lp-item">Folato · Hierro · Calcio · Vitamina D · Omega-3 · Yodo</span></div>
-  <button class="btn-unlock">🔓 Desbloquear</button></div>
+
+  <!-- HIERRO -->
+  <div class="suple-expand-card">
+    <div class="suple-expand-head" onclick="toggleSuple(this)">
+      <span style="font-size:1.1rem">🔴</span>
+      <div style="flex:1"><div class="suple-expand-title">Hierro</div><div class="suple-expand-sub">Universal + terapéutico según anemia</div></div>
+      <span class="suple-chevron">▼</span>
+    </div>
+    <div class="suple-expand-body">
+      <div class="note-box" style="margin-bottom:10px"><strong>Cribado recomendado:</strong> Hb en 1ª visita + sem 24–28 · Ferritina si sospecha déficit (&lt;15–30 µg/L) · Saturación transferrina si anemia establecida (&lt;16%)</div>
+      <table class="suple-table">
+        <tr><th>Indicación</th><th>Hierro elemental</th><th>Equivalente quelado</th></tr>
+        <tr><td>Profilaxis universal (OMS/FIGO)</td><td><strong>30–60 mg/día</strong></td><td>~150–300 mg bisglicinato</td></tr>
+        <tr><td>Déficit sin anemia</td><td><strong>25–30 mg/día</strong></td><td>~150 mg bisglicinato</td></tr>
+        <tr class="suple-moder"><td>Anemia leve (Hb 9–10.9 g/dL)</td><td><strong>30–60 mg/día</strong></td><td>~150–300 mg bisglicinato</td></tr>
+        <tr class="suple-alto"><td>Anemia moderada (Hb 7–8.9 g/dL)</td><td><strong>60–80 mg/día</strong></td><td>~300 mg bisglicinato</td></tr>
+        <tr class="suple-alto"><td>Anemia grave / intolerancia oral</td><td colspan="2"><strong>Hierro IV</strong> (sacarosa o carboxymaltosa) — desde 2T</td></tr>
+      </table>
+      <div class="suple-highlight">💡 <strong>Hierro quelado (bisglicinato ferroso):</strong> Absorción independiente del pH gástrico · Menor elevación de hepcidina · Mucho mejor tolerancia digestiva. 25–30 mg quelado ≈ 60 mg sulfato ferroso funcionalmente.</div>
+      <div class="bio-ref">📚 OMS · FIGO · ACOG · CDC. Hb normal embarazo: &lt;11 g/dL (1T) / &lt;10.5 g/dL (2T-3T). Hierro IV: no en 1T — riesgo teórico. Formulaciones preferidas: hierro sacarosa, ferric carboxymaltosa.</div>
+    </div>
+  </div>
+
+  <!-- CALCIO -->
+  <div class="suple-expand-card">
+    <div class="suple-expand-head" onclick="toggleSuple(this)">
+      <span style="font-size:1.1rem">🦴</span>
+      <div style="flex:1"><div class="suple-expand-title">Calcio</div><div class="suple-expand-sub">Selectivo según escenario clínico</div></div>
+      <span class="suple-chevron">▼</span>
+    </div>
+    <div class="suple-expand-body">
+      <table class="suple-table">
+        <tr><th>Escenario clínico</th><th>Recomendación</th></tr>
+        <tr><td>Dieta normal en país de renta alta</td><td>No suplementar de rutina</td></tr>
+        <tr><td>Vegetariana/vegana o baja ingesta láctea</td><td><strong>500–1000 mg/día</strong></td></tr>
+        <tr class="suple-alto"><td>Alto riesgo PE (primigesta, obesa, HTA crónica, gemelar)</td><td><strong>1000–1500 mg/día + AAS desde 1T</strong></td></tr>
+        <tr><td>Adolescente embarazada</td><td><strong>Sí — requerimientos propios mayores</strong></td></tr>
+        <tr class="suple-moder"><td>País con ingesta poblacional &lt;600 mg/día</td><td>Suplementación universal (OMS)</td></tr>
+      </table>
+      <div class="suple-highlight">⚠️ <strong>Precaución con combinación Calcio + Vitamina D:</strong> Vit D sin déficit + calcio suplementado = riesgo hipercalcemia. Vit D alta (&gt;100 ng/mL) + calcio = contraindicado. Combinar solo si déficit de ambos + alto riesgo PE, monitorizando calcemia.</div>
+      <div class="bio-ref">📚 OMS · ACOG · Cochrane. La suplementación con calcio reduce el riesgo de PE en un 55% en poblaciones con baja ingesta (WHO 2013).</div>
+    </div>
+  </div>
+
+  <!-- VITAMINA D -->
+  <div class="suple-expand-card">
+    <div class="suple-expand-head" onclick="toggleSuple(this)">
+      <span style="font-size:1.1rem">☀️</span>
+      <div style="flex:1"><div class="suple-expand-title">Vitamina D</div><div class="suple-expand-sub">Endocrine Society 2024 · Empírica en embarazo</div></div>
+      <span class="suple-chevron">▼</span>
+    </div>
+    <div class="suple-expand-body">
+      <div class="note-box" style="margin-bottom:10px">Déficit muy prevalente en gestantes — especialmente en invierno y pieles oscuras. Asociado a: PE, DG, pretérmino, CIR, mortalidad neonatal.</div>
+      <table class="suple-table">
+        <tr><th>Contexto</th><th>Dosis orientativa</th></tr>
+        <tr><td>Suplementación prenatal estándar</td><td><strong>1000–2000 UI/día</strong></td></tr>
+        <tr class="suple-moder"><td>Déficit documentado (&lt;20 ng/mL)</td><td><strong>2000–4000 UI/día</strong></td></tr>
+        <tr class="suple-alto"><td>Déficit severo</td><td><strong>Hasta 4000 UI/día</strong> (límite seguro en gestación)</td></tr>
+      </table>
+      <div class="suple-highlight">💡 <strong>Endocrine Society 2024:</strong> Suplementación empírica recomendada. Dosis en ensayos: 600–5000 UI/día · media ponderada ~2500 UI/día. Objetivo: 25-OH-VitD &gt;30 ng/mL.</div>
+      <div class="bio-ref">📚 Endocrine Society 2024 · Cochrane. Nivel sérico objetivo: &gt;30 ng/mL. Nivel tóxico: &gt;100 ng/mL. No combinar con calcio si Vit D normal + calcio suplementado (riesgo hipercalcemia).</div>
+    </div>
+  </div>
+
+  <!-- OMEGA-3 -->
+  <div class="suple-expand-card">
+    <div class="suple-expand-head" onclick="toggleSuple(this)">
+      <span style="font-size:1.1rem">🐟</span>
+      <div style="flex:1"><div class="suple-expand-title">Omega-3 (DHA/EPA)</div><div class="suple-expand-sub">EBCOG 2024 · Reduce pretérmino</div></div>
+      <span class="suple-chevron">▼</span>
+    </div>
+    <div class="suple-expand-body">
+      <div class="note-box" style="margin-bottom:10px"><strong>Cochrane 2018</strong> (19.927 mujeres): ↓42% parto prematuro precoz (&lt;34 sem) · ↓11% PTB global. El beneficio es mayor en mujeres con bajo estatus basal de DHA (ingesta ≤150 mg/día).</div>
+      <table class="suple-table">
+        <tr><th>Perfil clínico</th><th>Dosis recomendada</th></tr>
+        <tr><td>Dieta adecuada en pescado (≥2 raciones/sem)</td><td><strong>250 mg/día DHA+EPA</strong> + 100–200 mg extra DHA</td></tr>
+        <tr class="suple-moder"><td>Baja ingesta de pescado (&lt;2 raciones/sem)</td><td><strong>600–1000 mg/día DHA</strong></td></tr>
+        <tr class="suple-alto"><td>Alto riesgo PTB · Vegetariana · No consume pescado</td><td><strong>800–1000 mg/día DHA</strong> — iniciar antes sem 20</td></tr>
+        <tr class="suple-alto"><td>Gemelar / antecedente PTB</td><td><strong>1000 mg/día DHA</strong> desde preconcepcional</td></tr>
+      </table>
+      <div class="suple-highlight">⚠️ <strong>Precaución:</strong> &gt;3 g/día con AAS antiagregante o trombocitopenia (efecto anticoagulante leve). EFSA: seguro hasta 5 g/día EPA+DHA combinados.</div>
+      <div class="bio-ref">📚 Cochrane 2018 · ORIP trial · EBCOG 2024 ✅ · Australia NHMRC ✅ · EFSA: 350–450 mg/día DHA+EPA · NIH/ODS 2025. OMS/NICE/ACOG: solo dieta con pescado (sin recomendación de suplemento).</div>
+    </div>
+  </div>
+
+  <!-- YODO -->
+  <div class="suple-expand-card">
+    <div class="suple-expand-head" onclick="toggleSuple(this)">
+      <span style="font-size:1.1rem">🧂</span>
+      <div style="flex:1"><div class="suple-expand-title">Yodo</div><div class="suple-expand-sub">Ventana terapéutica más estrecha · Inicio preconcepcional</div></div>
+      <span class="suple-chevron">▼</span>
+    </div>
+    <div class="suple-expand-body">
+      <div class="suple-highlight" style="margin-bottom:10px">⚠️ <strong>Mensaje clave:</strong> El yodo tiene la ventana terapéutica más estrecha de todos los suplementos prenatales. El daño por déficit es IRREVERSIBLE y ocurre en el 1T. Tanto el déficit como el exceso son perjudiciales.</div>
+      <table class="suple-table" style="margin-bottom:8px">
+        <tr><th>Yoduria (µg/L)</th><th>Interpretación</th></tr>
+        <tr class="suple-alto"><td>&lt;150</td><td>⚠️ Insuficiente</td></tr>
+        <tr><td>150–249</td><td>✅ Adecuada</td></tr>
+        <tr><td>250–499</td><td>Más que adecuada</td></tr>
+        <tr class="suple-alto"><td>≥500</td><td>⛔ Excesiva — riesgo hipotiroidismo fetal</td></tr>
+      </table>
+      <table class="suple-table">
+        <tr><th>Perfil</th><th>Conducta</th></tr>
+        <tr><td>Dieta mediterránea con lácteos, pescado y sal yodada</td><td>Valoración individual — muchos expertos: 150–200 µg/día</td></tr>
+        <tr class="suple-alto"><td>Vegetariana/vegana</td><td><strong>Suplementación obligatoria</strong></td></tr>
+        <tr><td>Patología tiroidea (Hashimoto, hipotiroidismo)</td><td>Manejo individualizado con endocrino</td></tr>
+        <tr class="suple-moder"><td>Zona geográfica con déficit conocido</td><td>Suplementación universal desde preconcepcional</td></tr>
+      </table>
+      <div class="bio-ref">📚 OMS: 250 µg/día · ATA: 150 µg suplemento + dieta = 250 µg/día total · RDA (IOM/NIH): 220–290 µg/día gestación. Inicio ideal: preconcepcional o al confirmar embarazo — no esperar 2T.</div>
+    </div>
+  </div>
+
 </div>
 <div class="calc-card locked-section" onclick="mostrarModalUpgrade('pfe')">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
