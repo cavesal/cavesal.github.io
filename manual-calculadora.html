@@ -100,8 +100,9 @@
   <h2>⚡ Cálculo de riesgo prenatal integral</h2>
   <p>Esta es la función principal del formulario general (no una calculadora aislada): a medida que cargás los datos de la paciente en las distintas pestañas del formulario, la app va acumulando la información, y al tocar el botón <strong>"⚡ Calcular riesgo prenatal completo"</strong> genera un <strong>informe consolidado</strong> con todos los hallazgos relevantes juntos.</p>
   <div class="step"><div class="step-num">1</div><p>Cargá en el formulario principal: <strong>edad materna, FUM, talla, peso pregestacional y actual, presión arterial, período intergenésico, número de cesáreas previas</strong>, y marcá los <strong>antecedentes obstétricos y personales de riesgo</strong> (checkboxes: preeclampsia previa, diabetes gestacional previa, parto pretérmino previo, RCIU previo, muerte fetal previa, malformación previa, HPP previa, isoinmunización previa, incompetencia cervical previa, etc.).</p></div>
-  <div class="step"><div class="step-num">2</div><p>Si tenés datos de <strong>ecografía de 1er trimestre</strong> (Doppler de Arteria Oftálmica, PAPP-A, PlGF, β-hCG, o NT si el cribado es solo por eco), cargalos también — se integran automáticamente al informe.</p></div>
-  <div class="step"><div class="step-num">3</div><p>Tocá <strong>"⚡ Calcular riesgo prenatal completo"</strong>. La app recorre todos los datos cargados y arma una lista de <strong>hallazgos por dominio clínico</strong> (Edad materna, Estado nutricional, Antecedente obstétrico, Presión arterial, Ecografía 1T, Cribado cromosómico, etc.), cada uno con:</p></div>
+  <div class="step"><div class="step-num">2</div><p>También marcá <strong>hábitos y entorno psicosocial</strong> (tabaquismo activo, consumo de alcohol o drogas, violencia doméstica, vulnerabilidad socioeconómica, dieta vegetariana/vegana) y la <strong>patología activa del embarazo</strong> si la paciente ya llega con diagnóstico establecido (preeclampsia en curso, HTA gestacional, DG ya diagnosticada, RCIU confirmada, colestasis, HELLP, DPPNI, etc.) — todo esto también se integra al informe.</p></div>
+  <div class="step"><div class="step-num">3</div><p>Si tenés datos de <strong>ecografía de 1er trimestre</strong> (Doppler de Arteria Oftálmica, PAPP-A, PlGF, β-hCG, o NT si el cribado es solo por eco), cargalos también — se integran automáticamente al informe.</p></div>
+  <div class="step"><div class="step-num">4</div><p>Tocá <strong>"⚡ Calcular riesgo prenatal completo"</strong>. La app recorre todos los datos cargados y arma una lista de <strong>hallazgos por dominio clínico</strong> (Edad materna, Estado nutricional, Antecedente obstétrico, Presión arterial, Ecografía 1T, Cribado cromosómico, etc.), cada uno con:</p></div>
   <div class="tip">
     📋 <strong>Cada hallazgo del informe incluye:</strong><br>
     🔹 El <strong>dato o valor</strong> que disparó la alerta (ej. "IMC pregest. 32.1 — obesidad").<br>
@@ -109,9 +110,9 @@
     🔹 La <strong>conducta sugerida</strong> (ej. dosis de AAS, frecuencia de controles, estudios adicionales a solicitar).<br>
     🔹 La <strong>fuente</strong> de la recomendación (FMF, ACOG, NICE, OMS, etc.).
   </div>
-  <div class="step"><div class="step-num">4</div><p>Si no hay hallazgos de riesgo en algún dominio, simplemente no aparece en el informe — solo se listan los dominios donde hay algo para señalar.</p></div>
-  <div class="step"><div class="step-num">5</div><p>El informe también arma automáticamente una <strong>Suplementación recomendada según el perfil</strong> de la paciente: ácido fólico/metilfolato (dosis según población general o riesgo aumentado), hierro (dosis según grado de anemia), calcio (si hay riesgo de PE, con la reducción de riesgo asociada), yodo, y omega-3/DHA — cada uno con su dosis exacta y referencia.</p></div>
-  <div class="step"><div class="step-num">6</div><p>Incluye además dos <strong>calendarios de componente básico</strong>, marcando qué corresponde a la EG actual (etiquetado "AHORA" / "PERÍODO ACTUAL"), qué ya pasó, y qué falta:</p></div>
+  <div class="step"><div class="step-num">5</div><p>Si no hay hallazgos de riesgo en algún dominio, simplemente no aparece en el informe — solo se listan los dominios donde hay algo para señalar.</p></div>
+  <div class="step"><div class="step-num">6</div><p>El informe también arma automáticamente una <strong>Suplementación recomendada según el perfil</strong> de la paciente: ácido fólico/metilfolato (dosis según población general o riesgo aumentado), hierro (dosis según grado de anemia), calcio (si hay riesgo de PE, con la reducción de riesgo asociada), yodo, y omega-3/DHA — cada uno con su dosis exacta y referencia.</p></div>
+  <div class="step"><div class="step-num">7</div><p>Incluye además dos <strong>calendarios de componente básico</strong>, marcando qué corresponde a la EG actual (etiquetado "AHORA" / "PERÍODO ACTUAL"), qué ya pasó, y qué falta:</p></div>
   <div class="tip">
     🔹 <strong>Calendario ecográfico:</strong> ECO 1T precoz (sem 7–9), ECO marcadores cromosómicos (sem 11–14), ECO morfológica (sem 20–24), ECO crecimiento y desarrollo (sem 28–32), ECO final (sem 35–38) — cada una con lo que debe evaluar.<br><br>
     🔹 <strong>Calendario de laboratorios:</strong> panel de 1T (primera consulta: hemograma, crasis, grupo/Rh, serologías, TSH, glucemia, perfil lipídico, urocultivo, etc.), panel de 2T (24–28 sem: hemograma, SOG 75g, urocultivo, VDRL, VIH, toxoplasmosis si corresponde), y panel de 3T (35–37 sem: hemograma, crasis, perfil renal/hepático, VDRL, VIH, SGB).
@@ -209,8 +210,9 @@
   <h2>👶 Peso Fetal Estimado (PFE) y crecimiento</h2>
   <p class="ref">Ref: Hadlock 1984 · INTERGROWTH-21 · Figueras 2008 · Protocolo MFB 2024</p>
   <div class="step"><div class="step-num">1</div><p>Elegí el <strong>modo de cálculo</strong>: peso y percentil directo, peso + edad gestacional, o biometría Hadlock (circunferencia abdominal + longitud femoral).</p></div>
-  <div class="step"><div class="step-num">2</div><p>Cargá los valores según el modo elegido.</p></div>
+  <div class="step"><div class="step-num">2</div><p>Cargá los valores según el modo elegido. En el modo <strong>"Peso + EG → percentil"</strong> vas a ver el aviso "Estimación de percentil por curvas INTERGROWTH-21st (método simplificado). Para resultado preciso usar software FMF" — es una aclaración sobre el método, no significa que ese modo ignore la tabla que tengas seleccionada (ver punto 4).</p></div>
   <div class="step"><div class="step-num">3</div><p>La app calcula el <strong>percentil de peso fetal</strong> y lo clasifica: PEG, AEG, GEG, o RCIU según el percentil y — si ya cargaste el Doppler — combinando ambos criterios (ver sección Doppler).</p></div>
+  <div class="step"><div class="step-num">4</div><p>El percentil de los modos "Peso + EG" y "Biometría Hadlock" se calcula con la tabla que tengas elegida en el selector <strong>Figueras 2008 / INTERGROWTH-21</strong> — este selector está ubicado en la tarjeta de <strong>"Pronóstico de vía de parto"</strong>, pero aplica a todo el módulo de PFE (ver esa sección para el detalle).</p></div>
   <div class="tip">💡 Si además cargás el Doppler en su propio módulo, el sistema combina peso y Doppler automáticamente para la clasificación de RCIU/PEG, siguiendo el protocolo de Medicina Fetal Barcelona.</div>
   <div style="margin:14px 0">
   <img src="img/manual-calc-05-pfe.png" alt="Captura de pantalla" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px">
@@ -305,6 +307,7 @@
 <section id="via-parto">
   <h2>🏥 Pronóstico de vía de parto</h2>
   <p class="ref">Ref: Robson · Grobman (ACOG/NICHD) · Bishop</p>
+  <div class="tip">📊 <strong>Tabla de percentiles para el PFE:</strong> arriba de todo en esta tarjeta hay un selector <strong>Figueras 2008 / INTERGROWTH-21</strong>. Por defecto está en <strong>Figueras 2008 · MFB (recomendado Latinoamérica)</strong>; tocá "INTERGROWTH-21" si preferís la referencia internacional (OMS/FIGO). Este selector <strong>no es exclusivo de esta sección</strong> — determina qué tabla se usa para calcular el percentil en toda la calculadora, incluida la tarjeta de "Peso Fetal Estimado (PFE)" (modos "Peso + EG" y "Biometría Hadlock"). Cambiarlo acá también actualiza el percentil que ya tengas calculado ahí.</div>
   <div class="step"><div class="step-num">1</div><p>Cargá <strong>paridad y antecedentes</strong> (partos vaginales previos, cesáreas previas, abortos espontáneos), <strong>talla materna</strong> (referencia: &lt;150cm riesgo de desproporción céfalo-pélvica, &lt;145cm pelvis límite), y <strong>estado fetal 3T</strong> (presentación, encajamiento, EG actual).</p></div>
   <div class="step"><div class="step-num">2</div><p>La app clasifica automáticamente a la paciente en su <strong>Grupo de Robson</strong> correspondiente (ej. Grupo 5: cesárea previa + cefálica; Grupo 7: multípara pélvica), con la interpretación de ese grupo.</p></div>
   <div class="step"><div class="step-num">3</div><p>Si hay <strong>cesárea previa</strong>, se habilita el <strong>Score de Grobman</strong> (validado ACOG/NICHD, predice probabilidad de éxito de parto vaginal después de cesárea). Cargá <strong>tipo de cicatriz uterina</strong>, <strong>indicación de la cesárea anterior</strong> (recurrente o no), y marcá si hubo parto vaginal previo, trabajo de parto espontáneo previo, pérdida gestacional recurrente, embarazo de alto valor, o cirugía uterina previa.</p></div>
@@ -405,7 +408,7 @@
   </div>
 </section>
 
-<p class="updated">¿Dudas sobre algún módulo? Escribinos a <a href="mailto:drverasalerno@gmail.com">drverasalerno@gmail.com</a> · Última actualización: julio de 2026</p>
+<p class="updated">¿Dudas sobre algún módulo? Escribinos a <a href="mailto:drverasalerno@gmail.com">drverasalerno@gmail.com</a> · Última actualización: agosto de 2026</p>
 <p style="text-align:center"><a class="back-top" href="#top">↑ Volver al índice</a></p>
 
 </main>
