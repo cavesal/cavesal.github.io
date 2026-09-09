@@ -42,6 +42,19 @@ if('serviceWorker' in navigator){
   navigator.serviceWorker.register('./sw.js', {scope: './'})
     .then(r=>{ console.log('CaVeSal SW registered'); })
     .catch(e=>console.log('SW registration failed:', e.message));
+
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (document.getElementById('cv-aviso-actualizacion')) return;
+    const banner = document.createElement('div');
+    banner.id = 'cv-aviso-actualizacion';
+    banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:10000;background:linear-gradient(135deg,#0D1B2D,#0EA5B7);color:#fff;padding:10px 16px;display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;font-size:.82rem;box-shadow:0 2px 10px rgba(0,0,0,.25)';
+    banner.innerHTML = '<span>\uD83D\uDD04 Hay una actualizaci\u00f3n lista \u2014 reinici\u00e1 la app para aplicarla.</span>' +
+      '<button id="cv-btn-reiniciar" style="background:#fff;color:#0D1B2D;border:none;border-radius:20px;padding:6px 14px;font-size:.78rem;font-weight:700;cursor:pointer">Reiniciar ahora</button>' +
+      '<button id="cv-btn-despues" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:20px;padding:6px 14px;font-size:.78rem;cursor:pointer">M\u00e1s tarde</button>';
+    document.body.prepend(banner);
+    document.getElementById('cv-btn-reiniciar').onclick = () => location.reload();
+    document.getElementById('cv-btn-despues').onclick = () => banner.remove();
+  });
 }
 
 // PWA Install prompt
