@@ -4444,6 +4444,19 @@ function calcular(){
     <div class="stat-box"><div class="s-label">IMC</div><div class="s-val">${imcStr}</div></div>
   </div>`;
 
+  html+=`<div style="margin:12px 0;padding:14px;border-radius:14px;background:linear-gradient(135deg,#f5f0ff,#faf7ff);border:1.5px solid #c9b3f5;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:10px">
+      <span style="font-size:1.5rem">🧠</span>
+      <div>
+        <div style="font-size:.85rem;font-weight:700;color:#5b21b6">Analizar con CaVeSal® IA</div>
+        <div style="font-size:.72rem;color:var(--slate)">Enviá este caso a CaVeSal® IA para una segunda lectura clínica</div>
+      </div>
+    </div>
+    <button onclick="analizarConCavesalIA()" style="background:#7c3aed;color:#fff;border:none;border-radius:10px;padding:9px 16px;font-size:.82rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px" title="CaVeSal® IA requiere un plan activo (Pro / Premium / Premium Plus). Si no tenés uno, podés activarlo al ingresar.">
+      <span>Analizar</span><span style="font-size:.85rem">🔒</span>
+    </button>
+  </div>`;
+
   if(hayCromo||hayPE){
     html+='<div class="summary-panels">';
     if(hayCromo){
@@ -4657,10 +4670,114 @@ function calcular(){
   const egSemCalc = eg ? eg.sem : null;
   if(egSemCalc) html += renderCalendariosEcoLab(egSemCalc);
 
+  // Snapshot para el puente Calculadora → CaVeSal® IA (ver analizarConCavesalIA()
+  // más abajo). Solo la parte que describe el caso recién calculado — el
+  // Clinical Context Package completo (context_id/timestamp/professional_id/
+  // question/interaction_mode) lo arma chat.html al momento real del envío,
+  // igual que en el puente HC → CaVeSal IA (ia-bridge.ts).
+  window.__cavesalCalculoActual = {
+    findings, maxNivel, eg, fpp,
+    imc: (imcP || imcA) ? imcStr : null,
+    fum: fumStr || null, edad,
+    gestas: val('gesta'), partos: val('partos'), abortos: val('abortos'),
+    t21, t18, t13, clT21, clT18, clT13, nipt,
+    pi1t, ao, pigf1t, pi2t, sflt,
+    clPI1, clAO2, clPG, clPI2, clSF,
+  };
+
   document.getElementById('results').innerHTML=html;
   document.getElementById('results').style.display='block';
   showTab('resultado');
   window.scrollTo(0,0);
+}
+
+/**
+ * Puente Calculadora → CaVeSal® IA ("Analizar con CaVeSal® IA").
+ *
+ * Mismo patrón que ia-bridge.ts del lado de la Historia Clínica: abre
+ * chat.html con el caso codificado en `?context=`. chat.html decodifica con
+ * decodeURIComponent(escape(atob(...))) (ver
+ * cavesal-ia-core.js/leerContextoEntranteDesdeURL), así que acá hay que
+ * codificar con el inverso exacto — btoa(unescape(encodeURIComponent(...))).
+ * OJO: esto NO es lo mismo que usa este archivo para el candado de licencia
+ * ni ningún otro btoa existente en la Calculadora — es un esquema propio de
+ * CaVeSal IA, copiado 1:1 del que ya usa ia-bridge.ts.
+ *
+ * "Candado solo visual" (confirmado con Carlos): el botón siempre abre
+ * CaVeSal IA con los datos del caso — no hay verificación real de plan/
+ * licencia acá. El ícono 🔒 + tooltip es solo una señal visual; el gate real
+ * pasa por la propia pantalla de acceso de CaVeSal IA.
+ *
+ * OJO — no incluido en esta v1, señalado para revisión de Carlos:
+ * - `labs`, `ultrasound`, `medications`, `alerts`: la Calculadora no
+ *   recolecta antecedentes de laboratorio/ecografía/medicación estructurados
+ *   como los de la HC en este flujo — quedan vacíos.
+ * - `patient_summary`: deliberadamente NO incluye nombre/documento — en esta
+ *   versión full, mp_nombre/mp_id pertenecen al módulo separado de Gestión
+ *   de Pacientes y podrían no corresponder al caso recién calculado — solo
+ *   viaja la edad, igual de conservador que ia-bridge.ts.
+ */
+function buildCavesalIAContext(){
+  const c = window.__cavesalCalculoActual;
+  if(!c) return null;
+
+  const clinical_findings = (c.findings||[]).map(f=>({
+    categoria: f.domain || null,
+    descripcion: [f.hallazgo, f.nivel?`[${f.nivel}]`:null, f.conducta?`→ ${f.conducta}`:null, f.fuente?`(${f.fuente})`:null].filter(Boolean).join(' '),
+  }));
+  if(c.imc) clinical_findings.push({categoria:'antropometria', descripcion:`IMC pregestacional: ${c.imc}`});
+
+  const risk_calculations = [];
+  const pushRC=(tipo,resultado,riesgo)=>{
+    if(resultado===null||resultado===undefined||resultado==='') return;
+    risk_calculations.push({tipo, resultado:String(resultado), riesgo:(riesgo!==null&&riesgo!==undefined&&riesgo!=='')?String(riesgo):null, fecha:null});
+  };
+  pushRC('riesgo_global', c.maxNivel, c.maxNivel);
+  if(c.t21!==null) pushRC('aneuploidia_t21', `1/${c.t21}`, c.clT21);
+  if(c.t18!==null) pushRC('aneuploidia_t18', `1/${c.t18}`, c.clT18);
+  if(c.t13!==null) pushRC('aneuploidia_t13', `1/${c.t13}`, c.clT13);
+  if(c.nipt && c.nipt!=='no') pushRC('aneuploidia_nipt', c.nipt, c.nipt==='normal'?'bajo':'alto');
+  if(c.pi1t!==null) pushRC('preeclampsia_precoz_pi_ut_1t', c.pi1t, c.clPI1);
+  if(c.ao!==null) pushRC('preeclampsia_precoz_ao_ratio', c.ao, c.clAO2);
+  if(c.pigf1t!==null) pushRC('preeclampsia_precoz_plgf', c.pigf1t, c.clPG);
+  if(c.pi2t!==null) pushRC('preeclampsia_tardia_pi_ut_2t', c.pi2t, c.clPI2);
+  if(c.sflt!==null) pushRC('preeclampsia_tardia_sflt_plgf', c.sflt, c.clSF);
+
+  const gestas = (typeof c.gestas === 'number') ? c.gestas : null;
+  const partos = (typeof c.partos === 'number') ? c.partos : null;
+  const abortos = (typeof c.abortos === 'number') ? c.abortos : null;
+  const paridad = (gestas!==null && partos!==null && abortos!==null) ? `G${gestas}P${partos}A${abortos}` : null;
+
+  return {
+    source_module: 'calculadora',
+    scope_authorized: 'calculo_actual',
+    patient_summary: (typeof c.edad === 'number') ? `${c.edad} años` : null,
+    pregnancy_context: {
+      fum: c.fum,
+      eg_semanas: c.eg ? c.eg.sem : null,
+      eg_dias: c.eg ? c.eg.dias : null,
+      fpp: (c.fpp && c.fpp!=='—') ? c.fpp : null,
+      gestas,
+      paridad,
+      clasificacion_riesgo: c.maxNivel || null,
+    },
+    clinical_findings,
+    labs: [],
+    ultrasound: [],
+    medications: [],
+    risk_calculations,
+    alerts: [],
+  };
+}
+
+function analizarConCavesalIA(){
+  const ctx = buildCavesalIAContext();
+  if(!ctx){
+    alert('Primero presioná ⚡ Calcular para poder analizar el caso con CaVeSal® IA.');
+    return;
+  }
+  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(ctx))));
+  window.open(`https://ia.cavesal.app/chat.html?context=${encoded}`, '_blank', 'noopener,noreferrer');
 }
 // ════════════════════════════════════════════════
 // DEXTOGRAMA — EG Y CALENDARIO
