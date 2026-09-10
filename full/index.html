@@ -4721,9 +4721,17 @@ function buildCavesalIAContext(){
   const c = window.__cavesalCalculoActual;
   if(!c) return null;
 
+  // Recortado deliberadamente a hallazgo+nivel (sin conducta/fuente, que son
+  // textos largos): en casos con muchos findings (ej. alto riesgo), el JSON
+  // completo puede superar los ~13.000 caracteres codificados en la URL de
+  // ?context=, lo cual excede el límite práctico de longitud de request que
+  // acepta Cloudflare Pages/el navegador y hace que CaVeSal® IA no reciba
+  // nada. Con este recorte el mismo caso de alto riesgo baja a un tamaño
+  // seguro. La IA igual puede razonar sobre hallazgo+nivel sin la conducta
+  // sugerida (que de todos modos ya se le pide reconstruir en el prompt).
   const clinical_findings = (c.findings||[]).map(f=>({
     categoria: f.domain || null,
-    descripcion: [f.hallazgo, f.nivel?`[${f.nivel}]`:null, f.conducta?`→ ${f.conducta}`:null, f.fuente?`(${f.fuente})`:null].filter(Boolean).join(' '),
+    descripcion: [f.hallazgo, f.nivel?`[${f.nivel}]`:null].filter(Boolean).join(' '),
   }));
   if(c.imc) clinical_findings.push({categoria:'antropometria', descripcion:`IMC pregestacional: ${c.imc}`});
 
