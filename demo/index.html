@@ -2565,7 +2565,14 @@ function analizarConCavesalIA(){
     return;
   }
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(ctx))));
-  window.open(`https://ia.cavesal.app/chat.html?context=${encoded}`, '_blank', 'noopener,noreferrer');
+  // OJO 2026-09: encodeURIComponent es imprescindible acá. El base64 de `encoded`
+  // puede contener '+', '/' o '=' — si se pega crudo en la query string, el '+'
+  // se interpreta como espacio al leer el parámetro (regla de application/x-www-
+  // form-urlencoded), y atob() en chat.html lo rechaza con "The string to be
+  // decoded is not correctly encoded". Pasaba de forma intermitente (dependía de
+  // si el base64 de ese caso puntual tenía o no un '+'), no por el tamaño del
+  // payload — confirmado con Carlos reproduciendo el error real en consola.
+  window.open(`https://ia.cavesal.app/chat.html?context=${encodeURIComponent(encoded)}`, '_blank', 'noopener,noreferrer');
 }
 // ════════════════════════════════════════════════
 // DEXTOGRAMA — EG Y CALENDARIO
