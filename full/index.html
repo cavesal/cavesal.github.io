@@ -2671,6 +2671,24 @@ document.addEventListener('DOMContentLoaded', function(){
 </div>
 </div>
 
+<!-- ════ MODAL DE REVISIÓN DE CONFLICTOS (fusión por id_hc, 2026-09-13) ════
+     Se muestra cuando una paciente ya guardada recibe, por el puente HC o
+     por reimportación de un backup .json, un dato distinto al que ya tenía
+     cargado. Nunca se pisa a ciegas: el médico elige cuál valor se queda. -->
+<div id="modal_conflictos" class="modal-overlay" style="display:none">
+<div class="modal-box">
+  <div class="modal-title">
+    <span>⚠️ Revisar datos que difieren</span>
+    <button class="modal-close" onclick="cerrarModalConflictos()">✕</button>
+  </div>
+  <p style="font-size:.78rem;color:var(--slate);margin-bottom:10px">
+    Estos campos ya tenían un valor guardado distinto al que llegó ahora. Elegí cuál se queda para cada uno.
+  </p>
+  <div id="conflictos_lista"></div>
+  <button class="btn-modal-save" onclick="confirmarConflictos()">✅ Confirmar y guardar</button>
+</div>
+</div>
+
 
 <!-- ════ BIOMETRÍA FETAL AVANZADA ════ -->
 <div id="page-biometria" class="page">
@@ -7783,6 +7801,222 @@ function getPacientes(){ try{ return JSON.parse(localStorage.getItem(PAC_KEY)||'
 function savePacientes(arr){ localStorage.setItem(PAC_KEY, JSON.stringify(arr)); }
 
 // ════════════════════════════════════════════════
+// MOTOR DE FUSIÓN POR ID_HC (2026-09-13)
+// ════════════════════════════════════════════════
+// Pedido de Carlos: cuando una paciente viaja desde Historia Clínica (puente
+// ?import=) o se reimporta un backup .json, no debe duplicarse — tiene que
+// reconocerse por id_hc y actualizar la MISMA ficha. Reglas acordadas:
+// - Campos de "visita" (hoy: PA y observaciones desde HC) SIEMPRE se agregan
+//   como una visita nueva en visitas[], nunca pisan nada existente.
+// - Campos de "perfil" (antropometría, antecedentes, serologías, vacunas):
+//   si el dato guardado está vacío, se completa solo. Si el guardado ya
+//   tiene un valor DISTINTO al entrante, queda en conflicto — el médico
+//   elige cuál se queda (nunca se pisa a ciegas).
+// - Los antecedentes/serologías/vacunas nuevos (datosHC) son de solo
+//   lectura + auto-completado: no se agregan como inputs manuales al modal
+//   "Editar paciente" (decisión de Carlos, 2026-09-12) — se ven en
+//   "Ver ficha".
+
+// Keys que manda calculator-bridge.ts (HC) y a qué campo de PERFIL de la
+// ficha de "Mis pacientes" corresponden.
+const PERFIL_DESDE_PUENTE = {
+  gesta:'g', partos:'p', cesareas:'c',
+  // OJO: HC solo registra "abortos" como total único; la ficha de la
+  // Calculadora distingue espontáneos (ae) vs provocados (ap). Se asume
+  // "ae" por default — Carlos puede corregir a mano si correspondía "ap".
+  abortos:'ae',
+  talla:'talla', pesoPreg:'peso_preg', fum:'fum',
+  mp_id:'id_hc', mp_nombre:'nombre', hc_grupoRh:'rh',
+};
+
+// Antecedentes/serologías/vacunas que hoy NO existen en la ficha de "Mis
+// pacientes" — se guardan aparte, en p.datosHC (solo lectura/auto-completado).
+const DATOSHC_LABELS = {
+  obs_pe:'Preeclampsia en embarazo previo', obs_dg:'Diabetes gestacional previa', obs_pt:'Parto pretérmino previo',
+  obs_rciu:'RCIU en embarazo previo', obs_macro:'Macrosomía en embarazo previo', obs_mf:'Muerte fetal previa',
+  obs_malform:'Malformación fetal previa', obs_hpp:'Hemorragia posparto previa', obs_iso:'Isoinmunización previa',
+  obs_ic:'Incompetencia cervical previa', obs_dpp:'Depresión posparto previa', obs_cx:'Cirugía uterina previa',
+  p_hta:'Hipertensión arterial crónica', p_dm:'Diabetes mellitus pregestacional', p_renal:'Enfermedad renal crónica',
+  p_asma:'Asma', p_cardio:'Cardiopatía', p_cardio_tipo:'Tipo de cardiopatía', p_cardio_oms:'Clase funcional OMS (cardiopatía)',
+  p_hipotiro:'Hipotiroidismo tratado', p_hipotiro_notrat:'Hipotiroidismo no tratado', p_hipertiro:'Hipertiroidismo',
+  p_trombo:'Trombofilia', p_saf:'Síndrome antifosfolípido', p_tvp:'TVP previa', p_tep:'TEP previo',
+  p_pti:'Púrpura trombocitopénica inmune', p_vw:'Enfermedad de von Willebrand', p_epi:'Epilepsia',
+  p_ai:'Enfermedad autoinmune', p_sm:'Enfermedad psiquiátrica grave',
+  p_cancer_prev:'Cáncer previo', p_cancer_prev_tipo:'Tipo (cáncer previo)', p_cancer_act:'Cáncer activo', p_cancer_act_desc:'Descripción (cáncer activo)',
+  p_vih:'VIH (antecedente)', p_hepb:'Hepatitis B (antecedente)', p_hepc:'Hepatitis C (antecedente)', p_sif:'Sífilis (antecedente)',
+  pr_tdpa:'Tdpa aplicada', pr_tdpa_fecha:'Fecha Tdpa', pr_tdpa_eg:'EG al aplicar Tdpa',
+  pr_grip:'Antigripal aplicada', pr_grip_fecha:'Fecha antigripal', pr_grip_temp:'Temporada antigripal',
+  pr_vsr:'VSR aplicada', pr_vsr_fecha:'Fecha VSR', pr_vsr_eg:'EG al aplicar VSR',
+  pr_covid:'COVID-19 aplicada', pr_covid_fecha:'Fecha COVID-19', pr_hepbvac:'Hepatitis B (vacuna) aplicada',
+  hc_coombs:'Coombs indirecta', hc_vdrl:'VDRL/TPHA', hc_hiv:'HIV (serología actual)', hc_toxo:'Toxoplasmosis (IgG/IgM)',
+  hc_chagas:'Chagas', hc_hepb:'Hepatitis B (HBsAg)', hc_hepc:'Hepatitis C', hc_rubeola:'Rubéola IgG',
+  hc_urocultivo:'Urocultivo', hc_ptog:'PTOG', hc_sgb:'Hisopado SGB',
+};
+const DATOSHC_KEYS = Object.keys(DATOSHC_LABELS);
+
+// Campos de "visita" (no de perfil): se agregan como una visita nueva.
+const VISITA_DESDE_PUENTE = { hc_pa:'pa', hc_obs:'obs' };
+
+const PERFIL_LABELS = {
+  g:'Gestas', p:'Partos', c:'Cesáreas', ae:'Abortos espontáneos', ap:'Abortos provocados',
+  talla:'Talla', peso_preg:'Peso pregestacional', fum:'FUM', fum_corr:'FUM corregida',
+  rh:'Grupo y factor Rh', nombre:'Nombre', tel:'Teléfono', ant:'Antecedentes OB', patol:'Patologías',
+  tra:'TRA', riesgo:'Riesgo', notas:'Notas', nacimiento:'Fecha de nacimiento',
+};
+
+function _esVacio(v){ return v===undefined || v===null || v===''; }
+function _esVerdadero(v){ return v===true || v==='true' || v===1 || v==='1'; }
+function _normalizarValor(v){
+  if(_esVerdadero(v)) return true;
+  if(v===false||v==='false'||v===0||v==='0') return false;
+  return typeof v==='string' ? v.trim() : v;
+}
+function _valoresIguales(a,b){ return _normalizarValor(a) === _normalizarValor(b); }
+
+// Separa el objeto decodificado del ?import= en sus tres grupos.
+function clasificarPayloadPuente(datos){
+  const perfil = {}, datosHC = {}, visita = {};
+  Object.keys(datos).forEach(function(k){
+    if(PERFIL_DESDE_PUENTE[k]) perfil[PERFIL_DESDE_PUENTE[k]] = datos[k];
+    else if(VISITA_DESDE_PUENTE[k]) visita[VISITA_DESDE_PUENTE[k]] = datos[k];
+    else if(DATOSHC_KEYS.indexOf(k)>=0) datosHC[k] = datos[k];
+  });
+  return {perfil:perfil, datosHC:datosHC, visita:visita};
+}
+
+// Compara "entrante" (datos nuevos) contra "guardado" (ficha existente) para
+// un mismo grupo de campos. Devuelve lo que se puede completar solo y lo
+// que queda en conflicto (requiere elección del médico).
+function calcularFusion(guardado, entrante, labels){
+  const completar = {}, conflictos = [];
+  Object.keys(entrante||{}).forEach(function(k){
+    const ve = entrante[k];
+    if(_esVacio(ve)) return;
+    const vg = guardado ? guardado[k] : undefined;
+    if(_esVacio(vg)){ completar[k] = ve; }
+    else if(!_valoresIguales(vg, ve)){ conflictos.push({key:k, label:(labels&&labels[k])||k, guardado:vg, entrante:ve}); }
+  });
+  return {completar:completar, conflictos:conflictos};
+}
+
+// Fusión contra una paciente YA guardada en "Mis pacientes", a partir de un
+// payload ya clasificado (perfil/datosHC/visita). Devuelve los conflictos
+// (si hay) y una función aplicar(resoluciones) para persistir el resultado.
+function fusionarConPaciente(existente, clasif){
+  const fPerfil = calcularFusion(existente, clasif.perfil, PERFIL_LABELS);
+  const fDatosHC = calcularFusion(existente.datosHC||{}, clasif.datosHC, DATOSHC_LABELS);
+  const conflictos = fPerfil.conflictos.concat(fDatosHC.conflictos);
+  function aplicar(resoluciones){
+    resoluciones = resoluciones||{};
+    const pacs = getPacientes();
+    const i = pacs.findIndex(function(x){ return x._id===existente._id; });
+    if(i<0) return null;
+    const p = pacs[i];
+    Object.assign(p, fPerfil.completar);
+    p.datosHC = Object.assign({}, p.datosHC||{}, fDatosHC.completar);
+    fPerfil.conflictos.forEach(function(c){ p[c.key] = (resoluciones[c.key]==='entrante') ? c.entrante : c.guardado; });
+    fDatosHC.conflictos.forEach(function(c){ p.datosHC[c.key] = (resoluciones[c.key]==='entrante') ? c.entrante : c.guardado; });
+    if(clasif.visita && Object.keys(clasif.visita).length){
+      if(!p.visitas) p.visitas = [];
+      p.visitas.push(Object.assign({fecha:new Date().toISOString().split('T')[0], ts:new Date().toISOString()}, clasif.visita));
+    }
+    p.modificado = new Date().toISOString();
+    savePacientes(pacs);
+    return p._id;
+  }
+  return {conflictos:conflictos, aplicar:aplicar};
+}
+
+// Misma idea, pero fusionando dos registros completos de paciente (mismo
+// esquema): se usa al reimportar un backup .json manual, donde no hay
+// "puente" con keys abreviadas, sino un objeto paciente completo.
+function calcularFusionRegistro(existente, entrante){
+  const camposPerfil = ['nombre','tel','fum','fum_corr','talla','peso_preg','rh','g','p','c','ae','ap','ant','patol','tra','riesgo','notas','nacimiento'];
+  const perfilEntrante = {};
+  camposPerfil.forEach(function(k){ if(entrante[k]!==undefined) perfilEntrante[k]=entrante[k]; });
+  const fPerfil = calcularFusion(existente, perfilEntrante, PERFIL_LABELS);
+  const fDatosHC = calcularFusion(existente.datosHC||{}, entrante.datosHC||{}, DATOSHC_LABELS);
+  const conflictos = fPerfil.conflictos.concat(fDatosHC.conflictos);
+  function aplicar(resoluciones){
+    resoluciones = resoluciones||{};
+    Object.assign(existente, fPerfil.completar);
+    existente.datosHC = Object.assign({}, existente.datosHC||{}, fDatosHC.completar);
+    fPerfil.conflictos.forEach(function(c){ existente[c.key] = (resoluciones[c.key]==='entrante') ? c.entrante : c.guardado; });
+    fDatosHC.conflictos.forEach(function(c){ existente.datosHC[c.key] = (resoluciones[c.key]==='entrante') ? c.entrante : c.guardado; });
+    const tsExistentes = new Set((existente.visitas||[]).map(function(v){return v.ts;}).filter(Boolean));
+    (entrante.visitas||[]).forEach(function(v){
+      if(!v.ts || !tsExistentes.has(v.ts)){ if(!existente.visitas) existente.visitas=[]; existente.visitas.push(v); }
+    });
+    existente.modificado = new Date().toISOString();
+    return existente;
+  }
+  return {conflictos:conflictos, aplicar:aplicar};
+}
+
+// ── Modal de revisión de conflictos (genérico: 1 o varias pacientes) ──
+// grupos: [{titulo (opcional, nombre de la paciente), conflictos:[...], aplicar}]
+function mostrarModalConflictos(grupos, alTerminar){
+  const cont = document.getElementById('conflictos_lista');
+  let html = '';
+  grupos.forEach(function(g, gi){
+    if(g.titulo) html += '<div style="font-weight:800;color:var(--navy);font-size:.85rem;margin:10px 0 4px">'+g.titulo+'</div>';
+    g.conflictos.forEach(function(c, ci){
+      const vg = c.guardado===true?'Sí':(c.guardado===false?'No':c.guardado);
+      const ve = c.entrante===true?'Sí':(c.entrante===false?'No':c.entrante);
+      const name = 'conf_'+gi+'_'+ci;
+      html += '<div class="calc-card" style="margin-bottom:8px;padding:10px">'
+        +'<div style="font-weight:700;font-size:.82rem;color:var(--navy);margin-bottom:6px">'+c.label+'</div>'
+        +'<label style="display:flex;align-items:center;gap:6px;font-size:.78rem;margin-bottom:4px">'
+        +'<input type="radio" name="'+name+'" value="guardado" checked> Mantener guardado: <strong>'+vg+'</strong></label>'
+        +'<label style="display:flex;align-items:center;gap:6px;font-size:.78rem">'
+        +'<input type="radio" name="'+name+'" value="entrante"> Usar nuevo: <strong>'+ve+'</strong></label>'
+        +'</div>';
+    });
+  });
+  cont.innerHTML = html;
+  window._gruposConflictos = grupos;
+  window._alTerminarConflictos = alTerminar;
+  document.getElementById('modal_conflictos').style.display='flex';
+}
+function confirmarConflictos(){
+  const grupos = window._gruposConflictos || [];
+  grupos.forEach(function(g, gi){
+    const resoluciones = {};
+    g.conflictos.forEach(function(c, ci){
+      const sel = document.querySelector('input[name="conf_'+gi+'_'+ci+'"]:checked');
+      resoluciones[c.key] = sel ? sel.value : 'guardado';
+    });
+    g.aplicar(resoluciones);
+  });
+  cerrarModalConflictos();
+  if(typeof window._alTerminarConflictos==='function') window._alTerminarConflictos();
+}
+function cerrarModalConflictos(){ document.getElementById('modal_conflictos').style.display='none'; }
+
+// Render de solo-lectura de datosHC en la ficha de la paciente.
+function renderDatosHC(datosHC){
+  if(!datosHC || !Object.keys(datosHC).length) return '';
+  const filas = Object.keys(datosHC).map(function(k){
+    const v = datosHC[k];
+    // Los checkboxes en "false" no se muestran: acá interesan los datos
+    // POSITIVOS/de valor (pedido explícito de Carlos), no una lista larga
+    // de "No" por cada antecedente que no tiene la paciente.
+    if(v===undefined||v===null||v===''||v===false) return '';
+    const label = DATOSHC_LABELS[k]||k;
+    const val = (v===true)?'Sí':v;
+    return '<div style="font-size:.74rem;color:var(--slate);margin-bottom:2px"><strong>'+label+':</strong> '+val+'</div>';
+  }).filter(Boolean).join('');
+  if(!filas) return '';
+  return '<div class="calc-card" style="margin-top:10px">'
+    +'<div style="font-size:.7rem;font-weight:800;color:var(--navy);text-transform:uppercase;margin-bottom:6px">🩺 Datos clínicos vinculados desde HC</div>'
+    +filas+'</div>';
+}
+
+// Datos pendientes de una fusión sin coincidencia (alta nueva): se guardan
+// acá hasta que el médico confirme "Guardar" en el modal de alta.
+let _pendienteFusion = null;
+
+// ════════════════════════════════════════════════
 // BACKUP MANUAL — descargar / importar JSON
 // ════════════════════════════════════════════════
 function descargarBackupPacientes(){
@@ -7813,35 +8047,80 @@ function abrirSelectorImportar(){
 function importarBackupPacientes(event){
   const file = event.target.files[0];
   if(!file) return;
-  
+
   const modo = document.querySelector('input[name="modo_importar"]:checked').value; // 'combinar' o 'reemplazar'
-  
+
   const reader = new FileReader();
   reader.onload = function(e){
     try {
       const data = JSON.parse(e.target.result);
       const pacientesImportados = data.pacientes || data; // soporta backup con wrapper o array directo
-      
+
       if(!Array.isArray(pacientesImportados)){
         alert('El archivo no tiene un formato válido de backup de CaVeSal.');
         return;
       }
-      
+
       if(modo === 'reemplazar'){
         savePacientes(pacientesImportados);
         alert(`Se importaron ${pacientesImportados.length} pacientes, reemplazando los datos existentes.`);
-      } else {
-        const actuales = getPacientes();
-        const idsActuales = new Set(actuales.map(p => p.id));
-        const nuevos = pacientesImportados.filter(p => !idsActuales.has(p.id));
-        const combinados = actuales.concat(nuevos);
-        savePacientes(combinados);
-        alert(`Se combinaron los datos: ${nuevos.length} pacientes nuevos agregados (${pacientesImportados.length - nuevos.length} ya existían y se omitieron).`);
+        renderListaPacientes();
+        event.target.value = '';
+        return;
       }
-      
+
+      // modo 'combinar' — 2026-09-13: antes deduplicaba por `p.id` (campo que
+      // nunca existió en la ficha, la clave real es `_id`), así que en la
+      // práctica NUNCA agregaba pacientes nuevas una vez que había al menos
+      // una guardada. Ahora fusiona por `id_hc`: si coincide, actualiza la
+      // misma ficha (completando vacíos, marcando conflictos); si no hay
+      // `id_hc` o no coincide con ninguna, da de alta como paciente nueva.
+      const actuales = getPacientes();
+      let nuevas = 0, actualizadasSinConflicto = 0;
+      const pendientesConflicto = []; // [{nombre, conflictos, aplicar}]
+
+      pacientesImportados.forEach(function(entrante){
+        const idHC = (entrante.id_hc||'').trim();
+        const idx = idHC ? actuales.findIndex(function(x){ return (x.id_hc||'').trim() === idHC; }) : -1;
+        if(idx < 0){
+          const copia = Object.assign({}, entrante);
+          copia._id = uid();
+          copia.creado = copia.creado || new Date().toISOString();
+          actuales.push(copia);
+          nuevas++;
+          return;
+        }
+        const f = calcularFusionRegistro(actuales[idx], entrante);
+        if(!f.conflictos.length){
+          f.aplicar({});
+          actualizadasSinConflicto++;
+        } else {
+          pendientesConflicto.push({titulo: actuales[idx].nombre || idHC, conflictos: f.conflictos, aplicar: f.aplicar});
+        }
+      });
+
+      // OJO 2026-09-13: hay que guardar DESPUÉS de resolver los conflictos,
+      // no antes. `aplicar(resoluciones)` muta los objetos que ya están
+      // adentro de `actuales` (misma referencia), pero si se guarda antes y
+      // el cierre de "terminar" vuelve a leer con getPacientes() (que
+      // deserializa un JSON nuevo desde localStorage), esa lectura NO ve las
+      // mutaciones en memoria — se pierde la resolución elegida. Por eso acá
+      // se sigue guardando siempre el mismo array `actuales` por closure.
       renderListaPacientes();
-      event.target.value = ''; // reset input
-      
+      event.target.value = '';
+
+      if(pendientesConflicto.length){
+        savePacientes(actuales); // ya refleja las altas nuevas y las fusiones sin conflicto
+        mostrarModalConflictos(pendientesConflicto, function(){
+          savePacientes(actuales); // ahora también con los conflictos ya resueltos (mutados in-place)
+          renderListaPacientes();
+          alert(`Importación completa. Nuevas: ${nuevas}. Actualizadas sin conflicto: ${actualizadasSinConflicto}. Con conflictos resueltos: ${pendientesConflicto.length}.`);
+        });
+      } else {
+        savePacientes(actuales);
+        alert(`Importación completa. Nuevas: ${nuevas}. Actualizadas: ${actualizadasSinConflicto}.`);
+      }
+
     } catch(err){
       alert('Error al leer el archivo. Asegurate de que sea un backup válido de CaVeSal (.json).');
     }
@@ -7918,7 +8197,7 @@ function abrirModalPaciente(id){
   modal.style.display='flex';
 }
 
-function cerrarModal(){ document.getElementById('modal_paciente').style.display='none'; _editandoPacId=null; }
+function cerrarModal(){ document.getElementById('modal_paciente').style.display='none'; _editandoPacId=null; _pendienteFusion=null; }
 function cerrarModalSiOverlay(e){ if(e.target===document.getElementById('modal_paciente')) cerrarModal(); }
 
 function guardarPaciente(){
@@ -7948,9 +8227,27 @@ function guardarPaciente(){
   };
   if(_editandoPacId){
     const idx = pacs.findIndex(x=>x._id===_editandoPacId);
-    if(idx>=0){ datos._id=_editandoPacId; datos.visitas=pacs[idx].visitas||[]; datos.creado=pacs[idx].creado; pacs[idx]=datos; }
+    if(idx>=0){
+      datos._id=_editandoPacId; datos.visitas=pacs[idx].visitas||[]; datos.creado=pacs[idx].creado;
+      // Preservar datosHC (antecedentes/serologías/vacunas vinculados desde HC):
+      // es de solo lectura/auto-completado, no pasa por este modal, así que
+      // no debe perderse al editar los campos manuales de la ficha.
+      datos.datosHC = pacs[idx].datosHC || {};
+      pacs[idx]=datos;
+    }
   } else {
     datos._id=uid(); datos.visitas=[]; datos.creado=new Date().toISOString();
+    datos.datosHC = {};
+    // Si esta alta viene de una fusión sin coincidencia previa (paciente
+    // nueva llegada por el puente HC), adjuntar lo que había quedado
+    // pendiente: antecedentes/serologías (datosHC) y la visita de esta consulta.
+    if(_pendienteFusion){
+      datos.datosHC = Object.assign({}, _pendienteFusion.datosHC||{});
+      if(_pendienteFusion.visita && Object.keys(_pendienteFusion.visita).length){
+        datos.visitas.push(Object.assign({fecha:new Date().toISOString().split('T')[0], ts:new Date().toISOString()}, _pendienteFusion.visita));
+      }
+      _pendienteFusion = null;
+    }
     pacs.push(datos);
   }
   savePacientes(pacs);
@@ -8028,6 +8325,7 @@ function verDetallePaciente(id){
         <button class="btn-pac-action" onclick="abrirModalPaciente('${id}')">✏️ Editar datos fijos</button>
       </div>
     </div>
+    ${renderDatosHC(p.datosHC)}
     <div class="calc-card">
       <div class="visita-header">
         <h4>📅 Historial de visitas (${visitas.length})</h4>
@@ -8221,164 +8519,20 @@ function getTSHRef(trim){
 }
 
 
-// ════ DEMO STUBS + UPGRADE MODAL ════
-function getPacientes(){}
-function savePacientes(){}
-function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2);}
-
-var _UPC={
-  laboratorio:{icon:'🧪',title:'Laboratorio completo',sub:'SOG/TTOG, HbA1c, TSH, TORCH, ITS, SGB'},
-  ecografia:{icon:'🔊',title:'Cribado FMF completo',sub:'NT, T21/T18/T13, Doppler, ILA'},
-  pfe:{icon:'⚖️',title:'Peso fetal estimado',sub:'Hadlock, INTERGROWTH-21'},
-  parto:{icon:'🏥',title:'Via de parto',sub:'Robson, Grobman, Bishop'},
-  biometria:{icon:'📐',title:'Biometría avanzada',sub:'CRL, cerebelo, asimetría CC/CA'},
-  suplementacion:{icon:'💊',title:'Suplementación prenatal',sub:'Folato, hierro, calcio, vitamina D, omega-3, yodo'},
-};
-function mostrarModalUpgrade(tipo){
-  var c=_UPC[tipo]||{icon:'🔒',title:'Versión completa',sub:'Pago único · Sin suscripción · Clave por email en minutos'};
-  var m=document.getElementById('upgrade_modal');
-  var i=document.getElementById('upgrade_icon');
-  var t=document.getElementById('upgrade_title');
-  var s=document.getElementById('upgrade_sub');
-  if(i)i.textContent=c.icon; if(t)t.textContent=c.title; if(s)s.textContent=c.sub;
-  if(m)m.style.display='flex';
-}
-window.addEventListener('online',function(){var b=document.getElementById('offline_banner');if(b)b.classList.remove('show');});
-window.addEventListener('offline',function(){var b=document.getElementById('offline_banner');if(b)b.classList.add('show');});
-
+// 2026-09-13: se eliminó de acá un bloque entero copiado por error desde la
+// versión demo (getPacientes/savePacientes vacíos que PISABAN silenciosamente
+// a las implementaciones reales de más arriba — última declaración gana en JS
+// — dejando "Mis pacientes" completamente roto en producción; más un modal
+// de "upgrade a la versión completa" que no correspondía en la versión FULL
+// ya paga). Se conserva solo abrirContacto(), que sí se usa (botón de
+// contacto real, no relacionado al bug).
 function abrirContacto(){
   // In Netlify production this opens the mail client directly
   // In Claude preview, show the modal as fallback
   var modal = document.getElementById('email_modal');
   if(modal) modal.style.display='flex';
 }
-
-function calcEGAuto(fumStr){
-  if(!fumStr) return '';
-  const dias=Math.floor((new Date()-new Date(fumStr))/86400000);
-  if(dias<0||dias>300) return '';
-  return Math.floor(dias/7)+'+'+(dias%7);
-}
-
-function calcEGTexto(fumStr){
-  if(!fumStr) return 'FUM no registrada';
-  const dias = Math.floor((new Date()-new Date(fumStr))/86400000);
-  if(dias<0||dias>300) return 'FUM: '+fumStr;
-  const sem=Math.floor(dias/7), d=dias%7;
-  return `EG: ${sem}+${d} sem`;
-}
-
-function cerrarModalSiOverlay(e){ if(e.target===document.getElementById('modal_paciente')) cerrarModal(); }
-
-function cerrarModalVisitaSiOverlay(e){ if(e.target===document.getElementById('modal_visita')) cerrarModalVisita(); }
-
-function toggleEspecificar(selectId, boxId){
-  const sel=document.getElementById(selectId);
-  const box=document.getElementById(boxId);
-  if(sel&&box){
-    const val=sel.value;
-    box.style.display=(val.includes('otro')||val.includes('otra')||val.includes('cancer_otro'))?'block':'none';
-  }
-}
-function toggleSubfield(checkId, blockId){
-  const chk=document.getElementById(checkId);
-  const blk=document.getElementById(blockId);
-  if(chk&&blk) blk.style.display=chk.checked?'block':'none';
-}
-function toggleToxoAvidez(){
-  const igm=document.getElementById('toxo_igm');
-  // Avidez field is always visible but hint guides use
-}
-
-// ── TSH TRIMESTER INTERPRETATION ──
-function verDetallePaciente(id){
-  _pacDetalleId=id;
-  const p=getPacientes().find(x=>x._id===id);
-  if(!p) return;
-  const eg=calcEGTexto(p.fum_corr||p.fum);
-  const fpp=p.fum?new Date(new Date(p.fum).getTime()+280*86400000).toLocaleDateString('es-ES'):'—';
-  const rColor=p.riesgo==='alto'?'var(--red)':p.riesgo==='moderado'?'var(--amber)':p.riesgo==='bajo'?'var(--green)':'var(--slate)';
-  const visitas=p.visitas||[];
-
-  let visitasHTML='';
-  if(visitas.length===0){
-    visitasHTML='<div class="empty-state" style="padding:16px"><div class="es-icon" style="font-size:1.8rem">📅</div><p style="font-size:.8rem">Sin visitas registradas</p></div>';
-  } else {
-    visitasHTML=[...visitas].reverse().map((v,ri)=>{
-      const realIdx=visitas.length-1-ri;
-      return `<div class="visita-item">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div class="visita-fecha">${v.fecha||'—'} ${v.eg?'· EG '+v.eg:''}</div>
-          <div style="display:flex;gap:6px">
-            <button style="background:none;border:none;cursor:pointer;font-size:.8rem;color:var(--teal)" onclick="editarVisita('${id}',${realIdx})">✏️</button>
-            <button style="background:none;border:none;cursor:pointer;font-size:.8rem;color:var(--red)" onclick="eliminarVisita('${id}',${realIdx})">🗑️</button>
-          </div>
-        </div>
-        <div class="visita-datos">
-          ${v.peso?'⚖️ '+v.peso+' kg ':''} ${v.pa?'· 🩺 '+v.pa+' mmHg ':''} ${v.hb?'· Hb '+v.hb+' g/dL ':''} ${v.gluc?'· Gluc '+v.gluc+' mg/dL ':''} ${v.tsh?'· TSH '+v.tsh:''}
-          ${(v.pfe||v.cx||v.present||v.doppler)?`<br>📡 ${v.pfe?'PFE '+v.pfe+'g':''} ${v.pfe_p?'(p'+v.pfe_p+')':''} ${v.present?'· '+v.present:''} ${v.cx?'· Cx '+v.cx+'mm':''} ${v.doppler?'· '+v.doppler:''}`:'' }
-          ${v.obs?`<br>📋 ${v.obs}`:''}
-          ${v.proxima?`<br>📆 Próxima cita: <strong>${v.proxima}</strong>`:''}
-        </div>
-      </div>`;
-    }).join('');
-  }
-
-  const det=document.getElementById('pac_detalle');
-  det.innerHTML=`
-    <div class="pac-detail-header">
-      <div class="pac-detail-name">${p.nombre}</div>
-      <div class="pac-detail-meta">
-        ${p.id_hc?'HC: '+p.id_hc+' · ':''} ${p.nacimiento?'Nac: '+p.nacimiento+' · ':''}
-        ${p.rh||''} ${p.tel?'· Tel: '+p.tel:''}
-      </div>
-    </div>
-    <div class="calc-card" style="margin-bottom:10px">
-      <div class="row2" style="margin-bottom:10px">
-        <div><div style="font-size:.68rem;color:var(--slate);font-weight:700;text-transform:uppercase">EG actual</div><div style="font-size:.95rem;font-weight:800;color:var(--navy);margin-top:2px">${eg}</div></div>
-        <div><div style="font-size:.68rem;color:var(--slate);font-weight:700;text-transform:uppercase">FPP (sem 40)</div><div style="font-size:.95rem;font-weight:800;color:var(--navy);margin-top:2px">${fpp}</div></div>
-      </div>
-      <div class="row3" style="margin-bottom:10px">
-        <div><div style="font-size:.68rem;color:var(--slate);font-weight:700;text-transform:uppercase">Fórmula OB</div><div style="font-size:.88rem;font-weight:700;color:var(--navy);margin-top:2px">G${p.g||0}P${p.p||0}C${p.c||0}A${(parseInt(p.ae)||0)+(parseInt(p.ap)||0)}</div></div>
-        <div><div style="font-size:.68rem;color:var(--slate);font-weight:700;text-transform:uppercase">Talla / Peso</div><div style="font-size:.88rem;font-weight:700;color:var(--navy);margin-top:2px">${p.talla||'—'} cm / ${p.peso_preg||'—'} kg</div></div>
-        <div><div style="font-size:.68rem;color:var(--slate);font-weight:700;text-transform:uppercase">Riesgo</div><div style="font-size:.88rem;font-weight:800;margin-top:2px;color:${rColor}">${p.riesgo?p.riesgo.toUpperCase():'—'}</div></div>
-      </div>
-      ${p.ant?`<div style="font-size:.76rem;color:var(--slate);margin-bottom:6px"><strong>Antecedentes OB:</strong> ${p.ant}</div>`:''}
-      ${p.patol?`<div style="font-size:.76rem;color:var(--slate);margin-bottom:6px"><strong>Patologías:</strong> ${p.patol}</div>`:''}
-      ${p.tra&&p.tra!=='no'?`<div style="font-size:.76rem;color:var(--teal);margin-bottom:6px">🔬 ${p.tra==='fiv'?'Embarazo por FIV/ICSI':p.tra==='iiu'?'Embarazo por IIU':p.tra==='pgr'?'PGR (≥2 abortos espontáneos)':'TRA'}</div>`:''}
-      ${p.notas?`<div style="font-size:.76rem;color:var(--slate);margin-top:4px"><strong>Notas:</strong> ${p.notas}</div>`:''}
-      <div style="display:flex;gap:8px;margin-top:12px">
-        <button class="btn-pac-action primary" onclick="cargarPacienteEnFormulario('${id}')">⚡ Abrir en calculadora</button>
-        <button class="btn-pac-action" onclick="abrirModalPaciente('${id}')">✏️ Editar datos fijos</button>
-      </div>
-    </div>
-    <div class="calc-card">
-      <div class="visita-header">
-        <h4>📅 Historial de visitas (${visitas.length})</h4>
-        <button class="btn-add-visita" onclick="abrirModalVisita('${id}',null)">+ Visita</button>
-      </div>
-      ${visitasHTML}
-    </div>`;
-  det.style.display='block';
-  det.scrollIntoView({behavior:'smooth'});
-}
-
-// ── VISITAS ──</script>
-
-<!-- UPGRADE MODAL -->
-<div id="upgrade_modal" class="upgrade-overlay" style="display:none" onclick="if(event.target===this)this.style.display='none'">
-  <div class="upgrade-box">
-    <button onclick="document.getElementById('upgrade_modal').style.display='none'"
-      style="position:absolute;top:12px;right:14px;background:var(--mist);border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:1rem">✕</button>
-    <div id="upgrade_icon" style="font-size:2rem;text-align:center;margin-bottom:6px">🔒</div>
-    <div id="upgrade_title" style="font-size:1rem;font-weight:800;color:var(--navy);text-align:center;margin-bottom:4px">Versión completa</div>
-    <div id="upgrade_sub" style="font-size:.76rem;color:var(--slate);text-align:center;margin-bottom:14px">drverasalerno@gmail.com</div>
-    <a class="btn-upgrade-primary" href="mailto:drverasalerno@gmail.com"
-       onclick="try{window.open('mailto:drverasalerno@gmail.com','_self');}catch(e){window.location.href='mailto:drverasalerno@gmail.com';}return false;">✉️ drverasalerno@gmail.com</a>
-    <div style="text-align:center;font-size:.74rem;color:var(--slate);cursor:pointer;margin-top:8px"
-         onclick="document.getElementById('upgrade_modal').style.display='none'">Seguir con la demo</div>
-  </div>
-</div>
+</script>
 
 <!-- MODAL EJEMPLOS -->
 <div id="modal_ejemplos" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9000;align-items:flex-end;justify-content:center"
@@ -8492,14 +8646,14 @@ function verDetallePaciente(id){
       var json = decodeURIComponent(atob(raw));
       var datos = JSON.parse(json);
 
-      // Si vienen datos de paciente (prefijo mp_), abrir primero "Nueva paciente"
-      // para que los datos queden visibles de inmediato, no ocultos en un modal cerrado.
       var tieneDatosPaciente = Object.keys(datos).some(function(k){ return k.indexOf('mp_') === 0; });
-      if(tieneDatosPaciente && typeof showTab === 'function' && typeof abrirModalPaciente === 'function'){
-        showTab('pacientes');
-        abrirModalPaciente(null);
-      }
 
+      // Rellenar el formulario de cálculo actual (comportamiento existente,
+      // sin cambios): gesta/partos/obs_*/p_*/talla/pesoPreg/fum/etc. siguen
+      // yendo directo a los campos del formulario para poder calcular ya.
+      // Las keys nuevas con prefijo "hc_" (serologías, PA, observaciones) NO
+      // tienen ningún campo del formulario con ese id, así que este loop las
+      // ignora en silencio — solo las consume el motor de fusión de abajo.
       Object.keys(datos).forEach(function(key){
         var el = document.getElementById(key);
         if(!el) return;
@@ -8512,14 +8666,62 @@ function verDetallePaciente(id){
         el.dispatchEvent(new Event('change', {bubbles:true}));
       });
 
+      // ── 2026-09-13: motor de fusión por id_hc con "Mis pacientes" ──
+      if(tieneDatosPaciente && typeof clasificarPayloadPuente === 'function' && typeof getPacientes === 'function'){
+        var clasif = clasificarPayloadPuente(datos);
+        var idHC = (clasif.perfil.id_hc||'').trim();
+        var pacsExistentes = getPacientes();
+        var pacMatch = idHC ? pacsExistentes.find(function(x){ return (x.id_hc||'').trim() === idHC; }) : null;
+
+        if(pacMatch){
+          // Paciente ya guardada: fusionar, NO duplicar ni reabrir el alta.
+          var f = fusionarConPaciente(pacMatch, clasif);
+          var terminar = function(pacienteId){
+            if(typeof renderListaPacientes === 'function') renderListaPacientes();
+            if(typeof showTab === 'function') showTab('pacientes');
+            if(typeof verDetallePaciente === 'function') verDetallePaciente(pacienteId);
+          };
+          if(f.conflictos.length){
+            setTimeout(function(){
+              mostrarModalConflictos([{titulo:null, conflictos:f.conflictos, aplicar:f.aplicar}], function(){
+                terminar(pacMatch._id);
+                alert('✅ Ficha de '+(pacMatch.nombre||'la paciente')+' actualizada con los datos elegidos.');
+              });
+            }, 200);
+          } else {
+            f.aplicar({});
+            terminar(pacMatch._id);
+            setTimeout(function(){
+              alert('✅ Ficha de '+(pacMatch.nombre||'la paciente')+' actualizada con los datos de esta consulta.');
+            }, 200);
+          }
+        } else if(typeof showTab === 'function' && typeof abrirModalPaciente === 'function'){
+          // Sin coincidencia por id_hc: alta nueva, como antes — pero ahora
+          // se pre-llenan también los campos de perfil (fum, talla, peso,
+          // g/p/c/ae, rh) que antes quedaban vacíos en el modal, y se
+          // guardan aparte los antecedentes/serologías (datosHC) y la
+          // visita de esta consulta para adjuntarlos recién cuando el
+          // médico confirme "Guardar" (ver guardarPaciente()).
+          _pendienteFusion = {datosHC: clasif.datosHC, visita: clasif.visita};
+          showTab('pacientes');
+          abrirModalPaciente(null);
+          Object.keys(clasif.perfil).forEach(function(k){
+            var el = document.getElementById('mp_'+k);
+            if(el) el.value = clasif.perfil[k];
+          });
+        }
+      }
+
       // Limpiar el parámetro de la URL para no reimportar si se refresca la página
       var url = new URL(window.location.href);
       url.searchParams.delete('import');
       window.history.replaceState({}, '', url.toString());
 
-      setTimeout(function(){
-        alert('✅ Datos recibidos desde la Historia Clínica CaVeSal y cargados en el formulario.');
-      }, 300);
+      if(!tieneDatosPaciente){
+        setTimeout(function(){
+          alert('✅ Datos recibidos desde la Historia Clínica CaVeSal y cargados en el formulario.');
+        }, 300);
+      }
     } catch(e){
       console.error('Error al importar datos desde la Historia Clínica CaVeSal:', e);
     }
