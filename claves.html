@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel de pedidos · CaVeSal®</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+  :root{
+    --navy:#0D1B2D;--teal:#0EA5B7;--teal-lt:#e6f7f9;--slate:#4a6274;--mist:#f2f7f9;--border:#d0e8ed;
+    --green:#1a7a4a;--green-lt:#eafaf1;--red:#c0392b;--red-lt:#fdecea;--amber:#b45309;--amber-lt:#fef3e0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--mist);color:var(--navy);line-height:1.5}
+  header{background:linear-gradient(135deg,#0D1B2D,#0EA5B7);color:#fff;padding:26px 20px;text-align:center}
+  header h1{font-size:1.25rem;font-weight:800}
+  main{max-width:760px;margin:0 auto;padding:22px 16px 60px}
+  .card{background:#fff;border-radius:14px;padding:20px;box-shadow:0 2px 14px rgba(14,165,183,.10);margin-bottom:14px}
+  label{display:block;font-size:.8rem;font-weight:700;color:var(--slate);margin:12px 0 5px}
+  label:first-child{margin-top:0}
+  input{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:9px;font-size:.9rem;font-family:inherit}
+  input:focus{outline:none;border-color:var(--teal)}
+  .btn{padding:10px 16px;border:none;border-radius:9px;font-size:.84rem;font-weight:700;cursor:pointer}
+  .btn-primary{background:linear-gradient(135deg,#0D1B2D,#0EA5B7);color:#fff;width:100%;margin-top:14px;padding:12px}
+  .btn-green{background:var(--green);color:#fff}
+  .btn-red{background:var(--red);color:#fff}
+  .btn-outline{background:#fff;border:1.5px solid var(--border);color:var(--slate)}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+  .error-box{background:var(--red-lt);border-left:3px solid var(--red);border-radius:8px;padding:10px 12px;font-size:.82rem;color:var(--red);margin-top:10px}
+  #login_screen{max-width:380px;margin:40px auto 0}
+  #panel_screen{display:none}
+  .toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .toolbar h2{font-size:1rem;color:var(--navy)}
+  .pedido{border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+  .pedido-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+  .pedido-ref{font-family:monospace;font-weight:800;font-size:.95rem;color:var(--navy)}
+  .pedido-fecha{font-size:.72rem;color:var(--slate)}
+  .badge{display:inline-block;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:3px 9px;border-radius:20px}
+  .badge-pend{background:var(--amber-lt);color:var(--amber)}
+  .badge-revisar{background:var(--teal-lt);color:var(--teal)}
+  .badge-ok{background:var(--green-lt);color:var(--green)}
+  .badge-no{background:var(--red-lt);color:var(--red)}
+  .pedido-body{font-size:.84rem;color:var(--slate);margin-top:8px;line-height:1.7}
+  .pedido-body strong{color:var(--navy)}
+  .pedido-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+  .motivo-box{margin-top:10px;display:none}
+  .motivo-box textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:8px;font-size:.82rem;font-family:inherit;min-height:56px}
+  .claves-box{background:var(--green-lt);border-radius:8px;padding:10px 12px;font-size:.82rem;margin-top:10px;font-family:monospace}
+  .empty-msg{text-align:center;color:var(--slate);font-size:.86rem;padding:30px 0}
+  .spinner{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:5px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>CaVeSal® · Panel de Pedidos directos</h1>
+</header>
+
+<main>
+
+  <div class="card" id="login_screen">
+    <label for="login_email">Email de autor</label>
+    <input type="email" id="login_email" placeholder="drverasalerno@gmail.com">
+    <label for="login_pin">PIN</label>
+    <input type="password" id="login_pin" placeholder="••••••">
+    <div id="login_error"></div>
+    <button class="btn btn-primary" id="btn_login" onclick="hacerLogin()">Entrar</button>
+  </div>
+
+  <div id="panel_screen">
+    <div class="toolbar">
+      <h2 id="panel_titulo">Pedidos</h2>
+      <button class="btn btn-outline" onclick="cargarPedidos()">🔄 Actualizar</button>
+    </div>
+    <div id="lista_pedidos"></div>
+  </div>
+
+</main>
+
+<script>
+const LICENSE_API = 'https://script.google.com/macros/s/AKfycbzMHJG48y5W0sIadQxrrFx78Toge2FRBIMRDqKe5GQmvmnpDory1ftALVfJCvZX2WK6/exec';
+
+let autor = { email: null, pin: null };
+
+// Recuerda la sesión mientras dure la pestaña (no persiste entre visitas)
+(function(){
+  const guardado = sessionStorage.getItem('cavesal_autor');
+  if(guardado){
+    try{
+      autor = JSON.parse(guardado);
+      mostrarPanel();
+      cargarPedidos();
+    }catch(e){}
+  }
+})();
+
+function mostrarPanel(){
+  document.getElementById('login_screen').style.display = 'none';
+  document.getElementById('panel_screen').style.display = 'block';
+}
+
+async function hacerLogin(){
+  const email = document.getElementById('login_email').value.trim();
+  const pin = document.getElementById('login_pin').value.trim();
+  const errBox = document.getElementById('login_error');
+  errBox.innerHTML = '';
+
+  if(!email || !pin){
+    errBox.innerHTML = '<div class="error-box">Completá email y PIN.</div>';
+    return;
+  }
+
+  const btn = document.getElementById('btn_login');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Entrando...';
+
+  autor = { email, pin };
+  const ok = await cargarPedidos(true);
+
+  btn.disabled = false;
+  btn.textContent = 'Entrar';
+
+  if(ok){
+    sessionStorage.setItem('cavesal_autor', JSON.stringify(autor));
+    mostrarPanel();
+  } else {
+    autor = { email: null, pin: null };
+  }
+}
+
+function badgeParaEstado(estado){
+  const map = {
+    esperando_pago: ['badge-pend', 'Esperando pago'],
+    comprobante_para_revisar: ['badge-revisar', 'Para revisar'],
+    entregado: ['badge-ok', 'Entregado'],
+    rechazado: ['badge-no', 'Rechazado'],
+  };
+  const [cls, texto] = map[estado] || ['badge-pend', estado];
+  return '<span class="badge ' + cls + '">' + texto + '</span>';
+}
+
+function nombreProducto(p){
+  if(p === 'hc') return 'Historia Clínica';
+  if(p === 'combo') return 'Combo (Calculadora + HC)';
+  return 'Calculadora Prenatal';
+}
+
+function ordenPrioridad(estado){
+  // Pendientes primero, igual que el panel de Mamá
+  const orden = { comprobante_para_revisar: 0, esperando_pago: 1, entregado: 2, rechazado: 3 };
+  return orden[estado] !== undefined ? orden[estado] : 4;
+}
+
+async function cargarPedidos(esLogin){
+  const errBox = document.getElementById('login_error');
+  try{
+    const body = new URLSearchParams({
+      accion: 'listar_pedidos', autor_email: autor.email, autor_pin: autor.pin,
+    });
+    const resp = await fetch(LICENSE_API, { method: 'POST', body });
+    const data = await resp.json();
+
+    if(!data.ok){
+      if(esLogin){
+        errBox.innerHTML = '<div class="error-box">' + (data.error || 'Email o PIN incorrectos.') + '</div>';
+      } else {
+        alert('Error: ' + (data.error || 'no se pudo actualizar la lista.'));
+        sessionStorage.removeItem('cavesal_autor');
+        location.reload();
+      }
+      return false;
+    }
+
+    renderizarPedidos(data.pedidos || []);
+    return true;
+  }catch(e){
+    if(esLogin){
+      errBox.innerHTML = '<div class="error-box">No se pudo conectar con el servidor. Intentá de nuevo.</div>';
+    }
+    return false;
+  }
+}
+
+function renderizarPedidos(pedidos){
+  document.getElementById('panel_titulo').textContent = 'Pedidos (' + pedidos.length + ')';
+  const cont = document.getElementById('lista_pedidos');
+
+  if(!pedidos.length){
+    cont.innerHTML = '<div class="empty-msg">Todavía no hay pedidos.</div>';
+    return;
+  }
+
+  const ordenados = pedidos.slice().sort((a, b) => ordenPrioridad(a.estado) - ordenPrioridad(b.estado));
+
+  cont.innerHTML = ordenados.map((p, i) => {
+    const fecha = p.fecha ? new Date(p.fecha).toLocaleString('es-PY') : '';
+    const wa = p.whatsapp ? '<a href="https://wa.me/' + p.whatsapp.replace(/[^0-9]/g,'') + '" target="_blank" style="color:var(--teal)">' + p.whatsapp + '</a>' : '—';
+    const totalGs = 'Gs. ' + Number(p.totalGs || 0).toLocaleString('es-PY');
+
+    let acciones = '';
+    if(p.estado === 'comprobante_para_revisar' || p.estado === 'esperando_pago'){
+      acciones = '<div class="pedido-actions">'
+        + (p.tieneComprobante ? '<button class="btn btn-outline" onclick="verComprobante(\'' + p.referencia + '\')">📎 Ver comprobante</button>' : '')
+        + '<button class="btn btn-green" onclick="confirmarPedido(\'' + p.referencia + '\', this)">✅ Confirmar</button>'
+        + '<button class="btn btn-red" onclick="mostrarMotivo(\'' + p.referencia + '\')">❌ Rechazar</button>'
+        + '</div>'
+        + '<div class="motivo-box" id="motivo_' + p.referencia + '">'
+        + '<textarea id="motivo_txt_' + p.referencia + '" placeholder="Motivo del rechazo (se le envía por email al comprador)"></textarea>'
+        + '<button class="btn btn-red" style="margin-top:6px" onclick="rechazarPedido(\'' + p.referencia + '\', this)">Confirmar rechazo</button>'
+        + '</div>';
+    } else if(p.estado === 'entregado' && p.claves){
+      acciones = '<div class="claves-box">🔑 ' + p.claves + '</div>';
+    } else if(p.estado === 'rechazado' && p.motivoRechazo){
+      acciones = '<div class="pedido-body">Motivo: ' + p.motivoRechazo + '</div>';
+    }
+
+    return '<div class="pedido" id="pedido_' + p.referencia + '">'
+      + '<div class="pedido-head">'
+      + '<div><span class="pedido-ref">' + p.referencia + '</span> ' + badgeParaEstado(p.estado) + '</div>'
+      + '<span class="pedido-fecha">' + fecha + '</span>'
+      + '</div>'
+      + '<div class="pedido-body">'
+      + '<strong>' + nombreProducto(p.producto) + '</strong> — ' + totalGs + '<br>'
+      + (p.nombre || '') + ' · ' + (p.email || '') + ' · ' + wa + (p.pais ? ' · ' + p.pais : '')
+      + '</div>'
+      + acciones
+      + '</div>';
+  }).join('');
+}
+
+function mostrarMotivo(referencia){
+  const box = document.getElementById('motivo_' + referencia);
+  if(box) box.style.display = box.style.display === 'block' ? 'none' : 'block';
+}
+
+async function verComprobante(referencia){
+  try{
+    const body = new URLSearchParams({ accion: 'ver_comprobante', autor_email: autor.email, autor_pin: autor.pin, referencia });
+    const resp = await fetch(LICENSE_API, { method: 'POST', body });
+    const data = await resp.json();
+    if(data.ok && data.url){
+      window.open(data.url, '_blank');
+    } else {
+      alert(data.error || 'No se pudo abrir el comprobante.');
+    }
+  }catch(e){
+    alert('Error de conexión al abrir el comprobante.');
+  }
+}
+
+async function confirmarPedido(referencia, btn){
+  if(!confirm('¿Confirmar el pedido ' + referencia + '? Se va a generar la clave y enviarla por email.')) return;
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Confirmando...';
+  try{
+    const body = new URLSearchParams({ accion: 'confirmar_pedido', autor_email: autor.email, autor_pin: autor.pin, referencia });
+    const resp = await fetch(LICENSE_API, { method: 'POST', body });
+    const data = await resp.json();
+    if(data.ok){
+      cargarPedidos();
+    } else {
+      alert(data.error || 'No se pudo confirmar el pedido.');
+      btn.disabled = false;
+      btn.textContent = '✅ Confirmar';
+    }
+  }catch(e){
+    alert('Error de conexión al confirmar el pedido.');
+    btn.disabled = false;
+    btn.textContent = '✅ Confirmar';
+  }
+}
+
+async function rechazarPedido(referencia, btn){
+  const motivo = document.getElementById('motivo_txt_' + referencia).value.trim();
+  if(!motivo){
+    alert('Escribí el motivo del rechazo.');
+    return;
+  }
+  btn.disabled = true;
+  btn.textContent = 'Rechazando...';
+  try{
+    const body = new URLSearchParams({ accion: 'rechazar_pedido', autor_email: autor.email, autor_pin: autor.pin, referencia, motivo });
+    const resp = await fetch(LICENSE_API, { method: 'POST', body });
+    const data = await resp.json();
+    if(data.ok){
+      cargarPedidos();
+    } else {
+      alert(data.error || 'No se pudo rechazar el pedido.');
+      btn.disabled = false;
+      btn.textContent = 'Confirmar rechazo';
+    }
+  }catch(e){
+    alert('Error de conexión al rechazar el pedido.');
+    btn.disabled = false;
+    btn.textContent = 'Confirmar rechazo';
+  }
+}
+</script>
+
+</body>
+</html>

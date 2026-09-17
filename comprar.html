@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comprar sin tarjeta · CaVeSal®</title>
+<meta name="description" content="Comprá CaVeSal® por transferencia bancaria, sin necesidad de tarjeta de crédito.">
+<style>
+  :root{
+    --navy:#0D1B2D;--teal:#0EA5B7;--teal-lt:#e6f7f9;--slate:#4a6274;--mist:#f2f7f9;--border:#d0e8ed;--green:#1a7a4a;--green-lt:#eafaf1;--red:#c0392b;--red-lt:#fdecea;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--mist);color:var(--navy);line-height:1.6}
+  header{background:linear-gradient(135deg,#0D1B2D,#0EA5B7);color:#fff;padding:32px 20px;text-align:center}
+  header h1{font-size:1.4rem;font-weight:800}
+  header p{font-size:.9rem;opacity:.85;margin-top:6px}
+  main{max-width:520px;margin:0 auto;padding:24px 20px 60px}
+  .card{background:#fff;border-radius:16px;padding:24px 22px;box-shadow:0 4px 20px rgba(14,165,183,.12);margin-bottom:18px}
+  label{display:block;font-size:.8rem;font-weight:700;color:var(--slate);margin:14px 0 6px}
+  label:first-child{margin-top:0}
+  select,input[type=text],input[type=email],input[type=tel]{
+    width:100%;padding:11px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:.92rem;font-family:inherit;background:#fff;color:var(--navy)
+  }
+  select:focus,input:focus{outline:none;border-color:var(--teal)}
+  .btn{display:block;width:100%;padding:14px;border:none;border-radius:12px;font-size:.94rem;font-weight:800;cursor:pointer;text-align:center;text-decoration:none;margin-top:18px}
+  .btn-primary{background:linear-gradient(135deg,#0D1B2D,#0EA5B7);color:#fff}
+  .btn-primary:disabled{opacity:.55;cursor:not-allowed}
+  .btn-secondary{background:var(--mist);color:var(--slate);border:1.5px solid var(--border)}
+  .price-line{display:flex;justify-content:space-between;font-size:.86rem;padding:6px 0;color:var(--slate)}
+  .price-line.total{border-top:1.5px solid var(--border);margin-top:6px;padding-top:12px;font-size:1.05rem;font-weight:800;color:var(--navy)}
+  .ref-box{background:var(--teal-lt);border:2px dashed var(--teal);border-radius:12px;padding:16px;text-align:center;margin:14px 0}
+  .ref-box .ref{font-family:monospace;font-size:1.3rem;font-weight:800;color:var(--navy);letter-spacing:1px}
+  .ref-box .ref-label{font-size:.72rem;color:var(--slate);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+  .cuenta{background:var(--mist);border-radius:10px;padding:14px;margin-top:10px;font-size:.84rem;white-space:pre-wrap;border-left:4px solid var(--teal)}
+  .cuenta-title{font-size:.76rem;font-weight:800;color:var(--teal);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+  .error-box{background:var(--red-lt);border-left:3px solid var(--red);border-radius:8px;padding:10px 12px;font-size:.82rem;color:var(--red);margin-top:12px}
+  .ok-box{background:var(--green-lt);border-left:3px solid var(--green);border-radius:8px;padding:14px;font-size:.85rem;color:var(--green);margin-top:12px;line-height:1.6}
+  .step{display:none}
+  .step.active{display:block}
+  .step-title{font-size:1rem;font-weight:800;color:var(--navy);margin-bottom:4px}
+  .step-sub{font-size:.82rem;color:var(--slate);margin-bottom:16px}
+  .file-input-wrap{border:2px dashed var(--border);border-radius:12px;padding:18px;text-align:center;margin-top:14px}
+  .file-input-wrap input{margin-top:8px}
+  .spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:6px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  a.back-link{display:block;text-align:center;font-size:.8rem;color:var(--teal);text-decoration:none;margin-top:10px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>CaVeSal® · Comprar sin tarjeta</h1>
+  <p>Pagá por transferencia bancaria — sin tarjeta de crédito/débito</p>
+</header>
+
+<main>
+
+  <!-- PASO 1: datos del pedido -->
+  <div class="card step active" id="step1">
+    <div class="step-title">1. Datos del pedido</div>
+    <div class="step-sub">Completá tus datos y elegí qué querés comprar. El total se calcula con la cotización del dólar del día.</div>
+
+    <label for="f_producto">Producto</label>
+    <select id="f_producto">
+      <option value="calculadora">Calculadora Prenatal CaVeSal® — USD 19.90</option>
+      <option value="hc">Historia Clínica CaVeSal® — USD 19.90</option>
+      <option value="combo">Combo (Calculadora + Historia Clínica) — USD 29.90</option>
+    </select>
+
+    <label for="f_nombre">Nombre y apellido</label>
+    <input type="text" id="f_nombre" placeholder="Tu nombre completo">
+
+    <label for="f_email">Email</label>
+    <input type="email" id="f_email" placeholder="tu@email.com">
+
+    <label for="f_whatsapp">WhatsApp (opcional)</label>
+    <input type="tel" id="f_whatsapp" placeholder="+595 9XX XXX XXX">
+
+    <label for="f_pais">País</label>
+    <select id="f_pais">
+      <option value="Paraguay">Paraguay</option>
+      <option value="Otro">Otro país</option>
+    </select>
+
+    <div id="step1_error"></div>
+
+    <button class="btn btn-primary" id="btn_crear_pedido" onclick="crearPedido()">Continuar</button>
+  </div>
+
+  <!-- PASO 2: datos de pago -->
+  <div class="card step" id="step2">
+    <div class="step-title">2. Transferí y subí tu comprobante</div>
+    <div class="step-sub">Guardá tu número de referencia — lo vas a necesitar si nos escribís por cualquier duda.</div>
+
+    <div class="ref-box">
+      <div class="ref-label">Tu número de pedido</div>
+      <div class="ref" id="ref_numero">—</div>
+    </div>
+
+    <div class="price-line"><span>Precio</span><span id="pl_precio">—</span></div>
+    <div class="price-line"><span>Cotización del día</span><span id="pl_cotizacion">—</span></div>
+    <div class="price-line" id="pl_iva_row" style="display:none"><span>IVA 10%</span><span id="pl_iva">—</span></div>
+    <div class="price-line total"><span>Total a transferir</span><span id="pl_total">—</span></div>
+
+    <div class="cuenta">
+      <div class="cuenta-title">Cuenta en guaraníes (Itaú)</div>
+      <div id="cuenta_itau">—</div>
+    </div>
+    <div class="cuenta">
+      <div class="cuenta-title">Cuenta en USD (Lead Bank / Meru)</div>
+      <div id="cuenta_leadbank">—</div>
+    </div>
+
+    <div class="file-input-wrap">
+      <div style="font-size:.86rem;font-weight:700;color:var(--navy)">📎 Subí tu comprobante de transferencia</div>
+      <div style="font-size:.76rem;color:var(--slate);margin-top:2px">Foto o captura — JPG, PNG o PDF</div>
+      <input type="file" id="f_comprobante" accept="image/*,.pdf">
+    </div>
+
+    <div id="step2_error"></div>
+
+    <button class="btn btn-primary" id="btn_subir_comprobante" onclick="subirComprobante()">Enviar comprobante</button>
+  </div>
+
+  <!-- PASO 3: listo -->
+  <div class="card step" id="step3">
+    <div class="step-title">✅ ¡Listo!</div>
+    <div class="ok-box">
+      Recibimos tu comprobante. En cuanto verifiquemos el pago, te va a llegar
+      tu clave de acceso por email a <strong id="ok_email">—</strong>.<br><br>
+      Tu número de pedido es <strong id="ok_ref">—</strong> — guardalo por si necesitás
+      escribirnos.
+    </div>
+    <a class="back-link" href="https://cavesal.app">Volver al inicio →</a>
+  </div>
+
+  <div style="text-align:center;font-size:.76rem;color:var(--slate);margin-top:14px">
+    ¿Preferís pagar con tarjeta? <a href="https://cavesal.gumroad.com/l/cavesal" style="color:var(--teal)">Comprá por Gumroad →</a>
+  </div>
+
+</main>
+
+<script>
+const LICENSE_API = 'https://script.google.com/macros/s/AKfycbzMHJG48y5W0sIadQxrrFx78Toge2FRBIMRDqKe5GQmvmnpDory1ftALVfJCvZX2WK6/exec';
+
+let pedidoActual = { referencia: null, email: null };
+
+function formatGs(n){
+  return 'Gs. ' + Number(n || 0).toLocaleString('es-PY');
+}
+
+function mostrarPaso(n){
+  document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+  document.getElementById('step' + n).classList.add('active');
+}
+
+// Preselecciona el producto según ?producto=calculadora|hc|combo en la URL
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const producto = params.get('producto');
+  if(producto){
+    const sel = document.getElementById('f_producto');
+    for(const opt of sel.options){
+      if(opt.value === producto){ sel.value = producto; break; }
+    }
+  }
+})();
+
+async function crearPedido(){
+  const producto = document.getElementById('f_producto').value;
+  const nombre = document.getElementById('f_nombre').value.trim();
+  const email = document.getElementById('f_email').value.trim();
+  const whatsapp = document.getElementById('f_whatsapp').value.trim();
+  const pais = document.getElementById('f_pais').value;
+  const errBox = document.getElementById('step1_error');
+  errBox.innerHTML = '';
+
+  if(!nombre || !email){
+    errBox.innerHTML = '<div class="error-box">Completá tu nombre y tu email para continuar.</div>';
+    return;
+  }
+
+  const btn = document.getElementById('btn_crear_pedido');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Creando pedido...';
+
+  try{
+    const body = new URLSearchParams({
+      accion: 'crear_pedido', producto, nombre, email, whatsapp, pais
+    });
+    const resp = await fetch(LICENSE_API, { method: 'POST', body });
+    const data = await resp.json();
+
+    if(!data.ok){
+      errBox.innerHTML = '<div class="error-box">' + (data.error || 'Ocurrió un error. Intentá de nuevo.') + '</div>';
+      btn.disabled = false;
+      btn.textContent = 'Continuar';
+      return;
+    }
+
+    pedidoActual.referencia = data.referencia;
+    pedidoActual.email = email;
+
+    document.getElementById('ref_numero').textContent = data.referencia;
+    document.getElementById('pl_precio').textContent = 'USD ' + Number(data.precioUsd).toFixed(2);
+    document.getElementById('pl_cotizacion').textContent = 'Gs. ' + Number(data.cotizacion).toLocaleString('es-PY') + ' / USD';
+    if(data.esParaguay && data.ivaGs > 0){
+      document.getElementById('pl_iva_row').style.display = 'flex';
+      document.getElementById('pl_iva').textContent = formatGs(data.ivaGs);
+    }
+    document.getElementById('pl_total').textContent = formatGs(data.totalGs);
+    document.getElementById('cuenta_itau').textContent = (data.cuentas && data.cuentas.itau) || '—';
+    document.getElementById('cuenta_leadbank').textContent = (data.cuentas && data.cuentas.leadbank) || '—';
+
+    mostrarPaso(2);
+  }catch(e){
+    errBox.innerHTML = '<div class="error-box">No pudimos conectar con el servidor. Revisá tu conexión e intentá de nuevo.</div>';
+  }finally{
+    btn.disabled = false;
+    btn.textContent = 'Continuar';
+  }
+}
+
+function leerArchivoBase64(file){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result; // "data:<mime>;base64,XXXX"
+      const base64 = String(result).split(',')[1] || '';
+      resolve(base64);
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function subirComprobante(){
+  const fileInput = document.getElementById('f_comprobante');
+  const errBox = document.getElementById('step2_error');
+  errBox.innerHTML = '';
+
+  if(!fileInput.files || !fileInput.files[0]){
+    errBox.innerHTML = '<div class="error-box">Elegí el archivo de tu comprobante antes de continuar.</div>';
+    return;
+  }
+  const file = fileInput.files[0];
+
+  const btn = document.getElementById('btn_subir_comprobante');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Enviando...';
+
+  try{
+    const base64 = await leerArchivoBase64(file);
+    const body = new URLSearchParams({
+      accion: 'subir_comprobante',
+      referencia: pedidoActual.referencia,
+      comprobante_base64: base64,
+      comprobante_nombre: file.name,
+      comprobante_tipo: file.type || 'application/octet-stream',
+    });
+    const resp = await fetch(LICENSE_API, { method: 'POST', body });
+    const data = await resp.json();
+
+    if(!data.ok){
+      errBox.innerHTML = '<div class="error-box">' + (data.error || 'No pudimos guardar el comprobante. Probá de nuevo.') + '</div>';
+      btn.disabled = false;
+      btn.textContent = 'Enviar comprobante';
+      return;
+    }
+
+    document.getElementById('ok_email').textContent = pedidoActual.email;
+    document.getElementById('ok_ref').textContent = pedidoActual.referencia;
+    mostrarPaso(3);
+  }catch(e){
+    errBox.innerHTML = '<div class="error-box">No pudimos conectar con el servidor. Podés escribirnos por WhatsApp con tu número de pedido: ' + (pedidoActual.referencia || '') + '.</div>';
+  }finally{
+    btn.disabled = false;
+    btn.textContent = 'Enviar comprobante';
+  }
+}
+</script>
+
+</body>
+</html>
