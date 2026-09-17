@@ -82,9 +82,37 @@
       <option value="Otro">Otro país</option>
     </select>
 
+    <label for="f_documento">CI o RUC (opcional, para factura)</label>
+    <input type="text" id="f_documento" placeholder="Ej: 1.234.567 ó 80012345-6">
+
     <div id="step1_error"></div>
 
     <button class="btn btn-primary" id="btn_crear_pedido" onclick="crearPedido()">Continuar</button>
+
+    <a class="back-link" href="javascript:void(0)" onclick="mostrarRetomar()">¿Ya transferiste? Subí tu comprobante →</a>
+  </div>
+
+  <!-- RETOMAR: subir comprobante de un pedido ya creado, sin repetirlo -->
+  <div class="card step" id="stepRetomar">
+    <div class="step-title">Subir comprobante de un pedido ya hecho</div>
+    <div class="step-sub">Si ya transferiste y cerraste la pantalla, subí tu comprobante acá con tu número de pedido y tu email.</div>
+
+    <label for="rt_referencia">Número de pedido</label>
+    <input type="text" id="rt_referencia" placeholder="Ej: CALC-123456">
+
+    <label for="rt_email">Email con el que hiciste el pedido</label>
+    <input type="email" id="rt_email" placeholder="tu@email.com">
+
+    <div class="file-input-wrap">
+      <div style="font-size:.86rem;font-weight:700;color:var(--navy)">📎 Subí tu comprobante de transferencia</div>
+      <div style="font-size:.76rem;color:var(--slate);margin-top:2px">Foto o captura — JPG, PNG o PDF</div>
+      <input type="file" id="rt_comprobante" accept="image/*,.pdf">
+    </div>
+
+    <div id="retomar_error"></div>
+
+    <button class="btn btn-primary" id="btn_retomar" onclick="retomarSubirComprobante()">Enviar comprobante</button>
+    <a class="back-link" href="javascript:void(0)" onclick="mostrarPaso(1)">← Volver</a>
   </div>
 
   <!-- PASO 2: datos de pago -->
@@ -154,6 +182,10 @@ function mostrarPaso(n){
   document.getElementById('step' + n).classList.add('active');
 }
 
+function mostrarRetomar(){
+  mostrarPaso('Retomar');
+}
+
 // Preselecciona el producto según ?producto=calculadora|hc|combo en la URL
 (function(){
   const params = new URLSearchParams(window.location.search);
@@ -172,6 +204,7 @@ async function crearPedido(){
   const email = document.getElementById('f_email').value.trim();
   const whatsapp = document.getElementById('f_whatsapp').value.trim();
   const pais = document.getElementById('f_pais').value;
+  const documento = document.getElementById('f_documento').value.trim();
   const errBox = document.getElementById('step1_error');
   errBox.innerHTML = '';
 
@@ -186,7 +219,7 @@ async function crearPedido(){
 
   try{
     const body = new URLSearchParams({
-      accion: 'crear_pedido', producto, nombre, email, whatsapp, pais
+      accion: 'crear_pedido', producto, nombre, email, whatsapp, pais, documento
     });
     const resp = await fetch(LICENSE_API, { method: 'POST', body });
     const data = await resp.json();
@@ -254,6 +287,7 @@ async function subirComprobante(){
     const body = new URLSearchParams({
       accion: 'subir_comprobante',
       referencia: pedidoActual.referencia,
+      email: pedidoActual.email || '',
       comprobante_base64: base64,
       comprobante_nombre: file.name,
       comprobante_tipo: file.type || 'application/octet-stream',
@@ -273,6 +307,61 @@ async function subirComprobante(){
     mostrarPaso(3);
   }catch(e){
     errBox.innerHTML = '<div class="error-box">No pudimos conectar con el servidor. Podés escribirnos por WhatsApp con tu número de pedido: ' + (pedidoActual.referencia || '') + '.</div>';
+  }finally{
+    btn.disabled = false;
+    btn.textContent = 'Enviar comprobante';
+  }
+}
+
+// Para quien ya dejó su pedido antes, cerró la pantalla y vuelve más tarde a
+// subir el comprobante: no repite el pedido, solo necesita referencia + email.
+async function retomarSubirComprobante(){
+  const referencia = document.getElementById('rt_referencia').value.trim();
+  const email = document.getElementById('rt_email').value.trim();
+  const fileInput = document.getElementById('rt_comprobante');
+  const errBox = document.getElementById('retomar_error');
+  errBox.innerHTML = '';
+
+  if(!referencia || !email){
+    errBox.innerHTML = '<div class="error-box">Completá tu número de pedido y el email con el que lo hiciste.</div>';
+    return;
+  }
+  if(!fileInput.files || !fileInput.files[0]){
+    errBox.innerHTML = '<div class="error-box">Elegí el archivo de tu comprobante antes de continuar.</div>';
+    return;
+  }
+  const file = fileInput.files[0];
+
+  const btn = document.getElementById('btn_retomar');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Enviando...';
+
+  try{
+    const base64 = await leerArchivoBase64(file);
+    const body = new URLSearchParams({
+      accion: 'subir_comprobante',
+      referencia, email,
+      comprobante_base64: base64,
+      comprobante_nombre: file.name,
+      comprobante_tipo: file.type || 'application/octet-stream',
+    });
+    const resp = await fetch(LICENSE_API, { method: 'POST', body });
+    const data = await resp.json();
+
+    if(!data.ok){
+      errBox.innerHTML = '<div class="error-box">' + (data.error || 'No pudimos guardar el comprobante. Probá de nuevo.') + '</div>';
+      btn.disabled = false;
+      btn.textContent = 'Enviar comprobante';
+      return;
+    }
+
+    pedidoActual.referencia = referencia;
+    pedidoActual.email = email;
+    document.getElementById('ok_email').textContent = email;
+    document.getElementById('ok_ref').textContent = referencia;
+    mostrarPaso(3);
+  }catch(e){
+    errBox.innerHTML = '<div class="error-box">No pudimos conectar con el servidor. Podés escribirnos por WhatsApp con tu número de pedido: ' + referencia + '.</div>';
   }finally{
     btn.disabled = false;
     btn.textContent = 'Enviar comprobante';
