@@ -3426,7 +3426,11 @@ function calcular(){
   const _hayNum = _camposNum.some(id=>{const el=document.getElementById(id);return el&&el.value!=='';});
   const _haySel = _camposSel.some(id=>{const el=document.getElementById(id);return el&&el.value!=='';});
   const _hayChk = _chkBase.some(id=>{const el=document.getElementById(id);return el&&el.checked;});
-  const _hayDatos = _hayFUM||_hayNum||_haySel||_hayChk;
+  // Módulos clínicos con pestaña propia (Doppler, Altura Uterina, DMG, Vía de
+  // Parto, PFE/Biometría, Gestograma) — si ya cargó datos ahí aunque no haya
+  // tocado el formulario principal, igual hay que calcular (ver merge abajo).
+  const _hayModulos = !!(window.__cavesalModuleResults && Object.keys(window.__cavesalModuleResults).some(function(k){return (window.__cavesalModuleResults[k]||[]).length>0;}));
+  const _hayDatos = _hayFUM||_hayNum||_haySel||_hayChk||_hayModulos;
 
   if(!_hayDatos){
     const _res=document.getElementById('results');
@@ -3438,6 +3442,22 @@ function calcular(){
     if(_rp) _rp.style.display='block';
     showTab('resultado');
     return;
+  }
+
+  // ── Incorporar hallazgos de módulos clínicos (Doppler, Altura Uterina, DMG,
+  //    Vía de Parto, PFE/Biometría, Gestograma) que el usuario ya cargó en sus
+  //    propias pestañas — cada módulo ya calculó esto en vivo (oninput) y lo
+  //    guardó en window.__cavesalModuleResults; acá lo volcamos a `findings`
+  //    para que "⚡ Calcular" lo refleje en el panel Resultado Y en lo que lee
+  //    CaVeSal® IA (window.__cavesalCalculoActual más abajo), sin duplicar
+  //    ninguna fórmula clínica — se reusa exactamente lo ya calculado. ──
+  if(window.__cavesalModuleResults){
+    const _domainLabels={doppler:'Doppler fetal',alturaUterina:'Altura Uterina',dmg:'Diabetes Gestacional',viaParto:'Vía de Parto',pfe:'PFE / Percentil de crecimiento',biometria:'Biometría fetal',gestograma:'Gestograma / FUM corregida'};
+    Object.keys(window.__cavesalModuleResults).forEach(function(k){
+      (window.__cavesalModuleResults[k]||[]).forEach(function(f){
+        add(f.domain||_domainLabels[k]||k, f.nivel, f.hallazgo, f.conducta, f.fuente);
+      });
+    });
   }
 
   const edad=val('edad'),fumStr=document.getElementById('fum').value;
@@ -4452,6 +4472,12 @@ function calcular(){
   const egStr=eg?`${eg.sem}+${eg.dias}`:'—';
   const imcStr=imcP?imcP.toFixed(1):imcA?imcA.toFixed(1):'—';
   const iconMap={alto:'⚠️',moderado:'⚡',bajo:'✅'};
+  // EG corregida (Gestograma/ECO) — a pedido de Carlos (2026-09-18): si cargó
+  // datos en la pestaña Gestograma, mostrarla junto a la EG por FUM cruda,
+  // no solo enterrada como hallazgo en el listado de abajo.
+  const gestoEG = window.__cavesalGestogramaEG || null;
+  const egCorrStr = gestoEG ? `${gestoEG.sem}+${gestoEG.dias}` : null;
+  const egCorrLabel = gestoEG && gestoEG.corregida ? 'EG corregida (ECO)' : 'EG (Gestograma)';
 
   let html=`
   <div class="result-header ${maxNivel}">
@@ -4462,6 +4488,7 @@ function calcular(){
     <div class="stat-box"><div class="s-label">EG</div><div class="s-val">${egStr}</div></div>
     <div class="stat-box"><div class="s-label">FPP</div><div class="s-val" style="font-size:.8rem">${fpp}</div></div>
     <div class="stat-box"><div class="s-label">IMC</div><div class="s-val">${imcStr}</div></div>
+    ${egCorrStr?`<div class="stat-box"><div class="s-label">${egCorrLabel}</div><div class="s-val">${egCorrStr}</div></div>`:''}
   </div>`;
 
   html+=`<div style="margin:12px 0;padding:14px;border-radius:14px;background:linear-gradient(135deg,#f5f0ff,#faf7ff);border:1.5px solid #c9b3f5;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
@@ -4697,6 +4724,7 @@ function calcular(){
   // igual que en el puente HC → CaVeSal IA (ia-bridge.ts).
   window.__cavesalCalculoActual = {
     findings, maxNivel, eg, fpp,
+    egCorregida: window.__cavesalGestogramaEG || null,
     imc: (imcP || imcA) ? imcStr : null,
     fum: fumStr || null, edad,
     gestas: val('gesta'), partos: val('partos'), abortos: val('abortos'),
@@ -4778,7 +4806,15 @@ function buildCavesalIAContext(){
 
   return {
     source_module: 'calculadora',
-    scope_authorized: 'calculo_actual',
+    // FIX 2026-09-18: estaba en 'calculo_actual'. El Worker filtra los campos
+    // del payload según scope_authorized (SCOPE_TO_FIELDS en worker.js) —
+    // 'calculo_actual' solo deja pasar risk_calculations, así que aunque acá
+    // abajo SIEMPRE armamos pregnancy_context (con la EG), el Worker lo
+    // descartaba antes de mostrárselo a Haiku. Por eso CaVeSal IA respondía
+    // "depende de la EG" sin usar la EG que la Calculadora sí había mandado.
+    // 'resumen_clinico' es el scope más amplio que ya usa clinical_findings
+    // en este mismo objeto, así que no hay inconsistencia en subirlo acá.
+    scope_authorized: 'resumen_clinico',
     patient_summary: (typeof c.edad === 'number') ? `${c.edad} años` : null,
     pregnancy_context: {
       fum: c.fum,
@@ -4850,6 +4886,8 @@ function syncHTA(){
   extra.style.display=((p&&p>=120)||(d&&d>=80))?'block':'none';
 }
 function calcDextograma(){
+  _cavesalSetModuleResult('gestograma', []);
+  window.__cavesalGestogramaEG = null;
   const fechaCalcStr = document.getElementById('dext_fecha_calc').value;
   const fechaCalc = fechaCalcStr ? new Date(fechaCalcStr) : new Date();
   fechaCalc.setHours(12,0,0,0);
@@ -4945,6 +4983,12 @@ function calcDextograma(){
   var lunarEl=document.getElementById('dext_eg_meses_lunar');
   if(lunarEl)lunarEl.textContent=mesesObs+' '+(mesesObs===1?'mes':'meses')+' y '+diasMes+' días (lunares)';
   document.getElementById('dext_fum_usada').textContent = fumLabel;
+  _cavesalSetModuleResult('gestograma', [{nivel:corrType==='corrige'?'moderado':'bajo', hallazgo:'EG actual: '+egSem+' sem '+egDiasr+' días ('+fumLabel+')', conducta:corrMsg?_cavesalStripHtml(corrMsg):'', fuente:'Gestograma CaVeSal®'}]);
+  // A pedido de Carlos (2026-09-18): exponer la EG del Gestograma (que puede
+  // estar corregida por ECO) por separado, para que calcular() la muestre
+  // junto a la EG por FUM en el encabezado del panel Resultado — hoy solo
+  // mostraba la EG cruda por FUM aunque hubiera una corrección cargada acá.
+  window.__cavesalGestogramaEG = {sem: egSem, dias: egDiasr, label: fumLabel, corregida: (corrType==='corrige')};
 
   // Calendario semana 22→42 relativo a FUM
   let gridHTML = '';
@@ -5111,6 +5155,15 @@ function calcACM(){
 }
 
 // ════ DOPPLER PERCENTILES (AU, ACM, DV, ICP) ════
+// ════ Registro compartido de hallazgos por módulo (Doppler/AU/DMG/VíaParto/PFE/Biometría/Gestograma) ════
+// Alimenta window.__cavesalModuleResults, que calcular() vuelca a `findings`
+// para que el panel Resultado y CaVeSal® IA vean también lo cargado en estas
+// pestañas (ver bloque de merge dentro de calcular()).
+function _cavesalStripHtml(s){return (s||'').replace(/<[^>]+>/g,' ').replace(/&nbsp;/g,' ').replace(/\s+/g,' ').trim();}
+function _cavesalSetModuleResult(key, arr){
+  window.__cavesalModuleResults = window.__cavesalModuleResults || {};
+  window.__cavesalModuleResults[key] = arr;
+}
 function calcDopplerPercentil(){
   var _egSem=parseFloat((document.getElementById('dopp_eg_sem')||{}).value)||null;
   var _egDias=parseFloat((document.getElementById('dopp_eg_dias')||{}).value)||0;
@@ -5128,6 +5181,14 @@ function calcDopplerPercentil(){
   var result=document.getElementById('dopp_result');
   var icpDisp=document.getElementById('dopp_icp_display');
   if(!result)return;
+  _cavesalSetModuleResult('doppler', []);
+  var _doppFindings=[];
+  // Texto de conducta cuando un parámetro Doppler individual sale normal — a
+  // pedido de Carlos (2026-09-18): un hallazgo normal también debe traer
+  // conducta explícita, sin declarar el embarazo "de bajo riesgo" en términos
+  // absolutos (eso puede estar determinado por otros factores maternos, ej.
+  // preeclampsia, que ya se reflejan en otros hallazgos del panel).
+  var _doppConductaNormal='Sin alteración en este parámetro. Continuar vigilancia fetal habitual; la frecuencia de controles y el nivel de riesgo global del embarazo dependen del conjunto de hallazgos maternos y fetales, no de este dato aislado.';
   // ── ICP: P5 ajustado por EG (Baschat 2003 / MFB) ──
   // El ICP NO tiene umbral fijo. P5 varía con la EG.
   // Ref: Baschat AA, Gembruch U. Ultrasound Obstet Gynecol 2003;22:529-536
@@ -5268,6 +5329,7 @@ function calcDopplerPercentil(){
     var interp=cls==='alto'?'AUMENTADO >P95 — resistencia placentaria':'Normal';
     html+='<div class="alerta-box '+cls+'" style="margin-bottom:6px"><strong>AU PI: '+au+'</strong>'+(refAU?' (p95: '+refAU+(percAU!==null?' · ~P'+percAU:'')+')':'')+'<br><small>'+interp+'</small></div>';
     if(cls!=='verde')findings.push('AU elevada');
+    _doppFindings.push({nivel:cls==='alto'?'alto':'bajo',hallazgo:'AU-PI '+au+(refAU?' (p95 EG'+auEgR+': '+refAU+(percAU!==null?' · ~P'+percAU:'')+')':''),conducta:cls==='alto'?interp:_doppConductaNormal,fuente:'Ciobanu UOG 2019'});
   }
   // ACM PI
   if(acm){
@@ -5286,6 +5348,7 @@ function calcDopplerPercentil(){
     var interp2=cls2==='alto'?'DISMINUIDO <P5 — vasodilatación cerebral':'Normal';
     html+='<div class="alerta-box '+cls2+'" style="margin-bottom:6px"><strong>ACM PI: '+acm+'</strong>'+(refACM?' (p5: '+refACM+(percACM!==null?' · ~P'+percACM:'')+')':'')+'<br><small>'+interp2+'</small></div>';
     if(cls2!=='verde')findings.push('ACM disminuida');
+    _doppFindings.push({nivel:cls2==='alto'?'alto':'bajo',hallazgo:'ACM-PI '+acm+(refACM?' (p5 EG'+acmEgR+': '+refACM+(percACM!==null?' · ~P'+percACM:'')+')':''),conducta:cls2==='alto'?interp2:_doppConductaNormal,fuente:'Ciobanu UOG 2019'});
   }
   // ICP — umbral P5 dinámico por EG (Baschat 2003 / MFB)
   if(au&&acm){
@@ -5302,6 +5365,7 @@ function calcDopplerPercentil(){
       +'<strong>ICP (ACM/AU): '+icp2+'</strong> <span style="font-size:.7rem;opacity:.8">P5='+icpRef2+' a '+Math.round(eg||0)+'sem</span>'
       +'<br><small>'+interp3+'</small></div>';
     if(cls3!=='verde')findings.push('ICP <P5');
+    _doppFindings.push({nivel:cls3==='alto'?'alto':cls3==='moder'?'moderado':'bajo',hallazgo:'ICP (ACM/AU) '+icp2,conducta:cls3==='verde'?_doppConductaNormal:interp3,fuente:'Baschat UOG 2003'});
   }
   // ACM PSV (anemia)
   if(psv){
@@ -5312,6 +5376,7 @@ function calcDopplerPercentil(){
       var interp4=cls4==='alto'?'MoM ≥1.50 — ANEMIA. Cordocentesis urgente':cls4==='moder'?'MoM 1.29-1.49 — vigilancia':'Normal';
       html+='<div class="alerta-box '+cls4+'" style="margin-bottom:6px"><strong>ACM PSV: '+psv+' cm/s · MoM: '+mom2+'</strong><br><small>'+interp4+'</small></div>';
       if(cls4!=='verde')findings.push('ACM PSV elevada');
+      _doppFindings.push({nivel:cls4==='alto'?'alto':cls4==='moder'?'moderado':'bajo',hallazgo:'ACM-PSV '+psv+' cm/s · MoM '+mom2,conducta:cls4==='verde'?_doppConductaNormal:interp4,fuente:'Mari NEJM 2000'});
     }
   }
   // DV
@@ -5320,6 +5385,7 @@ function calcDopplerPercentil(){
     var interp5=dv<0?'FLUJO REVERSO — descompensación severa. Finalizar':dv===0?'FLUJO AUSENTE — descompensación severa':dv>1.0?'PIV aumentado — disfunción venosa':'Normal';
     html+='<div class="alerta-box '+cls5+'" style="margin-bottom:6px"><strong>DV PIV: '+dv+'</strong><br><small>'+interp5+'</small></div>';
     if(cls5!=='verde')findings.push('DV alterado');
+    _doppFindings.push({nivel:cls5==='alto'?'alto':cls5==='moder'?'moderado':'bajo',hallazgo:'DV PIV '+dv,conducta:cls5==='verde'?_doppConductaNormal:interp5,fuente:'Baschat UOG 2003'});
   }
 
   // ── RT — Regurgitación Tricuspídea 2T/3T ──
@@ -5341,6 +5407,7 @@ function calcDopplerPercentil(){
       html+='<div class="alerta-box '+clsRT+'" style="margin-bottom:6px"><strong>Regurgitacion tricuspidea: '+rt+'</strong><br><small>'+interpRT+'</small></div>';
       findings.push('RT '+rt);
     }
+    _doppFindings.push({nivel:clsRT==='alto'?'alto':clsRT==='moder'?'moderado':'bajo',hallazgo:'Regurgitación tricuspídea: '+rt,conducta:interpRT,fuente:'Doppler cardíaco fetal'});
   }
 
   // ── AoI — Istmo Aortico ──
@@ -5364,6 +5431,7 @@ function calcDopplerPercentil(){
       html+='<div class="alerta-box '+clsAoI+'" style="margin-bottom:6px"><strong>Istmo Aortico</strong><br><small>'+interpAoI+'</small></div>';
       findings.push('AoI alterado');
     }
+    _doppFindings.push({nivel:clsAoI==='alto'?'alto':clsAoI==='moder'?'moderado':'bajo',hallazgo:'Istmo aórtico'+(aoi!==null?' IP '+aoi:'')+(flujoDesc?' · flujo '+flujoDesc:''),conducta:interpAoI,fuente:'Doppler istmo aórtico'});
   }
 
   // ── VUP — Vena Umbilical Pulsatil ──
@@ -5374,6 +5442,7 @@ function calcDopplerPercentil(){
       : 'Vena umbilical pulsatil leve — vigilancia intensiva. Repetir Doppler en 24h. Considerar finalizacion segun EG y contexto clinico.';
     html+='<div class="alerta-box '+clsVUP+'" style="margin-bottom:6px"><strong>Vena umbilical pulsatil: '+vup+'</strong><br><small>'+interpVUP+'</small></div>';
     findings.push('VUP '+vup);
+    _doppFindings.push({nivel:clsVUP==='alto'?'alto':'moderado',hallazgo:'Vena umbilical pulsátil: '+vup,conducta:interpVUP,fuente:'Doppler venoso'});
   }
 
   // ── Conductas por EG cuando hay Doppler avanzado alterado ──
@@ -5381,23 +5450,26 @@ function calcDopplerPercentil(){
     return f.indexOf('RT ')>=0 || f.indexOf('AoI')>=0 || f.indexOf('VUP')>=0 || f.indexOf('DV')>=0;
   });
   if(dopp_avanzado_alto && egSemDopp){
+    var _doppAvHTML='';
     if(egSemDopp < 32){
-      html+='<div class="alerta-box alto" style="margin-top:8px"><strong>⚠️ Doppler avanzado alterado — EG ' + egSemDopp + ' sem (&lt;32 sem)</strong><br>'
+      _doppAvHTML='<div class="alerta-box alto" style="margin-top:8px"><strong>⚠️ Doppler avanzado alterado — EG ' + egSemDopp + ' sem (&lt;32 sem)</strong><br>'
         +'<span style="font-size:.74rem;line-height:1.6">'
         +'<strong>Maduracion pulmonar:</strong> Betametasona 12mg IM c/24h x2 dosis (si no recibio en las ultimas 2 sem). Ref: ACOG PB 127 / RCOG.<br>'
         +'<strong>Neuroproteccion:</strong> Sulfato de magnesio 4g IV en 20 min + 1g/h hasta el parto. Ref: ACOG PB 455 / WHO 2015.<br>'
         +'<strong>Finalizacion:</strong> Coordinar con neonatologia. Derivar a centro de alta complejidad.'
         +'</span></div>';
     } else if(egSemDopp < 34){
-      html+='<div class="alerta-box alto" style="margin-top:8px"><strong>⚠️ Doppler avanzado alterado — EG ' + egSemDopp + ' sem (&lt;34 sem)</strong><br>'
+      _doppAvHTML='<div class="alerta-box alto" style="margin-top:8px"><strong>⚠️ Doppler avanzado alterado — EG ' + egSemDopp + ' sem (&lt;34 sem)</strong><br>'
         +'<span style="font-size:.74rem;line-height:1.6">'
         +'<strong>Maduracion pulmonar:</strong> Betametasona 12mg IM c/24h x2 dosis. Ref: ACOG PB 127 / RCOG.<br>'
         +'<strong>Finalizacion:</strong> Segun evolucion clinica y biofisico. Coordinar con neonatologia.'
         +'</span></div>';
     } else {
-      html+='<div class="alerta-box moder" style="margin-top:8px"><strong>Doppler avanzado alterado — EG ' + egSemDopp + ' sem (≥34 sem)</strong><br>'
+      _doppAvHTML='<div class="alerta-box moder" style="margin-top:8px"><strong>Doppler avanzado alterado — EG ' + egSemDopp + ' sem (≥34 sem)</strong><br>'
         +'<span style="font-size:.74rem">Finalizacion segun contexto clinico. Coordinar con neonatologia. Biofisico de urgencia.</span></div>';
     }
+    html+=_doppAvHTML;
+    _doppFindings.push({nivel:egSemDopp<34?'alto':'moderado',hallazgo:'Doppler avanzado alterado (EG '+egSemDopp+' sem)',conducta:_cavesalStripHtml(_doppAvHTML),fuente:'ACOG PB 127/455 · RCOG · WHO 2015'});
   }
 
   if(!au&&!acm&&!psv&&dv===null&&!rt&&aoi===null&&!vup){
@@ -5405,6 +5477,7 @@ function calcDopplerPercentil(){
   }
   // Guardar estado Doppler global para que calcPFE() lo use en clasificación
   window._dopplerFindings = findings;
+  _cavesalSetModuleResult('doppler', _doppFindings);
   window._dopplerAU_alto = au && findings.includes('AU elevada');
   window._dopplerICP_alto = au && acm && findings.includes('ICP <P5');
   window._dopplerACM_bajo = acm && findings.includes('ACM disminuida');
@@ -5494,6 +5567,7 @@ function calcAU(){
   var eg=leerEGDecimal('au_eg','au_eg_dias');
   var res=document.getElementById('au_result');
   if(!res)return;
+  _cavesalSetModuleResult('alturaUterina', []);
   if(!au||!eg){res.style.display='none';return;}
   var au_mm=au*10;
   var egR=Math.round(eg);
@@ -5521,6 +5595,7 @@ function calcAU(){
     +'</div>'
     +'<div style="font-size:.64rem;color:var(--slate)">Ref: Gomes 2001 / CLAP-OPS · McDonald: AU(cm)≈EG±2 (20-36 sem)</div>';
   res.innerHTML=html;res.style.display='block';
+  _cavesalSetModuleResult('alturaUterina', [{nivel:cls==='alto'?'alto':cls==='moder'?'moderado':'bajo', hallazgo:interp+' ('+au+' cm, percentil '+perc+', EG '+semDias(eg)+')', conducta:conducta, fuente:'Gomes 2001 / CLAP-OPS'}]);
 }
 
 // ════ DMG — Diabetes Mellitus Gestacional (IADPSG/ALAD/ADA) ════
@@ -5539,6 +5614,7 @@ function setDmgRef(r){
 function calcDMG(){
   var res=document.getElementById('dmg_result');
   if(!res)return;
+  _cavesalSetModuleResult('dmg', []);
   var ayuno=parseFloat((document.getElementById('dmg_ayuno')||{}).value)||null;
   var h1=parseFloat((document.getElementById('dmg_1h')||{}).value)||null;
   var h2=parseFloat((document.getElementById('dmg_2h')||{}).value)||null;
@@ -5606,6 +5682,9 @@ function calcDMG(){
   criterios.forEach(function(c){html+='<div style="font-size:.76rem;margin-bottom:3px">• '+c+'</div>';});
   html+='</div>'+guiaDG+'<div style="font-size:.64rem;color:var(--slate);margin-top:6px">Ref: IADPSG 2010 · ADA 2026 · ALAD 2019 · HbA1c NO es criterio DMG</div>';
   res.innerHTML=html;res.style.display='block';
+  if(dx||criterios.length){
+    _cavesalSetModuleResult('dmg', [{nivel:cls==='alto'?'alto':cls==='moder'?'moderado':'bajo', hallazgo:(dx||'Sin criterios de DMG')+(criterios.length?' — '+criterios.join('; '):''), conducta:_cavesalStripHtml(guiaDG), fuente:'IADPSG 2010 · ADA 2026 · ALAD 2019'}]);
+  }
 }
 
 // ════ GANANCIA PONDERAL — IOM 2009 / ACOG ════
@@ -5646,6 +5725,7 @@ function calcGanancia(){
 
 function calcPFE(){
   let peso = null, perc = null, eg = null;
+  _cavesalSetModuleResult('pfe', []);
 
   if(pfeMode === 'directo'){
     peso = parseFloat(document.getElementById('pfe_peso_d').value)||null;
@@ -5783,6 +5863,10 @@ function calcPFE(){
 
   // Store for vía de parto
   window._pfe = {peso, perc};
+  if(clasif){
+    const _pfeNivel = clasifCol==='var(--red)'?'alto':clasifCol==='var(--amber)'?'moderado':'bajo';
+    _cavesalSetModuleResult('pfe', [{nivel:_pfeNivel, hallazgo:'PFE '+peso.toLocaleString('es')+' g'+(perc!==null?' · percentil '+percLabel:'')+' — '+clasif, conducta:_cavesalStripHtml(alertaHTML), fuente:'Figueras EJOGR 2008 · MFB 2024 · ISUOG'}]);
+  }
   calcViaParto();
 }
 
@@ -5803,6 +5887,7 @@ function calcViaParto(){
   const cicatriz = document.getElementById('vp_cicatriz').value;
   const indicCes = document.getElementById('vp_indic_ces').value;
   const pfe = window._pfe || null;
+  _cavesalSetModuleResult('viaParto', []);
 
   // Show/hide cesárea previa block
   document.getElementById('bloque_cesarea_previa').style.display = ces>0?'block':'none';
@@ -5976,6 +6061,10 @@ function calcViaParto(){
   }
   document.getElementById('vp_result').innerHTML=html;
   document.getElementById('vp_result').style.display='block';
+  if(tipo && tipo!=='evaluar'){
+    const _vpNivel = tipo==='cesarea'?'alto':tipo==='pvdc'?'moderado':'bajo';
+    _cavesalSetModuleResult('viaParto', [{nivel:_vpNivel, hallazgo:titulo, conducta:items.join('; ')+(alertas.length?' · '+_cavesalStripHtml(alertas.join(' ')):''), fuente:'ACOG · Robson · Grobman 2007'}]);
+  }
 }
 
 // ════════════════════════════════════════════════
@@ -6487,6 +6576,7 @@ function semDias(semFloat){
 function calcBiom(){
   // Guard: if biometria page is locked/missing, skip
   if(!document.getElementById('bio_biom_results')) return;
+  _cavesalSetModuleResult('biometria', []);
   const dbp = parseFloat(document.getElementById('bio_dbp').value)||null;
   const cc  = parseFloat(document.getElementById('bio_cc_biom').value)||null;
   const ca  = parseFloat(document.getElementById('bio_ca_biom').value)||null;
@@ -6529,12 +6619,15 @@ function calcBiom(){
     if(diff > 14){
       disc.className = 'bio-alerta show alto';
       disc.innerHTML = `⚠️ <strong>Discordancia significativa entre parámetros (${Math.round(diff)} días):</strong> Evaluar asimetría fetal. Considerar RCIU asimétrico si CA es el parámetro rezagado. Usar pestaña "Asimetría LF/CA" para análisis.`;
+      _cavesalSetModuleResult('biometria', [{nivel:'alto', hallazgo:'Discordancia significativa entre parámetros biométricos ('+Math.round(diff)+' días)', conducta:_cavesalStripHtml(disc.innerHTML), fuente:'Biometría fetal 2T/3T'}]);
     } else if(diff > 7){
       disc.className = 'bio-alerta show moder';
       disc.innerHTML = `⚡ Discordancia moderada entre parámetros (${Math.round(diff)} días). Vigilar evolución.`;
+      _cavesalSetModuleResult('biometria', [{nivel:'moderado', hallazgo:'Discordancia moderada entre parámetros biométricos ('+Math.round(diff)+' días)', conducta:_cavesalStripHtml(disc.innerHTML), fuente:'Biometría fetal 2T/3T'}]);
     } else {
       disc.className = 'bio-alerta show ok';
       disc.innerHTML = `✅ Biometrías concordantes (diferencia ${Math.round(diff)} días). Crecimiento simétrico.`;
+      _cavesalSetModuleResult('biometria', [{nivel:'bajo', hallazgo:'Biometrías concordantes (diferencia '+Math.round(diff)+' días)', conducta:'', fuente:'Biometría fetal 2T/3T'}]);
     }
   } else {
     disc.className = 'bio-alerta';
