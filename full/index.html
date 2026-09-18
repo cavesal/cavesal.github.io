@@ -4806,15 +4806,12 @@ function buildCavesalIAContext(){
 
   return {
     source_module: 'calculadora',
-    // FIX 2026-09-18: estaba en 'calculo_actual'. El Worker filtra los campos
-    // del payload según scope_authorized (SCOPE_TO_FIELDS en worker.js) —
-    // 'calculo_actual' solo deja pasar risk_calculations, así que aunque acá
-    // abajo SIEMPRE armamos pregnancy_context (con la EG), el Worker lo
-    // descartaba antes de mostrárselo a Haiku. Por eso CaVeSal IA respondía
-    // "depende de la EG" sin usar la EG que la Calculadora sí había mandado.
-    // 'resumen_clinico' es el scope más amplio que ya usa clinical_findings
-    // en este mismo objeto, así que no hay inconsistencia en subirlo acá.
-    scope_authorized: 'resumen_clinico',
+    // scope_authorized queda en 'calculo_actual' (diseño original, confirmado
+    // funcionando en producción el 2026-09-11) — el fix real para que la EG
+    // le llegue a CaVeSal IA va en worker.js (SCOPE_TO_FIELDS.calculo_actual
+    // restaurado a incluir clinical_findings + pregnancy_context el
+    // 2026-09-18, ver comentario ahí). No hace falta ampliar el scope acá.
+    scope_authorized: 'calculo_actual',
     patient_summary: (typeof c.edad === 'number') ? `${c.edad} años` : null,
     pregnancy_context: {
       fum: c.fum,
