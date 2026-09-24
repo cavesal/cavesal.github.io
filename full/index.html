@@ -756,10 +756,10 @@ document.addEventListener('DOMContentLoaded', function(){
     </button>
   </div>
   <div class="tabs">
-    <button class="tab active" onclick="showTab('formulario')">📋 Formulario</button>
+    <button class="tab active" onclick="showTab('formulario')">📋 Ficha prenatal</button>
     <button class="tab" onclick="showTab('resultado')">📊 Resultado</button>
     <button class="tab" onclick="showTab('calculadoras')">🗓️ Gestograma · Parto</button>
-    <button class="tab" onclick="showTab('biometria')">📐 Biometría</button>
+    <button class="tab" onclick="showTab('biometria')">🔊 Ecografía</button>
     <button class="tab" onclick="showTab('pacientes')">👤 Pacientes</button>
     <button class="tab" onclick="showTab('acerca')">ℹ️ Acerca</button>
   </div>
@@ -779,6 +779,8 @@ document.addEventListener('DOMContentLoaded', function(){
     📋 Cargar ejemplo
   </button>
 </div>
+<div style="background:var(--teal-lt);border:1px solid var(--teal);border-radius:10px;padding:10px 14px;margin-bottom:10px;font-size:.8rem;color:var(--navy)">📋 Cargá los datos que tengas y presioná <b>⚡ Calcular</b> para ver la conducta clínica sugerida — no hace falta completar todo.</div>
+<button class="btn-calc" onclick="calcular()">⚡ Calcular riesgo prenatal completo</button>
 
 
 <!-- 1. DATOS GENERALES -->
@@ -1549,6 +1551,722 @@ document.addEventListener('DOMContentLoaded', function(){
   </div>
 </div>
 
+<!-- SECCIÓN METABOLISMO / DMG / GANANCIA PONDERAL -->
+<div class="section-card">
+  <div class="section-head" onclick="toggleSection(this)">
+    <span class="icon">🍬</span><h2>Metabolismo · Diabetes · Ganancia ponderal</h2><span class="chevron">▼</span>
+  </div>
+  <div class="section-body" style="padding:14px">
+
+    <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:8px">🩸 Diagnóstico DMG</div>
+    <div style="margin-bottom:10px;padding:8px;background:var(--mist);border-radius:10px;">
+      <div style="font-size:.72rem;color:var(--slate);margin-bottom:6px;font-weight:600;">📋 Protocolo:</div>
+      <div style="display:flex;gap:8px;margin-bottom:4px;">
+        <button id="dmg_btn_iadpsg" onclick="setDmgRef('iadpsg')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.66rem;font-weight:700;cursor:pointer;background:var(--teal);color:#fff;">IADPSG/ALAD/ADA 1 paso (75g)</button>
+        <button id="dmg_btn_ada2p" onclick="setDmgRef('ada2p')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.66rem;font-weight:700;cursor:pointer;background:var(--mist);color:var(--slate);">ADA 2 pasos (100g)</button>
+      </div>
+      <div style="font-size:.63rem;color:var(--slate);font-style:italic;">1 valor alterado = DMG (1 paso) · ≥2 valores = DMG (2 pasos)</div>
+    </div>
+
+    <div id="dmg_paso1_ada" style="display:none">
+      <div class="field"><label>Paso 1 — Glucosa 50g sin ayuno (mg/dL)</label>
+        <input type="number" id="dmg_50g" placeholder="umbral ≥130" step="0.1" oninput="calcDMG()">
+      </div>
+    </div>
+
+    <div class="row2">
+      <div class="field"><label>Glucemia ayunas (mg/dL)</label>
+        <input type="number" id="dmg_ayuno" placeholder="ej. 88" step="0.1" oninput="calcDMG()">
+        <div class="hint">IADPSG ≥92 · ADA 2p ≥95 · ≥126=DM</div>
+      </div>
+      <div class="field"><label>1 hora (mg/dL)</label>
+        <input type="number" id="dmg_1h" placeholder="ej. 155" step="0.1" oninput="calcDMG()">
+        <div class="hint">≥180</div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>2 horas (mg/dL)</label>
+        <input type="number" id="dmg_2h" placeholder="ej. 140" step="0.1" oninput="calcDMG()">
+        <div class="hint">IADPSG ≥153 · ADA2p ≥155</div>
+      </div>
+      <div class="field" id="dmg_3h_field" style="display:none">
+        <label>3 horas (mg/dL)</label>
+        <input type="number" id="dmg_3h" placeholder="solo 100g" step="0.1" oninput="calcDMG()">
+        <div class="hint">≥140</div>
+      </div>
+    </div>
+    <div class="field"><label>HbA1c (%)</label>
+      <input type="number" id="dmg_hba1c" placeholder="ej. 5.4" step="0.1" oninput="calcDMG()">
+      <div class="hint">No es criterio DMG · ≥6.5%=DM · 5.7-6.4%=prediabetes</div>
+    </div>
+    <div id="dmg_result" style="display:none;margin-top:8px"></div>
+
+    <hr style="margin:14px 0;border:none;border-top:1px solid var(--border)">
+
+    <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:8px">⚖️ Ganancia ponderal materna</div>
+    <div class="row2">
+      <div class="field"><label>Peso pregestacional (kg)</label>
+        <input type="number" id="gan_peso_pre" placeholder="ej. 65" step="0.1" oninput="calcGanancia()">
+      </div>
+      <div class="field"><label>Talla (cm)</label>
+        <input type="number" id="gan_talla" placeholder="ej. 160" step="0.1" oninput="calcGanancia()">
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Peso actual (kg)</label>
+        <input type="number" id="gan_peso_actual" placeholder="ej. 72" step="0.1" oninput="calcGanancia()">
+      </div>
+      <div class="field"><label>EG actual (sem + días)</label>
+        <div style="display:flex;gap:6px;align-items:center">
+          <input type="number" id="gan_eg" placeholder="ss" min="6" max="42" step="1" style="width:60px" oninput="calcGanancia()">
+          <span style="font-size:.8rem;color:var(--slate)">+</span>
+          <input type="number" id="gan_eg_dias" placeholder="dd" min="0" max="6" step="1" style="width:54px" oninput="calcGanancia()">
+        </div>
+        <div class="hint">Semanas + días (ej. 28+3)</div>
+      </div>
+    </div>
+    <div id="gan_result" style="display:none;margin-top:8px"></div>
+  </div>
+</div>
+<button class="btn-calc" onclick="calcular()">⚡ Calcular riesgo prenatal completo</button>
+</div><!-- /formulario -->
+
+<!-- ════ CALCULADORAS: EG · VÍA DE PARTO ════ -->
+<div id="page-calculadoras" class="page">
+
+<!-- A. DEXTOGRAMA — EG Y CALENDARIO -->
+<div class="calc-card">
+  <h2>🗓️ Edad gestacional y calendario</h2>
+
+  <div class="radio-group">
+    <label class="radio-opt selected" id="lbl_modo_fum" onclick="setModoEG('fum')">
+      <input type="radio" name="modoEG" id="modo_fum" checked> Por FUM
+    </label>
+    <label class="radio-opt" id="lbl_modo_eco" onclick="setModoEG('eco')">
+      <input type="radio" name="modoEG" id="modo_eco"> Por ECO precoz
+    </label>
+  </div>
+
+  <!-- MODO FUM -->
+  <div id="bloque_fum">
+    <div class="field"><label>FUM (fecha última menstruación)</label>
+      <input type="date" id="dext_fum" oninput="calcDextograma();syncFUM('dext_fum')">
+    </div>
+  </div>
+
+  <!-- MODO ECO -->
+  <div id="bloque_eco" style="display:none">
+    <div class="row2">
+      <div class="field"><label>Fecha de la ECO precoz</label>
+        <input type="date" id="dext_eco_fecha" oninput="calcDextograma()">
+      </div>
+      <div class="field"><label>EG en esa ECO (sem+días)</label>
+        <input type="text" id="dext_eco_eg" placeholder="ej. 8+3" oninput="calcDextograma()">
+        <div class="hint">Formato: semanas+días (8+3, 12+1, etc.)</div>
+      </div>
+    </div>
+    <select id="dext_eco_trim" style="display:none"><option value="1" selected></option><option value="2"></option><option value="3"></option></select>
+    <div class="note-box" style="font-size:.74rem;margin-bottom:6px;line-height:1.7">
+      📌 <strong>Criterios de corrección de FUM por ECO:</strong><br>
+      🟢 <strong>1T (&lt;14 sem):</strong> Corregir FUM si diferencia ≥5 días (FUM corregido = EG por ECO)<br>
+      🟡 <strong>2T (14–28 sem):</strong> Corregir FUM si diferencia ≥7 días<br>
+      🔴 <strong>3T (&gt;28 sem):</strong> NO corregir FUM. Usar CC, LF o Cerebelo como parámetro aislado para EG más confiable. La biometría del 3T no es confiable para corregir amenorrea.
+    </div>
+    <div id="correccion_box"></div>
+  </div>
+
+  <!-- CALCULAR PARA FECHA -->
+  <div class="field" style="margin-top:4px">
+    <label>Calcular para fecha</label>
+    <input type="date" id="dext_fecha_calc" oninput="calcDextograma()">
+    <div class="hint">Por defecto: hoy</div>
+  </div>
+
+  <!-- RESULTADO EG -->
+  <div id="dext_result" style="display:none">
+    <div class="eg-result">
+      <div class="eg-main" id="dext_eg_sem">—</div>
+      <div class="eg-sub" id="dext_eg_meses">—</div>
+      <div class="eg-sub" id="dext_eg_meses_lunar" style="font-size:.68rem;color:rgba(255,255,255,.9);font-style:italic;">—</div>
+      <div class="eg-fum" id="dext_fum_usada">—</div>
+    </div>
+
+    <div class="semanas-grid" id="dext_semanas"></div>
+
+    <!-- CALCULADOR INVERSO -->
+    <div class="div-sep"></div>
+    <p style="font-size:.78rem;font-weight:700;color:var(--slate);margin-bottom:8px">¿Cuándo cumple X semanas?</p>
+    <div class="cumple-row">
+      <div class="field" style="flex:1;margin-bottom:0">
+        <label>Semana</label>
+        <input type="number" id="dext_cumple_sem" placeholder="ej. 34" min="1" max="42" oninput="calcCumple()">
+      </div>
+      <div class="field" style="flex:1;margin-bottom:0">
+        <label>+ días</label>
+        <input type="number" id="dext_cumple_dias" placeholder="0" min="0" max="6" oninput="calcCumple()">
+      </div>
+    </div>
+    <div id="dext_cumple_result"></div>
+  </div>
+</div>
+
+
+<!-- SUPLEMENTACIÓN PRENATAL -->
+<div class="calc-card">
+  <h2 style="font-size:.92rem;font-weight:700;color:var(--navy);margin-bottom:4px;display:flex;align-items:center;gap:8px">💊 Suplementación prenatal</h2>
+  <p style="font-size:.75rem;color:var(--slate);margin-bottom:12px">Guías OMS · ACOG · NICE · FIGO · Endocrine Society 2024 · EBCOG 2024</p>
+
+  <!-- ÁCIDO FÓLICO / METILFOLATO -->
+  <div class="suple-expand-card">
+    <div class="suple-expand-head" onclick="toggleSuple(this)">
+      <span style="font-size:1.1rem">🟢</span>
+      <div style="flex:1"><div class="suple-expand-title">Ácido fólico / Metilfolato</div><div class="suple-expand-sub">Periconcepcional · Todo el embarazo</div></div>
+      <span class="suple-chevron">▼</span>
+    </div>
+    <div class="suple-expand-body">
+      <div class="note-box" style="margin-bottom:10px">Iniciar <strong>al menos 1 mes antes de la concepción</strong> y continuar durante el embarazo. La síntesis de tubo neural ocurre en los días 18–26 post-concepción.</div>
+      <table class="suple-table">
+        <tr><th>Perfil</th><th>Dosis</th><th>Forma</th></tr>
+        <tr><td>Sin factores de riesgo</td><td><strong>400 µg/día</strong></td><td>Ácido fólico</td></tr>
+        <tr class="suple-alto"><td>Alto riesgo DTN (antecedente hijo afecto, epilepsia con antifolatos, obesidad mórbida, DM mal controlada)</td><td><strong>4–5 mg/día</strong></td><td>Ácido fólico</td></tr>
+        <tr><td>Polimorfismo MTHFR documentado</td><td><strong>400–800 µg/día</strong></td><td>Metilfolato (5-MTHF)</td></tr>
+      </table>
+      <div class="bio-ref">📚 OMS · NICE · ACOG · FIGO. Nota: muchas guías ya establecen 4–5 mg (no 800 µg) para alto riesgo. El metilfolato (5-MTHF) se recomienda en portadoras de variante MTHFR C677T homocigota documentada.</div>
+    </div>
+  </div>
+
+  <!-- HIERRO -->
+  <div class="suple-expand-card">
+    <div class="suple-expand-head" onclick="toggleSuple(this)">
+      <span style="font-size:1.1rem">🔴</span>
+      <div style="flex:1"><div class="suple-expand-title">Hierro</div><div class="suple-expand-sub">Universal + terapéutico según anemia</div></div>
+      <span class="suple-chevron">▼</span>
+    </div>
+    <div class="suple-expand-body">
+      <div class="note-box" style="margin-bottom:10px"><strong>Cribado recomendado:</strong> Hb en 1ª visita + sem 24–28 · Ferritina si sospecha déficit (&lt;15–30 µg/L) · Saturación transferrina si anemia establecida (&lt;16%)</div>
+      <table class="suple-table">
+        <tr><th>Indicación</th><th>Hierro elemental</th><th>Equivalente quelado</th></tr>
+        <tr><td>Profilaxis universal (OMS/FIGO)</td><td><strong>30–60 mg/día</strong></td><td>~150–300 mg bisglicinato</td></tr>
+        <tr><td>Déficit sin anemia</td><td><strong>25–30 mg/día</strong></td><td>~150 mg bisglicinato</td></tr>
+        <tr class="suple-moder"><td>Anemia leve (Hb 9–10.9 g/dL)</td><td><strong>30–60 mg/día</strong></td><td>~150–300 mg bisglicinato</td></tr>
+        <tr class="suple-alto"><td>Anemia moderada (Hb 7–8.9 g/dL)</td><td><strong>60–80 mg/día</strong></td><td>~300 mg bisglicinato</td></tr>
+        <tr class="suple-alto"><td>Anemia grave / intolerancia oral</td><td colspan="2"><strong>Hierro IV</strong> (sacarosa o carboxymaltosa) — desde 2T</td></tr>
+      </table>
+      <div class="suple-highlight">💡 <strong>Hierro quelado (bisglicinato ferroso):</strong> Absorción independiente del pH gástrico · Menor elevación de hepcidina · Mucho mejor tolerancia digestiva. 25–30 mg quelado ≈ 60 mg sulfato ferroso funcionalmente.</div>
+      <div class="bio-ref">📚 OMS · FIGO · ACOG · CDC. Hb normal embarazo: &lt;11 g/dL (1T) / &lt;10.5 g/dL (2T-3T). Hierro IV: no en 1T — riesgo teórico. Formulaciones preferidas: hierro sacarosa, ferric carboxymaltosa.</div>
+    </div>
+  </div>
+
+  <!-- CALCIO -->
+  <div class="suple-expand-card">
+    <div class="suple-expand-head" onclick="toggleSuple(this)">
+      <span style="font-size:1.1rem">🦴</span>
+      <div style="flex:1"><div class="suple-expand-title">Calcio</div><div class="suple-expand-sub">Selectivo según escenario clínico</div></div>
+      <span class="suple-chevron">▼</span>
+    </div>
+    <div class="suple-expand-body">
+      <table class="suple-table">
+        <tr><th>Escenario clínico</th><th>Recomendación</th></tr>
+        <tr><td>Dieta normal en país de renta alta</td><td>No suplementar de rutina</td></tr>
+        <tr><td>Vegetariana/vegana o baja ingesta láctea</td><td><strong>500–1000 mg/día</strong></td></tr>
+        <tr class="suple-alto"><td>Alto riesgo PE (primigesta, obesa, HTA crónica, gemelar)</td><td><strong>1000–1500 mg/día + AAS desde 1T</strong></td></tr>
+        <tr><td>Adolescente embarazada</td><td><strong>Sí — requerimientos propios mayores</strong></td></tr>
+        <tr class="suple-moder"><td>País con ingesta poblacional &lt;600 mg/día</td><td>Suplementación universal (OMS)</td></tr>
+      </table>
+      <div class="suple-highlight">⚠️ <strong>Precaución con combinación Calcio + Vitamina D:</strong> Vit D sin déficit + calcio suplementado = riesgo hipercalcemia. Vit D alta (&gt;100 ng/mL) + calcio = contraindicado. Combinar solo si déficit de ambos + alto riesgo PE, monitorizando calcemia.</div>
+      <div class="bio-ref">📚 OMS · ACOG · Cochrane. La suplementación con calcio reduce el riesgo de PE en un 55% en poblaciones con baja ingesta (WHO 2013).</div>
+    </div>
+  </div>
+
+  <!-- VITAMINA D -->
+  <div class="suple-expand-card">
+    <div class="suple-expand-head" onclick="toggleSuple(this)">
+      <span style="font-size:1.1rem">☀️</span>
+      <div style="flex:1"><div class="suple-expand-title">Vitamina D</div><div class="suple-expand-sub">Endocrine Society 2024 · Empírica en embarazo</div></div>
+      <span class="suple-chevron">▼</span>
+    </div>
+    <div class="suple-expand-body">
+      <div class="note-box" style="margin-bottom:10px">Déficit muy prevalente en gestantes — especialmente en invierno y pieles oscuras. Asociado a: PE, DG, pretérmino, CIR, mortalidad neonatal.</div>
+      <table class="suple-table">
+        <tr><th>Contexto</th><th>Dosis orientativa</th></tr>
+        <tr><td>Suplementación prenatal estándar</td><td><strong>1000–2000 UI/día</strong></td></tr>
+        <tr class="suple-moder"><td>Déficit documentado (&lt;20 ng/mL)</td><td><strong>2000–4000 UI/día</strong></td></tr>
+        <tr class="suple-alto"><td>Déficit severo</td><td><strong>Hasta 4000 UI/día</strong> (límite seguro en gestación)</td></tr>
+      </table>
+      <div class="suple-highlight">💡 <strong>Endocrine Society 2024:</strong> Suplementación empírica recomendada. Dosis en ensayos: 600–5000 UI/día · media ponderada ~2500 UI/día. Objetivo: 25-OH-VitD &gt;30 ng/mL.</div>
+      <div class="bio-ref">📚 Endocrine Society 2024 · Cochrane. Nivel sérico objetivo: &gt;30 ng/mL. Nivel tóxico: &gt;100 ng/mL. No combinar con calcio si Vit D normal + calcio suplementado (riesgo hipercalcemia).</div>
+    </div>
+  </div>
+
+  <!-- OMEGA-3 -->
+  <div class="suple-expand-card">
+    <div class="suple-expand-head" onclick="toggleSuple(this)">
+      <span style="font-size:1.1rem">🐟</span>
+      <div style="flex:1"><div class="suple-expand-title">Omega-3 (DHA/EPA)</div><div class="suple-expand-sub">EBCOG 2024 · Reduce pretérmino</div></div>
+      <span class="suple-chevron">▼</span>
+    </div>
+    <div class="suple-expand-body">
+      <div class="note-box" style="margin-bottom:10px"><strong>Cochrane 2018</strong> (19.927 mujeres): ↓42% parto prematuro precoz (&lt;34 sem) · ↓11% PTB global. El beneficio es mayor en mujeres con bajo estatus basal de DHA (ingesta ≤150 mg/día).</div>
+      <table class="suple-table">
+        <tr><th>Perfil clínico</th><th>Dosis recomendada</th></tr>
+        <tr><td>Dieta adecuada en pescado (≥2 raciones/sem)</td><td><strong>250 mg/día DHA+EPA</strong> + 100–200 mg extra DHA</td></tr>
+        <tr class="suple-moder"><td>Baja ingesta de pescado (&lt;2 raciones/sem)</td><td><strong>600–1000 mg/día DHA</strong></td></tr>
+        <tr class="suple-alto"><td>Alto riesgo PTB · Vegetariana · No consume pescado</td><td><strong>800–1000 mg/día DHA</strong> — iniciar antes sem 20</td></tr>
+        <tr class="suple-alto"><td>Gemelar / antecedente PTB</td><td><strong>1000 mg/día DHA</strong> desde preconcepcional</td></tr>
+      </table>
+      <div class="suple-highlight">⚠️ <strong>Precaución:</strong> &gt;3 g/día con AAS antiagregante o trombocitopenia (efecto anticoagulante leve). EFSA: seguro hasta 5 g/día EPA+DHA combinados.</div>
+      <div class="bio-ref">📚 Cochrane 2018 · ORIP trial · EBCOG 2024 ✅ · Australia NHMRC ✅ · EFSA: 350–450 mg/día DHA+EPA · NIH/ODS 2025. OMS/NICE/ACOG: solo dieta con pescado (sin recomendación de suplemento).</div>
+    </div>
+  </div>
+
+  <!-- YODO -->
+  <div class="suple-expand-card">
+    <div class="suple-expand-head" onclick="toggleSuple(this)">
+      <span style="font-size:1.1rem">🧂</span>
+      <div style="flex:1"><div class="suple-expand-title">Yodo</div><div class="suple-expand-sub">Ventana terapéutica más estrecha · Inicio preconcepcional</div></div>
+      <span class="suple-chevron">▼</span>
+    </div>
+    <div class="suple-expand-body">
+      <div class="suple-highlight" style="margin-bottom:10px">⚠️ <strong>Mensaje clave:</strong> El yodo tiene la ventana terapéutica más estrecha de todos los suplementos prenatales. El daño por déficit es IRREVERSIBLE y ocurre en el 1T. Tanto el déficit como el exceso son perjudiciales.</div>
+      <table class="suple-table" style="margin-bottom:8px">
+        <tr><th>Yoduria (µg/L)</th><th>Interpretación</th></tr>
+        <tr class="suple-alto"><td>&lt;150</td><td>⚠️ Insuficiente</td></tr>
+        <tr><td>150–249</td><td>✅ Adecuada</td></tr>
+        <tr><td>250–499</td><td>Más que adecuada</td></tr>
+        <tr class="suple-alto"><td>≥500</td><td>⛔ Excesiva — riesgo hipotiroidismo fetal</td></tr>
+      </table>
+      <table class="suple-table">
+        <tr><th>Perfil</th><th>Conducta</th></tr>
+        <tr><td>Dieta mediterránea con lácteos, pescado y sal yodada</td><td>Valoración individual — muchos expertos: 150–200 µg/día</td></tr>
+        <tr class="suple-alto"><td>Vegetariana/vegana</td><td><strong>Suplementación obligatoria</strong></td></tr>
+        <tr><td>Patología tiroidea (Hashimoto, hipotiroidismo)</td><td>Manejo individualizado con endocrino</td></tr>
+        <tr class="suple-moder"><td>Zona geográfica con déficit conocido</td><td>Suplementación universal desde preconcepcional</td></tr>
+      </table>
+      <div class="bio-ref">📚 OMS: 250 µg/día · ATA: 150 µg suplemento + dieta = 250 µg/día total · RDA (IOM/NIH): 220–290 µg/día gestación. Inicio ideal: preconcepcional o al confirmar embarazo — no esperar 2T.</div>
+    </div>
+  </div>
+
+</div>
+<!-- ALTURA UTERINA (movido desde Ficha Prenatal) -->
+<div class="calc-card">
+  <h2>📏 Altura uterina</h2>
+  <div class="row2">
+    <div class="field"><label>AU medida (cm)</label>
+      <input type="number" id="au_cm" placeholder="ej. 30" step="0.1" oninput="calcAU()">
+      <div class="hint">McDonald · sínfisis-fondo</div>
+    </div>
+    <div class="field"><label>EG (sem + días)</label>
+      <div style="display:flex;gap:6px;align-items:center">
+        <input type="number" id="au_eg" placeholder="ss" min="20" max="42" step="1" style="width:60px" oninput="calcAU()">
+        <span style="font-size:.8rem;color:var(--slate)">+</span>
+        <input type="number" id="au_eg_dias" placeholder="dd" min="0" max="6" step="1" style="width:54px" oninput="calcAU()">
+      </div>
+      <div class="hint">Semanas + días (ej. 32+4)</div>
+    </div>
+  </div>
+  <div id="au_result" style="display:none;margin-top:8px"></div>
+</div>
+<!-- C. VÍA DE PARTO -->
+<div class="calc-card">
+  <h2>🏥 Pronóstico de vía de parto</h2>
+  <div style="margin:8px 0 12px;padding:8px;background:var(--mist);border-radius:10px;">
+    <div style="font-size:.72rem;color:var(--slate);margin-bottom:6px;font-weight:600;">📊 Tabla de percentiles:</div>
+    <div style="display:flex;gap:8px;margin-bottom:4px;">
+      <button id="pfe_tabla_figueras" onclick="setPfeTabla('figueras')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.70rem;font-weight:700;cursor:pointer;background:var(--teal);color:#fff;">Figueras 2008</button>
+      <button id="pfe_tabla_ig21" onclick="setPfeTabla('ig21')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.70rem;font-weight:700;cursor:pointer;background:var(--mist);color:var(--slate);">INTERGROWTH-21</button>
+    </div>
+    <div id="pfe_tabla_label" style="font-size:.66rem;color:var(--teal);font-style:italic;">Figueras 2008 · MFB (recomendado Latinoamérica)</div>
+  </div>
+
+  <!-- PARIDAD -->
+  <p class="sub-title" style="margin-top:0">Paridad y antecedentes</p>
+  <div class="row3">
+    <div class="field"><label>Partos vaginales previos</label>
+      <input type="number" id="vp_pv" placeholder="0" min="0" oninput="calcViaParto()">
+    </div>
+    <div class="field"><label>Cesáreas previas</label>
+      <input type="number" id="vp_ces" placeholder="0" min="0" oninput="calcViaParto()">
+    </div>
+    <div class="field"><label>Abortos espontáneos</label>
+      <input type="number" id="vp_abort_esp" placeholder="0" min="0" oninput="calcViaParto()">
+    </div>
+  </div>
+
+  <div id="bloque_cesarea_previa" style="display:none">
+    <div class="field"><label>Tipo de cicatriz uterina</label>
+      <select id="vp_cicatriz" onchange="calcViaParto()">
+        <option value="">Seleccionar...</option>
+        <option value="segmentaria">Segmentaria transversa (estándar)</option>
+        <option value="corporal">Corporal / clásica (contraindicación PVDC)</option>
+        <option value="t_invertida">T invertida / J (contraindicación PVDC)</option>
+        <option value="desconocida">Desconocida</option>
+      </select>
+    </div>
+    <div class="field"><label>Indicación de la cesárea anterior</label>
+      <select id="vp_indic_ces" onchange="calcViaParto()">
+        <option value="">Seleccionar...</option>
+        <option value="no_recurrente">No recurrente (podálica, gemelar, DPPNI, etc.)</option>
+        <option value="recurrente">Posiblemente recurrente (DCP, fallo de inducción)</option>
+        <option value="absoluta">Indicación absoluta persistente (placenta previa, etc.)</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="checks" style="margin-bottom:12px">
+    <label class="check-item" id="lbl_vp_pgr" onclick="">
+      <input type="checkbox" id="vp_pgr" onchange="toggleCheck('lbl_vp_pgr',this);calcViaParto()">
+      <span>Pérdida gestacional recurrente (≥2 abortos espontáneos)</span>
+    </label>
+    <label class="check-item" id="lbl_vp_alto_valor">
+      <input type="checkbox" id="vp_alto_valor" onchange="toggleCheck('lbl_vp_alto_valor',this);calcViaParto()">
+      <span>Embarazo de alto valor (FIV, edad avanzada, único viable)</span>
+    </label>
+    <label class="check-item" id="lbl_vp_cx_uterina">
+      <input type="checkbox" id="vp_cx_uterina" onchange="toggleCheck('lbl_vp_cx_uterina',this);calcViaParto()">
+      <span>Cirugía uterina previa (miomectomía, metroplastia)</span>
+    </label>
+  </div>
+
+  <!-- PRESENTACIÓN 3T -->
+  <div class="div-sep"></div>
+  <p class="sub-title">Estado fetal 3T y presentación</p>
+  <div class="row2">
+    <div class="field"><label>Presentación fetal</label>
+      <select id="vp_presentacion" onchange="calcViaParto()">
+        <option value="">Seleccionar...</option>
+        <option value="cefalica">Cefálica</option>
+        <option value="pelvica">Pélvica (podálica)</option>
+        <option value="transversa">Transversa</option>
+        <option value="oblicua">Oblicua</option>
+      </select>
+    </div>
+    <div class="field"><label>Encajamiento</label>
+      <select id="vp_encaje" onchange="calcViaParto()">
+        <option value="">—</option>
+        <option value="libre">Libre / móvil</option>
+        <option value="insinuado">Insinuado</option>
+        <option value="encajado">Encajado (III plano)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- TALLA MATERNA -->
+  <div class="row2">
+    <div class="field"><label>Talla materna (cm)</label>
+      <input type="number" id="vp_talla" placeholder="ej. 152" oninput="calcViaParto()">
+      <div class="hint">&lt;150 cm: riesgo DCP · &lt;145 cm: pelvis límite</div>
+    </div>
+    <div class="field"><label>EG actual (sem + días)</label>
+      <div style="display:flex;gap:6px;align-items:center">
+        <input type="number" id="vp_eg" placeholder="ss" min="28" max="42" step="1" style="width:60px" oninput="calcViaParto()">
+        <span style="font-size:.8rem;color:var(--slate)">+</span>
+        <input type="number" id="vp_eg_dias" placeholder="dd" min="0" max="6" step="1" style="width:54px" oninput="calcViaParto()">
+      </div>
+    </div>
+  </div>
+
+  <!-- SCORE GROBMAN (si aplica PVDC) -->
+  <div id="bloque_grobman" style="display:none">
+    <div class="div-sep"></div>
+    <p class="sub-title">Score de Grobman — predicción éxito PVDC</p>
+    <div class="note-box">Score validado ACOG/NICHD. Predice probabilidad de parto vaginal exitoso después de cesárea.</div>
+    <div class="row2">
+      <div class="field"><label>Edad materna (años)</label>
+        <input type="number" id="gr_edad" placeholder="ej. 30" oninput="calcViaParto()">
+      </div>
+      <div class="field"><label>IMC pregestacional</label>
+        <input type="number" id="gr_imc" placeholder="ej. 24" step="0.1" oninput="calcViaParto()">
+      </div>
+    </div>
+    <div class="checks">
+      <label class="check-item" id="lbl_gr_pv_prev">
+        <input type="checkbox" id="gr_pv_prev" onchange="toggleCheck('lbl_gr_pv_prev',this);calcViaParto()">
+        <span>Parto vaginal previo (antes o después de la cesárea)</span>
+      </label>
+      <label class="check-item" id="lbl_gr_pv_post_ces">
+        <input type="checkbox" id="gr_pv_post_ces" onchange="toggleCheck('lbl_gr_pv_post_ces',this);calcViaParto()">
+        <span>Parto vaginal posterior a la cesárea previa</span>
+      </label>
+      <label class="check-item" id="lbl_gr_trab_espon">
+        <input type="checkbox" id="gr_trab_espon" onchange="toggleCheck('lbl_gr_trab_espon',this);calcViaParto()">
+        <span>Trabajo de parto espontáneo (no inducido)</span>
+      </label>
+      <label class="check-item" id="lbl_gr_ind_no_rec">
+        <input type="checkbox" id="gr_ind_no_rec" onchange="toggleCheck('lbl_gr_ind_no_rec',this);calcViaParto()">
+        <span>Indicación cesárea anterior NO recurrente</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- BISHOP (opcional) -->
+  <div class="div-sep"></div>
+  <p class="sub-title">Score de Bishop (si hay examen cervical)</p>
+  <p style="font-size:.75rem;color:var(--slate);margin-bottom:10px">Opcional — dejar en blanco si no disponible</p>
+  <div class="row3">
+    <div class="field"><label>Dilatación (cm)</label>
+      <select id="bp_dilat" onchange="calcViaParto()">
+        <option value="">—</option>
+        <option value="0">0 cm (0 pts)</option>
+        <option value="1">1–2 cm (1 pt)</option>
+        <option value="2">3–4 cm (2 pts)</option>
+        <option value="3">≥5 cm (3 pts)</option>
+      </select>
+    </div>
+    <div class="field"><label>Borramiento</label>
+      <select id="bp_borr" onchange="calcViaParto()">
+        <option value="">—</option>
+        <option value="0">0–30% (0 pts)</option>
+        <option value="1">40–50% (1 pt)</option>
+        <option value="2">60–70% (2 pts)</option>
+        <option value="3">≥80% (3 pts)</option>
+      </select>
+    </div>
+    <div class="field"><label>Estación</label>
+      <select id="bp_estac" onchange="calcViaParto()">
+        <option value="">—</option>
+        <option value="0">−3 (0 pts)</option>
+        <option value="1">−2 (1 pt)</option>
+        <option value="2">−1/0 (2 pts)</option>
+        <option value="3">+1/+2 (3 pts)</option>
+      </select>
+    </div>
+  </div>
+  <div class="row2">
+    <div class="field"><label>Consistencia</label>
+      <select id="bp_cons" onchange="calcViaParto()">
+        <option value="">—</option>
+        <option value="0">Firme (0 pts)</option>
+        <option value="1">Media (1 pt)</option>
+        <option value="2">Blanda (2 pts)</option>
+      </select>
+    </div>
+    <div class="field"><label>Posición cervical</label>
+      <select id="bp_pos" onchange="calcViaParto()">
+        <option value="">—</option>
+        <option value="0">Posterior (0 pts)</option>
+        <option value="1">Media (1 pt)</option>
+        <option value="2">Anterior (2 pts)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- RESULTADO VÍA DE PARTO -->
+  <div id="vp_result" style="display:none"></div>
+</div>
+
+<div class="disclaimer">⚠️ Herramienta de apoyo clínico. No sustituye el juicio profesional ni los protocolos institucionales.</div>
+</div>
+<!-- /calculadoras -->
+
+
+
+<div id="page-pacientes" class="page">
+
+<div class="calc-card" style="margin-bottom:12px">
+  <h2 style="font-size:.92rem;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px">👤 Mis pacientes</h2>
+  <div class="pac-search">
+    <input type="text" id="pac_buscar" placeholder="Buscar por nombre o ID..." oninput="renderListaPacientes()">
+    <button class="btn-new-pac" onclick="abrirModalPaciente(null)">+ Nueva</button>
+  </div>
+  <div id="pac_lista"></div>
+  <!-- BACKUP LOCAL -->
+  <div class="backup-row">
+    <button class="btn-backup" onclick="exportarBackup()">💾 Backup local (.json)</button>
+    <button class="btn-backup import" onclick="document.getElementById('import_file').click()">📂 Importar backup</button>
+    <input type="file" id="import_file" accept=".json" style="display:none" onchange="importarBackup(event)">
+  </div>
+
+  <!-- BACKUP MANUAL -->
+  <div class="gdrive-box" style="margin-bottom:12px">
+    <div style="font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:4px">💾 Tus datos, en tus manos</div>
+    <p style="font-size:.75rem;color:var(--slate);margin-bottom:12px;line-height:1.5">
+      Toda la información se guarda en este dispositivo. Para sincronizar entre PC, celular o tablet, descargá una copia y subila a tu Google Drive. Luego importala donde la necesites.
+    </p>
+    <div class="gdrive-actions" style="margin-bottom:10px">
+      <button class="btn-gdrive-action" onclick="descargarBackupPacientes()">
+        📥 <span>Descargar .json</span>
+        <span class="gdrive-action-sub">Genera tu backup</span>
+      </button>
+      <button class="btn-gdrive-action" onclick="window.open('https://drive.google.com','_blank')">
+        📤 <span>Abrir Google Drive</span>
+        <span class="gdrive-action-sub">Para guardar el archivo</span>
+      </button>
+    </div>
+    <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:4px">
+      <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin-bottom:8px">Importar backup</div>
+      <div style="display:flex;gap:14px;margin-bottom:9px;font-size:.75rem">
+        <label style="display:flex;align-items:center;gap:5px;cursor:pointer">
+          <input type="radio" name="modo_importar" value="combinar" checked style="accent-color:var(--teal)"> Combinar
+        </label>
+        <label style="display:flex;align-items:center;gap:5px;cursor:pointer">
+          <input type="radio" name="modo_importar" value="reemplazar" style="accent-color:var(--teal)"> Reemplazar todo
+        </label>
+      </div>
+      <input type="file" id="input_importar_backup" accept=".json" style="display:none" onchange="importarBackupPacientes(event)">
+      <button class="btn-gdrive-connect" onclick="abrirSelectorImportar()">📂 Elegir archivo .json</button>
+    </div>
+  </div>
+</div>
+
+<!-- DETALLE PACIENTE -->
+<div id="pac_detalle" style="display:none"></div>
+
+<div class="disclaimer">Los datos se guardan en este dispositivo. Descargá tu backup periódicamente para tenerlo a salvo y poder usarlo en otro equipo.</div>
+</div>
+
+<!-- MODAL NUEVA/EDITAR PACIENTE -->
+<div id="modal_paciente" class="modal-overlay" style="display:none" onclick="cerrarModalSiOverlay(event)">
+<div class="modal-box">
+  <div class="modal-title">
+    <span id="modal_titulo">Nueva paciente</span>
+    <button class="modal-close" onclick="cerrarModal()">✕</button>
+  </div>
+
+  <div class="modal-section">Identificación</div>
+  <div class="row2">
+    <div class="field"><label>Nombre completo</label><input type="text" id="mp_nombre" placeholder="Nombre Apellido"></div>
+    <div class="field"><label>ID / Historia clínica</label><input type="text" id="mp_id" placeholder="HC-0001"></div>
+  </div>
+  <div class="row2">
+    <div class="field"><label>Fecha de nacimiento</label><input type="date" id="mp_nacimiento"></div>
+    <div class="field"><label>Teléfono (opcional)</label><input type="text" id="mp_tel" placeholder="+54 11..."></div>
+  </div>
+
+  <div class="modal-section">Datos fijos del embarazo</div>
+  <div class="row2">
+    <div class="field"><label>FUM</label><input type="date" id="mp_fum"></div>
+    <div class="field"><label>FUM corregida (si aplica)</label><input type="date" id="mp_fum_corr"></div>
+  </div>
+  <div class="row3">
+    <div class="field"><label>Talla (cm)</label><input type="number" id="mp_talla" placeholder="165"></div>
+    <div class="field"><label>Peso pregest. (kg)</label><input type="number" id="mp_peso_preg" placeholder="60" step="0.1"></div>
+    <div class="field"><label>Grupo/Rh</label><input type="text" id="mp_rh" placeholder="O+"></div>
+  </div>
+
+  <div class="modal-section">Antecedentes obstétricos (fijos)</div>
+  <div class="row3">
+    <div class="field"><label>Gestas</label><input type="number" id="mp_g" placeholder="0" min="0"></div>
+    <div class="field"><label>Partos vag.</label><input type="number" id="mp_p" placeholder="0" min="0"></div>
+    <div class="field"><label>Cesáreas</label><input type="number" id="mp_c" placeholder="0" min="0"></div>
+  </div>
+  <div class="row2">
+    <div class="field"><label>Abortos espontáneos</label><input type="number" id="mp_ae" placeholder="0" min="0"></div>
+    <div class="field"><label>Abortos provocados</label><input type="number" id="mp_ap" placeholder="0" min="0"></div>
+  </div>
+  <div class="field"><label>Antecedentes relevantes (texto libre)</label>
+    <input type="text" id="mp_ant" placeholder="PE previa, DG, pretérmino...">
+  </div>
+
+  <div class="modal-section">Antecedentes personales (fijos)</div>
+  <div class="field"><label>Patologías crónicas</label>
+    <input type="text" id="mp_patol" placeholder="HTA, DM, trombofilia...">
+  </div>
+  <div class="field"><label>Embarazo de alto valor / TRA</label>
+    <select id="mp_tra">
+      <option value="no">No</option>
+      <option value="fiv">Sí — FIV/ICSI</option>
+      <option value="iiu">Sí — IIU</option>
+      <option value="otro_tra">Sí — Otro TRA</option>
+      <option value="pgr">PGR (≥2 abortos espontáneos)</option>
+    </select>
+  </div>
+
+  <div class="modal-section">Riesgo global (calculado)</div>
+  <div class="field"><label>Clasificación de riesgo</label>
+    <select id="mp_riesgo">
+      <option value="">Sin clasificar</option>
+      <option value="bajo">Bajo</option>
+      <option value="moderado">Moderado</option>
+      <option value="alto">Alto</option>
+    </select>
+  </div>
+  <div class="field"><label>Notas generales</label>
+    <input type="text" id="mp_notas" placeholder="Observaciones...">
+  </div>
+
+  <button class="btn-modal-save" onclick="guardarPaciente()">💾 Guardar paciente</button>
+</div>
+</div>
+
+<!-- MODAL NUEVA VISITA -->
+<div id="modal_visita" class="modal-overlay" style="display:none" onclick="cerrarModalVisitaSiOverlay(event)">
+<div class="modal-box">
+  <div class="modal-title">
+    <span>📅 Registrar visita</span>
+    <button class="modal-close" onclick="cerrarModalVisita()">✕</button>
+  </div>
+  <div class="modal-section">Datos de la visita</div>
+  <div class="row2">
+    <div class="field"><label>Fecha</label><input type="date" id="mv_fecha"></div>
+    <div class="field"><label>EG (semanas+días)</label><input type="text" id="mv_eg" placeholder="ej. 28+3"></div>
+  </div>
+  <div class="row2">
+    <div class="field"><label>Peso actual (kg)</label><input type="number" id="mv_peso" placeholder="—" step="0.1"></div>
+    <div class="field"><label>PA (mmHg)</label><input type="text" id="mv_pa" placeholder="ej. 120/80"></div>
+  </div>
+
+  <div class="modal-section">Laboratorio</div>
+  <div class="row3">
+    <div class="field"><label>Hb (g/dL)</label><input type="number" id="mv_hb" placeholder="—" step="0.1"></div>
+    <div class="field"><label>Glucemia (mg/dL)</label><input type="number" id="mv_gluc" placeholder="—"></div>
+    <div class="field"><label>TSH (µUI/mL)</label><input type="number" id="mv_tsh" placeholder="—" step="0.01"></div>
+  </div>
+
+  <div class="modal-section">Ecografía</div>
+  <div class="row2">
+    <div class="field"><label>PFE (g)</label><input type="number" id="mv_pfe" placeholder="—"></div>
+    <div class="field"><label>Percentil PFE</label><input type="number" id="mv_pfe_p" placeholder="—"></div>
+  </div>
+  <div class="row2">
+    <div class="field"><label>Cervicometría (mm)</label><input type="number" id="mv_cx" placeholder="—"></div>
+    <div class="field"><label>Presentación</label>
+      <select id="mv_present">
+        <option value="">—</option>
+        <option value="Cefálica">Cefálica</option>
+        <option value="Pélvica">Pélvica</option>
+        <option value="Transversa">Transversa</option>
+      </select>
+    </div>
+  </div>
+  <div class="field"><label>PI uterinas / Doppler / sFlt-1/PlGF</label>
+    <input type="text" id="mv_doppler" placeholder="ej. PI 1.2 / sFlt-1/PlGF 28">
+  </div>
+
+  <div class="modal-section">Conducta y plan</div>
+  <div class="field"><label>Observaciones / Plan</label>
+    <input type="text" id="mv_obs" placeholder="Conducta, indicaciones, próxima cita...">
+  </div>
+  <div class="field"><label>Próxima cita</label>
+    <input type="date" id="mv_proxima">
+  </div>
+
+  <button class="btn-modal-save" onclick="guardarVisita()">💾 Guardar visita</button>
+</div>
+</div>
+
+<!-- ════ MODAL DE REVISIÓN DE CONFLICTOS (fusión por id_hc, 2026-09-13) ════
+     Se muestra cuando una paciente ya guardada recibe, por el puente HC o
+     por reimportación de un backup .json, un dato distinto al que ya tenía
+     cargado. Nunca se pisa a ciegas: el médico elige cuál valor se queda. -->
+<div id="modal_conflictos" class="modal-overlay" style="display:none">
+<div class="modal-box">
+  <div class="modal-title">
+    <span>⚠️ Revisar datos que difieren</span>
+    <button class="modal-close" onclick="cerrarModalConflictos()">✕</button>
+  </div>
+  <p style="font-size:.78rem;color:var(--slate);margin-bottom:10px">
+    Estos campos ya tenían un valor guardado distinto al que llegó ahora. Elegí cuál se queda para cada uno.
+  </p>
+  <div id="conflictos_lista"></div>
+  <button class="btn-modal-save" onclick="confirmarConflictos()">✅ Confirmar y guardar</button>
+</div>
+</div>
+
+
+<!-- ════ BIOMETRÍA FETAL AVANZADA ════ -->
+<div id="page-biometria" class="page">
+
+<!-- ════ MOVIDO DESDE FICHA PRENATAL / GESTOGRAMA·PARTO: Cribado, Doppler, PFE ════ -->
 <!-- 8. ECOGRAFÍAS -->
 <div class="section-card">
   <div class="section-head open" onclick="toggleSection(this)">
@@ -1898,323 +2616,6 @@ document.addEventListener('DOMContentLoaded', function(){
   </div>
 </div>
 
-
-<!-- SECCIÓN METABOLISMO / DMG / GANANCIA PONDERAL -->
-<div class="section-card">
-  <div class="section-head" onclick="toggleSection(this)">
-    <span class="icon">🍬</span><h2>Metabolismo · Diabetes · Ganancia ponderal</h2><span class="chevron">▼</span>
-  </div>
-  <div class="section-body" style="padding:14px">
-
-    <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:8px">🩸 Diagnóstico DMG</div>
-    <div style="margin-bottom:10px;padding:8px;background:var(--mist);border-radius:10px;">
-      <div style="font-size:.72rem;color:var(--slate);margin-bottom:6px;font-weight:600;">📋 Protocolo:</div>
-      <div style="display:flex;gap:8px;margin-bottom:4px;">
-        <button id="dmg_btn_iadpsg" onclick="setDmgRef('iadpsg')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.66rem;font-weight:700;cursor:pointer;background:var(--teal);color:#fff;">IADPSG/ALAD/ADA 1 paso (75g)</button>
-        <button id="dmg_btn_ada2p" onclick="setDmgRef('ada2p')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.66rem;font-weight:700;cursor:pointer;background:var(--mist);color:var(--slate);">ADA 2 pasos (100g)</button>
-      </div>
-      <div style="font-size:.63rem;color:var(--slate);font-style:italic;">1 valor alterado = DMG (1 paso) · ≥2 valores = DMG (2 pasos)</div>
-    </div>
-
-    <div id="dmg_paso1_ada" style="display:none">
-      <div class="field"><label>Paso 1 — Glucosa 50g sin ayuno (mg/dL)</label>
-        <input type="number" id="dmg_50g" placeholder="umbral ≥130" step="0.1" oninput="calcDMG()">
-      </div>
-    </div>
-
-    <div class="row2">
-      <div class="field"><label>Glucemia ayunas (mg/dL)</label>
-        <input type="number" id="dmg_ayuno" placeholder="ej. 88" step="0.1" oninput="calcDMG()">
-        <div class="hint">IADPSG ≥92 · ADA 2p ≥95 · ≥126=DM</div>
-      </div>
-      <div class="field"><label>1 hora (mg/dL)</label>
-        <input type="number" id="dmg_1h" placeholder="ej. 155" step="0.1" oninput="calcDMG()">
-        <div class="hint">≥180</div>
-      </div>
-    </div>
-    <div class="row2">
-      <div class="field"><label>2 horas (mg/dL)</label>
-        <input type="number" id="dmg_2h" placeholder="ej. 140" step="0.1" oninput="calcDMG()">
-        <div class="hint">IADPSG ≥153 · ADA2p ≥155</div>
-      </div>
-      <div class="field" id="dmg_3h_field" style="display:none">
-        <label>3 horas (mg/dL)</label>
-        <input type="number" id="dmg_3h" placeholder="solo 100g" step="0.1" oninput="calcDMG()">
-        <div class="hint">≥140</div>
-      </div>
-    </div>
-    <div class="field"><label>HbA1c (%)</label>
-      <input type="number" id="dmg_hba1c" placeholder="ej. 5.4" step="0.1" oninput="calcDMG()">
-      <div class="hint">No es criterio DMG · ≥6.5%=DM · 5.7-6.4%=prediabetes</div>
-    </div>
-    <div id="dmg_result" style="display:none;margin-top:8px"></div>
-
-    <hr style="margin:14px 0;border:none;border-top:1px solid var(--border)">
-
-    <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:8px">⚖️ Ganancia ponderal materna</div>
-    <div class="row2">
-      <div class="field"><label>Peso pregestacional (kg)</label>
-        <input type="number" id="gan_peso_pre" placeholder="ej. 65" step="0.1" oninput="calcGanancia()">
-      </div>
-      <div class="field"><label>Talla (cm)</label>
-        <input type="number" id="gan_talla" placeholder="ej. 160" step="0.1" oninput="calcGanancia()">
-      </div>
-    </div>
-    <div class="row2">
-      <div class="field"><label>Peso actual (kg)</label>
-        <input type="number" id="gan_peso_actual" placeholder="ej. 72" step="0.1" oninput="calcGanancia()">
-      </div>
-      <div class="field"><label>EG actual (sem + días)</label>
-        <div style="display:flex;gap:6px;align-items:center">
-          <input type="number" id="gan_eg" placeholder="ss" min="6" max="42" step="1" style="width:60px" oninput="calcGanancia()">
-          <span style="font-size:.8rem;color:var(--slate)">+</span>
-          <input type="number" id="gan_eg_dias" placeholder="dd" min="0" max="6" step="1" style="width:54px" oninput="calcGanancia()">
-        </div>
-        <div class="hint">Semanas + días (ej. 28+3)</div>
-      </div>
-    </div>
-    <div id="gan_result" style="display:none;margin-top:8px"></div>
-
-    <hr style="margin:14px 0;border:none;border-top:1px solid var(--border)">
-
-    <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:8px">📏 Altura uterina</div>
-    <div class="row2">
-      <div class="field"><label>AU medida (cm)</label>
-        <input type="number" id="au_cm" placeholder="ej. 30" step="0.1" oninput="calcAU()">
-        <div class="hint">McDonald · sínfisis-fondo</div>
-      </div>
-      <div class="field"><label>EG (sem + días)</label>
-        <div style="display:flex;gap:6px;align-items:center">
-          <input type="number" id="au_eg" placeholder="ss" min="20" max="42" step="1" style="width:60px" oninput="calcAU()">
-          <span style="font-size:.8rem;color:var(--slate)">+</span>
-          <input type="number" id="au_eg_dias" placeholder="dd" min="0" max="6" step="1" style="width:54px" oninput="calcAU()">
-        </div>
-        <div class="hint">Semanas + días (ej. 32+4)</div>
-      </div>
-    </div>
-    <div id="au_result" style="display:none;margin-top:8px"></div>
-
-  </div>
-</div>
-<button class="btn-calc" onclick="calcular()">⚡ Calcular riesgo prenatal completo</button>
-</div><!-- /formulario -->
-
-<!-- ════ CALCULADORAS: EG · VÍA DE PARTO ════ -->
-<div id="page-calculadoras" class="page">
-
-<!-- A. DEXTOGRAMA — EG Y CALENDARIO -->
-<div class="calc-card">
-  <h2>🗓️ Edad gestacional y calendario</h2>
-
-  <div class="radio-group">
-    <label class="radio-opt selected" id="lbl_modo_fum" onclick="setModoEG('fum')">
-      <input type="radio" name="modoEG" id="modo_fum" checked> Por FUM
-    </label>
-    <label class="radio-opt" id="lbl_modo_eco" onclick="setModoEG('eco')">
-      <input type="radio" name="modoEG" id="modo_eco"> Por ECO precoz
-    </label>
-  </div>
-
-  <!-- MODO FUM -->
-  <div id="bloque_fum">
-    <div class="field"><label>FUM (fecha última menstruación)</label>
-      <input type="date" id="dext_fum" oninput="calcDextograma();syncFUM('dext_fum')">
-    </div>
-  </div>
-
-  <!-- MODO ECO -->
-  <div id="bloque_eco" style="display:none">
-    <div class="row2">
-      <div class="field"><label>Fecha de la ECO precoz</label>
-        <input type="date" id="dext_eco_fecha" oninput="calcDextograma()">
-      </div>
-      <div class="field"><label>EG en esa ECO (sem+días)</label>
-        <input type="text" id="dext_eco_eg" placeholder="ej. 8+3" oninput="calcDextograma()">
-        <div class="hint">Formato: semanas+días (8+3, 12+1, etc.)</div>
-      </div>
-    </div>
-    <select id="dext_eco_trim" style="display:none"><option value="1" selected></option><option value="2"></option><option value="3"></option></select>
-    <div class="note-box" style="font-size:.74rem;margin-bottom:6px;line-height:1.7">
-      📌 <strong>Criterios de corrección de FUM por ECO:</strong><br>
-      🟢 <strong>1T (&lt;14 sem):</strong> Corregir FUM si diferencia ≥5 días (FUM corregido = EG por ECO)<br>
-      🟡 <strong>2T (14–28 sem):</strong> Corregir FUM si diferencia ≥7 días<br>
-      🔴 <strong>3T (&gt;28 sem):</strong> NO corregir FUM. Usar CC, LF o Cerebelo como parámetro aislado para EG más confiable. La biometría del 3T no es confiable para corregir amenorrea.
-    </div>
-    <div id="correccion_box"></div>
-  </div>
-
-  <!-- CALCULAR PARA FECHA -->
-  <div class="field" style="margin-top:4px">
-    <label>Calcular para fecha</label>
-    <input type="date" id="dext_fecha_calc" oninput="calcDextograma()">
-    <div class="hint">Por defecto: hoy</div>
-  </div>
-
-  <!-- RESULTADO EG -->
-  <div id="dext_result" style="display:none">
-    <div class="eg-result">
-      <div class="eg-main" id="dext_eg_sem">—</div>
-      <div class="eg-sub" id="dext_eg_meses">—</div>
-      <div class="eg-sub" id="dext_eg_meses_lunar" style="font-size:.68rem;color:rgba(255,255,255,.9);font-style:italic;">—</div>
-      <div class="eg-fum" id="dext_fum_usada">—</div>
-    </div>
-
-    <div class="semanas-grid" id="dext_semanas"></div>
-
-    <!-- CALCULADOR INVERSO -->
-    <div class="div-sep"></div>
-    <p style="font-size:.78rem;font-weight:700;color:var(--slate);margin-bottom:8px">¿Cuándo cumple X semanas?</p>
-    <div class="cumple-row">
-      <div class="field" style="flex:1;margin-bottom:0">
-        <label>Semana</label>
-        <input type="number" id="dext_cumple_sem" placeholder="ej. 34" min="1" max="42" oninput="calcCumple()">
-      </div>
-      <div class="field" style="flex:1;margin-bottom:0">
-        <label>+ días</label>
-        <input type="number" id="dext_cumple_dias" placeholder="0" min="0" max="6" oninput="calcCumple()">
-      </div>
-    </div>
-    <div id="dext_cumple_result"></div>
-  </div>
-</div>
-
-
-<!-- SUPLEMENTACIÓN PRENATAL -->
-<div class="calc-card">
-  <h2 style="font-size:.92rem;font-weight:700;color:var(--navy);margin-bottom:4px;display:flex;align-items:center;gap:8px">💊 Suplementación prenatal</h2>
-  <p style="font-size:.75rem;color:var(--slate);margin-bottom:12px">Guías OMS · ACOG · NICE · FIGO · Endocrine Society 2024 · EBCOG 2024</p>
-
-  <!-- ÁCIDO FÓLICO / METILFOLATO -->
-  <div class="suple-expand-card">
-    <div class="suple-expand-head" onclick="toggleSuple(this)">
-      <span style="font-size:1.1rem">🟢</span>
-      <div style="flex:1"><div class="suple-expand-title">Ácido fólico / Metilfolato</div><div class="suple-expand-sub">Periconcepcional · Todo el embarazo</div></div>
-      <span class="suple-chevron">▼</span>
-    </div>
-    <div class="suple-expand-body">
-      <div class="note-box" style="margin-bottom:10px">Iniciar <strong>al menos 1 mes antes de la concepción</strong> y continuar durante el embarazo. La síntesis de tubo neural ocurre en los días 18–26 post-concepción.</div>
-      <table class="suple-table">
-        <tr><th>Perfil</th><th>Dosis</th><th>Forma</th></tr>
-        <tr><td>Sin factores de riesgo</td><td><strong>400 µg/día</strong></td><td>Ácido fólico</td></tr>
-        <tr class="suple-alto"><td>Alto riesgo DTN (antecedente hijo afecto, epilepsia con antifolatos, obesidad mórbida, DM mal controlada)</td><td><strong>4–5 mg/día</strong></td><td>Ácido fólico</td></tr>
-        <tr><td>Polimorfismo MTHFR documentado</td><td><strong>400–800 µg/día</strong></td><td>Metilfolato (5-MTHF)</td></tr>
-      </table>
-      <div class="bio-ref">📚 OMS · NICE · ACOG · FIGO. Nota: muchas guías ya establecen 4–5 mg (no 800 µg) para alto riesgo. El metilfolato (5-MTHF) se recomienda en portadoras de variante MTHFR C677T homocigota documentada.</div>
-    </div>
-  </div>
-
-  <!-- HIERRO -->
-  <div class="suple-expand-card">
-    <div class="suple-expand-head" onclick="toggleSuple(this)">
-      <span style="font-size:1.1rem">🔴</span>
-      <div style="flex:1"><div class="suple-expand-title">Hierro</div><div class="suple-expand-sub">Universal + terapéutico según anemia</div></div>
-      <span class="suple-chevron">▼</span>
-    </div>
-    <div class="suple-expand-body">
-      <div class="note-box" style="margin-bottom:10px"><strong>Cribado recomendado:</strong> Hb en 1ª visita + sem 24–28 · Ferritina si sospecha déficit (&lt;15–30 µg/L) · Saturación transferrina si anemia establecida (&lt;16%)</div>
-      <table class="suple-table">
-        <tr><th>Indicación</th><th>Hierro elemental</th><th>Equivalente quelado</th></tr>
-        <tr><td>Profilaxis universal (OMS/FIGO)</td><td><strong>30–60 mg/día</strong></td><td>~150–300 mg bisglicinato</td></tr>
-        <tr><td>Déficit sin anemia</td><td><strong>25–30 mg/día</strong></td><td>~150 mg bisglicinato</td></tr>
-        <tr class="suple-moder"><td>Anemia leve (Hb 9–10.9 g/dL)</td><td><strong>30–60 mg/día</strong></td><td>~150–300 mg bisglicinato</td></tr>
-        <tr class="suple-alto"><td>Anemia moderada (Hb 7–8.9 g/dL)</td><td><strong>60–80 mg/día</strong></td><td>~300 mg bisglicinato</td></tr>
-        <tr class="suple-alto"><td>Anemia grave / intolerancia oral</td><td colspan="2"><strong>Hierro IV</strong> (sacarosa o carboxymaltosa) — desde 2T</td></tr>
-      </table>
-      <div class="suple-highlight">💡 <strong>Hierro quelado (bisglicinato ferroso):</strong> Absorción independiente del pH gástrico · Menor elevación de hepcidina · Mucho mejor tolerancia digestiva. 25–30 mg quelado ≈ 60 mg sulfato ferroso funcionalmente.</div>
-      <div class="bio-ref">📚 OMS · FIGO · ACOG · CDC. Hb normal embarazo: &lt;11 g/dL (1T) / &lt;10.5 g/dL (2T-3T). Hierro IV: no en 1T — riesgo teórico. Formulaciones preferidas: hierro sacarosa, ferric carboxymaltosa.</div>
-    </div>
-  </div>
-
-  <!-- CALCIO -->
-  <div class="suple-expand-card">
-    <div class="suple-expand-head" onclick="toggleSuple(this)">
-      <span style="font-size:1.1rem">🦴</span>
-      <div style="flex:1"><div class="suple-expand-title">Calcio</div><div class="suple-expand-sub">Selectivo según escenario clínico</div></div>
-      <span class="suple-chevron">▼</span>
-    </div>
-    <div class="suple-expand-body">
-      <table class="suple-table">
-        <tr><th>Escenario clínico</th><th>Recomendación</th></tr>
-        <tr><td>Dieta normal en país de renta alta</td><td>No suplementar de rutina</td></tr>
-        <tr><td>Vegetariana/vegana o baja ingesta láctea</td><td><strong>500–1000 mg/día</strong></td></tr>
-        <tr class="suple-alto"><td>Alto riesgo PE (primigesta, obesa, HTA crónica, gemelar)</td><td><strong>1000–1500 mg/día + AAS desde 1T</strong></td></tr>
-        <tr><td>Adolescente embarazada</td><td><strong>Sí — requerimientos propios mayores</strong></td></tr>
-        <tr class="suple-moder"><td>País con ingesta poblacional &lt;600 mg/día</td><td>Suplementación universal (OMS)</td></tr>
-      </table>
-      <div class="suple-highlight">⚠️ <strong>Precaución con combinación Calcio + Vitamina D:</strong> Vit D sin déficit + calcio suplementado = riesgo hipercalcemia. Vit D alta (&gt;100 ng/mL) + calcio = contraindicado. Combinar solo si déficit de ambos + alto riesgo PE, monitorizando calcemia.</div>
-      <div class="bio-ref">📚 OMS · ACOG · Cochrane. La suplementación con calcio reduce el riesgo de PE en un 55% en poblaciones con baja ingesta (WHO 2013).</div>
-    </div>
-  </div>
-
-  <!-- VITAMINA D -->
-  <div class="suple-expand-card">
-    <div class="suple-expand-head" onclick="toggleSuple(this)">
-      <span style="font-size:1.1rem">☀️</span>
-      <div style="flex:1"><div class="suple-expand-title">Vitamina D</div><div class="suple-expand-sub">Endocrine Society 2024 · Empírica en embarazo</div></div>
-      <span class="suple-chevron">▼</span>
-    </div>
-    <div class="suple-expand-body">
-      <div class="note-box" style="margin-bottom:10px">Déficit muy prevalente en gestantes — especialmente en invierno y pieles oscuras. Asociado a: PE, DG, pretérmino, CIR, mortalidad neonatal.</div>
-      <table class="suple-table">
-        <tr><th>Contexto</th><th>Dosis orientativa</th></tr>
-        <tr><td>Suplementación prenatal estándar</td><td><strong>1000–2000 UI/día</strong></td></tr>
-        <tr class="suple-moder"><td>Déficit documentado (&lt;20 ng/mL)</td><td><strong>2000–4000 UI/día</strong></td></tr>
-        <tr class="suple-alto"><td>Déficit severo</td><td><strong>Hasta 4000 UI/día</strong> (límite seguro en gestación)</td></tr>
-      </table>
-      <div class="suple-highlight">💡 <strong>Endocrine Society 2024:</strong> Suplementación empírica recomendada. Dosis en ensayos: 600–5000 UI/día · media ponderada ~2500 UI/día. Objetivo: 25-OH-VitD &gt;30 ng/mL.</div>
-      <div class="bio-ref">📚 Endocrine Society 2024 · Cochrane. Nivel sérico objetivo: &gt;30 ng/mL. Nivel tóxico: &gt;100 ng/mL. No combinar con calcio si Vit D normal + calcio suplementado (riesgo hipercalcemia).</div>
-    </div>
-  </div>
-
-  <!-- OMEGA-3 -->
-  <div class="suple-expand-card">
-    <div class="suple-expand-head" onclick="toggleSuple(this)">
-      <span style="font-size:1.1rem">🐟</span>
-      <div style="flex:1"><div class="suple-expand-title">Omega-3 (DHA/EPA)</div><div class="suple-expand-sub">EBCOG 2024 · Reduce pretérmino</div></div>
-      <span class="suple-chevron">▼</span>
-    </div>
-    <div class="suple-expand-body">
-      <div class="note-box" style="margin-bottom:10px"><strong>Cochrane 2018</strong> (19.927 mujeres): ↓42% parto prematuro precoz (&lt;34 sem) · ↓11% PTB global. El beneficio es mayor en mujeres con bajo estatus basal de DHA (ingesta ≤150 mg/día).</div>
-      <table class="suple-table">
-        <tr><th>Perfil clínico</th><th>Dosis recomendada</th></tr>
-        <tr><td>Dieta adecuada en pescado (≥2 raciones/sem)</td><td><strong>250 mg/día DHA+EPA</strong> + 100–200 mg extra DHA</td></tr>
-        <tr class="suple-moder"><td>Baja ingesta de pescado (&lt;2 raciones/sem)</td><td><strong>600–1000 mg/día DHA</strong></td></tr>
-        <tr class="suple-alto"><td>Alto riesgo PTB · Vegetariana · No consume pescado</td><td><strong>800–1000 mg/día DHA</strong> — iniciar antes sem 20</td></tr>
-        <tr class="suple-alto"><td>Gemelar / antecedente PTB</td><td><strong>1000 mg/día DHA</strong> desde preconcepcional</td></tr>
-      </table>
-      <div class="suple-highlight">⚠️ <strong>Precaución:</strong> &gt;3 g/día con AAS antiagregante o trombocitopenia (efecto anticoagulante leve). EFSA: seguro hasta 5 g/día EPA+DHA combinados.</div>
-      <div class="bio-ref">📚 Cochrane 2018 · ORIP trial · EBCOG 2024 ✅ · Australia NHMRC ✅ · EFSA: 350–450 mg/día DHA+EPA · NIH/ODS 2025. OMS/NICE/ACOG: solo dieta con pescado (sin recomendación de suplemento).</div>
-    </div>
-  </div>
-
-  <!-- YODO -->
-  <div class="suple-expand-card">
-    <div class="suple-expand-head" onclick="toggleSuple(this)">
-      <span style="font-size:1.1rem">🧂</span>
-      <div style="flex:1"><div class="suple-expand-title">Yodo</div><div class="suple-expand-sub">Ventana terapéutica más estrecha · Inicio preconcepcional</div></div>
-      <span class="suple-chevron">▼</span>
-    </div>
-    <div class="suple-expand-body">
-      <div class="suple-highlight" style="margin-bottom:10px">⚠️ <strong>Mensaje clave:</strong> El yodo tiene la ventana terapéutica más estrecha de todos los suplementos prenatales. El daño por déficit es IRREVERSIBLE y ocurre en el 1T. Tanto el déficit como el exceso son perjudiciales.</div>
-      <table class="suple-table" style="margin-bottom:8px">
-        <tr><th>Yoduria (µg/L)</th><th>Interpretación</th></tr>
-        <tr class="suple-alto"><td>&lt;150</td><td>⚠️ Insuficiente</td></tr>
-        <tr><td>150–249</td><td>✅ Adecuada</td></tr>
-        <tr><td>250–499</td><td>Más que adecuada</td></tr>
-        <tr class="suple-alto"><td>≥500</td><td>⛔ Excesiva — riesgo hipotiroidismo fetal</td></tr>
-      </table>
-      <table class="suple-table">
-        <tr><th>Perfil</th><th>Conducta</th></tr>
-        <tr><td>Dieta mediterránea con lácteos, pescado y sal yodada</td><td>Valoración individual — muchos expertos: 150–200 µg/día</td></tr>
-        <tr class="suple-alto"><td>Vegetariana/vegana</td><td><strong>Suplementación obligatoria</strong></td></tr>
-        <tr><td>Patología tiroidea (Hashimoto, hipotiroidismo)</td><td>Manejo individualizado con endocrino</td></tr>
-        <tr class="suple-moder"><td>Zona geográfica con déficit conocido</td><td>Suplementación universal desde preconcepcional</td></tr>
-      </table>
-      <div class="bio-ref">📚 OMS: 250 µg/día · ATA: 150 µg suplemento + dieta = 250 µg/día total · RDA (IOM/NIH): 220–290 µg/día gestación. Inicio ideal: preconcepcional o al confirmar embarazo — no esperar 2T.</div>
-    </div>
-  </div>
-
-</div>
 <!-- B. PESO FETAL ESTIMADO -->
 <div class="calc-card">
   <h2>⚖️ Peso fetal estimado (PFE)</h2>
@@ -2274,194 +2675,6 @@ document.addEventListener('DOMContentLoaded', function(){
     <div id="pfe_alerta"></div>
   </div>
 </div>
-<!-- C. VÍA DE PARTO -->
-<div class="calc-card">
-  <h2>🏥 Pronóstico de vía de parto</h2>
-  <div style="margin:8px 0 12px;padding:8px;background:var(--mist);border-radius:10px;">
-    <div style="font-size:.72rem;color:var(--slate);margin-bottom:6px;font-weight:600;">📊 Tabla de percentiles:</div>
-    <div style="display:flex;gap:8px;margin-bottom:4px;">
-      <button id="pfe_tabla_figueras" onclick="setPfeTabla('figueras')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.70rem;font-weight:700;cursor:pointer;background:var(--teal);color:#fff;">Figueras 2008</button>
-      <button id="pfe_tabla_ig21" onclick="setPfeTabla('ig21')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.70rem;font-weight:700;cursor:pointer;background:var(--mist);color:var(--slate);">INTERGROWTH-21</button>
-    </div>
-    <div id="pfe_tabla_label" style="font-size:.66rem;color:var(--teal);font-style:italic;">Figueras 2008 · MFB (recomendado Latinoamérica)</div>
-  </div>
-
-  <!-- PARIDAD -->
-  <p class="sub-title" style="margin-top:0">Paridad y antecedentes</p>
-  <div class="row3">
-    <div class="field"><label>Partos vaginales previos</label>
-      <input type="number" id="vp_pv" placeholder="0" min="0" oninput="calcViaParto()">
-    </div>
-    <div class="field"><label>Cesáreas previas</label>
-      <input type="number" id="vp_ces" placeholder="0" min="0" oninput="calcViaParto()">
-    </div>
-    <div class="field"><label>Abortos espontáneos</label>
-      <input type="number" id="vp_abort_esp" placeholder="0" min="0" oninput="calcViaParto()">
-    </div>
-  </div>
-
-  <div id="bloque_cesarea_previa" style="display:none">
-    <div class="field"><label>Tipo de cicatriz uterina</label>
-      <select id="vp_cicatriz" onchange="calcViaParto()">
-        <option value="">Seleccionar...</option>
-        <option value="segmentaria">Segmentaria transversa (estándar)</option>
-        <option value="corporal">Corporal / clásica (contraindicación PVDC)</option>
-        <option value="t_invertida">T invertida / J (contraindicación PVDC)</option>
-        <option value="desconocida">Desconocida</option>
-      </select>
-    </div>
-    <div class="field"><label>Indicación de la cesárea anterior</label>
-      <select id="vp_indic_ces" onchange="calcViaParto()">
-        <option value="">Seleccionar...</option>
-        <option value="no_recurrente">No recurrente (podálica, gemelar, DPPNI, etc.)</option>
-        <option value="recurrente">Posiblemente recurrente (DCP, fallo de inducción)</option>
-        <option value="absoluta">Indicación absoluta persistente (placenta previa, etc.)</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="checks" style="margin-bottom:12px">
-    <label class="check-item" id="lbl_vp_pgr" onclick="">
-      <input type="checkbox" id="vp_pgr" onchange="toggleCheck('lbl_vp_pgr',this);calcViaParto()">
-      <span>Pérdida gestacional recurrente (≥2 abortos espontáneos)</span>
-    </label>
-    <label class="check-item" id="lbl_vp_alto_valor">
-      <input type="checkbox" id="vp_alto_valor" onchange="toggleCheck('lbl_vp_alto_valor',this);calcViaParto()">
-      <span>Embarazo de alto valor (FIV, edad avanzada, único viable)</span>
-    </label>
-    <label class="check-item" id="lbl_vp_cx_uterina">
-      <input type="checkbox" id="vp_cx_uterina" onchange="toggleCheck('lbl_vp_cx_uterina',this);calcViaParto()">
-      <span>Cirugía uterina previa (miomectomía, metroplastia)</span>
-    </label>
-  </div>
-
-  <!-- PRESENTACIÓN 3T -->
-  <div class="div-sep"></div>
-  <p class="sub-title">Estado fetal 3T y presentación</p>
-  <div class="row2">
-    <div class="field"><label>Presentación fetal</label>
-      <select id="vp_presentacion" onchange="calcViaParto()">
-        <option value="">Seleccionar...</option>
-        <option value="cefalica">Cefálica</option>
-        <option value="pelvica">Pélvica (podálica)</option>
-        <option value="transversa">Transversa</option>
-        <option value="oblicua">Oblicua</option>
-      </select>
-    </div>
-    <div class="field"><label>Encajamiento</label>
-      <select id="vp_encaje" onchange="calcViaParto()">
-        <option value="">—</option>
-        <option value="libre">Libre / móvil</option>
-        <option value="insinuado">Insinuado</option>
-        <option value="encajado">Encajado (III plano)</option>
-      </select>
-    </div>
-  </div>
-
-  <!-- TALLA MATERNA -->
-  <div class="row2">
-    <div class="field"><label>Talla materna (cm)</label>
-      <input type="number" id="vp_talla" placeholder="ej. 152" oninput="calcViaParto()">
-      <div class="hint">&lt;150 cm: riesgo DCP · &lt;145 cm: pelvis límite</div>
-    </div>
-    <div class="field"><label>EG actual (sem + días)</label>
-      <div style="display:flex;gap:6px;align-items:center">
-        <input type="number" id="vp_eg" placeholder="ss" min="28" max="42" step="1" style="width:60px" oninput="calcViaParto()">
-        <span style="font-size:.8rem;color:var(--slate)">+</span>
-        <input type="number" id="vp_eg_dias" placeholder="dd" min="0" max="6" step="1" style="width:54px" oninput="calcViaParto()">
-      </div>
-    </div>
-  </div>
-
-  <!-- SCORE GROBMAN (si aplica PVDC) -->
-  <div id="bloque_grobman" style="display:none">
-    <div class="div-sep"></div>
-    <p class="sub-title">Score de Grobman — predicción éxito PVDC</p>
-    <div class="note-box">Score validado ACOG/NICHD. Predice probabilidad de parto vaginal exitoso después de cesárea.</div>
-    <div class="row2">
-      <div class="field"><label>Edad materna (años)</label>
-        <input type="number" id="gr_edad" placeholder="ej. 30" oninput="calcViaParto()">
-      </div>
-      <div class="field"><label>IMC pregestacional</label>
-        <input type="number" id="gr_imc" placeholder="ej. 24" step="0.1" oninput="calcViaParto()">
-      </div>
-    </div>
-    <div class="checks">
-      <label class="check-item" id="lbl_gr_pv_prev">
-        <input type="checkbox" id="gr_pv_prev" onchange="toggleCheck('lbl_gr_pv_prev',this);calcViaParto()">
-        <span>Parto vaginal previo (antes o después de la cesárea)</span>
-      </label>
-      <label class="check-item" id="lbl_gr_pv_post_ces">
-        <input type="checkbox" id="gr_pv_post_ces" onchange="toggleCheck('lbl_gr_pv_post_ces',this);calcViaParto()">
-        <span>Parto vaginal posterior a la cesárea previa</span>
-      </label>
-      <label class="check-item" id="lbl_gr_trab_espon">
-        <input type="checkbox" id="gr_trab_espon" onchange="toggleCheck('lbl_gr_trab_espon',this);calcViaParto()">
-        <span>Trabajo de parto espontáneo (no inducido)</span>
-      </label>
-      <label class="check-item" id="lbl_gr_ind_no_rec">
-        <input type="checkbox" id="gr_ind_no_rec" onchange="toggleCheck('lbl_gr_ind_no_rec',this);calcViaParto()">
-        <span>Indicación cesárea anterior NO recurrente</span>
-      </label>
-    </div>
-  </div>
-
-  <!-- BISHOP (opcional) -->
-  <div class="div-sep"></div>
-  <p class="sub-title">Score de Bishop (si hay examen cervical)</p>
-  <p style="font-size:.75rem;color:var(--slate);margin-bottom:10px">Opcional — dejar en blanco si no disponible</p>
-  <div class="row3">
-    <div class="field"><label>Dilatación (cm)</label>
-      <select id="bp_dilat" onchange="calcViaParto()">
-        <option value="">—</option>
-        <option value="0">0 cm (0 pts)</option>
-        <option value="1">1–2 cm (1 pt)</option>
-        <option value="2">3–4 cm (2 pts)</option>
-        <option value="3">≥5 cm (3 pts)</option>
-      </select>
-    </div>
-    <div class="field"><label>Borramiento</label>
-      <select id="bp_borr" onchange="calcViaParto()">
-        <option value="">—</option>
-        <option value="0">0–30% (0 pts)</option>
-        <option value="1">40–50% (1 pt)</option>
-        <option value="2">60–70% (2 pts)</option>
-        <option value="3">≥80% (3 pts)</option>
-      </select>
-    </div>
-    <div class="field"><label>Estación</label>
-      <select id="bp_estac" onchange="calcViaParto()">
-        <option value="">—</option>
-        <option value="0">−3 (0 pts)</option>
-        <option value="1">−2 (1 pt)</option>
-        <option value="2">−1/0 (2 pts)</option>
-        <option value="3">+1/+2 (3 pts)</option>
-      </select>
-    </div>
-  </div>
-  <div class="row2">
-    <div class="field"><label>Consistencia</label>
-      <select id="bp_cons" onchange="calcViaParto()">
-        <option value="">—</option>
-        <option value="0">Firme (0 pts)</option>
-        <option value="1">Media (1 pt)</option>
-        <option value="2">Blanda (2 pts)</option>
-      </select>
-    </div>
-    <div class="field"><label>Posición cervical</label>
-      <select id="bp_pos" onchange="calcViaParto()">
-        <option value="">—</option>
-        <option value="0">Posterior (0 pts)</option>
-        <option value="1">Media (1 pt)</option>
-        <option value="2">Anterior (2 pts)</option>
-      </select>
-    </div>
-  </div>
-
-  <!-- RESULTADO VÍA DE PARTO -->
-  <div id="vp_result" style="display:none"></div>
-</div>
-
 
 <div class="calc-card">
   <div class="section-head" onclick="toggleSection(this)">
@@ -2483,217 +2696,6 @@ document.addEventListener('DOMContentLoaded', function(){
   </div>
 </div>
 
-<div class="disclaimer">⚠️ Herramienta de apoyo clínico. No sustituye el juicio profesional ni los protocolos institucionales.</div>
-</div>
-<!-- /calculadoras -->
-
-
-
-<div id="page-pacientes" class="page">
-
-<div class="calc-card" style="margin-bottom:12px">
-  <h2 style="font-size:.92rem;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px">👤 Mis pacientes</h2>
-  <div class="pac-search">
-    <input type="text" id="pac_buscar" placeholder="Buscar por nombre o ID..." oninput="renderListaPacientes()">
-    <button class="btn-new-pac" onclick="abrirModalPaciente(null)">+ Nueva</button>
-  </div>
-  <div id="pac_lista"></div>
-  <!-- BACKUP LOCAL -->
-  <div class="backup-row">
-    <button class="btn-backup" onclick="exportarBackup()">💾 Backup local (.json)</button>
-    <button class="btn-backup import" onclick="document.getElementById('import_file').click()">📂 Importar backup</button>
-    <input type="file" id="import_file" accept=".json" style="display:none" onchange="importarBackup(event)">
-  </div>
-
-  <!-- BACKUP MANUAL -->
-  <div class="gdrive-box" style="margin-bottom:12px">
-    <div style="font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:4px">💾 Tus datos, en tus manos</div>
-    <p style="font-size:.75rem;color:var(--slate);margin-bottom:12px;line-height:1.5">
-      Toda la información se guarda en este dispositivo. Para sincronizar entre PC, celular o tablet, descargá una copia y subila a tu Google Drive. Luego importala donde la necesites.
-    </p>
-    <div class="gdrive-actions" style="margin-bottom:10px">
-      <button class="btn-gdrive-action" onclick="descargarBackupPacientes()">
-        📥 <span>Descargar .json</span>
-        <span class="gdrive-action-sub">Genera tu backup</span>
-      </button>
-      <button class="btn-gdrive-action" onclick="window.open('https://drive.google.com','_blank')">
-        📤 <span>Abrir Google Drive</span>
-        <span class="gdrive-action-sub">Para guardar el archivo</span>
-      </button>
-    </div>
-    <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:4px">
-      <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin-bottom:8px">Importar backup</div>
-      <div style="display:flex;gap:14px;margin-bottom:9px;font-size:.75rem">
-        <label style="display:flex;align-items:center;gap:5px;cursor:pointer">
-          <input type="radio" name="modo_importar" value="combinar" checked style="accent-color:var(--teal)"> Combinar
-        </label>
-        <label style="display:flex;align-items:center;gap:5px;cursor:pointer">
-          <input type="radio" name="modo_importar" value="reemplazar" style="accent-color:var(--teal)"> Reemplazar todo
-        </label>
-      </div>
-      <input type="file" id="input_importar_backup" accept=".json" style="display:none" onchange="importarBackupPacientes(event)">
-      <button class="btn-gdrive-connect" onclick="abrirSelectorImportar()">📂 Elegir archivo .json</button>
-    </div>
-  </div>
-</div>
-
-<!-- DETALLE PACIENTE -->
-<div id="pac_detalle" style="display:none"></div>
-
-<div class="disclaimer">Los datos se guardan en este dispositivo. Descargá tu backup periódicamente para tenerlo a salvo y poder usarlo en otro equipo.</div>
-</div>
-
-<!-- MODAL NUEVA/EDITAR PACIENTE -->
-<div id="modal_paciente" class="modal-overlay" style="display:none" onclick="cerrarModalSiOverlay(event)">
-<div class="modal-box">
-  <div class="modal-title">
-    <span id="modal_titulo">Nueva paciente</span>
-    <button class="modal-close" onclick="cerrarModal()">✕</button>
-  </div>
-
-  <div class="modal-section">Identificación</div>
-  <div class="row2">
-    <div class="field"><label>Nombre completo</label><input type="text" id="mp_nombre" placeholder="Nombre Apellido"></div>
-    <div class="field"><label>ID / Historia clínica</label><input type="text" id="mp_id" placeholder="HC-0001"></div>
-  </div>
-  <div class="row2">
-    <div class="field"><label>Fecha de nacimiento</label><input type="date" id="mp_nacimiento"></div>
-    <div class="field"><label>Teléfono (opcional)</label><input type="text" id="mp_tel" placeholder="+54 11..."></div>
-  </div>
-
-  <div class="modal-section">Datos fijos del embarazo</div>
-  <div class="row2">
-    <div class="field"><label>FUM</label><input type="date" id="mp_fum"></div>
-    <div class="field"><label>FUM corregida (si aplica)</label><input type="date" id="mp_fum_corr"></div>
-  </div>
-  <div class="row3">
-    <div class="field"><label>Talla (cm)</label><input type="number" id="mp_talla" placeholder="165"></div>
-    <div class="field"><label>Peso pregest. (kg)</label><input type="number" id="mp_peso_preg" placeholder="60" step="0.1"></div>
-    <div class="field"><label>Grupo/Rh</label><input type="text" id="mp_rh" placeholder="O+"></div>
-  </div>
-
-  <div class="modal-section">Antecedentes obstétricos (fijos)</div>
-  <div class="row3">
-    <div class="field"><label>Gestas</label><input type="number" id="mp_g" placeholder="0" min="0"></div>
-    <div class="field"><label>Partos vag.</label><input type="number" id="mp_p" placeholder="0" min="0"></div>
-    <div class="field"><label>Cesáreas</label><input type="number" id="mp_c" placeholder="0" min="0"></div>
-  </div>
-  <div class="row2">
-    <div class="field"><label>Abortos espontáneos</label><input type="number" id="mp_ae" placeholder="0" min="0"></div>
-    <div class="field"><label>Abortos provocados</label><input type="number" id="mp_ap" placeholder="0" min="0"></div>
-  </div>
-  <div class="field"><label>Antecedentes relevantes (texto libre)</label>
-    <input type="text" id="mp_ant" placeholder="PE previa, DG, pretérmino...">
-  </div>
-
-  <div class="modal-section">Antecedentes personales (fijos)</div>
-  <div class="field"><label>Patologías crónicas</label>
-    <input type="text" id="mp_patol" placeholder="HTA, DM, trombofilia...">
-  </div>
-  <div class="field"><label>Embarazo de alto valor / TRA</label>
-    <select id="mp_tra">
-      <option value="no">No</option>
-      <option value="fiv">Sí — FIV/ICSI</option>
-      <option value="iiu">Sí — IIU</option>
-      <option value="otro_tra">Sí — Otro TRA</option>
-      <option value="pgr">PGR (≥2 abortos espontáneos)</option>
-    </select>
-  </div>
-
-  <div class="modal-section">Riesgo global (calculado)</div>
-  <div class="field"><label>Clasificación de riesgo</label>
-    <select id="mp_riesgo">
-      <option value="">Sin clasificar</option>
-      <option value="bajo">Bajo</option>
-      <option value="moderado">Moderado</option>
-      <option value="alto">Alto</option>
-    </select>
-  </div>
-  <div class="field"><label>Notas generales</label>
-    <input type="text" id="mp_notas" placeholder="Observaciones...">
-  </div>
-
-  <button class="btn-modal-save" onclick="guardarPaciente()">💾 Guardar paciente</button>
-</div>
-</div>
-
-<!-- MODAL NUEVA VISITA -->
-<div id="modal_visita" class="modal-overlay" style="display:none" onclick="cerrarModalVisitaSiOverlay(event)">
-<div class="modal-box">
-  <div class="modal-title">
-    <span>📅 Registrar visita</span>
-    <button class="modal-close" onclick="cerrarModalVisita()">✕</button>
-  </div>
-  <div class="modal-section">Datos de la visita</div>
-  <div class="row2">
-    <div class="field"><label>Fecha</label><input type="date" id="mv_fecha"></div>
-    <div class="field"><label>EG (semanas+días)</label><input type="text" id="mv_eg" placeholder="ej. 28+3"></div>
-  </div>
-  <div class="row2">
-    <div class="field"><label>Peso actual (kg)</label><input type="number" id="mv_peso" placeholder="—" step="0.1"></div>
-    <div class="field"><label>PA (mmHg)</label><input type="text" id="mv_pa" placeholder="ej. 120/80"></div>
-  </div>
-
-  <div class="modal-section">Laboratorio</div>
-  <div class="row3">
-    <div class="field"><label>Hb (g/dL)</label><input type="number" id="mv_hb" placeholder="—" step="0.1"></div>
-    <div class="field"><label>Glucemia (mg/dL)</label><input type="number" id="mv_gluc" placeholder="—"></div>
-    <div class="field"><label>TSH (µUI/mL)</label><input type="number" id="mv_tsh" placeholder="—" step="0.01"></div>
-  </div>
-
-  <div class="modal-section">Ecografía</div>
-  <div class="row2">
-    <div class="field"><label>PFE (g)</label><input type="number" id="mv_pfe" placeholder="—"></div>
-    <div class="field"><label>Percentil PFE</label><input type="number" id="mv_pfe_p" placeholder="—"></div>
-  </div>
-  <div class="row2">
-    <div class="field"><label>Cervicometría (mm)</label><input type="number" id="mv_cx" placeholder="—"></div>
-    <div class="field"><label>Presentación</label>
-      <select id="mv_present">
-        <option value="">—</option>
-        <option value="Cefálica">Cefálica</option>
-        <option value="Pélvica">Pélvica</option>
-        <option value="Transversa">Transversa</option>
-      </select>
-    </div>
-  </div>
-  <div class="field"><label>PI uterinas / Doppler / sFlt-1/PlGF</label>
-    <input type="text" id="mv_doppler" placeholder="ej. PI 1.2 / sFlt-1/PlGF 28">
-  </div>
-
-  <div class="modal-section">Conducta y plan</div>
-  <div class="field"><label>Observaciones / Plan</label>
-    <input type="text" id="mv_obs" placeholder="Conducta, indicaciones, próxima cita...">
-  </div>
-  <div class="field"><label>Próxima cita</label>
-    <input type="date" id="mv_proxima">
-  </div>
-
-  <button class="btn-modal-save" onclick="guardarVisita()">💾 Guardar visita</button>
-</div>
-</div>
-
-<!-- ════ MODAL DE REVISIÓN DE CONFLICTOS (fusión por id_hc, 2026-09-13) ════
-     Se muestra cuando una paciente ya guardada recibe, por el puente HC o
-     por reimportación de un backup .json, un dato distinto al que ya tenía
-     cargado. Nunca se pisa a ciegas: el médico elige cuál valor se queda. -->
-<div id="modal_conflictos" class="modal-overlay" style="display:none">
-<div class="modal-box">
-  <div class="modal-title">
-    <span>⚠️ Revisar datos que difieren</span>
-    <button class="modal-close" onclick="cerrarModalConflictos()">✕</button>
-  </div>
-  <p style="font-size:.78rem;color:var(--slate);margin-bottom:10px">
-    Estos campos ya tenían un valor guardado distinto al que llegó ahora. Elegí cuál se queda para cada uno.
-  </p>
-  <div id="conflictos_lista"></div>
-  <button class="btn-modal-save" onclick="confirmarConflictos()">✅ Confirmar y guardar</button>
-</div>
-</div>
-
-
-<!-- ════ BIOMETRÍA FETAL AVANZADA ════ -->
-<div id="page-biometria" class="page">
 
 <div class="calc-card" style="margin-bottom:12px">
   <h2 style="font-size:.92rem;font-weight:700;color:var(--navy);margin-bottom:4px;display:flex;align-items:center;gap:8px">📐 Biometría fetal avanzada</h2>
