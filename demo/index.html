@@ -999,88 +999,8 @@ main{padding:14px;max-width:680px;margin:0 auto}
   <button class="btn-unlock">🔓 Desbloquear</button></div>
 </div>
 
-<button class="btn-calc" onclick="calcular()">⚡ Calcular riesgo prenatal completo</button>
-</div><!-- /formulario -->
 
-<!-- ════ CALCULADORAS: EG · VÍA DE PARTO ════ -->
-<div id="page-calculadoras" class="page">
-
-<!-- A. DEXTOGRAMA — EG Y CALENDARIO -->
-<div class="calc-card">
-  <h2>🗓️ Edad gestacional y calendario</h2>
-
-  <div class="radio-group">
-    <label class="radio-opt selected" id="lbl_modo_fum" onclick="setModoEG('fum')">
-      <input type="radio" name="modoEG" id="modo_fum" checked> Por FUM
-    </label>
-    <label class="radio-opt" id="lbl_modo_eco" onclick="setModoEG('eco')">
-      <input type="radio" name="modoEG" id="modo_eco"> Por ECO precoz
-    </label>
-  </div>
-
-  <!-- MODO FUM -->
-  <div id="bloque_fum">
-    <div class="field"><label>FUM (fecha última menstruación)</label>
-      <input type="date" id="dext_fum" oninput="calcDextograma();syncFUM('dext_fum')">
-    </div>
-  </div>
-
-  <!-- MODO ECO -->
-  <div id="bloque_eco" style="display:none">
-    <div class="row2">
-      <div class="field"><label>Fecha de la ECO precoz</label>
-        <input type="date" id="dext_eco_fecha" oninput="calcDextograma()">
-      </div>
-      <div class="field"><label>EG en esa ECO (sem+días)</label>
-        <input type="text" id="dext_eco_eg" placeholder="ej. 8+3" oninput="calcDextograma()">
-        <div class="hint">Formato: semanas+días (8+3, 12+1, etc.)</div>
-      </div>
-    </div>
-    <select id="dext_eco_trim" style="display:none"><option value="1" selected></option><option value="2"></option><option value="3"></option></select>
-    <div class="note-box" style="font-size:.74rem;margin-bottom:6px;line-height:1.7">
-      📌 <strong>Criterios de corrección de FUM por ECO:</strong><br>
-      🟢 <strong>1T (&lt;14 sem):</strong> Corregir FUM si diferencia ≥5 días (FUM corregido = EG por ECO)<br>
-      🟡 <strong>2T (14–28 sem):</strong> Corregir FUM si diferencia ≥7 días<br>
-      🔴 <strong>3T (&gt;28 sem):</strong> NO corregir FUM. Usar CC, LF o Cerebelo como parámetro aislado para EG más confiable. La biometría del 3T no es confiable para corregir amenorrea.
-    </div>
-    <div id="correccion_box"></div>
-  </div>
-
-  <!-- CALCULAR PARA FECHA -->
-  <div class="field" style="margin-top:4px">
-    <label>Calcular para fecha</label>
-    <input type="date" id="dext_fecha_calc" oninput="calcDextograma()">
-    <div class="hint">Por defecto: hoy</div>
-  </div>
-
-  <!-- RESULTADO EG -->
-  <div id="dext_result" style="display:none">
-    <div class="eg-result">
-      <div class="eg-main" id="dext_eg_sem">—</div>
-      <div class="eg-sub" id="dext_eg_meses">—</div>
-      <div class="eg-fum" id="dext_fum_usada">—</div>
-    </div>
-
-    <div class="semanas-grid" id="dext_semanas"></div>
-
-    <!-- CALCULADOR INVERSO -->
-    <div class="div-sep"></div>
-    <p style="font-size:.78rem;font-weight:700;color:var(--slate);margin-bottom:8px">¿Cuándo cumple X semanas?</p>
-    <div class="cumple-row">
-      <div class="field" style="flex:1;margin-bottom:0">
-        <label>Semana</label>
-        <input type="number" id="dext_cumple_sem" placeholder="ej. 34" min="1" max="42" oninput="calcCumple()">
-      </div>
-      <div class="field" style="flex:1;margin-bottom:0">
-        <label>+ días</label>
-        <input type="number" id="dext_cumple_dias" placeholder="0" min="0" max="6" oninput="calcCumple()">
-      </div>
-    </div>
-    <div id="dext_cumple_result"></div>
-  </div>
-</div>
-
-
+<!-- SUPLEMENTACIÓN PRENATAL (movida desde Gestograma·Parto) -->
 <div class="calc-card">
   <h2 style="font-size:.92rem;font-weight:700;color:var(--navy);margin-bottom:4px;display:flex;align-items:center;gap:8px">💊 Suplementación prenatal</h2>
   <p style="font-size:.75rem;color:var(--slate);margin-bottom:12px">Guías OMS · ACOG · NICE · FIGO · Endocrine Society 2024 · EBCOG 2024</p>
@@ -1216,6 +1136,89 @@ main{padding:14px;max-width:680px;margin:0 auto}
   </div>
 
 </div>
+
+<button class="btn-calc" onclick="calcular()">⚡ Calcular riesgo prenatal completo</button>
+</div><!-- /formulario -->
+
+<!-- ════ CALCULADORAS: EG · VÍA DE PARTO ════ -->
+<div id="page-calculadoras" class="page">
+
+<!-- A. DEXTOGRAMA — EG Y CALENDARIO -->
+<div class="calc-card">
+  <h2>🗓️ Edad gestacional y calendario</h2>
+
+  <div class="radio-group">
+    <label class="radio-opt selected" id="lbl_modo_fum" onclick="setModoEG('fum')">
+      <input type="radio" name="modoEG" id="modo_fum" checked> Por FUM
+    </label>
+    <label class="radio-opt" id="lbl_modo_eco" onclick="setModoEG('eco')">
+      <input type="radio" name="modoEG" id="modo_eco"> Por ECO precoz
+    </label>
+  </div>
+
+  <!-- MODO FUM -->
+  <div id="bloque_fum">
+    <div class="field"><label>FUM (fecha última menstruación)</label>
+      <input type="date" id="dext_fum" oninput="calcDextograma();syncFUM('dext_fum')">
+    </div>
+  </div>
+
+  <!-- MODO ECO -->
+  <div id="bloque_eco" style="display:none">
+    <div class="row2">
+      <div class="field"><label>Fecha de la ECO precoz</label>
+        <input type="date" id="dext_eco_fecha" oninput="calcDextograma()">
+      </div>
+      <div class="field"><label>EG en esa ECO (sem+días)</label>
+        <input type="text" id="dext_eco_eg" placeholder="ej. 8+3" oninput="calcDextograma()">
+        <div class="hint">Formato: semanas+días (8+3, 12+1, etc.)</div>
+      </div>
+    </div>
+    <select id="dext_eco_trim" style="display:none"><option value="1" selected></option><option value="2"></option><option value="3"></option></select>
+    <div class="note-box" style="font-size:.74rem;margin-bottom:6px;line-height:1.7">
+      📌 <strong>Criterios de corrección de FUM por ECO:</strong><br>
+      🟢 <strong>1T (&lt;14 sem):</strong> Corregir FUM si diferencia ≥5 días (FUM corregido = EG por ECO)<br>
+      🟡 <strong>2T (14–28 sem):</strong> Corregir FUM si diferencia ≥7 días<br>
+      🔴 <strong>3T (&gt;28 sem):</strong> NO corregir FUM. Usar CC, LF o Cerebelo como parámetro aislado para EG más confiable. La biometría del 3T no es confiable para corregir amenorrea.
+    </div>
+    <div id="correccion_box"></div>
+  </div>
+
+  <!-- CALCULAR PARA FECHA -->
+  <div class="field" style="margin-top:4px">
+    <label>Calcular para fecha</label>
+    <input type="date" id="dext_fecha_calc" oninput="calcDextograma()">
+    <div class="hint">Por defecto: hoy</div>
+  </div>
+
+  <!-- RESULTADO EG -->
+  <div id="dext_result" style="display:none">
+    <div class="eg-result">
+      <div class="eg-main" id="dext_eg_sem">—</div>
+      <div class="eg-sub" id="dext_eg_meses">—</div>
+      <div class="eg-fum" id="dext_fum_usada">—</div>
+    </div>
+
+    <div class="semanas-grid" id="dext_semanas"></div>
+
+    <!-- CALCULADOR INVERSO -->
+    <div class="div-sep"></div>
+    <p style="font-size:.78rem;font-weight:700;color:var(--slate);margin-bottom:8px">¿Cuándo cumple X semanas?</p>
+    <div class="cumple-row">
+      <div class="field" style="flex:1;margin-bottom:0">
+        <label>Semana</label>
+        <input type="number" id="dext_cumple_sem" placeholder="ej. 34" min="1" max="42" oninput="calcCumple()">
+      </div>
+      <div class="field" style="flex:1;margin-bottom:0">
+        <label>+ días</label>
+        <input type="number" id="dext_cumple_dias" placeholder="0" min="0" max="6" oninput="calcCumple()">
+      </div>
+    </div>
+    <div id="dext_cumple_result"></div>
+  </div>
+</div>
+
+
 <!-- ALTURA UTERINA LOCK (agregada 2026-09-24) -->
 <div class="calc-card locked-section" onclick="mostrarModalUpgrade('altura_uterina')">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
