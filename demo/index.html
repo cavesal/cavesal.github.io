@@ -601,10 +601,10 @@ main{padding:14px;max-width:680px;margin:0 auto}
     </button>
   </div>
   <div class="tabs">
-    <button class="tab active" onclick="showTab('formulario')">📋 Formulario</button>
+    <button class="tab active" onclick="showTab('formulario')">📋 Ficha prenatal</button>
     <button class="tab" onclick="showTab('resultado')">📊 Resultado</button>
     <button class="tab" onclick="showTab('calculadoras')">🗓️ Gestograma · Parto</button>
-    <button class="tab" onclick="showTab('biometria')">📐 Biometría</button>
+    <button class="tab" onclick="showTab('biometria')">🔊 Ecografía</button>
     <button class="tab" onclick="showTab('pacientes')">👤 Pacientes</button>
     <button class="tab" onclick="showTab('acerca')">ℹ️ Acerca</button>
   </div>
@@ -624,6 +624,8 @@ main{padding:14px;max-width:680px;margin:0 auto}
     📋 Cargar ejemplo
   </button>
 </div>
+<div style="background:var(--teal-lt);border:1px solid var(--teal);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:.8rem;color:var(--navy)">📋 Cargá los datos que tengas y presioná <b>⚡ Calcular</b> para ver la conducta clínica sugerida — no hace falta completar todo.</div>
+<button class="btn-calc" onclick="calcular()">⚡ Calcular riesgo prenatal completo</button>
 
 
 <!-- 1. DATOS GENERALES -->
@@ -990,31 +992,10 @@ main{padding:14px;max-width:680px;margin:0 auto}
   <div class="locked-preview"><div class="locked-items"><span class="lp-item">Hemograma</span><span class="lp-item">SOG/TTOG</span><span class="lp-item">TSH · T4</span><span class="lp-item">TORCH · ITS · SGB</span></div>
   <button class="btn-unlock">🔓 Desbloquear</button></div>
 </div>
-<!-- ECO LOCK -->
-<div class="section-card locked-section" onclick="mostrarModalUpgrade('ecografia')">
-  <div class="section-head"><span class="icon">🔊</span><h2>Ecografías · Cribado FMF</h2><span class="lock-badge">🔒 Versión completa</span></div>
-  <div class="locked-preview"><div class="locked-items"><span class="lp-item">Solo ECO · Combinado · NIPT</span><span class="lp-item">NT · ILA · marcadores 1T</span><span class="lp-item">Art. Uterina D+I → IP medio</span><span class="lp-item">Art. Oftálmica PSV1/PSV2 → ratio</span><span class="lp-item">Cribado PE + PlGF + PAPP-A</span><span class="lp-item">Cervicometría · sFlt-1/PlGF</span></div>
-  <button class="btn-unlock">🔓 Desbloquear</button></div>
-</div>
-
-<!-- DOPPLER 2T/3T LOCK -->
-<div class="section-card locked-section" onclick="mostrarModalUpgrade('doppler')">
-  <div class="section-head"><span class="icon">🌊</span><h2>Doppler fetal — 2T/3T</h2><span class="lock-badge">🔒 Versión completa</span></div>
-  <div class="locked-preview"><div class="locked-items"><span class="lp-item">AU — IP P5-P95 (Ciobanu FMF 2019)</span><span class="lp-item">ACM — IP P5-P95 (Ciobanu FMF 2019)</span><span class="lp-item">ICP — P5 dinámico por EG (Baschat 2003)</span><span class="lp-item">Ducto venoso — PIV</span><span class="lp-item">Art. Uterina 2T D+I → IP medio</span><span class="lp-item">Art. Oftálmica PSV1/PSV2 → pronóstico HIE</span></div>
-  <button class="btn-unlock">🔓 Desbloquear</button></div>
-</div>
-
 <!-- METABOLISMO / DIABETES LOCK -->
 <div class="section-card locked-section" onclick="mostrarModalUpgrade('metabolismo')">
   <div class="section-head"><span class="icon">🍬</span><h2>Metabolismo · Diabetes · Ganancia ponderal</h2><span class="lock-badge">🔒 Versión completa</span></div>
   <div class="locked-preview"><div class="locked-items"><span class="lp-item">SOG/TTOG (IADPSG · ADA)</span><span class="lp-item">Glucemia ayuno</span><span class="lp-item">Ganancia ponderal (IOM)</span><span class="lp-item">IMC pregestacional</span><span class="lp-item">Insulinorresistencia</span></div>
-  <button class="btn-unlock">🔓 Desbloquear</button></div>
-</div>
-
-<!-- DOPPLER ACM ANEMIA LOCK -->
-<div class="section-card locked-section" onclick="mostrarModalUpgrade('anemia')">
-  <div class="section-head"><span class="icon">🩸</span><h2>Doppler ACM — Anemia Fetal</h2><span class="lock-badge">🔒 Versión completa</span></div>
-  <div class="locked-preview"><div class="locked-items"><span class="lp-item">PSV ACM percentil (Mari 2000)</span><span class="lp-item">Clasificación anemia leve/mod./grave</span><span class="lp-item">Indicación transfusión fetal</span></div>
   <button class="btn-unlock">🔓 Desbloquear</button></div>
 </div>
 
@@ -1235,12 +1216,13 @@ main{padding:14px;max-width:680px;margin:0 auto}
   </div>
 
 </div>
-<div class="calc-card locked-section" onclick="mostrarModalUpgrade('pfe')">
+<!-- ALTURA UTERINA LOCK (agregada 2026-09-24) -->
+<div class="calc-card locked-section" onclick="mostrarModalUpgrade('altura_uterina')">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-    <h2 style="font-size:.92rem;font-weight:700;color:var(--navy)">⚖️ Peso fetal estimado</h2>
+    <h2 style="font-size:.92rem;font-weight:700;color:var(--navy)">📏 Altura uterina</h2>
     <span class="lock-badge">🔒 Versión completa</span>
   </div>
-  <div class="locked-preview"><div class="locked-items"><span class="lp-item">Hadlock 1985 (fórmula Ac+LF+DBP+CC)</span><span class="lp-item">INTERGROWTH-21st</span><span class="lp-item">Figueras &amp; Gratacós 2008 (MFB)</span><span class="lp-item">Clasificación PEG / RCIU / AEG / GEG</span><span class="lp-item">Percentil PFE + curva dinámica</span></div>
+  <div class="locked-preview"><div class="locked-items"><span class="lp-item">McDonald · sínfisis-fondo</span><span class="lp-item">Percentil por EG</span><span class="lp-item">Algoritmo propio CaVeSal®</span><span class="lp-item">Alerta AU discordante</span></div>
   <button class="btn-unlock">🔓 Desbloquear</button></div>
 </div>
 <div class="calc-card locked-section" onclick="mostrarModalUpgrade('parto')">
@@ -1257,14 +1239,43 @@ main{padding:14px;max-width:680px;margin:0 auto}
 
 
 <div id="page-biometria" class="page">
-<div class="calc-card" style="text-align:center;padding:30px 20px">
-  <div style="font-size:2.5rem;margin-bottom:10px">🔒</div>
-  <h2 style="font-size:.95rem;font-weight:800;color:var(--navy);margin-bottom:12px">Biometría fetal avanzada</h2>
-  <div class="locked-items" style="justify-content:center;margin-bottom:16px">
-    <span class="lp-item">EG por CRL</span><span class="lp-item">Biometrías 2T/3T</span>
-    <span class="lp-item">Húmero · Cerebelo</span><span class="lp-item">Asimetría CC/CA</span>
+
+<!-- ════ MOVIDO DESDE FICHA PRENATAL / GESTOGRAMA·PARTO: Cribado, Doppler, PFE (candados individuales) ════ -->
+<!-- ECO LOCK -->
+<div class="section-card locked-section" onclick="mostrarModalUpgrade('ecografia')">
+  <div class="section-head"><span class="icon">🔊</span><h2>Ecografías · Cribado FMF</h2><span class="lock-badge">🔒 Versión completa</span></div>
+  <div class="locked-preview"><div class="locked-items"><span class="lp-item">Solo ECO · Combinado · NIPT</span><span class="lp-item">NT · ILA · marcadores 1T</span><span class="lp-item">Art. Uterina D+I → IP medio</span><span class="lp-item">Art. Oftálmica PSV1/PSV2 → ratio</span><span class="lp-item">Cribado PE + PlGF + PAPP-A</span><span class="lp-item">Cervicometría · sFlt-1/PlGF</span></div>
+  <button class="btn-unlock">🔓 Desbloquear</button></div>
+</div>
+
+<!-- DOPPLER 2T/3T LOCK -->
+<div class="section-card locked-section" onclick="mostrarModalUpgrade('doppler')">
+  <div class="section-head"><span class="icon">🌊</span><h2>Doppler fetal — 2T/3T</h2><span class="lock-badge">🔒 Versión completa</span></div>
+  <div class="locked-preview"><div class="locked-items"><span class="lp-item">AU — IP P5-P95 (Ciobanu FMF 2019)</span><span class="lp-item">ACM — IP P5-P95 (Ciobanu FMF 2019)</span><span class="lp-item">ICP — P5 dinámico por EG (Baschat 2003)</span><span class="lp-item">Ducto venoso — PIV</span><span class="lp-item">Art. Uterina 2T D+I → IP medio</span><span class="lp-item">Art. Oftálmica PSV1/PSV2 → pronóstico HIE</span></div>
+  <button class="btn-unlock">🔓 Desbloquear</button></div>
+</div>
+
+<div class="calc-card locked-section" onclick="mostrarModalUpgrade('pfe')">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+    <h2 style="font-size:.92rem;font-weight:700;color:var(--navy)">⚖️ Peso fetal estimado</h2>
+    <span class="lock-badge">🔒 Versión completa</span>
   </div>
-  <button class="btn-unlock" onclick="mostrarModalUpgrade('biometria')">🔓 Desbloquear</button>
+  <div class="locked-preview"><div class="locked-items"><span class="lp-item">Hadlock 1985 (fórmula Ac+LF+DBP+CC)</span><span class="lp-item">INTERGROWTH-21st</span><span class="lp-item">Figueras &amp; Gratacós 2008 (MFB)</span><span class="lp-item">Clasificación PEG / RCIU / AEG / GEG</span><span class="lp-item">Percentil PFE + curva dinámica</span></div>
+  <button class="btn-unlock">🔓 Desbloquear</button></div>
+</div>
+
+<!-- DOPPLER ACM ANEMIA LOCK -->
+<div class="section-card locked-section" onclick="mostrarModalUpgrade('anemia')">
+  <div class="section-head"><span class="icon">🩸</span><h2>Doppler ACM — Anemia Fetal</h2><span class="lock-badge">🔒 Versión completa</span></div>
+  <div class="locked-preview"><div class="locked-items"><span class="lp-item">PSV ACM percentil (Mari 2000)</span><span class="lp-item">Clasificación anemia leve/mod./grave</span><span class="lp-item">Indicación transfusión fetal</span></div>
+  <button class="btn-unlock">🔓 Desbloquear</button></div>
+</div>
+
+<!-- BIOMETRÍA AVANZADA LOCK -->
+<div class="section-card locked-section" onclick="mostrarModalUpgrade('biometria')">
+  <div class="section-head"><span class="icon">📐</span><h2>Biometría fetal avanzada</h2><span class="lock-badge">🔒 Versión completa</span></div>
+  <div class="locked-preview"><div class="locked-items"><span class="lp-item">EG por CRL</span><span class="lp-item">Biometrías 2T/3T</span><span class="lp-item">Húmero · Cerebelo</span><span class="lp-item">Asimetría CC/CA</span></div>
+  <button class="btn-unlock">🔓 Desbloquear</button></div>
 </div>
 </div>
 
@@ -4621,6 +4632,7 @@ var _UPC={
   parto:{icon:'🏥',title:'Via de parto',sub:'Robson, Grobman, Bishop'},
   biometria:{icon:'📐',title:'Biometría avanzada',sub:'CRL, cerebelo, asimetría CC/CA'},
   suplementacion:{icon:'💊',title:'Suplementación prenatal',sub:'Folato, hierro, calcio, vitamina D, omega-3, yodo'},
+  altura_uterina:{icon:'📏',title:'Altura uterina',sub:'McDonald, percentil por EG, alerta discordante'},
 };
 function mostrarModalUpgrade(tipo){
   var c=_UPC[tipo]||{icon:'🔒',title:'Versión completa',sub:'drverasalerno@gmail.com'};
