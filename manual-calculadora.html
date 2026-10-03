@@ -53,6 +53,8 @@
   .shot .cam{font-size:1.6rem;display:block;margin-bottom:6px}
   .shot code{background:#eef7f9;padding:2px 6px;border-radius:5px;font-size:.78rem;color:var(--navy)}
 
+  .new{background:#eafbf0;border-left:3px solid #0d8f4a;border-radius:8px;padding:10px 14px;font-size:.78rem;margin-bottom:10px;color:#0d6b38;font-weight:600;display:inline-block}
+
   .updated{font-size:.78rem;color:var(--slate);text-align:center;margin-top:20px}
   a{color:var(--teal)}
   .back-top{display:inline-block;margin-top:14px;font-size:.78rem}
@@ -88,6 +90,7 @@
     <li><a href="#laboratorio">Laboratorio</a></li>
     <li><a href="#vacunacion">Profilaxis y vacunación</a></li>
     <li><a href="#pacientes">Gestión de pacientes y backup</a></li>
+    <li><a href="#puente-hc">Sincronización con Historia Clínica CaVeSal®</a></li>
   </ol>
 </nav>
 
@@ -328,7 +331,7 @@
   <div class="step"><div class="step-num">3</div><p>Si hay <strong>cesárea previa</strong>, se habilita el <strong>Score de Grobman</strong> (validado ACOG/NICHD, predice probabilidad de éxito de parto vaginal después de cesárea). Cargá <strong>tipo de cicatriz uterina</strong>, <strong>indicación de la cesárea anterior</strong> (recurrente o no), y marcá si hubo parto vaginal previo, trabajo de parto espontáneo previo, pérdida gestacional recurrente, embarazo de alto valor, o cirugía uterina previa.</p></div>
   <div class="step"><div class="step-num">4</div><p>Según esos datos, la app indica si es <strong>"Candidata a PVDC"</strong> (parto vaginal después de cesárea) — listando los criterios favorables encontrados — o si corresponde <strong>"Cesárea programada indicada"</strong>, con la justificación específica (ej. PFE ≥4500g, embarazo de alto valor).</p></div>
   <div class="step"><div class="step-num">5</div><p>Si cargás el <strong>examen cervical</strong> (dilatación, borramiento, estación, consistencia, posición), la app calcula el <strong>Score de Bishop</strong> y lo clasifica (favorable/desfavorable), sugiriendo maduración cervical si corresponde.</p></div>
-  <div class="tip">💡 El módulo también integra automáticamente el <strong>PFE</strong> (percentil y clasificación) cuando está cargado — por ejemplo, un PFE ≥4500g con percentil ≥97 se marca como macrosomía severa, con la conducta específica (cesárea programada en ACOG/NICE, umbral distinto si es paciente diabética).</p></div>
+  <div class="tip">💡 El módulo también integra automáticamente el <strong>PFE</strong> (percentil y clasificación) cuando está cargado — por ejemplo, un PFE ≥4500g con percentil ≥97 se marca como macrosomía severa, con la conducta específica (cesárea programada en ACOG/NICE, umbral distinto si es paciente diabética).</div>
   <div class="warn">⚠️ Si la EG actual es pretérmino, la app lo señala aparte y recuerda evaluar madurez pulmonar/betametasona si corresponde, coordinando con neonatología.</div>
   <div style="margin:14px 0">
   <img src="img/manual-calc-08-viaparto.png" alt="Captura de pantalla" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px">
@@ -405,10 +408,28 @@
   <div class="step"><div class="step-num">5</div><p>Cada visita queda en un listado cronológico editable — podés modificar o eliminar cualquier visita cargada, y desde ahí también podés volver a abrir esa paciente directo en la calculadora ("⚡ Abrir en calculadora") para recalcular su riesgo con los datos actualizados.</p></div>
   <div class="step"><div class="step-num">6</div><p>Desde <strong>"Mis pacientes"</strong>, tocá <strong>"Backup local (.json)"</strong> para descargar un archivo con todas tus pacientes (tarjeta "Descargar .json"), y guardalo en tu propio Google Drive (tarjeta "Abrir Google Drive") — así podés sincronizar entre PC, celular o tablet manualmente, copiando el archivo de un dispositivo a otro.</p></div>
   <div class="step"><div class="step-num">7</div><p>Para <strong>"Importar backup"</strong>, elegí el archivo .json y el modo: <strong>"Combinar"</strong> (agrega las pacientes del backup sin borrar las que ya tenés) o <strong>"Reemplazar todo"</strong> (borra los datos actuales y los reemplaza por los del backup).</p></div>
-  <div class="tip">💡 Si también usás la Historia Clínica CaVeSal®, podés enviar los datos clínicos de una paciente directo desde ahí hacia la Calculadora, sin recargar nada a mano (función de la versión completa). Y desde acá, con la tarjeta "Analizar con CaVeSal® IA" del panel de Resultado, podés mandar el cálculo actual a una segunda lectura clínica con inteligencia artificial — ver el <a href="https://cavesal.app/manual-cavesal-ia.html">tutorial de CaVeSal® IA</a>.</div>
+  <div class="tip">💡 Y desde acá, con la tarjeta "Analizar con CaVeSal® IA" del panel de Resultado, podés mandar el cálculo actual a una segunda lectura clínica con inteligencia artificial — ver el <a href="https://cavesal.app/manual-cavesal-ia.html">tutorial de CaVeSal® IA</a>.</div>
   <div style="margin:14px 0">
   <img src="img/manual-calc-11-pacientes.png" alt="Captura de pantalla" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px">
 </div>
+</section>
+
+<section id="puente-hc">
+  <h2>🔄 Sincronización con Historia Clínica CaVeSal®</h2>
+  <span class="new">🆕 Sección nueva</span>
+  <p>Si también usás la <strong>Historia Clínica CaVeSal®</strong>, podés enviar los datos clínicos de una paciente directo desde ahí hacia la Calculadora, sin recargar nada a mano (botón "Enviar a Calculadora" en la HC — función de la versión completa). Esta sección explica qué pasa del lado de la Calculadora cuando esos datos llegan.</p>
+
+  <div class="step"><div class="step-num">1</div><p><strong>Reconocimiento automático por documento de HC (<code>id_hc</code>):</strong> la Calculadora identifica a la paciente por el campo "id_hc" que manda la Historia Clínica. Si ya la tenías guardada en "Mis pacientes" (porque la enviaste antes), <strong>actualiza esa misma ficha</strong> en vez de crear una duplicada — podés mandar la misma paciente desde HC todas las veces que haga falta, a medida que avanza el embarazo, sin generar fichas repetidas. Si no reconoce el id_hc (primera vez, o paciente sin documento cargado en HC), da de alta una ficha nueva.</p></div>
+
+  <div class="step"><div class="step-num">2</div><p><strong>Datos de perfil</strong> (talla, peso pregestacional, FUM, grupo y Rh, gestas/partos/cesáreas/abortos, nombre): si el campo todavía estaba vacío en la ficha de la Calculadora, se completa solo. Si ya tenía <strong>un valor distinto</strong> al que llega desde HC, la app no lo pisa a ciegas — aparece el modal <strong>"⚠️ Revisar datos que difieren"</strong>, listando cada campo en conflicto para que elijas cuál valor se queda (el que ya tenías guardado o el que llega de HC).</p></div>
+
+  <div class="step"><div class="step-num">3</div><p><strong>Antecedentes, serologías y vacunas</strong> (HTA crónica, diabetes pregestacional, trombofilia, cardiopatía con clase OMS, VIH/Hepatitis/Sífilis antecedente, Coombs, VDRL, toxoplasmosis, Chagas, SGB, Tdpa/antigripal/VSR/COVID — lo que ya tengas cargado en HC): estos datos <strong>no se mezclan con los campos editables</strong> de "Editar paciente" — llegan de solo lectura, y se ven aparte en <strong>"Ver ficha"</strong>, bajo el bloque "🩺 Datos clínicos vinculados desde HC". Solo se muestran los que tienen un valor positivo o cargado — no se lista cada antecedente que la paciente no tiene, para no saturar la ficha.</p></div>
+
+  <div class="step"><div class="step-num">4</div><p><strong>Datos de la visita actual</strong> (PA, peso, presentación fetal, Hb, TSH, cervicometría, Doppler, glucemia, PFE, observaciones): estos <strong>siempre se agregan como una visita nueva</strong> en el historial — nunca reemplazan una visita ya guardada. Se ven en la ficha exactamente igual que una visita cargada a mano, con los mismos campos descritos en el punto 4 de "Gestión de pacientes" arriba.</p></div>
+
+  <div class="warn">⚠️ <strong>Dos campos que hoy la Historia Clínica ya registra pero que todavía NO viajan a la Calculadora:</strong> "Motivo de consulta" y "Edemas" de cada control prenatal. No es un error — la ficha de "Mis pacientes" todavía no tiene un lugar para esos dos campos, así que se quedan solo en la Historia Clínica por ahora. Si te hacen falta del lado de la Calculadora, es un cambio chico para agregar cuando lo pidas.</div>
+
+  <div class="shot"><span class="cam">📷</span>Falta captura del modal "⚠️ Revisar datos que difieren" y del bloque "🩺 Datos clínicos vinculados desde HC" en "Ver ficha".<br><code>img/manual-calc-puente-hc.png</code></div>
 </section>
 
 <section style="text-align:center">
@@ -424,7 +445,7 @@
   </div>
 </section>
 
-<p class="updated">¿Dudas sobre algún módulo? Escribinos a <a href="mailto:drverasalerno@gmail.com">drverasalerno@gmail.com</a> · Última actualización: septiembre de 2026</p>
+<p class="updated">¿Dudas sobre algún módulo? Escribinos a <a href="mailto:drverasalerno@gmail.com">drverasalerno@gmail.com</a> · Última actualización: octubre de 2026</p>
 <p style="text-align:center"><a class="back-top" href="#top">↑ Volver al índice</a></p>
 
 </main>
