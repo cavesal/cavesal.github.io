@@ -7959,7 +7959,23 @@ const DATOSHC_LABELS = {
 const DATOSHC_KEYS = Object.keys(DATOSHC_LABELS);
 
 // Campos de "visita" (no de perfil): se agregan como una visita nueva.
-const VISITA_DESDE_PUENTE = { hc_pa:'pa', hc_obs:'obs' };
+// Ampliado 2026-10-03 (pedido de Carlos, claude/hc-correcciones-calculos.md
+// puntos 6/7): antes solo viajaban PA y observaciones — calculator-bridge.ts
+// (HC) ya mandaba hace rato peso/Hb/TSH/cervicometría/Doppler/presentación/
+// glucemia/PFE con prefijo "hc_", pero este mapa no los tomaba todavía, así
+// que el motor de fusión (clasificarPayloadPuente, más abajo) los ignoraba
+// en silencio. Las keys de la derecha son las mismas que ya usa el modal
+// manual de "+ Visita" (ver guardarVisita()), para que una visita que llega
+// por el puente se vea exactamente igual que una cargada a mano.
+// hc_edemas y hc_motivo (motivo de consulta, agregado en HC el 2026-10-03)
+// quedan sin mapear a propósito: la ficha de "Mis pacientes" todavía no
+// tiene esos 2 campos en su modelo de visita — no se inventa un lugar para
+// ellos sin que Carlos lo pida.
+const VISITA_DESDE_PUENTE = {
+  hc_pa:'pa', hc_obs:'obs',
+  hc_peso:'peso', hc_presentacion:'present', hc_hb:'hb', hc_tsh:'tsh',
+  hc_cervicometria:'cx', hc_doppler:'doppler', hc_glucemia:'gluc', hc_pfe:'pfe',
+};
 
 const PERFIL_LABELS = {
   g:'Gestas', p:'Partos', c:'Cesáreas', ae:'Abortos espontáneos', ap:'Abortos provocados',
