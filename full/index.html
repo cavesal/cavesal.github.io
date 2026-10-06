@@ -1872,14 +1872,6 @@ document.addEventListener('DOMContentLoaded', function(){
 <!-- C. VÍA DE PARTO -->
 <div class="calc-card">
   <h2>🏥 Pronóstico de vía de parto</h2>
-  <div style="margin:8px 0 12px;padding:8px;background:var(--mist);border-radius:10px;">
-    <div style="font-size:.72rem;color:var(--slate);margin-bottom:6px;font-weight:600;">📊 Tabla de percentiles:</div>
-    <div style="display:flex;gap:8px;margin-bottom:4px;">
-      <button id="pfe_tabla_figueras" onclick="setPfeTabla('figueras')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.70rem;font-weight:700;cursor:pointer;background:var(--teal);color:#fff;">Figueras 2008</button>
-      <button id="pfe_tabla_ig21" onclick="setPfeTabla('ig21')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.70rem;font-weight:700;cursor:pointer;background:var(--mist);color:var(--slate);">INTERGROWTH-21</button>
-    </div>
-    <div id="pfe_tabla_label" style="font-size:.66rem;color:var(--teal);font-style:italic;">Figueras 2008 · MFB (recomendado Latinoamérica)</div>
-  </div>
 
   <!-- PARIDAD -->
   <p class="sub-title" style="margin-top:0">Paridad y antecedentes</p>
@@ -2622,6 +2614,19 @@ document.addEventListener('DOMContentLoaded', function(){
 <!-- B. PESO FETAL ESTIMADO -->
 <div class="calc-card">
   <h2>⚖️ Peso fetal estimado (PFE)</h2>
+
+  <!-- MOVIDO (2026-10-06): este selector vive acá porque pfeTabla afecta -->
+  <!-- tanto el modo "EG + peso → percentil" como "Biometría → Hadlock" -->
+  <!-- (ver calcPFE()) — había quedado en la tarjeta de Vía de parto desde -->
+  <!-- la reorganización de pestañas anterior. -->
+  <div style="margin:8px 0 12px;padding:8px;background:var(--mist);border-radius:10px;">
+    <div style="font-size:.72rem;color:var(--slate);margin-bottom:6px;font-weight:600;">📊 Tabla de percentiles:</div>
+    <div style="display:flex;gap:8px;margin-bottom:4px;">
+      <button id="pfe_tabla_figueras" onclick="setPfeTabla('figueras')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.70rem;font-weight:700;cursor:pointer;background:var(--teal);color:#fff;">Figueras 2008</button>
+      <button id="pfe_tabla_ig21" onclick="setPfeTabla('ig21')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.70rem;font-weight:700;cursor:pointer;background:var(--mist);color:var(--slate);">INTERGROWTH-21</button>
+    </div>
+    <div id="pfe_tabla_label" style="font-size:.66rem;color:var(--teal);font-style:italic;">Figueras 2008 · MFB (recomendado Latinoamérica)</div>
+  </div>
 
   <div class="pfe-mode-btns">
     <button class="pfe-btn active" id="pfebtn_directo" onclick="setPFEMode('directo')">Peso + percentil directo</button>
