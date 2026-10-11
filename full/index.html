@@ -192,6 +192,15 @@ main{padding:14px;max-width:680px;margin:0 auto}
 
 /* CALCULATE BUTTON */
 .btn-calc{width:100%;padding:14px;background:linear-gradient(135deg,#0D1B2D,#0EA5B7);color:#fff;border:none;border-radius:var(--radius);font-size:.95rem;font-weight:700;cursor:pointer;letter-spacing:.5px;box-shadow:0 4px 16px rgba(13,115,119,.35);transition:opacity .2s;margin-bottom:18px}
+.btn-calc-header{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:6px;padding:9px 14px;background:#fff;color:#0D1B2D;border:none;border-radius:12px;font-size:.8rem;font-weight:800;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.18);transition:transform .15s}
+.btn-calc-header:active{transform:scale(.97)}
+.eco-invite-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:4px 2px 2px}
+.eco-invite-card{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;border:1.5px solid var(--border);border-radius:12px;padding:12px 8px;background:var(--mist);text-decoration:none}
+.eco-invite-card img{width:84px;height:84px;border-radius:8px;background:#fff}
+.eco-invite-card .eco-nombre{font-size:.74rem;font-weight:700;color:var(--navy)}
+.eco-invite-card .eco-bajada{font-size:.64rem;color:var(--slate);line-height:1.3}
+.eco-invite-card .eco-abrir{font-size:.68rem;font-weight:700;color:var(--teal);margin-top:2px}
+@media (max-width:420px){.eco-invite-grid{grid-template-columns:1fr}}
 .btn-calc:hover{opacity:.9}
 
 /* RESULTS */
@@ -763,6 +772,7 @@ document.addEventListener('DOMContentLoaded', function(){
     <button class="tab" onclick="showTab('pacientes')">👤 Pacientes</button>
     <button class="tab" onclick="showTab('acerca')">ℹ️ Acerca</button>
   </div>
+  <button class="btn-calc-header" onclick="calcular()">⚡ Calcular</button>
 </header>
 
 <main>
@@ -2358,6 +2368,16 @@ document.addEventListener('DOMContentLoaded', function(){
             </select>
           </div>
         </div>
+        <div class="row2" style="margin-top:-2px">
+          <div class="field"><label>Plexo coroideo ("signo de la mariposa")</label>
+            <select id="nt_plexo" onchange="calcNT()">
+              <option value="">—</option>
+              <option value="normal">Normal (bilateral, simétrico)</option>
+              <option value="quiste">Quiste(s) de plexo coroideo visible(s) ⚠️</option>
+            </select>
+            <div class="hint">Marcador blando — más asociado a T18 que a T21 si es aislado</div>
+          </div>
+        </div>
         <div id="nt_result" style="display:none;overflow-wrap:break-word;word-break:break-word"></div>
         <div class="bio-ref" style="margin-top:8px">📚 FMF/Nicolaides. NT MoM = NT / mediana esperada para CRL. NT ≥p95: riesgo cromosómico aumentado. Ductus venoso onda a invertida: marcador aneuploidía + cardiopatía. Regurgitación tricúspide: asociada a T21 y cardiopatía congénita.</div>
       </div>
@@ -2880,6 +2900,400 @@ Microcefalia: CC &lt;p3 para EG.</div>
 
 </div>
 
+<!-- ════════════════════════════════════════════════════════
+     ECOGRAFÍA MORFOLÓGICA (2T) — checklist por sistema
+     Diseño: claude/calculadora-morfologia-fetal.md (cerrado 2026-10-11)
+     ════════════════════════════════════════════════════════ -->
+<div class="note-box" style="margin:14px 0 8px">
+  <strong>🧬 Ecografía morfológica (2T) — 18 a 24 semanas</strong><br>
+  Checklist estructurado por sistema (ISUOG). Ingresá la EG de este estudio — la usan los
+  ítems con punto de corte dependiente de EG (DTC, pliegue nucal, pelviectasia renal, megavejiga).
+</div>
+<div class="row2" style="margin-bottom:12px">
+  <div class="field"><label>EG al momento de este estudio</label>
+    <div style="display:flex;gap:6px;align-items:center">
+      <input type="number" id="mf_eg_sem" placeholder="ss" step="1" min="14" max="28" style="width:70px">
+      <span style="font-size:.78rem;color:var(--slate)">sem</span>
+      <input type="number" id="mf_eg_dias" placeholder="0" step="1" min="0" max="6" style="width:55px">
+      <span style="font-size:.78rem;color:var(--slate)">días</span>
+    </div>
+  </div>
+</div>
+
+<!-- 2.1 SNC -->
+<div class="section-card">
+  <div class="section-head" onclick="toggleSection(this)">
+    <span class="icon">🧠</span><h2>Morfología — SNC</h2><span class="chevron">▼</span>
+  </div>
+  <div class="section-body" style="padding:14px 14px 4px">
+    <div class="row2">
+      <div class="field"><label>Cavum del septum pellucidum</label>
+        <select id="mf_cavum"><option value="">—</option><option value="presente">Presente (normal)</option><option value="ausente">Ausente ⚠️</option></select>
+      </div>
+      <div class="field"><label>Tálamos</label>
+        <select id="mf_talamos"><option value="">—</option><option value="simetricos">Simétricos (normal)</option><option value="asimetricos">Asimétricos ⚠️</option></select>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Forma craneal</label>
+        <select id="mf_forma_craneal"><option value="">—</option><option value="normal">Ovalada (normal)</option><option value="limon">Signo del "limón" ⚠️</option><option value="fresa">Signo de la "fresa" ⚠️</option></select>
+      </div>
+      <div class="field"><label>Continuidad ósea craneal</label>
+        <select id="mf_continuidad_osea"><option value="">—</option><option value="integra">Íntegra (normal)</option><option value="defecto">Defecto ⚠️</option></select>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Atrio ventricular lateral — esquema</label>
+        <select id="mf_avl_esquema"><option value="">—</option><option value="A">Esquema A — 3 niveles (clásico)</option><option value="B">Esquema B — ISUOG (2 niveles)</option></select>
+        <div class="hint">Medición interna-interna a nivel del glomus del plexo coroideo</div>
+      </div>
+      <div class="field"><label>Atrio ventricular lateral (mm)</label>
+        <input type="number" id="mf_avl_mm" placeholder="ej. 7.0" step="0.1">
+        <div class="hint">A: Normal &lt;10 · Leve 10–12 · Moderada 12.1–14.9 · Severa ≥15 mm<br>B (ISUOG): Normal &lt;10 · Leve 10–15 · Severa &gt;15 mm</div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Diámetro transverso de cerebelo — DTC (mm)</label>
+        <input type="number" id="mf_dtc" placeholder="ej. 22.0" step="0.1">
+        <div class="hint">14–24 sem: DTC(mm) ≈ EG(semanas). 20–24 sem: 20.0–25.5 mm (p50) · Dato de referencia — no dispara alerta automática (el corte real es por tabla de percentil p5–p95 por EG, no por mm de diferencia)</div>
+      </div>
+      <div class="field"><label>Signo de la banana</label>
+        <select id="mf_banana"><option value="">—</option><option value="ausente">Ausente (normal)</option><option value="presente">Presente ⚠️</option></select>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Agenesia de vermis cerebeloso</label>
+        <select id="mf_vermis"><option value="">—</option><option value="presente">Vermis presente (normal)</option><option value="agenesia">Agenesia de vermis ⚠️</option></select>
+      </div>
+      <div class="field"><label>Cisterna magna (mm)</label>
+        <input type="number" id="mf_cisterna_magna" placeholder="ej. 6.0" step="0.1">
+        <div class="hint">Normal 3.0–10.0 mm · &lt;2–3 mm = obliterada · &gt;10 mm = megacisterna magna</div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Pliegue nucal 2T (mm)</label>
+        <input type="number" id="mf_pliegue_nucal" placeholder="ej. 4.0" step="0.1">
+        <div class="hint">Válido 15.0–20.6 sem · Normal &lt;6.0 mm · ≥6.0 mm = marcador mayor de aneuploidía</div>
+      </div>
+      <div></div>
+    </div>
+    <div class="bio-ref">📚 ISUOG Practice Guidelines (2020/2023) — fetal CNS. Paladini &amp; Volpe (2018). Planos coronales/sagitales dirigidos (neurosonografía avanzada): módulo futuro, fuera de este checklist.</div>
+  </div>
+</div>
+
+<!-- 2.2 Cara -->
+<div class="section-card">
+  <div class="section-head" onclick="toggleSection(this)">
+    <span class="icon">😶</span><h2>Morfología — Cara</h2><span class="chevron">▼</span>
+  </div>
+  <div class="section-body" style="padding:14px 14px 4px">
+    <div class="row2">
+      <div class="field"><label>Órbitas</label>
+        <select id="mf_orbitas"><option value="">—</option><option value="normal">Presentes y simétricas (normal)</option><option value="alterado">Alteradas ⚠️</option></select>
+      </div>
+      <div class="field"><label>Nariz</label>
+        <select id="mf_nariz"><option value="">—</option><option value="normal">Forma normal</option><option value="alterado">Aplanada o ausente ⚠️</option></select>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Maxilar</label>
+        <select id="mf_maxilar"><option value="">—</option><option value="integro">Íntegro (normal)</option><option value="defecto">Defecto ⚠️</option></select>
+      </div>
+      <div class="field"><label>Paladar</label>
+        <select id="mf_paladar"><option value="">—</option><option value="integro">Íntegro (normal)</option><option value="hendidura">Hendidura (fisura palatina) ⚠️</option></select>
+        <div class="hint">Requiere corte coronal retronasal — más difícil de visualizar que el labio</div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Labio superior</label>
+        <select id="mf_labio"><option value="">—</option><option value="integro">Íntegro (normal)</option><option value="defecto_uni">Defecto unilateral ⚠️</option><option value="defecto_bilateral">Defecto bilateral ⚠️</option></select>
+      </div>
+      <div></div>
+    </div>
+    <div class="bio-ref">📚 ISUOG Practice Guidelines (2020/2023). Labio+paladar se evalúan juntos: la conducta/consejo genético varía según la combinación exacta.</div>
+  </div>
+</div>
+
+<!-- 2.3 Columna -->
+<div class="section-card">
+  <div class="section-head" onclick="toggleSection(this)">
+    <span class="icon">🦴</span><h2>Morfología — Columna</h2><span class="chevron">▼</span>
+  </div>
+  <div class="section-body" style="padding:14px 14px 4px">
+    <div class="row2">
+      <div class="field"><label>Columna (corte longitudinal + axial)</label>
+        <select id="mf_columna"><option value="">—</option><option value="integra">Íntegra (normal)</option><option value="defecto">Solución de continuidad ⚠️</option></select>
+      </div>
+      <div class="field"><label>Piel sobre la columna</label>
+        <select id="mf_piel_columna"><option value="">—</option><option value="integra">Íntegra (normal)</option><option value="defecto">Defecto ⚠️</option></select>
+      </div>
+    </div>
+    <div class="bio-ref">📚 ISUOG Practice Guidelines (2020/2023). Correlacionar con cisterna magna obliterada y signo de la banana (SNC) como marcadores indirectos de espina bífida abierta.</div>
+  </div>
+</div>
+
+<!-- 2.4 Tórax y corazón -->
+<div class="section-card">
+  <div class="section-head" onclick="toggleSection(this)">
+    <span class="icon">🫀</span><h2>Morfología — Tórax y corazón</h2><span class="chevron">▼</span>
+  </div>
+  <div class="section-body" style="padding:14px 14px 4px">
+    <div class="row2">
+      <div class="field"><label>Ritmo cardíaco</label>
+        <select id="mf_ritmo"><option value="">—</option><option value="regular">Regular (normal)</option><option value="irregular">Irregular ⚠️</option></select>
+      </div>
+      <div class="field"><label>Nota (si irregular)</label>
+        <input type="text" id="mf_ritmo_nota" placeholder="ej. extrasistolia aislada / taqui-bradiarritmia">
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Situs víscero-atrial</label>
+        <select id="mf_situs"><option value="">—</option><option value="solitus">Solitus (normal)</option><option value="inversus">Inversus ⚠️</option></select>
+        <div class="hint">Ref.: estómago y aorta descendente izquierdos, VCI derecha, ápex a la izquierda (regla de la mano derecha / mapa fetal ISUOG)</div>
+      </div>
+      <div class="field"><label>Corte de 4 cámaras (4CV)</label>
+        <select id="mf_4cv"><option value="">—</option><option value="normal">Normal</option><option value="alterado">Alterado ⚠️</option></select>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Simetría ventricular</label>
+        <select id="mf_sim_ventricular"><option value="">—</option><option value="simetrica">Simétrica (normal)</option><option value="asimetrica">Asimétrica ⚠️</option></select>
+      </div>
+      <div class="field"><label>Simetría auricular + foramen oval</label>
+        <select id="mf_sim_auricular"><option value="">—</option><option value="normal">Normal</option><option value="alterado">Alterado ⚠️</option></select>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Septum interventricular</label>
+        <select id="mf_septum_iv"><option value="">—</option><option value="integro">Íntegro (normal)</option><option value="defecto">Defecto (CIV) ⚠️</option></select>
+      </div>
+      <div class="field"><label>Tracto de salida VI (TSVI)</label>
+        <select id="mf_tsvi"><option value="">—</option><option value="normal">Normal</option><option value="alterado">Alterado ⚠️</option></select>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Tracto de salida VD (TSVD)</label>
+        <select id="mf_tsvd"><option value="">—</option><option value="normal">Normal</option><option value="alterado">Alterado ⚠️</option></select>
+      </div>
+      <div class="field"><label>Corte de 3 vasos y tráquea (3VT)</label>
+        <select id="mf_3vt"><option value="">—</option><option value="normal">Normal</option><option value="alterado">Alterado ⚠️</option></select>
+        <div class="hint">AP &gt; Ao &gt; VCS en calibre decreciente; confluencia en "V" a la izquierda de la tráquea</div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Cayado aórtico</label>
+        <select id="mf_cayado"><option value="">—</option><option value="normal">Normal</option><option value="alterado">Alterado (interrupción/coartación) ⚠️</option></select>
+      </div>
+      <div class="field"><label>Pulmones</label>
+        <select id="mf_pulmones"><option value="">—</option><option value="normal">Homogéneos, simétricos (normal)</option><option value="alterado">Alterados ⚠️</option></select>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Índice cardiotorácico — método</label>
+        <select id="mf_ict_metodo"><option value="">—</option><option value="area">Por área (recomendado)</option><option value="perimetro">Por perímetros/diámetros</option></select>
+      </div>
+      <div class="field"><label>Índice cardiotorácico — valor</label>
+        <input type="number" id="mf_ict_valor" placeholder="ej. 0.30" step="0.01">
+        <div class="hint">Área: normal 0.25–0.33 · cardiomegalia &gt;0.35. Perímetros: corte EG-dependiente (Sirilert 2019/Leung 2006) — &gt;0.50 (12–15 sem) · &gt;0.52 (18–20 sem) · &gt;0.59 (25–30 sem)</div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Ángulo/eje cardíaco (°)</label>
+        <input type="number" id="mf_angulo_cardiaco" placeholder="ej. 45" step="1">
+        <div class="hint">Normal 45°±20° (25°–65°) hacia la izquierda. &gt;65° (conotruncales/HDC) · &lt;25° o derecho (dextrocardia/situs inversus)</div>
+      </div>
+      <div></div>
+    </div>
+    <div class="bio-ref">📚 ISUOG Practice Guidelines (2020/2023) — fetal heart. Paladini &amp; Volpe (2018). 5 cortes transversales estándar ISUOG.</div>
+
+    <!-- 2.4.1 HDC -->
+    <div class="section-head" style="margin-top:12px;background:var(--mist);border-radius:10px" onclick="toggleSection(this)">
+      <span class="icon">🫁</span><h2 style="font-size:.95rem">Hernia diafragmática congénita (HDC)</h2><span class="chevron">▼</span>
+    </div>
+    <div class="section-body" style="padding:10px 2px 4px">
+      <div class="row2">
+        <div class="field"><label>Burbuja gástrica</label>
+          <select id="mf_hdc_burbuja"><option value="">—</option><option value="infra">Infradiafragmática (normal)</option><option value="supra">Supradiafragmática / intratorácica ⚠️</option></select>
+        </div>
+        <div class="field"><label>Lado de la hernia (si corresponde)</label>
+          <select id="mf_hdc_lado"><option value="">—</option><option value="izquierda">Izquierda (Bochdalek, ~85%)</option><option value="derecha">Derecha (~10–15%)</option></select>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field"><label>O/E LHR (%)</label>
+          <input type="number" id="mf_hdc_oe_lhr" placeholder="ej. 35" step="1">
+          <div class="hint">O/E LHR &lt;25% = severo · 25–44.9% = moderado (TOTAL trial; 35–44.9% si hay herniación hepática) · ≥45% = favorable</div>
+        </div>
+        <div></div>
+      </div>
+      <div class="bio-ref">📚 CDHSG / Jani et al. 2007, UOG (O/E LHR). Paladini &amp; Volpe (2018).</div>
+    </div>
+  </div>
+</div>
+
+<!-- 2.5 Abdomen -->
+<div class="section-card">
+  <div class="section-head" onclick="toggleSection(this)">
+    <span class="icon">🫃</span><h2>Morfología — Abdomen</h2><span class="chevron">▼</span>
+  </div>
+  <div class="section-body" style="padding:14px 14px 4px">
+    <div class="row2">
+      <div class="field"><label>Estómago</label>
+        <select id="mf_estomago"><option value="">—</option><option value="normal">Presente, infradiafragmático, izquierdo (normal)</option><option value="alterado">Alterado ⚠️ (ver HDC)</option></select>
+      </div>
+      <div class="field"><label>Pared abdominal / inserción del cordón</label>
+        <select id="mf_pared_abdominal"><option value="">—</option><option value="integra">Íntegra (normal)</option><option value="onfalocele">Onfalocele (con cobertura) ⚠️</option><option value="gastrosquisis">Gastrosquisis (sin cobertura) ⚠️</option></select>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Pelviectasia renal — diámetro AP pelvis, derecha (mm)</label>
+        <input type="number" id="mf_pelv_der" placeholder="ej. 3.0" step="0.1">
+      </div>
+      <div class="field"><label>Pelviectasia renal — diámetro AP pelvis, izquierda (mm)</label>
+        <input type="number" id="mf_pelv_izq" placeholder="ej. 3.0" step="0.1">
+        <div class="hint">&lt;33 sem: normal &lt;4.0 · leve 4.0–10.0 · obstructiva &gt;10.0 mm. ≥33 sem: normal &lt;7.0 · leve 7.0–10.0 · obstructiva &gt;10.0 mm</div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Cordón umbilical</label>
+        <select id="mf_cordon"><option value="">—</option><option value="tres_vasos">3 vasos (normal)</option><option value="arteria_unica">Arteria umbilical única ⚠️</option></select>
+      </div>
+      <div class="field"><label>Megavejiga — diámetro longitudinal máximo (mm)</label>
+        <input type="number" id="mf_megavejiga_mm" placeholder="ej. 5.0" step="0.1">
+        <div class="hint">2T/3T (≥16 sem), criterio estático: patológico si &gt; (EG en semanas + 12) mm</div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Megavejiga — ciclo de llenado/vaciado (dinámico)</label>
+        <select id="mf_megavejiga_dinamica"><option value="">—</option><option value="normal">Ciclo normal 25–45 min (normal)</option><option value="no_vacia">No vacía tras 40–60 min ⚠️</option></select>
+      </div>
+      <div class="field"><label>Signo de "ojo de cerradura" (keyhole, VUP)</label>
+        <select id="mf_keyhole"><option value="">—</option><option value="ausente">Ausente (normal)</option><option value="presente">Presente ⚠️</option></select>
+      </div>
+    </div>
+    <div class="bio-ref">📚 Corteville JE et al., Am J Obstet Gynecol 1991/Obstet Gynecol 1992 (pelviectasia). FMF/Nicolaides (megacystis/LUTO). Líquido amniótico y cervicometría: ver sus propios módulos más abajo — no se duplican acá.</div>
+  </div>
+</div>
+
+<!-- 2.6 Extremidades -->
+<div class="section-card">
+  <div class="section-head" onclick="toggleSection(this)">
+    <span class="icon">🦵</span><h2>Morfología — Extremidades</h2><span class="chevron">▼</span>
+  </div>
+  <div class="section-body" style="padding:14px 14px 4px">
+    <div class="row2" style="align-items:center">
+      <label class="check-item" id="lbl_mf_femur_corto"><input type="checkbox" id="mf_femur_corto" onchange="toggleCheck('lbl_mf_femur_corto',this)"><span>Fémur acortado para la EG</span></label>
+      <label class="check-item" id="lbl_mf_humero_corto"><input type="checkbox" id="mf_humero_corto" onchange="toggleCheck('lbl_mf_humero_corto',this)"><span>Húmero acortado para la EG</span></label>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Manos y pies — presentes, orientación normal</label>
+        <select id="mf_manos_pies"><option value="">—</option><option value="normal">Normal</option><option value="alterado">Alterado ⚠️</option></select>
+      </div>
+      <div></div>
+    </div>
+    <div class="bio-ref">📚 Razón fémur/AC: usar la pestaña "📐 Biometría — Asimetría LF/CA" (ya calcula el ratio y lo integra al Resultado, incluyendo el corte &lt;0.16–0.18 como marcador blando de aneuploidía — PMC3345228). No se duplica el campo acá.</div>
+  </div>
+</div>
+
+<!-- 2.7 Placenta / cordón / líquido / cérvix -->
+<div class="section-card">
+  <div class="section-head" onclick="toggleSection(this)">
+    <span class="icon">🟤</span><h2>Morfología — Placenta, cordón, LA, cérvix</h2><span class="chevron">▼</span>
+  </div>
+  <div class="section-body" style="padding:14px 14px 4px">
+    <div class="row2">
+      <div class="field"><label>Placenta — localización</label>
+        <select id="mf_placenta_insercion"><option value="">—</option><option value="normal">Fúndica/corporal/lateral, lejos del OCI (normal)</option><option value="baja">Inserción baja (borde &lt;20 mm del OCI) ⚠️</option></select>
+        <div class="hint">Distinto de "Placenta previa" (checkbox de 3T, en Antecedentes/Embarazo actual) — acá es el hallazgo de 2T, a confirmar en 3T</div>
+      </div>
+      <div></div>
+    </div>
+    <div class="bio-ref">📚 Líquido amniótico (ILA/bolsón) y cervicometría ya tienen sus propios módulos completos en esta Calculadora (ver pestañas correspondientes) — no se duplican acá. ISUOG/RCOG (corte &lt;20mm en 2T).</div>
+  </div>
+</div>
+
+<!-- 2.7bis Acretismo placentario (PAS) — Clasificación CaVeSal -->
+<div class="section-card">
+  <div class="section-head" onclick="toggleSection(this)">
+    <span class="icon">🔴</span><h2>Acretismo placentario (PAS) — Clasificación CaVeSal</h2><span class="chevron">▼</span>
+  </div>
+  <div class="section-body" style="padding:14px 14px 4px">
+    <div class="note-box">Espectro PAS (acreta/increta/percreta). Factor de riesgo principal: cesárea previa + placenta previa/inserción baja anterior. <strong>Regla de Oro:</strong> si hay signos de acretismo, nunca alumbramiento manual — dejar la placenta in situ y proceder a histerectomía en bloque, centro Nivel III-IV, cesárea programada 34+0–35+6 sem.</div>
+
+    <div style="font-size:.8rem;font-weight:700;color:var(--navy);margin:8px 0 4px">Factores de riesgo</div>
+    <div class="row2">
+      <div class="field"><label>Cesáreas previas (n°)</label>
+        <select id="mf_pas_cesareas"><option value="">—</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">≥3</option></select>
+      </div>
+      <div class="field"><label>Legrados uterinos previos</label>
+        <select id="mf_pas_legrados"><option value="">—</option><option value="no">No</option><option value="si">Sí</option></select>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Cirugía uterina previa (miomectomía, etc.)</label>
+        <select id="mf_pas_cx_uterina"><option value="">—</option><option value="no">No</option><option value="si">Sí</option></select>
+      </div>
+      <div class="field"><label>Antecedente de síndrome de Asherman</label>
+        <select id="mf_pas_asherman"><option value="">—</option><option value="no">No</option><option value="si">Sí</option></select>
+      </div>
+    </div>
+    <div class="hint" style="margin:-4px 0 8px">Placenta previa/inserción baja: se toma de "Placenta — localización" (2.7) y/o del checkbox "Placenta previa" (Antecedentes) — no se duplica el campo. Edad materna &gt;35 y FIV: ya existen en Antecedentes.</div>
+
+    <div style="font-size:.8rem;font-weight:700;color:var(--navy);margin:8px 0 4px">Signos ecográficos 2D (Sí / No / Inseguro)</div>
+    <div class="row2">
+      <div class="field"><label>Desaparición de la zona clara</label>
+        <select id="mf_pas_zona_clara"><option value="">—</option><option value="si">Sí</option><option value="inseguro">Inseguro</option><option value="no">No</option></select>
+      </div>
+      <div class="field"><label>Adelgazamiento miometrial (&lt;1mm)</label>
+        <select id="mf_pas_miometrio"><option value="">—</option><option value="si">Sí</option><option value="inseguro">Inseguro</option><option value="no">No</option></select>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Lagunas placentarias irregulares ("queso suizo")</label>
+        <select id="mf_pas_lagunas"><option value="">—</option><option value="si">Sí</option><option value="inseguro">Inseguro</option><option value="no">No</option></select>
+      </div>
+      <div class="field"><label>Interrupción interfase/pared vesicouterina</label>
+        <select id="mf_pas_interfase"><option value="">—</option><option value="si">Sí</option><option value="inseguro">Inseguro</option><option value="no">No</option></select>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Abultamiento placentario (bulging) hacia vejiga</label>
+        <select id="mf_pas_bulging"><option value="">—</option><option value="si">Sí</option><option value="inseguro">Inseguro</option><option value="no">No</option></select>
+      </div>
+      <div class="field"><label>Masa exofítica focal (invasión transerosa)</label>
+        <select id="mf_pas_masa_exofitica"><option value="">—</option><option value="si">Sí</option><option value="inseguro">Inseguro</option><option value="no">No</option></select>
+      </div>
+    </div>
+
+    <div style="font-size:.8rem;font-weight:700;color:var(--navy);margin:8px 0 4px">Signos Doppler color (Sí / No / Inseguro)</div>
+    <div class="row2">
+      <div class="field"><label>Hipervascularidad uterovesical</label>
+        <select id="mf_pas_hiperv_uterovesical"><option value="">—</option><option value="si">Sí</option><option value="inseguro">Inseguro</option><option value="no">No</option></select>
+      </div>
+      <div class="field"><label>Hipervascularidad subplacentaria</label>
+        <select id="mf_pas_hiperv_subplacentaria"><option value="">—</option><option value="si">Sí</option><option value="inseguro">Inseguro</option><option value="no">No</option></select>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Vasos puente/comunicantes (bridging vessels)</label>
+        <select id="mf_pas_vasos_puente"><option value="">—</option><option value="si">Sí</option><option value="inseguro">Inseguro</option><option value="no">No</option></select>
+      </div>
+      <div class="field"><label>Vasos alimentadores de lagunas</label>
+        <select id="mf_pas_vasos_lagunas"><option value="">—</option><option value="si">Sí</option><option value="inseguro">Inseguro</option><option value="no">No</option></select>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Afectación de parametrios</label>
+        <select id="mf_pas_parametrios"><option value="">—</option><option value="si">Sí</option><option value="inseguro">Inseguro</option><option value="no">No</option></select>
+      </div>
+      <div class="field"><label>Clasificación FIGO (grado quirúrgico/histopatológico)</label>
+        <select id="mf_pas_figo"><option value="">—</option><option value="g1">Grado 1 — Accreta</option><option value="g2">Grado 2 — Increta</option><option value="g3a">Grado 3a — Percreta (subserosa/parametrial)</option><option value="g3b">Grado 3b — Percreta (vesical/rectal)</option></select>
+      </div>
+    </div>
+    <div class="bio-ref">📚 Signos y factores de riesgo: FIGO/Jauniaux 2018 · ISUOG/Jauniaux 2016–2018 · ACOG/SMFM Obstetric Care Consensus No.7 (2018/2021) · MSPyBS Paraguay, Manual Nacional.<br>⚠️ <strong>Probabilidad y Extensión se calculan con la "Clasificación CaVeSal"</strong> — esquema de puntaje propio del equipo (NO es un score FIGO/ISUOG/ACOG publicado) — ver resultado en el panel consolidado.</div>
+  </div>
+</div>
+
 <div class="disclaimer">📚 Fórmulas basadas en FMF / Nicolaides / Hadlock. Herramienta de apoyo diagnóstico — no reemplaza el criterio clínico.</div>
 </div>
 <!-- /biometria -->
@@ -2911,6 +3325,35 @@ Microcefalia: CC &lt;p3 para EG.</div>
     </div>
     <span style="margin-left:auto;font-size:1rem">↗</span>
   </a>
+</div>
+
+<!-- ════ INVITÁ A TU PACIENTE — Ecosistema CaVeSal® ════ -->
+<div class="section-card" style="margin:0 16px 10px">
+  <div class="section-head open" onclick="toggleSection(this)"><span class="icon">📲</span><h2>Invitá a tu paciente</h2><span class="chevron">▼</span></div>
+  <div class="section-body open" style="padding:14px">
+    <div style="font-size:.78rem;color:var(--slate);margin-bottom:10px">Dos apps gratuitas del ecosistema CaVeSal, según el momento de cada paciente, más el ecosistema completo.</div>
+    <div class="eco-invite-grid">
+      <a class="eco-invite-card" href="https://mama.cavesal.app/" target="_blank" rel="noopener">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https%3A%2F%2Fmama.cavesal.app%2F" alt="QR CaVeSal® Mamá" loading="lazy">
+        <span class="eco-nombre">CaVeSal® Mamá</span>
+        <span class="eco-bajada">Embarazo, parto, lactancia y desarrollo del bebé</span>
+        <span class="eco-abrir">Abrir gratis</span>
+      </a>
+      <a class="eco-invite-card" href="https://mujer.cavesal.app/" target="_blank" rel="noopener">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https%3A%2F%2Fmujer.cavesal.app%2F" alt="QR CaVeSal® Mujer" loading="lazy">
+        <span class="eco-nombre">CaVeSal® Mujer</span>
+        <span class="eco-bajada">Salud ginecológica y ciclo fuera del embarazo</span>
+        <span class="eco-abrir">Abrir gratis</span>
+      </a>
+      <a class="eco-invite-card" href="https://cavesal.app/" target="_blank" rel="noopener">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAIAAAD2HxkiAABk+0lEQVR42u19eZwUxb34t6q6Z3Zmdnb2XnZBbgE5VEDxREUjKGgEHipqEBNNTIxJfD41LybxJfHFp6I8r/czRmMUr8QYNd6YmHiAROTwQBABuc9d9pqzj6r6/fHdHTczPc1M0zu7C/39GDK93VVd/a3vt6q+N5FSggceeNBzQD0UeOCBx4QeeOAxoQceeOAxoQceeEzogQceeEzogQceE3rggQceE3rggceEHnjggceEHnjgMaEHHnjgMaEHHnhM6IEHHnhM6IEHHhN64IEH3Q+Ks2Z9PQqREOLuVzvrsDswXMxPczZI1zvs63RFvKBeDzzoYzuhlJIQctlll33++eeUUiFEXzp8UyqEGDVq1FNPPYUfkv8nR6PR888/PxqNEvLVyoW/GWMvvvhiQ0ODEILSgz3hc84ZY7fccsurr77KGOOc59MKn5w3b951112HPeTTCge8bNmya6+9NuNdNrjCVrt27Zo5cybnvCtC7HcJG1wdhnR1sMfR1atXr1u3ro8uPMlk0kEr0zTff/99wzAs72qa5u5BdP369atWrSq07amnnlrQoQ6fbGlpyfUuG1xpmvbhhx86+EAbXB2GdOWcCUOhEKW0j65YoVDI2XE/HA63trZm74SKorguEwYCAUqpoiimaeY1kYpimqbf73dCBIpCKbXcCW1wRQjx+XymaRa0E9rj6jCkK+dMKIRANPUtZHUdueO22UzYHUgQXSD/551J+PgJhJCMdx3w7dkIOSAT5tPh4UZXnonCAw96eiP1UOCBBx4TeuDBYQ2K6z0SQg5eTe/KGd11EyhjjDFmaaIQQnDOXXkpKv0JIfi67A6dvcVSHkNNTHcIYNk2kjSuPLrqdiaUUuZp2upbIKVsa2uz/DTOeWlpKfKMW+RrGAbn3EVMIldbvsuxWs9+Kcn1d2c8f6jSlctMiEtddXX1cccd17OOOISQFStWNDU15am4O2BvABAOhxcvXmwYRnafUsprr722vb3dRTSec8458+fPt7SSP/LII88991z+dny03b/11lsLFizI0P5j/01NTW7thzj40tLSxx9/PIO38RaltL6+Hgrx8DpU6apbmJBSyjmfNGnSq6++2uOry4wZM1577TUckjuYUpQzzzwz193LL7+8sbHRxfHPnz9/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" alt="QR Ecosistema CaVeSal®" loading="lazy">
+        <span class="eco-nombre">Ecosistema CaVeSal®</span>
+        <span class="eco-bajada">Conocé todas las apps del ecosistema</span>
+        <span class="eco-abrir">Mirá el ecosistema completo</span>
+      </a>
+    </div>
+    <div style="font-size:.62rem;color:var(--slate);text-align:center;margin-top:8px">Estas Aplicaciones orientan a la paciente y la acercan a su médico — no reemplazan su criterio.</div>
+  </div>
 </div>
 
 <div class="section-card" style="margin-bottom:10px">
@@ -3440,7 +3883,13 @@ function calcular(){
   // Parto, PFE/Biometría, Gestograma) — si ya cargó datos ahí aunque no haya
   // tocado el formulario principal, igual hay que calcular (ver merge abajo).
   const _hayModulos = !!(window.__cavesalModuleResults && Object.keys(window.__cavesalModuleResults).some(function(k){return (window.__cavesalModuleResults[k]||[]).length>0;}));
-  const _hayDatos = _hayFUM||_hayNum||_haySel||_hayChk||_hayModulos;
+  // Checklist "Ecografía morfológica (2T)" y acretismo placentario (PAS): sus campos (mf_*)
+  // se leen directo en calcular() (no vía _cavesalModuleResults), así que si solo se cargó
+  // ese checklist, hay que detectarlo acá para no caer en "Sin datos ingresados".
+  const _hayMorfologia = Array.prototype.slice.call(document.querySelectorAll('[id^="mf_"]')).some(function(el){
+    return el.type==='checkbox' ? el.checked : !!(el.value && el.value!=='');
+  });
+  const _hayDatos = _hayFUM||_hayNum||_haySel||_hayChk||_hayModulos||_hayMorfologia;
 
   if(!_hayDatos){
     const _res=document.getElementById('results');
@@ -3462,7 +3911,7 @@ function calcular(){
   //    CaVeSal® IA (window.__cavesalCalculoActual más abajo), sin duplicar
   //    ninguna fórmula clínica — se reusa exactamente lo ya calculado. ──
   if(window.__cavesalModuleResults){
-    const _domainLabels={doppler:'Doppler fetal',alturaUterina:'Altura Uterina',dmg:'Diabetes Gestacional',viaParto:'Vía de Parto',pfe:'PFE / Percentil de crecimiento',biometria:'Biometría fetal',gestograma:'Gestograma / FUM corregida'};
+    const _domainLabels={doppler:'Doppler fetal',alturaUterina:'Altura Uterina',dmg:'Diabetes Gestacional',viaParto:'Vía de Parto',pfe:'PFE / Percentil de crecimiento',biometria:'Biometría fetal',gestograma:'Gestograma / FUM corregida',asimetria:'Biometría fetal — Asimetría LF/CA',morfologia:'Ecografía morfológica (2T)',pas:'Acretismo placentario (PAS)'};
     Object.keys(window.__cavesalModuleResults).forEach(function(k){
       (window.__cavesalModuleResults[k]||[]).forEach(function(f){
         add(f.domain||_domainLabels[k]||k, f.nivel, f.hallazgo, f.conducta, f.fuente);
@@ -4276,7 +4725,219 @@ function calcular(){
       if(ntDV==='invertida') add('CRIBADO CROMOSÓMICO','alto','Ductus venoso: onda a invertida/ausente','Marcador de aneuploidía y cardiopatía congénita. Derivar Medicina Fetal. Ecocardiografía.','FMF/Nicolaides');
       if(ntTricusp==='presente') add('CRIBADO CROMOSÓMICO','moderado','Regurgitación tricúspide','Asociada a T21 y cardiopatía congénita. Ecocardiografía fetal. Integrar con NT y otros marcadores.','FMF/Nicolaides');
     }
+    const ntPlexo=sel('nt_plexo');
+    if(ntPlexo==='quiste') add('CRIBADO CROMOSÓMICO','moderado','Quiste(s) de plexo coroideo','Marcador blando — más asociado a T18 que a T21 si es aislado. Integrar con NT, hueso nasal y otros marcadores. Si aislado y resto del cribado normal, riesgo residual bajo.','FMF/Nicolaides');
   }
+
+  // ════════════════════════════════════════════════
+  // ECOGRAFÍA MORFOLÓGICA (2T) — checklist por sistema
+  // Diseño: claude/calculadora-morfologia-fetal.md (cerrado 2026-10-11)
+  // ════════════════════════════════════════════════
+  (function(){
+    const DOM='MORFOLOGÍA FETAL (2T)';
+    const _mfEgSem=val('mf_eg_sem'), _mfEgDias=val('mf_eg_dias')||0;
+    const mfEg = _mfEgSem!==null ? _mfEgSem+(_mfEgDias/7) : null;
+
+    // ── 2.1 SNC ──
+    if(sel('mf_cavum')==='ausente') add(DOM,'alto','Cavum del septum pellucidum ausente','Sospecha de anomalía de línea media (agenesia de cuerpo calloso, holoprosencefalia). Derivar Medicina Fetal. Neurosonografía dirigida.','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_talamos')==='asimetricos') add(DOM,'alto','Tálamos asimétricos','Sospecha de anomalía estructural del SNC. Derivar Medicina Fetal. Neurosonografía dirigida.','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_forma_craneal')==='limon') add(DOM,'alto','Signo del "limón"','Asociado a defectos de tubo neural (espina bífida abierta). Evaluar columna y cisterna magna. Derivar Medicina Fetal.','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_forma_craneal')==='fresa') add(DOM,'alto','Signo de la "fresa"','Asociado a trisomía 18. Completar cribado/diagnóstico de aneuploidía. Derivar Medicina Fetal.','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_continuidad_osea')==='defecto') add(DOM,'alto','Defecto de continuidad ósea craneal','Sospecha de defecto de cierre craneal. Derivar Medicina Fetal urgente.','ISUOG / Paladini & Volpe 2018');
+
+    const mfAvlEsquema=sel('mf_avl_esquema'), mfAvlMm=val('mf_avl_mm');
+    if(mfAvlMm!==null){
+      if(mfAvlEsquema==='B'){
+        if(mfAvlMm>15) add(DOM,'alto',`Atrio ventricular lateral ${mfAvlMm}mm — Severa (Esquema B/ISUOG, >15mm)`,'Derivar Medicina Fetal. Cribado/diagnóstico de aneuploidía (NIPT o invasivo). Neurosonografía dirigida. Descartar infección congénita (TORCH).','ISUOG Practice Guidelines — fetal CNS');
+        else if(mfAvlMm>=10) add(DOM,'moderado',`Atrio ventricular lateral ${mfAvlMm}mm — Leve (Esquema B/ISUOG, 10–15mm)`,'Seguimiento ecográfico c/3–4 semanas. Descartar aneuploidía e infección congénita (TORCH) si no se hizo.','ISUOG Practice Guidelines — fetal CNS');
+      } else {
+        if(mfAvlMm>=15) add(DOM,'alto',`Atrio ventricular lateral ${mfAvlMm}mm — Severa (Esquema A, ≥15mm)`,'Derivar Medicina Fetal. Cribado/diagnóstico de aneuploidía (NIPT o invasivo). Neurosonografía dirigida. Descartar infección congénita (TORCH).','Esquema clásico de 3 niveles (práctica habitual)');
+        else if(mfAvlMm>=12.1) add(DOM,'moderado',`Atrio ventricular lateral ${mfAvlMm}mm — Moderada (Esquema A, 12.1–14.9mm)`,'Derivar Medicina Fetal. Descartar aneuploidía e infección congénita (TORCH). Neurosonografía dirigida.','Esquema clásico de 3 niveles (práctica habitual)');
+        else if(mfAvlMm>=10) add(DOM,'moderado',`Atrio ventricular lateral ${mfAvlMm}mm — Leve (Esquema A, 10–12mm)`,'Seguimiento ecográfico c/3–4 semanas. Descartar aneuploidía e infección congénita (TORCH) si no se hizo.','Esquema clásico de 3 niveles (práctica habitual)');
+      }
+    }
+
+    // DTC: se deja como dato de referencia, SIN alerta automática por diferencia en mm.
+    // Auditoría 2026-10-11 (fuentes: Vinkesteijn et al., UOG 2001, entre otras): el estándar real
+    // para discordancia de TCD/DTC usa tablas de percentil (p5–p95) por EG, no un corte fijo en
+    // mm de diferencia — un corte de "3mm" habría sido un criterio inventado, no validado. Hasta
+    // tener una tabla de percentiles cargada, el campo queda informativo (ver hint en el HTML).
+
+    if(sel('mf_banana')==='presente') add(DOM,'alto','Signo de la banana (cerebelo incurvado)','Defecto de tubo neural abierto / malformación de Chiari II. Evaluar columna y cráneo (signo del limón). Derivar Medicina Fetal urgente.','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_vermis')==='agenesia') add(DOM,'alto','Agenesia de vermis cerebeloso','Espectro Dandy-Walker. Evaluar cisterna magna (megacisterna/comunicación con 4º ventrículo). Derivar Medicina Fetal. Neurosonografía dirigida.','ISUOG / Paladini & Volpe 2018');
+
+    const mfCM=val('mf_cisterna_magna');
+    if(mfCM!==null){
+      if(mfCM<3) add(DOM,'alto',`Cisterna magna ${mfCM}mm (obliterada, &lt;3mm)`,'Sospecha de espina bífida abierta. Evaluar columna y signo de la banana/limón. Derivar Medicina Fetal urgente.','ISUOG / Paladini & Volpe 2018');
+      else if(mfCM>10) add(DOM,'moderado',`Cisterna magna ${mfCM}mm (megacisterna magna, &gt;10mm)`,'Descartar Dandy-Walker (ver agenesia de vermis) y quiste aracnoideo. Neurosonografía dirigida. Derivar Medicina Fetal.','ISUOG / Paladini & Volpe 2018');
+    }
+
+    const mfPN=val('mf_pliegue_nucal');
+    if(mfPN!==null && mfPN>=6) add(DOM,'alto',`Pliegue nucal 2T ${mfPN}mm (≥6mm)`,'Marcador mayor de aneuploidía (T21) y cardiopatía congénita. Ofrecer NIPT o diagnóstico invasivo si no se hizo cribado 1T. Ecocardiografía fetal.','ISUOG / FMF-Nicolaides');
+
+    // ── 2.2 Cara ──
+    if(sel('mf_orbitas')==='alterado') add(DOM,'moderado','Órbitas alteradas','Evaluar simetría y distancia interorbitaria (hipo/hipertelorismo). Derivar Medicina Fetal si se confirma.','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_nariz')==='alterado') add(DOM,'moderado','Nariz aplanada o ausente','Marcador asociado a aneuploidía (T21, T13) y a holoprosencefalia si se asocia a otros hallazgos faciales. Integrar con cribado cromosómico.','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_maxilar')==='defecto') add(DOM,'moderado','Defecto maxilar','Evaluar junto con paladar y labio. Derivar Medicina Fetal.','ISUOG / Paladini & Volpe 2018');
+
+    const mfPaladar=sel('mf_paladar'), mfLabio=sel('mf_labio');
+    if(mfPaladar==='hendidura' || (mfLabio && mfLabio!=='integro')){
+      let _descFacial;
+      if(mfPaladar==='hendidura' && mfLabio && mfLabio!=='integro') _descFacial='Labio y paladar hendidos (fisura labiopalatina)';
+      else if(mfPaladar==='hendidura') _descFacial='Paladar hendido aislado (fisura palatina aislada)';
+      else _descFacial='Labio leporino aislado'+(mfLabio==='defecto_bilateral'?' bilateral':' unilateral');
+      add(DOM,'moderado',_descFacial,'El consejo genético y la conducta varían según el tipo exacto (labio aislado vs. labio+paladar). Ecografía 3D si disponible. Interconsulta cirugía maxilofacial neonatal.','ISUOG / Paladini & Volpe 2018');
+    }
+
+    // ── 2.3 Columna ──
+    if(sel('mf_columna')==='defecto') add(DOM,'alto','Solución de continuidad en columna','Sospecha de espina bífida abierta. Correlacionar con cisterna magna, signo de la banana/limón y piel sobre la columna. Derivar Medicina Fetal urgente.','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_piel_columna')==='defecto') add(DOM,'alto','Defecto de piel sobre la columna','Sospecha de defecto de cierre del tubo neural. Derivar Medicina Fetal urgente.','ISUOG / Paladini & Volpe 2018');
+
+    // ── 2.4 Tórax y corazón ──
+    if(sel('mf_ritmo')==='irregular'){
+      const _ritmoNota=(document.getElementById('mf_ritmo_nota')||{}).value||'';
+      add(DOM,'moderado','Ritmo cardíaco irregular'+(_ritmoNota?' — '+_ritmoNota:''),'Diferenciar extrasistolia aislada (generalmente benigna, seguimiento) de taqui/bradiarritmia sostenida (requiere cardiología fetal). Ecocardiografía fetal si persiste.','ISUOG / Paladini & Volpe 2018');
+    }
+    if(sel('mf_situs')==='inversus') add(DOM,'alto','Situs inversus','Descartar cardiopatía asociada (heterotaxia). Ecocardiografía fetal. Derivar Medicina Fetal.','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_4cv')==='alterado') add(DOM,'alto','Corte de 4 cámaras (4CV) alterado','Ecocardiografía fetal dirigida. Derivar cardiología fetal/Medicina Fetal.','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_sim_ventricular')==='asimetrica') add(DOM,'alto','Simetría ventricular alterada','Descartar cardiopatía estructural (ej. hipoplasia de cavidades). Ecocardiografía fetal dirigida.','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_sim_auricular')==='alterado') add(DOM,'moderado','Simetría auricular / foramen oval alterado','Ecocardiografía fetal dirigida. Derivar cardiología fetal si se confirma.','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_septum_iv')==='defecto') add(DOM,'moderado','Defecto septal interventricular (sospecha de CIV)','Confirmar con Doppler color (shunt). Ecocardiografía fetal. Muchas CIV musculares pequeñas cierran espontáneamente — seguimiento.','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_tsvi')==='alterado') add(DOM,'alto','Tracto de salida del VI (TSVI) alterado','Sospecha de cardiopatía conotruncal. Ecocardiografía fetal dirigida urgente. Derivar cardiología fetal.','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_tsvd')==='alterado') add(DOM,'alto','Tracto de salida del VD (TSVD) alterado','Sospecha de cardiopatía conotruncal. Ecocardiografía fetal dirigida urgente. Derivar cardiología fetal.','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_3vt')==='alterado') add(DOM,'alto','Corte de 3 vasos y tráquea (3VT) alterado','Sospecha de cardiopatía conotruncal (TGV, Fallot) o anomalía de arco aórtico. Ecocardiografía fetal dirigida urgente.','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_cayado')==='alterado') add(DOM,'alto','Cayado aórtico alterado (sospecha de interrupción/coartación)','Ecocardiografía fetal dirigida urgente. Derivar cardiología fetal.','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_pulmones')==='alterado') add(DOM,'moderado','Pulmones alterados (asimetría/desplazamiento mediastínico)','Descartar hernia diafragmática, masa pulmonar (MAQ/secuestro) o derrame pleural. Derivar Medicina Fetal.','ISUOG / Paladini & Volpe 2018');
+
+    const mfIctMetodo=sel('mf_ict_metodo'), mfIctValor=val('mf_ict_valor');
+    if(mfIctValor!==null){
+      if(mfIctMetodo==='perimetro'){
+        // Auditoría 2026-10-11: el corte por perímetros NO es fijo (mi 0.59 original era una
+        // derivación matemática propia, sin dato publicado) — es EG-dependiente según Sirilert
+        // 2019 / Leung 2006: 0.50 (12–15 sem) · 0.52 (18–20 sem) · 0.59 (25–30 sem).
+        const _corteICTper = (mfEg===null) ? 0.52 : (mfEg<=15 ? 0.50 : (mfEg<=20 ? 0.52 : 0.59));
+        if(mfIctValor>_corteICTper) add(DOM,'alto',`Índice cardiotorácico (perímetros) ${mfIctValor} — cardiomegalia (corte &gt;${_corteICTper} para esta EG)`,'Evaluar causas de cardiomegalia (anemia fetal, insuficiencia cardíaca, arritmia, cardiopatía estructural). Ecocardiografía fetal. Derivar Medicina Fetal.','Sirilert S et al. J Ultrasound Med 2019;38(4):999-1007 · Leung K et al. Ultrasound Obstet Gynecol 2006;28(2):173-7');
+      } else {
+        if(mfIctValor>0.35) add(DOM,'alto',`Índice cardiotorácico (área) ${mfIctValor} — cardiomegalia (&gt;0.35)`,'Evaluar causas de cardiomegalia (anemia fetal, insuficiencia cardíaca, arritmia, cardiopatía estructural). Ecocardiografía fetal. Derivar Medicina Fetal.','ISUOG / Paladini & Volpe 2018');
+      }
+    }
+    const mfAngulo=val('mf_angulo_cardiaco');
+    if(mfAngulo!==null){
+      if(mfAngulo>65) add(DOM,'moderado',`Ángulo cardíaco ${mfAngulo}° (levo-rotación extrema, &gt;65°)`,'Asociación con cardiopatías conotruncales (Fallot, TGV) y hernia diafragmática. Ecocardiografía fetal dirigida.','ISUOG / Paladini & Volpe 2018');
+      else if(mfAngulo<25) add(DOM,'moderado',`Ángulo cardíaco ${mfAngulo}° (&lt;25° o hacia la derecha)`,'Descartar dextrocardia, situs inversus, mesocardia o defecto compresivo torácico. Ecocardiografía fetal dirigida.','ISUOG / Paladini & Volpe 2018');
+    }
+
+    // 2.4.1 HDC
+    const mfHdcBurbuja=sel('mf_hdc_burbuja'), mfHdcLado=sel('mf_hdc_lado'), mfHdcOeLhr=val('mf_hdc_oe_lhr');
+    // Auditoría 2026-10-11: se agregó la banda "moderada" del TOTAL trial (25–34.9%, o 35–44.9%
+    // con herniación hepática), además del corte de severidad <25% ya confirmado por Carlos.
+    function _mfOeLhrNota(oelhr){
+      if(oelhr===null) return '';
+      if(oelhr<25) return 'O/E LHR '+oelhr+'% (&lt;25%): SEVERO — predice hipoplasia pulmonar grave. ';
+      if(oelhr<45) return 'O/E LHR '+oelhr+'% (25–44.9%): MODERADO (TOTAL trial; 35–44.9% si hay herniación hepática). ';
+      return 'O/E LHR '+oelhr+'% (≥45%): rango favorable. ';
+    }
+    if(mfHdcBurbuja==='supra'){
+      let _descHdc='Burbuja gástrica supradiafragmática — sospecha de hernia diafragmática congénita (HDC)'+(mfHdcLado==='izquierda'?' izquierda (Bochdalek, ~85%)':mfHdcLado==='derecha'?' derecha (~10–15%)':'');
+      let _condHdc=_mfOeLhrNota(mfHdcOeLhr)+'Derivar Medicina Fetal. Calcular/confirmar O/E LHR. Planificar parto en centro con ECMO/cirugía neonatal según severidad.';
+      add(DOM,'alto',_descHdc,_condHdc,'CDHSG / Jani et al. 2007 UOG · TOTAL trial (bandas O/E LHR) · Paladini & Volpe 2018');
+    } else if(mfHdcOeLhr!==null && mfHdcOeLhr<45){
+      add(DOM, mfHdcOeLhr<25?'alto':'moderado', `O/E LHR ${mfHdcOeLhr}%`, _mfOeLhrNota(mfHdcOeLhr)+'Derivar Medicina Fetal.', 'CDHSG / Jani et al. 2007 UOG · TOTAL trial (bandas O/E LHR)');
+    }
+
+    // ── 2.5 Abdomen ──
+    if(sel('mf_estomago')==='alterado') add(DOM,'moderado','Estómago en posición alterada','Descartar hernia diafragmática (ver Tórax/HDC) o situs anómalo. Derivar Medicina Fetal.','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_pared_abdominal')==='onfalocele') add(DOM,'alto','Onfalocele','Defecto de pared con cobertura peritoneal. Cribado de aneuploidía (asociación ~30%). Ecocardiografía fetal. Parto en centro de referencia con cirugía neonatal.','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_pared_abdominal')==='gastrosquisis') add(DOM,'alto','Gastrosquisis','Defecto de pared sin cobertura, asas libres. Habitualmente sin asociación a aneuploidía. Vigilar crecimiento (RCIU frecuente) y líquido amniótico. Parto en centro con cirugía neonatal.','ISUOG / Paladini & Volpe 2018');
+
+    const mfPelvDer=val('mf_pelv_der'), mfPelvIzq=val('mf_pelv_izq');
+    function _mfClasifPelv(mm, lado){
+      if(mm===null) return;
+      const _corteLeve = (mfEg!==null && mfEg>=33) ? 7.0 : 4.0;
+      const _corteObst = 10.0;
+      if(mm>_corteObst) add(DOM,'alto',`Pelviectasia renal ${lado} ${mm}mm (sospecha de uropatía obstructiva, &gt;${_corteObst}mm)`,'Derivar Medicina Fetal / urología fetal. Seguimiento ecográfico seriado. Evaluación postnatal de hidronefrosis.','Corteville JE et al., Am J Obstet Gynecol 1991 / Obstet Gynecol 1992');
+      else if(mm>=_corteLeve) add(DOM,'moderado',`Pelviectasia renal ${lado} ${mm}mm (marcador blando, ${_corteLeve}–${_corteObst}mm)`,'Marcador blando aislado — bajo VPP para aneuploidía (~1/340 si aislado). Seguimiento ecográfico y evaluación postnatal de dilatación pielocalicial.','Corteville JE et al., Am J Obstet Gynecol 1991 / Obstet Gynecol 1992');
+    }
+    _mfClasifPelv(mfPelvDer,'derecha');
+    _mfClasifPelv(mfPelvIzq,'izquierda');
+
+    if(sel('mf_cordon')==='arteria_unica') add(DOM,'moderado','Arteria umbilical única','Marcador blando — screening adicional de malformaciones asociadas (renal, cardíaca). Completar cribado de aneuploidía si no se hizo. Seguimiento ecográfico de crecimiento.','ISUOG / Paladini & Volpe 2018');
+
+    const mfMV=val('mf_megavejiga_mm'), mfMVDin=sel('mf_megavejiga_dinamica'), mfKeyhole=sel('mf_keyhole');
+    if(mfMV!==null && mfEg!==null && mfEg>=16){
+      const _corteMV=mfEg+12;
+      if(mfMV>_corteMV) add(DOM,'alto',`Megavejiga ${mfMV}mm (criterio estático: &gt;EG+12 = ${_corteMV.toFixed(1)}mm)`,'Sospecha de uropatía obstructiva baja (ej. válvulas de uretra posterior). Evaluar signo de "ojo de cerradura" y ciclo de llenado/vaciado. Derivar Medicina Fetal / urología fetal.','FMF/Nicolaides — megacystis/LUTO');
+    }
+    if(mfMVDin==='no_vacia') add(DOM,'alto','Megavejiga — no vacía tras 40–60 min de observación (criterio dinámico)','Confirma megavejiga patológica. Derivar Medicina Fetal / urología fetal.','FMF/Nicolaides — megacystis/LUTO');
+    if(mfKeyhole==='presente') add(DOM,'alto','Signo de "ojo de cerradura" (keyhole) presente','Sugiere válvulas de uretra posterior (uropatía obstructiva baja). Derivar Medicina Fetal / urología fetal urgente.','FMF/Nicolaides — megacystis/LUTO');
+
+    // ── 2.6 Extremidades ──
+    if(chk('mf_femur_corto')) add(DOM,'moderado','Fémur acortado para la EG (criterio cualitativo)','Correlacionar con razón fémur/AC (pestaña Biometría — Asimetría) y resto de biometría. Marcador blando de aneuploidía si aislado; descartar displasia esquelética si desproporción marcada.','ISUOG / Paladini & Volpe 2018');
+    if(chk('mf_humero_corto')) add(DOM,'moderado','Húmero acortado para la EG (criterio cualitativo)','Correlacionar con fémur y resto de biometría. Marcador blando de aneuploidía si aislado; descartar displasia esquelética si desproporción marcada.','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_manos_pies')==='alterado') add(DOM,'moderado','Manos y/o pies alterados (orientación/posición)','Evaluar contracturas (artrogriposis), pie equino varo, polidactilia/sindactilia si se visualiza. Correlacionar con el resto del checklist.','ISUOG / Paladini & Volpe 2018');
+
+    // ── 2.7 Placenta — localización ──
+    const mfPlacentaIns=sel('mf_placenta_insercion');
+    if(mfPlacentaIns==='baja') add(DOM,'moderado','Placenta de inserción baja (borde &lt;20mm del OCI en 2T)','Control ecográfico de localización placentaria en 3T para confirmar o descartar placenta previa definitiva (muchas migran). Evitar tactos vaginales si hay sangrado.','ISUOG / RCOG');
+
+    // ── 2.7bis Acretismo placentario (PAS) — factores de riesgo ──
+    const mfPasCesareas=sel('mf_pas_cesareas');
+    const mfPasPPRiesgo=(mfPlacentaIns==='baja')||chk('e_pp');
+    if(mfPasCesareas && mfPasCesareas!=='0' && mfPasPPRiesgo){
+      const _riesgoPct = mfPasCesareas==='1' ? '11–25%' : mfPasCesareas==='2' ? '35–40%' : '>60%';
+      add(DOM,'alto',`Riesgo de PAS por binomio cesárea(s) previa(s) (${mfPasCesareas==='3'?'≥3':mfPasCesareas}) + placenta previa/inserción baja: ${_riesgoPct}`,'Completar checklist ecográfico de PAS (signos 2D y Doppler, abajo). Considerar Doppler dirigido e interconsulta con Medicina Fetal.','FIGO/Jauniaux 2018 · ACOG/SMFM Obstetric Care Consensus No.7 (2018/2021)');
+    }
+    if(sel('mf_pas_legrados')==='si') add(DOM,'bajo','Antecedente de legrados uterinos','Factor de riesgo adicional de PAS — integrar con el resto del checklist.','FIGO/Jauniaux 2018');
+    if(sel('mf_pas_cx_uterina')==='si') add(DOM,'bajo','Antecedente de cirugía uterina previa','Factor de riesgo adicional de PAS — integrar con el resto del checklist.','FIGO/Jauniaux 2018');
+    if(sel('mf_pas_asherman')==='si') add(DOM,'bajo','Antecedente de síndrome de Asherman','Factor de riesgo adicional de PAS — integrar con el resto del checklist.','FIGO/Jauniaux 2018');
+
+    // ── 2.7bis — Clasificación CaVeSal: Probabilidad y Extensión (auto-calculado) ──
+    (function(){
+      const signos2D={
+        zona_clara:sel('mf_pas_zona_clara'), miometrio:sel('mf_pas_miometrio'), lagunas:sel('mf_pas_lagunas'),
+        interfase:sel('mf_pas_interfase'), bulging:sel('mf_pas_bulging'), masa_exofitica:sel('mf_pas_masa_exofitica')
+      };
+      const signosDoppler={
+        hiperv_uterovesical:sel('mf_pas_hiperv_uterovesical'), hiperv_subplacentaria:sel('mf_pas_hiperv_subplacentaria'),
+        vasos_puente:sel('mf_pas_vasos_puente'), vasos_lagunas:sel('mf_pas_vasos_lagunas'), parametrios:sel('mf_pas_parametrios')
+      };
+      const _todos=Object.assign({},signos2D,signosDoppler);
+      const _vals=Object.keys(_todos).map(function(k){return _todos[k]});
+      if(!_vals.some(function(v){return v!==''})) return;
+
+      function _pasPts(v){return v==='si'?1:(v==='inseguro'?0.5:0)}
+      let _puntaje=0; _vals.forEach(function(v){_puntaje+=_pasPts(v)});
+
+      const _excepcion=(signosDoppler.vasos_puente==='si')||(signos2D.interfase==='si')||(signos2D.masa_exofitica==='si');
+      let _probabilidad;
+      if(_excepcion) _probabilidad='alta';
+      else if(_puntaje>=4) _probabilidad='alta';
+      else if(_puntaje>=2) _probabilidad='intermedia';
+      else _probabilidad='baja';
+
+      let _extension=null;
+      if(_probabilidad!=='baja'){
+        const _vasosSi=[signosDoppler.vasos_puente,signosDoppler.vasos_lagunas,signosDoppler.hiperv_uterovesical,signosDoppler.hiperv_subplacentaria].filter(function(v){return v==='si'}).length;
+        const _difusaPorVasos=_vasosSi>=2;
+        const _difusaPorMasaParam=(signos2D.masa_exofitica==='si')&&(signosDoppler.parametrios==='si');
+        _extension=(_difusaPorVasos||_difusaPorMasaParam)?'difusa':'focal';
+      }
+
+      const _nivelMap={alta:'alto',intermedia:'moderado',baja:'bajo'};
+      const _figo=sel('mf_pas_figo');
+      const _figoLabel={g1:'Grado 1 (Accreta)',g2:'Grado 2 (Increta)',g3a:'Grado 3a (Percreta subserosa/parametrial)',g3b:'Grado 3b (Percreta vesical/rectal)'}[_figo]||'';
+
+      let _hallazgoPas=`Probabilidad de PAS (Clasificación CaVeSal): ${_probabilidad.toUpperCase()} (puntaje ${_puntaje}/9${_excepcion?' — regla de excepción aplicada':''})`;
+      if(_extension) _hallazgoPas+=` · Extensión: ${_extension.toUpperCase()}`;
+      if(_figoLabel) _hallazgoPas+=` · Clasificación FIGO: ${_figoLabel}`;
+
+      const _conductaPas = _probabilidad==='baja'
+        ? 'Sin sospecha significativa de PAS según este puntaje. Seguimiento ecográfico habitual; reevaluar si aparecen nuevos signos.'
+        : 'Derivar/confirmar manejo en centro de Nivel III-IV. Programar cesárea electiva 34+0–35+6 semanas. Equipo multidisciplinario (obstetricia, urología/cirugía, banco de sangre, UCI). REGLA DE ORO: no intentar alumbramiento manual — dejar la placenta in situ y proceder a histerectomía en bloque si se confirma invasión en el acto quirúrgico.';
+
+      add(DOM, _nivelMap[_probabilidad], _hallazgoPas, _conductaPas, 'Clasificación CaVeSal (esquema de puntaje propio del equipo — NO es un score FIGO/ISUOG/ACOG publicado)');
+    })();
+  })();
 
   // TRISOMÍAS - cribado combinado
   if(showCC){
@@ -6735,7 +7396,7 @@ function calcAsimetria(){
   const eg = leerEGDecimal('asim_eg','asim_eg_dias');
   
   const resDiv = document.getElementById('asim_result');
-  if(!lf||!ca){resDiv.style.display='none';return;}
+  if(!lf||!ca){resDiv.style.display='none';_cavesalSetModuleResult('asimetria', []);return;}
   resDiv.style.display='block';
   
   const ratio = lf/ca;
@@ -6747,10 +7408,12 @@ function calcAsimetria(){
   bar.style.width = pct + '%';
   
   const interp = document.getElementById('asim_interpretacion');
+  let _asimFinding = [];
   if(ratio > 0.235){
     bar.style.background = 'var(--red)';
     interp.className = 'bio-alerta show alto';
     interp.innerHTML = `⚠️ <strong>Ratio LF/CA ${ratio.toFixed(3)} &gt;0.235 — ASIMETRÍA:</strong> CA desproporcionadamente pequeña → RCIU asimétrico tardío (brain sparing). Solicitar Doppler umbilical y ACM. Biometría seriada c/2 sem. Derivar Medicina Fetal si Doppler alterado.`;
+    _asimFinding=[{nivel:'alto', hallazgo:'Ratio fémur/CA '+ratio.toFixed(3)+' (&gt;0.235 — asimetría)', conducta:'CA desproporcionadamente pequeña → sospecha de RCIU asimétrico tardío (brain sparing). Solicitar Doppler umbilical y ACM. Biometría seriada c/2 semanas. Derivar Medicina Fetal si Doppler alterado.', fuente:'Biometría fetal 2T/3T'}];
   } else if(ratio > 0.225){
     bar.style.background = 'var(--amber)';
     interp.className = 'bio-alerta show moder';
@@ -6759,11 +7422,13 @@ function calcAsimetria(){
     bar.style.background = 'var(--amber)';
     interp.className = 'bio-alerta show moder';
     interp.innerHTML = `⚡ <strong>Ratio LF/CA ${ratio.toFixed(3)} &lt;0.16 — LF corto desproporcionado:</strong> Sospecha acortamiento de extremidades. Evaluar húmero. Derivar Medicina Fetal (displasia esquelética, enanismo).`;
+    _asimFinding=[{nivel:'moderado', hallazgo:'Ratio fémur/CA '+ratio.toFixed(3)+' (&lt;0.16 — fémur corto desproporcionado)', conducta:'Marcador blando de aneuploidía (FL/AC &lt;0.16–0.18) si hallazgo aislado. Evaluar húmero y resto de biometría. Integrar con otros marcadores de cribado. Derivar Medicina Fetal si se sospecha displasia esquelética.', fuente:'PMC3345228 · Biometría fetal 2T/3T'}];
   } else {
     bar.style.background = 'var(--green)';
     interp.className = 'bio-alerta show ok';
     interp.innerHTML = `✅ <strong>Ratio LF/CA ${ratio.toFixed(3)} — Normal (0.16–0.235):</strong> Crecimiento simétrico. Sin evidencia de asimetría patológica.`;
   }
+  _cavesalSetModuleResult('asimetria', _asimFinding);
   
   // Microcefalia check
   const micro = document.getElementById('asim_microcefalia');
