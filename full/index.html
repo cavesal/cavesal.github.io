@@ -2377,6 +2377,10 @@ document.addEventListener('DOMContentLoaded', function(){
             </select>
             <div class="hint">Marcador blando — más asociado a T18 que a T21 si es aislado</div>
           </div>
+          <div class="field"><label>Vejiga fetal 1T — diámetro longitudinal máximo (mm)</label>
+            <input type="number" id="nt_vejiga_mm" placeholder="ej. 4.0" step="0.1">
+            <div class="hint">11–13+6 sem · Normal &lt;7 mm · Megacistis 7–14.9mm · ≥15mm alto riesgo de uropatía obstructiva</div>
+          </div>
         </div>
         <div id="nt_result" style="display:none;overflow-wrap:break-word;word-break:break-word"></div>
         <div class="bio-ref" style="margin-top:8px">📚 FMF/Nicolaides. NT MoM = NT / mediana esperada para CRL. NT ≥p95: riesgo cromosómico aumentado. Ductus venoso onda a invertida: marcador aneuploidía + cardiopatía. Regurgitación tricúspide: asociada a T21 y cardiopatía congénita.</div>
@@ -3159,7 +3163,7 @@ Microcefalia: CC &lt;p3 para EG.</div>
   <div class="section-body" style="padding:14px 14px 4px">
     <div class="row2">
       <div class="field"><label>Estómago</label>
-        <select id="mf_estomago"><option value="">—</option><option value="normal">Presente, infradiafragmático, izquierdo (normal)</option><option value="alterado">Alterado ⚠️ (ver HDC)</option></select>
+        <select id="mf_estomago"><option value="">—</option><option value="normal">Presente, infradiafragmático, izquierdo (normal)</option><option value="doble_burbuja">Imagen de "doble burbuja" ⚠️</option><option value="alterado">Alterado (otro) ⚠️ (ver HDC)</option></select>
       </div>
       <div class="field"><label>Pared abdominal / inserción del cordón</label>
         <select id="mf_pared_abdominal"><option value="">—</option><option value="integra">Íntegra (normal)</option><option value="onfalocele">Onfalocele (con cobertura) ⚠️</option><option value="gastrosquisis">Gastrosquisis (sin cobertura) ⚠️</option></select>
@@ -3172,6 +3176,15 @@ Microcefalia: CC &lt;p3 para EG.</div>
       <div class="field"><label>Pelviectasia renal — diámetro AP pelvis, izquierda (mm)</label>
         <input type="number" id="mf_pelv_izq" placeholder="ej. 3.0" step="0.1">
         <div class="hint">&lt;33 sem: normal &lt;4.0 · leve 4.0–10.0 · obstructiva &gt;10.0 mm. ≥33 sem: normal &lt;7.0 · leve 7.0–10.0 · obstructiva &gt;10.0 mm</div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Riñones — visualización y posición</label>
+        <select id="mf_rinones"><option value="">—</option><option value="normal">Ambos visibles, posición habitual (normal)</option><option value="ausente_unilateral">Ausente — unilateral ⚠️</option><option value="ausente_bilateral">Ausente — bilateral ⚠️⚠️</option><option value="ectopico">Visible en posición ectópica (pélvica) ⚠️</option></select>
+      </div>
+      <div class="field"><label>Riñones — aspecto del parénquima</label>
+        <select id="mf_rinones_aspecto"><option value="">—</option><option value="normal">Normal (homogéneo)</option><option value="multiquistico">Multiquístico/displásico ⚠️</option></select>
+        <div class="hint">Correlacionar con el líquido amniótico (ver su propio módulo) — la agenesia bilateral o la displasia bilateral suelen cursar con oligoamnios/anhidramnios severo.</div>
       </div>
     </div>
     <div class="row2">
@@ -3207,19 +3220,41 @@ Microcefalia: CC &lt;p3 para EG.</div>
     </div>
     <div class="row2">
       <div class="field"><label>Manos y pies — presentes, orientación normal</label>
-        <select id="mf_manos_pies"><option value="">—</option><option value="normal">Normal</option><option value="alterado">Alterado ⚠️</option></select>
+        <select id="mf_manos_pies"><option value="">—</option><option value="normal">Normal</option><option value="alterado">Alterado ⚠️ (otro — contracturas/sindactilia, etc.)</option></select>
       </div>
-      <div></div>
+      <div class="field"><label>Dedos — número</label>
+        <select id="mf_polidactilia"><option value="">—</option><option value="normal">5 por mano/pie (normal)</option><option value="presente">Polidactilia sospechada ⚠️</option></select>
+      </div>
+    </div>
+    <div class="row2" style="font-weight:700;color:var(--navy);font-size:.8rem">
+      <div>Miembro superior — 3 segmentos</div>
+      <div>Miembro inferior — 3 segmentos</div>
     </div>
     <div class="row2">
-      <div class="field"><label>Miembros superiores — segmentos (brazo/antebrazo/mano)</label>
-        <select id="mf_miembro_sup_segmentos"><option value="">—</option><option value="completos">3 segmentos presentes (normal)</option><option value="incompletos">Segmento(s) ausente(s) ⚠️ — sospecha de focomelia/reducción de miembro</option></select>
+      <div class="field"><label>Húmero</label>
+        <select id="mf_seg_sup_humero"><option value="">—</option><option value="presente">Presente (normal)</option><option value="ausente">Ausente ⚠️</option></select>
       </div>
-      <div class="field"><label>Miembros inferiores — segmentos (muslo/pierna/pie)</label>
-        <select id="mf_miembro_inf_segmentos"><option value="">—</option><option value="completos">3 segmentos presentes (normal)</option><option value="incompletos">Segmento(s) ausente(s) ⚠️ — sospecha de focomelia/reducción de miembro</option></select>
+      <div class="field"><label>Fémur</label>
+        <select id="mf_seg_inf_femur"><option value="">—</option><option value="presente">Presente (normal)</option><option value="ausente">Ausente ⚠️</option></select>
       </div>
     </div>
-    <div class="bio-ref">📚 Razón fémur/AC: usar la pestaña "📐 Biometría — Asimetría LF/CA" (ya calcula el ratio y lo integra al Resultado, incluyendo el corte &lt;0.16–0.18 como marcador blando de aneuploidía — PMC3345228). No se duplica el campo acá. Segmentos de miembros: evaluar los 3 segmentos de cada extremidad (proximal/intermedio/mano o pie) para no pasar por alto defectos de reducción (focomelia, amelia) cuando solo se mira fémur/húmero aislado.</div>
+    <div class="row2">
+      <div class="field"><label>Radio/cúbito</label>
+        <select id="mf_seg_sup_radiocubito"><option value="">—</option><option value="presente">Presentes (normal)</option><option value="ausente">Ausente(s) ⚠️</option></select>
+      </div>
+      <div class="field"><label>Tibia/peroné</label>
+        <select id="mf_seg_inf_tibiaperone"><option value="">—</option><option value="presente">Presentes (normal)</option><option value="ausente">Ausente(s) ⚠️</option></select>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Mano</label>
+        <select id="mf_seg_sup_mano"><option value="">—</option><option value="presente">Presente (normal)</option><option value="ausente">Ausente ⚠️</option></select>
+      </div>
+      <div class="field"><label>Pie — presente / orientación</label>
+        <select id="mf_seg_inf_pie"><option value="">—</option><option value="presente">Presente, orientación normal</option><option value="ausente">Ausente ⚠️</option><option value="equino_varo">Presente, sospecha de pie equino varo (talipes) ⚠️</option></select>
+      </div>
+    </div>
+    <div class="bio-ref">📚 Razón fémur/AC: usar la pestaña "📐 Biometría — Asimetría LF/CA" (ya calcula el ratio y lo integra al Resultado, incluyendo el corte &lt;0.16–0.18 como marcador blando de aneuploidía — PMC3345228). No se duplica el campo acá. Segmentos de miembros: se evalúa cada uno de los 3 segmentos por extremidad (proximal/intermedio/mano o pie) para no pasar por alto defectos de reducción (focomelia, amelia) cuando solo se mira fémur/húmero aislado. Polidactilia: marcador blando asociado a trisomía 13 y síndromes genéticos (Meckel-Gruber, Bardet-Biedl) si se acompaña de otros hallazgos; aislada, pronóstico habitualmente bueno.</div>
   </div>
 </div>
 
@@ -3234,9 +3269,12 @@ Microcefalia: CC &lt;p3 para EG.</div>
         <select id="mf_placenta_insercion"><option value="">—</option><option value="normal">Fúndica/corporal/lateral, lejos del OCI (normal)</option><option value="baja">Inserción baja (borde &lt;20 mm del OCI) ⚠️</option></select>
         <div class="hint">Distinto de "Placenta previa" (checkbox de 3T, en Antecedentes/Embarazo actual) — acá es el hallazgo de 2T, a confirmar en 3T</div>
       </div>
-      <div></div>
+      <div class="field"><label>Cordón — sitio de inserción placentaria</label>
+        <select id="mf_cordon_insercion"><option value="">—</option><option value="central">Central/paracentral (normal)</option><option value="marginal">Marginal ("en raqueta") ⚠️</option><option value="velamentosa">Velamentosa ⚠️⚠️</option></select>
+        <div class="hint">Distinto del número de vasos (3 vasos/arteria única), ver sección Abdomen</div>
+      </div>
     </div>
-    <div class="bio-ref">📚 Líquido amniótico (ILA/bolsón) y cervicometría ya tienen sus propios módulos completos en esta Calculadora (ver pestañas correspondientes) — no se duplican acá. ISUOG/RCOG (corte &lt;20mm en 2T).</div>
+    <div class="bio-ref">📚 Líquido amniótico (ILA/bolsón) y cervicometría ya tienen sus propios módulos completos en esta Calculadora (ver pestañas correspondientes) — no se duplican acá. ISUOG/RCOG (corte &lt;20mm en 2T, inserción de cordón).</div>
   </div>
 </div>
 
@@ -4918,6 +4956,12 @@ function calcular(){
     }
     const ntPlexo=sel('nt_plexo');
     if(ntPlexo==='quiste') add('CRIBADO CROMOSÓMICO','moderado','Quiste(s) de plexo coroideo','Marcador blando — más asociado a T18 que a T21 si es aislado. Integrar con NT, hueso nasal y otros marcadores. Si aislado y resto del cribado normal, riesgo residual bajo.','FMF/Nicolaides');
+
+    const ntVejiga=val('nt_vejiga_mm');
+    if(ntVejiga!==null){
+      if(ntVejiga>=15) add('CRIBADO CROMOSÓMICO','alto',`Megacistis 1T ${ntVejiga}mm (≥15mm)`,'Riesgo bajo de aneuploidía si aislada, pero riesgo alto (~90%) de uropatía obstructiva progresiva (válvulas de uretra posterior, más frecuente en fetos masculinos). Derivar Medicina Fetal/urología fetal — considerar vesicocentesis seriada y eventual derivación para shunt vesicoamniótico.','FMF/Nicolaides — megacystis 1T');
+      else if(ntVejiga>=7) add('CRIBADO CROMOSÓMICO','moderado',`Megacistis 1T ${ntVejiga}mm (7–14.9mm)`,'Riesgo de aneuploidía ~20–25% (T13/T18 más que T21) — ofrecer cariotipo/NIPT. Control ecográfico seriado cada 2–4 semanas: resolución espontánea frecuente, sobre todo si es hallazgo aislado y euploide.','FMF/Nicolaides — megacystis 1T');
+    }
   }
 
   // ════════════════════════════════════════════════
@@ -5054,7 +5098,8 @@ function calcular(){
     }
 
     // ── 2.5 Abdomen ──
-    if(sel('mf_estomago')==='alterado') add(DOM,'moderado','Estómago en posición alterada','Descartar hernia diafragmática (ver Tórax/HDC) o situs anómalo. Derivar Medicina Fetal.','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_estomago')==='doble_burbuja') add(DOM,'alto','Estómago — imagen de "doble burbuja"','Sospecha de atresia duodenal (o yeyunal alta). Asociación con trisomía 21 (~30% de los casos). Completar cribado/diagnóstico de aneuploidía. Vigilar polihidramnios. Derivar Medicina Fetal y planificar parto en centro con cirugía neonatal.','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_estomago')==='alterado') add(DOM,'moderado','Estómago en posición alterada (otro)','Descartar hernia diafragmática (ver Tórax/HDC) o situs anómalo. Derivar Medicina Fetal.','ISUOG / Paladini & Volpe 2018');
     if(sel('mf_pared_abdominal')==='onfalocele') add(DOM,'alto','Onfalocele','Defecto de pared con cobertura peritoneal. Cribado de aneuploidía (asociación ~30%). Ecocardiografía fetal. Parto en centro de referencia con cirugía neonatal.','ISUOG / Paladini & Volpe 2018');
     if(sel('mf_pared_abdominal')==='gastrosquisis') add(DOM,'alto','Gastrosquisis','Defecto de pared sin cobertura, asas libres. Habitualmente sin asociación a aneuploidía. Vigilar crecimiento (RCIU frecuente) y líquido amniótico. Parto en centro con cirugía neonatal.','ISUOG / Paladini & Volpe 2018');
 
@@ -5069,6 +5114,12 @@ function calcular(){
     _mfClasifPelv(mfPelvDer,'derecha');
     _mfClasifPelv(mfPelvIzq,'izquierda');
 
+    const mfRinones=sel('mf_rinones'), mfRinonesAspecto=sel('mf_rinones_aspecto');
+    if(mfRinones==='ausente_unilateral') add(DOM,'moderado','Agenesia renal unilateral (riñón no visualizado)','El riñón contralateral habitualmente compensa; función renal normal esperada si está sano. Descartar anomalías asociadas (genitales, columna — espectro VACTERL). Seguimiento del riñón contralateral postnatal.','ISUOG / Paladini & Volpe 2018');
+    if(mfRinones==='ausente_bilateral') add(DOM,'alto','Agenesia renal bilateral (riñones no visualizados)','Pronóstico ominoso — anhidramnios y secuencia de Potter (hipoplasia pulmonar letal). Confirmar vejiga no visualizada y volumen de líquido amniótico (ver su propio módulo). Consejería prenatal extensa. Derivar Medicina Fetal.','ISUOG / Paladini & Volpe 2018');
+    if(mfRinones==='ectopico') add(DOM,'moderado','Riñón en posición ectópica (pélvica)','Habitualmente hallazgo aislado sin compromiso funcional. Descartar anomalías asociadas. Seguimiento ecográfico de crecimiento renal.','ISUOG / Paladini & Volpe 2018');
+    if(mfRinonesAspecto==='multiquistico') add(DOM,'alto','Riñón(es) multiquístico/displásico','Displasia renal multiquística — evaluar lateralidad y función del riñón contralateral. Si es bilateral: pronóstico ominoso (oligoamnios/anhidramnios severo asociado). Derivar Medicina Fetal / nefrología pediátrica.','ISUOG / Paladini & Volpe 2018');
+
     if(sel('mf_cordon')==='arteria_unica') add(DOM,'moderado','Arteria umbilical única','Marcador blando — screening adicional de malformaciones asociadas (renal, cardíaca). Completar cribado de aneuploidía si no se hizo. Seguimiento ecográfico de crecimiento.','ISUOG / Paladini & Volpe 2018');
 
     const mfMV=val('mf_megavejiga_mm'), mfMVDin=sel('mf_megavejiga_dinamica'), mfKeyhole=sel('mf_keyhole');
@@ -5082,13 +5133,25 @@ function calcular(){
     // ── 2.6 Extremidades ──
     if(chk('mf_femur_corto')) add(DOM,'moderado','Fémur acortado para la EG (criterio cualitativo)','Correlacionar con razón fémur/AC (pestaña Biometría — Asimetría) y resto de biometría. Marcador blando de aneuploidía si aislado; descartar displasia esquelética si desproporción marcada.','ISUOG / Paladini & Volpe 2018');
     if(chk('mf_humero_corto')) add(DOM,'moderado','Húmero acortado para la EG (criterio cualitativo)','Correlacionar con fémur y resto de biometría. Marcador blando de aneuploidía si aislado; descartar displasia esquelética si desproporción marcada.','ISUOG / Paladini & Volpe 2018');
-    if(sel('mf_manos_pies')==='alterado') add(DOM,'moderado','Manos y/o pies alterados (orientación/posición)','Evaluar contracturas (artrogriposis), pie equino varo, polidactilia/sindactilia si se visualiza. Correlacionar con el resto del checklist.','ISUOG / Paladini & Volpe 2018');
-    if(sel('mf_miembro_sup_segmentos')==='incompletos') add(DOM,'alto','Miembro(s) superior(es) con segmento(s) ausente(s)','Sospecha de focomelia/defecto de reducción de miembro. Evaluar el miembro contralateral y los miembros inferiores. Descartar síndromes asociados (ej. Roberts, trombocitopenia-ausencia de radio). Derivar Medicina Fetal.','ISUOG / Paladini & Volpe 2018');
-    if(sel('mf_miembro_inf_segmentos')==='incompletos') add(DOM,'alto','Miembro(s) inferior(es) con segmento(s) ausente(s)','Sospecha de focomelia/defecto de reducción de miembro. Evaluar el miembro contralateral y los miembros superiores. Descartar síndromes asociados. Derivar Medicina Fetal.','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_manos_pies')==='alterado') add(DOM,'moderado','Manos y/o pies alterados (otro — contracturas/sindactilia)','Evaluar contracturas (artrogriposis) o sindactilia. Correlacionar con el resto del checklist (pie y dedos se evalúan en sus propios campos).','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_polidactilia')==='presente') add(DOM,'moderado','Polidactilia sospechada','Marcador blando asociado a trisomía 13 y síndromes genéticos (ej. Meckel-Gruber, Bardet-Biedl) si se acompaña de otros hallazgos. Aislada, pronóstico habitualmente bueno. Completar cribado de aneuploidía y revisar el resto del checklist (SNC, riñones, corazón).','ISUOG / Paladini & Volpe 2018');
+
+    const _mfSegmentos=[
+      ['mf_seg_sup_humero','Húmero','superior'],['mf_seg_sup_radiocubito','Radio/cúbito','superior'],['mf_seg_sup_mano','Mano','superior'],
+      ['mf_seg_inf_femur','Fémur','inferior'],['mf_seg_inf_tibiaperone','Tibia/peroné','inferior'],['mf_seg_inf_pie','Pie','inferior']
+    ];
+    _mfSegmentos.forEach(([id,nombre,miembro])=>{
+      if(sel(id)==='ausente') add(DOM,'alto',`${nombre} ausente (miembro ${miembro})`,'Sospecha de focomelia/defecto de reducción de miembro. Evaluar el miembro contralateral y la extremidad opuesta. Descartar síndromes asociados (ej. Roberts, trombocitopenia-ausencia de radio). Derivar Medicina Fetal.','ISUOG / Paladini & Volpe 2018');
+    });
+    if(sel('mf_seg_inf_pie')==='equino_varo') add(DOM,'moderado','Pie en equino varo (talipes) sospechado','Marcador aislado de buen pronóstico en la mayoría de los casos, pero puede asociarse a anomalías cromosómicas o del SNC/neuromusculares — revisar el resto del checklist. Derivar a ortopedia neonatal para seguimiento postnatal.','ISUOG / Paladini & Volpe 2018');
 
     // ── 2.7 Placenta — localización ──
     const mfPlacentaIns=sel('mf_placenta_insercion');
     if(mfPlacentaIns==='baja') add(DOM,'moderado','Placenta de inserción baja (borde &lt;20mm del OCI en 2T)','Control ecográfico de localización placentaria en 3T para confirmar o descartar placenta previa definitiva (muchas migran). Evitar tactos vaginales si hay sangrado.','ISUOG / RCOG');
+
+    const mfCordonIns=sel('mf_cordon_insercion');
+    if(mfCordonIns==='marginal') add(DOM,'moderado','Inserción marginal del cordón ("en raqueta")','Generalmente hallazgo benigno. Descartar vasa previa con Doppler color sobre el OCI si está próxima al cérvix. Vigilar crecimiento fetal.','ISUOG / RCOG');
+    if(mfCordonIns==='velamentosa') add(DOM,'alto','Inserción velamentosa del cordón','Riesgo de vasa previa — confirmar/descartar con Doppler color sobre el OCI (si se confirma, cesárea electiva programada, sin trabajo de parto). Riesgo aumentado de RCIU/bajo peso al nacer. Control de crecimiento fetal seriado.','ISUOG / RCOG');
 
     // ── 2.7bis Acretismo placentario (PAS) — factores de riesgo ──
     const mfPasCesareas=sel('mf_pas_cesareas');
