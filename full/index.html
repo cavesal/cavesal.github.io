@@ -2526,384 +2526,6 @@ document.addEventListener('DOMContentLoaded', function(){
 </div>
 
 
-<div class="section-card">
-  <div class="section-head" onclick="toggleSection(this)">
-    <span class="icon">🌊</span><h2>Doppler fetal — 2T/3T</h2><span class="chevron">▼</span>
-  </div>
-  <div class="section-body" style="padding:14px 14px 4px">
-    <div class="row2" style="margin-bottom:10px">
-      <div class="field">
-        <label>EG al estudio</label>
-        <div style="display:flex;gap:6px;align-items:center">
-          <input type="number" id="dopp_eg_sem" placeholder="ss" step="1" min="20" max="42" style="width:70px" oninput="calcDopplerPercentil()">
-          <span style="font-size:.78rem;color:var(--slate)">sem</span>
-          <input type="number" id="dopp_eg_dias" placeholder="0" step="1" min="0" max="6" style="width:55px" oninput="calcDopplerPercentil()">
-          <span style="font-size:.78rem;color:var(--slate)">días</span>
-        </div>
-      </div>
-    </div>
-    <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin:4px 0">🫀 Arteria Umbilical</div>
-    <div class="row2">
-      <div class="field"><label>AU — IP</label><input type="number" id="dopp_au_pi" placeholder="IP art. umbilical" step="0.01" oninput="calcDopplerPercentil()"></div>
-      <div class="field"><label>AU — IR</label><input type="number" id="dopp_au_ir" placeholder="IR art. umbilical" step="0.01"></div>
-    </div>
-    <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin:8px 0 4px">🧠 Arteria Cerebral Media</div>
-    <div class="row2">
-      <div class="field"><label>ACM — IP</label><input type="number" id="dopp_acm_pi" placeholder="IP ACM" step="0.01" oninput="calcDopplerPercentil()"></div>
-      <div class="field"><label>ACM — PSV (cm/s)</label><input type="number" id="dopp_acm_psv" placeholder="Pico sistólico" step="0.1" oninput="calcDopplerPercentil()"></div>
-    </div>
-    <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin:8px 0 4px">🩸 Ducto Venoso</div>
-    <div class="row2">
-      <div class="field"><label>DV — PIV</label><input type="number" id="dopp_dv" placeholder="PIV ducto venoso" step="0.01" oninput="calcDopplerPercentil()"></div>
-
-    </div>
-    <div style="font-size:.65rem;color:var(--slate);margin:4px 0 8px;padding:6px 8px;background:var(--mist);border-radius:6px;line-height:1.5">
-      <strong>⚠️ Doppler hemodinámico avanzado</strong> — Indicar solo cuando AU, ACM o ICP estén alterados. Son marcadores de estadio tardío en RCIU severo (compromiso cardiovascular fetal). Ref: ISUOG 2020 · Baschat 2011 · TRUFFLE Study.
-    </div>
-
-    <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin:8px 0 4px">❤️ Regurgitación Tricuspídea (RT) 2T/3T</div>
-    <div style="font-size:.63rem;color:var(--slate);margin-bottom:5px;line-height:1.4">Marcador de disfunción cardíaca fetal derecha. Indicar si DV alterado o sospecha de cardiomiopatía fetal. <em>Solo en 2T/3T — no confundir con RT del 1T (cribado cromosómico).</em></div>
-    <div class="row2">
-      <div class="field">
-        <label>RT — 2T/3T</label>
-        <select id="dopp_rt" onchange="calcDopplerPercentil()">
-          <option value="">—</option>
-          <option value="ausente">Ausente (normal)</option>
-          <option value="leve">Leve</option>
-          <option value="moderada">Moderada</option>
-          <option value="severa">Severa</option>
-        </select>
-      </div>
-    </div>
-
-    <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin:8px 0 4px">🩺 Istmo Aórtico (AoI)</div>
-    <div style="font-size:.63rem;color:var(--slate);margin-bottom:5px;line-height:1.4">Refleja redistribución cerebral y postcarga ventricular izquierda. Flujo retrógrado = compromiso neurológico grave. Indicar si ACM o ICP alterados en RCIU pretérmino.</div>
-    <div class="row2">
-      <div class="field"><label>AoI — IP</label><input type="number" id="dopp_aoi" placeholder="IP istmo aórtico" step="0.01" oninput="calcDopplerPercentil()"></div>
-      <div class="field">
-        <label>AoI — flujo diastólico</label>
-        <select id="dopp_aoi_flujo" onchange="calcDopplerPercentil()">
-          <option value="">—</option>
-          <option value="anterogrado">Anterógrado (normal)</option>
-          <option value="reducido">Reducido</option>
-          <option value="ausente">Ausente</option>
-          <option value="retrogrado">Retrógrado</option>
-        </select>
-      </div>
-    </div>
-
-    <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin:8px 0 4px">🔵 Vena Umbilical Pulsátil (VUP)</div>
-    <div style="font-size:.63rem;color:var(--slate);margin-bottom:5px;line-height:1.4">Pulsatilidad venosa umbilical = signo tardío de descompensación fetal. Indica fallo cardíaco fetal con congestión venosa. Asociada a mortalidad perinatal elevada.</div>
-    <div class="row2">
-      <div class="field">
-        <label>VU — pulsatilidad</label>
-        <select id="dopp_vup" onchange="calcDopplerPercentil()">
-          <option value="">—</option>
-          <option value="no">No pulsátil (normal)</option>
-          <option value="leve">Pulsatilidad leve</option>
-          <option value="franca">Pulsatilidad franca</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="row2">
-      <div class="field"><label style="font-size:.68rem">ICP = ACM/AU (automático)</label><div id="dopp_icp_display" style="padding:8px;background:var(--mist);border-radius:8px;font-size:.78rem;font-weight:700;color:var(--navy)">—</div></div>
-    </div>
-    <div id="dopp_result" style="display:none;margin:10px 0"></div>
-    <div style="font-size:.65rem;color:var(--slate);margin-bottom:10px">ICP normal &gt; P5 para EG · Ref: Baschat AA &amp; Gembruch U. UOG 2003;22:529-536</div>
-
-    <!-- ARTERIA OFTÁLMICA 2T/3T — pronóstico HIE/PE -->
-    <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin:14px 0 4px">👁️ Arteria Oftálmica — Pronóstico HIE/PE</div>
-    <div class="note-box" style="margin-bottom:8px">En paciente con HIE/PE establecida, el ratio PSV2/PSV1 evalúa el <strong>grado de compromiso vascular sistémico</strong>. Ratio ≥0.78: compromiso grave. 0.70–0.77: limítrofe. &lt;0.70: favorable.</div>
-    <div class="row2">
-      <div class="field">
-        <label>AO — PSV1 (cm/s)</label>
-        <input type="number" id="dopp_ao_psv1" placeholder="Pico sistólico 1" step="0.01" oninput="calcAORatio2T()">
-      </div>
-      <div class="field">
-        <label>AO — PSV2 (cm/s)</label>
-        <input type="number" id="dopp_ao_psv2" placeholder="Pico sistólico 2" step="0.01" oninput="calcAORatio2T()">
-      </div>
-    </div>
-    <div class="row2" style="margin-top:-4px">
-      <div class="field">
-        <label style="font-size:.72rem">Ratio PSV2/PSV1 <span style="font-weight:400;color:var(--slate)">(calculado)</span></label>
-        <input type="number" id="dopp_ao_ratio" placeholder="—" step="0.01" style="background:var(--mist)" readonly>
-      </div>
-    </div>
-    <div id="dopp_ao_pronostico" style="display:none;margin:6px 0 10px"></div>
-  </div>
-</div>
-
-<!-- B. PESO FETAL ESTIMADO -->
-<div class="calc-card">
-  <h2>⚖️ Peso fetal estimado (PFE)</h2>
-
-  <!-- MOVIDO (2026-10-06): este selector vive acá porque pfeTabla afecta -->
-  <!-- tanto el modo "EG + peso → percentil" como "Biometría → Hadlock" -->
-  <!-- (ver calcPFE()) — había quedado en la tarjeta de Vía de parto desde -->
-  <!-- la reorganización de pestañas anterior. -->
-  <div style="margin:8px 0 12px;padding:8px;background:var(--mist);border-radius:10px;">
-    <div style="font-size:.72rem;color:var(--slate);margin-bottom:6px;font-weight:600;">📊 Tabla de percentiles:</div>
-    <div style="display:flex;gap:8px;margin-bottom:4px;">
-      <button id="pfe_tabla_figueras" onclick="setPfeTabla('figueras')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.70rem;font-weight:700;cursor:pointer;background:var(--teal);color:#fff;">Figueras 2008</button>
-      <button id="pfe_tabla_ig21" onclick="setPfeTabla('ig21')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.70rem;font-weight:700;cursor:pointer;background:var(--mist);color:var(--slate);">INTERGROWTH-21</button>
-    </div>
-    <div id="pfe_tabla_label" style="font-size:.66rem;color:var(--teal);font-style:italic;">Figueras 2008 · MFB (recomendado Latinoamérica)</div>
-  </div>
-
-  <div class="pfe-mode-btns">
-    <button class="pfe-btn active" id="pfebtn_directo" onclick="setPFEMode('directo')">Peso + percentil directo</button>
-    <button class="pfe-btn" id="pfebtn_egperc" onclick="setPFEMode('egperc')">Peso + EG → percentil</button>
-    <button class="pfe-btn" id="pfebtn_hadlock" onclick="setPFEMode('hadlock')">Biometría → Hadlock</button>
-  </div>
-
-  <!-- MODO DIRECTO -->
-  <div id="pfe_bloque_directo">
-    <div class="row2">
-      <div class="field"><label>PFE (gramos)</label>
-        <input type="number" id="pfe_peso_d" placeholder="ej. 3200" oninput="calcPFE()">
-      </div>
-      <div class="field"><label>Percentil</label>
-        <input type="number" id="pfe_perc_d" placeholder="ej. 75" min="1" max="99" oninput="calcPFE()">
-        <div class="hint">Percentil según curva usada en el informe</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODO EG + PESO → PERCENTIL (INTERGROWTH-21) -->
-  <div id="pfe_bloque_egperc" style="display:none">
-    <div class="note-box">Estimación de percentil por curvas INTERGROWTH-21st (método simplificado). Para resultado preciso usar software FMF.</div>
-    <div class="row2">
-      <div class="field"><label>PFE (gramos)</label>
-        <input type="number" id="pfe_peso_eg" placeholder="ej. 2800" oninput="calcPFE()">
-      </div>
-      <div class="field"><label>EG actual (semanas)</label>
-        <div style="display:flex;gap:6px;align-items:center"><input type="number" id="pfe_eg_sem" placeholder="ss" min="20" max="42" step="1" style="width:60px" oninput="calcPFE()"><span style="font-size:.8rem;color:var(--slate)">+</span><input type="number" id="pfe_eg_dias" placeholder="días" min="0" max="6" step="1" style="width:54px" oninput="calcPFE()"></div>
-        <div class="hint">Sem + días (ej. 36+4)</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODO HADLOCK -->
-  <div id="pfe_bloque_hadlock" style="display:none">
-    <div class="note-box"><strong>Fórmula Hadlock 4 parámetros (1985):</strong> Log₁₀(PFE) = 1.3596 − 0.00386(CA×LF) + 0.0064(CC) + 0.00061(DBP×CA) + 0.0424(CA) + 0.174(LF). Error ±15%.</div>
-    <div class="row2">
-      <div class="field"><label>DBP (mm)</label><input type="number" id="pfe_dbp" placeholder="ej. 78" step="0.1" oninput="calcPFE()"></div>
-      <div class="field"><label>CC (mm)</label><input type="number" id="pfe_cc" placeholder="ej. 285" step="0.1" oninput="calcPFE()"></div>
-    </div>
-    <div class="row2">
-      <div class="field"><label>CA (mm)</label><input type="number" id="pfe_ca" placeholder="ej. 270" step="0.1" oninput="calcPFE()"></div>
-      <div class="field"><label>LF (mm)</label><input type="number" id="pfe_lf" placeholder="ej. 58" step="0.1" oninput="calcPFE()"></div>
-    </div>
-    <div class="field"><label>EG actual (semanas)</label>
-      <div style="display:flex;gap:6px;align-items:center"><input type="number" id="pfe_eg_hadlock" placeholder="ss" min="20" max="42" step="1" style="width:60px" oninput="calcPFE()"><span style="font-size:.8rem;color:var(--slate)">+</span><input type="number" id="pfe_eg_hadlock_dias" placeholder="días" min="0" max="6" step="1" style="width:54px" oninput="calcPFE()"></div>
-    </div>
-  </div>
-
-  <!-- RESULTADO PFE -->
-  <div id="pfe_result" style="display:none">
-    <div class="pfe-chip-row" id="pfe_chips"></div>
-    <div id="pfe_alerta"></div>
-  </div>
-</div>
-
-<div class="calc-card">
-  <div class="section-head" onclick="toggleSection(this)">
-    <span class="icon">🩸</span><h2>Doppler ACM — Anemia Fetal</h2><span class="chevron">▼</span>
-  </div>
-  <div class="section-body" style="padding:14px">
-    <div style="font-size:.74rem;color:var(--slate);margin-bottom:10px;line-height:1.5">PSV ACM para anemia fetal (isoinmunización Rh/Kell).<br><em>Algoritmo propio CaVeSal® · Análisis basado en literatura de referencia (anemia fetal, Doppler ACM) · Umbral: MoM ≥1.50</em></div>
-    <div class="row2">
-      <div class="field"><label>EG (sem + días)</label>
-        <div style="display:flex;gap:6px;align-items:center">
-          <input type="number" id="acm_eg" placeholder="ss" min="18" max="42" step="1" style="width:60px" oninput="calcACM()">
-          <span style="font-size:.8rem;color:var(--slate)">+</span>
-          <input type="number" id="acm_eg_dias" placeholder="dd" min="0" max="6" step="1" style="width:54px" oninput="calcACM()">
-        </div></div>
-      <div class="field"><label>PSV ACM (cm/s)</label><input type="number" id="acm_psv" placeholder="ej. 55.5" step="0.1" oninput="calcACM()"></div>
-    </div>
-    <div id="acm_result" style="display:none;margin-top:10px"></div>
-    <div style="font-size:.65rem;color:var(--slate);margin-top:6px">⚠️ Ángulo ≤15°, ACM proximal al polígono, sin compresión cefálica</div>
-  </div>
-</div>
-
-
-<div class="calc-card" style="margin-bottom:12px">
-  <h2 style="font-size:.92rem;font-weight:700;color:var(--navy);margin-bottom:4px;display:flex;align-items:center;gap:8px">📐 Biometría fetal avanzada</h2>
-  <p style="font-size:.75rem;color:var(--slate);margin-bottom:12px">Cálculo de EG por diferentes parámetros · FMF / Hadlock / Nicolaides</p>
-
-  <!-- SELECTOR DE SECCIÓN -->
-  <div class="bio-tabs">
-    <button class="bio-tab-btn active" onclick="setBioTab('crl')">CRL · 1T</button>
-    <button class="bio-tab-btn" onclick="setBioTab('biom')">Biometrías · 2T/3T</button>
-    <button class="bio-tab-btn" onclick="setBioTab('humero')">Húmero</button>
-    <button class="bio-tab-btn" onclick="setBioTab('cerebelo')">Cerebelo</button>
-    <button class="bio-tab-btn" onclick="setBioTab('asimetria')">Asimetría LF/CA</button>
-  </div>
-
-  <!-- CRL — EG PRIMER TRIMESTRE -->
-  <div class="bio-section active" id="bio_crl">
-    <div class="bio-card">
-      <div class="bio-head">
-        <h3>🔬 EG por CRL — Longitud cráneo-caudal</h3>
-        <span class="bio-trim">1T · 6–13+6 sem</span>
-      </div>
-      <div class="bio-body">
-        <div class="note-box"><strong>Fórmula Robinson &amp; Fleming 1975 (estándar FMF/Nicolaides):</strong> EG (días) = 8.052 × √(CRL × 1.037) + 23.73 (CRL en mm). Margen de error: ±5 días. Es la medida más precisa para datar el embarazo.</div>
-        <div class="field">
-          <label>CRL — Longitud cráneo-caudal (mm)</label>
-          <input type="number" id="bio_crl_val" placeholder="ej. 65" step="0.1" min="10" max="84" oninput="calcCRL()">
-          <div class="hint">Rango válido: 10–84 mm (aprox. 6+3 sem a 13+6 sem)</div>
-        </div>
-        <div class="bio-result" id="bio_crl_result">
-          <div class="bio-eg-main" id="bio_crl_eg">—</div>
-          <div class="bio-eg-sub" id="bio_crl_fum">—</div>
-        </div>
-        <div class="bio-ref">📚 Robinson HP, Fleming JEE (1975) · Fórmula cuadrática Nicolaides/FMF. Corrección de FUM recomendada si diferencia ≥5 días con amenorrea.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- BIOMETRÍAS 2T/3T -->
-  <div class="bio-section" id="bio_biom">
-    <div class="bio-card">
-      <div class="bio-head">
-        <h3>📏 EG por biometrías — 2T y 3T</h3>
-        <span class="bio-trim">14–42 sem</span>
-      </div>
-      <div class="bio-body">
-        <div class="note-box"><strong>Hadlock 1984:</strong> En 2T usar DBP o LF (margen ±1 sem). En 3T preferir CC o LF (menor variabilidad que DBP). En FUM dudosa o discordante en 3T: usar CC o LF para estimación (no corrección formal de FUM).</div>
-        <div class="row2">
-          <div class="field"><label>DBP (mm)</label><input type="number" id="bio_dbp" placeholder="—" step="0.1" oninput="calcBiom()"><div class="hint">Diámetro biparietal</div></div>
-          <div class="field"><label>CC (mm)</label><input type="number" id="bio_cc_biom" placeholder="—" step="0.1" oninput="calcBiom()"><div class="hint">Circunferencia cefálica</div></div>
-        </div>
-        <div class="row2">
-          <div class="field"><label>CA (mm)</label><input type="number" id="bio_ca_biom" placeholder="—" step="0.1" oninput="calcBiom()"><div class="hint">Circunferencia abdominal</div></div>
-          <div class="field"><label>LF (mm)</label><input type="number" id="bio_lf_biom" placeholder="—" step="0.1" oninput="calcBiom()"><div class="hint">Longitud femoral</div></div>
-        </div>
-        <div id="bio_biom_results" style="display:none">
-          <div style="font-size:.76rem;font-weight:700;color:var(--slate);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">EG estimada por parámetro:</div>
-          <div class="row2" id="bio_biom_chips"></div>
-          <div id="bio_biom_discordancia" class="bio-alerta" style="margin-top:8px"></div>
-        </div>
-        <div class="bio-ref">📚 Hadlock FP et al. (1984) · Fórmulas estándar para estimación de EG por biometría. Corrección de FUM en 2T si diferencia ≥7 días. En 3T no corregir.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- HÚMERO -->
-  <div class="bio-section" id="bio_humero">
-    <div class="bio-card">
-      <div class="bio-head">
-        <h3>🦴 EG por longitud humeral</h3>
-        <span class="bio-trim">2T / 3T</span>
-      </div>
-      <div class="bio-body">
-        <div class="note-box">Útil cuando el fémur no es medible (posición fetal, sombra acústica). Correlaciona bien con LF. Útil también en sospecha de displasia esquelética para comparar húmero vs fémur.</div>
-        <div class="field">
-          <label>Longitud humeral (mm)</label>
-          <input type="number" id="bio_humero_val" placeholder="ej. 42" step="0.1" oninput="calcHumero()">
-        </div>
-        <div class="field">
-          <label>LF simultáneo (mm) — opcional</label>
-          <input type="number" id="bio_humero_lf" placeholder="—" step="0.1" oninput="calcHumero()">
-          <div class="hint">Para calcular ratio H/LF (normal: 0.87–1.01)</div>
-        </div>
-        <div class="bio-result" id="bio_humero_result">
-          <div class="bio-eg-main" id="bio_humero_eg">—</div>
-          <div class="bio-eg-sub" id="bio_humero_ratio">—</div>
-        </div>
-        <div class="bio-alerta" id="bio_humero_alerta"></div>
-        <div class="bio-ref">📚 Jeanty P (1983) · Fórmula: EG (sem) = 10.9 + 0.998 × HL − 0.00385 × HL². Ratio H/LF &lt;0.85: sospecha acortamiento rizomélico (acondroplasia). Comparar con percentiles de LF.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- CEREBELO -->
-  <div class="bio-section" id="bio_cerebelo">
-    <div class="bio-card">
-      <div class="bio-head">
-        <h3>🧠 EG por diámetro transverso del cerebelo (DTC)</h3>
-        <span class="bio-trim">2T / 3T</span>
-      </div>
-      <div class="bio-body">
-        <div class="note-box"><strong>Ventaja clave:</strong> El DTC es <strong>independiente de las restricciones de crecimiento</strong> — no se afecta en RCIU. Es el parámetro más confiable para estimar EG en fetos con RCIU o asimetría grave. DTC (mm) ≈ EG (semanas) entre sem 14–28.</div>
-        <div class="field">
-          <label>DTC — Diámetro transverso del cerebelo (mm)</label>
-          <input type="number" id="bio_dtc_val" placeholder="ej. 28" step="0.1" oninput="calcCerebelo()">
-        </div>
-        <div class="bio-result" id="bio_dtc_result">
-          <div class="bio-eg-main" id="bio_dtc_eg">—</div>
-          <div class="bio-eg-sub" id="bio_dtc_sub">—</div>
-        </div>
-        <div class="bio-alerta" id="bio_dtc_alerta"></div>
-        <div class="bio-ref">📚 Goldstein I et al. (1987) · Entre sem 14–28: DTC (mm) ≈ EG (sem). Después de sem 28 la correlación no es lineal — usar tablas de Goldstein. DTC pequeño para EG: marcador de patología del SNC (hipoplasia cerebelosa, síndrome de Dandy-Walker). DTC conservado en RCIU: confirma que la EG asignada es correcta.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ASIMETRÍA LF/CA -->
-  <div class="bio-section" id="bio_asimetria">
-    <div class="bio-card">
-      <div class="bio-head">
-        <h3>⚖️ Detección de asimetría — Ratio LF/CA</h3>
-        <span class="bio-trim">RCIU tardío · FGEG · Displasia</span>
-      </div>
-      <div class="bio-body">
-        <div class="note-box"><strong>Concepto:</strong> En RCIU tardío y asimétrico el feto redistribuye flujo (brain sparing) → el crecimiento abdominal se restringe antes que el cefálico. La relación LF/CA detecta esta asimetría precozmente.</div>
-        <div class="row2">
-          <div class="field"><label>LF (mm)</label><input type="number" id="asim_lf" placeholder="ej. 62" step="0.1" oninput="calcAsimetria()"></div>
-          <div class="field"><label>CA (mm)</label><input type="number" id="asim_ca" placeholder="ej. 310" step="0.1" oninput="calcAsimetria()"></div>
-        </div>
-        <div class="row2">
-          <div class="field"><label>CC (mm) — para microcefalia</label><input type="number" id="asim_cc" placeholder="ej. 285" step="0.1" oninput="calcAsimetria()"></div>
-          <div class="field"><label>EG actual (sem + días)</label>
-        <div style="display:flex;gap:6px;align-items:center">
-          <input type="number" id="asim_eg" placeholder="ss" min="18" max="42" step="1" style="width:60px" oninput="calcAsimetria()">
-          <span style="font-size:.8rem;color:var(--slate)">+</span>
-          <input type="number" id="asim_eg_dias" placeholder="dd" min="0" max="6" step="1" style="width:54px" oninput="calcAsimetria()">
-        </div></div>
-        </div>
-        <div id="asim_result" style="display:none">
-          <div style="margin-top:10px">
-            <div style="font-size:.75rem;font-weight:700;color:var(--slate);margin-bottom:6px">Ratio LF/CA</div>
-            <div id="asim_ratio_val" style="font-size:1.4rem;font-weight:800;color:var(--navy)">—</div>
-            <div class="percentil-bar"><div class="percentil-fill" id="asim_bar" style="width:0%;background:var(--green)"></div></div>
-          </div>
-          <div class="bio-alerta show" id="asim_interpretacion"></div>
-          <div id="asim_microcefalia" class="bio-alerta" style="margin-top:6px"></div>
-        </div>
-        <div class="bio-ref">📚 Campell S, Thoms A (1977) · Ratio LF/CA normal: 0.20–0.24. 
-&gt;0.24 = asimetría (CA desproporcionadamente pequeña vs LF) → RCIU asimétrico. 
-&lt;0.16 = LF corto desproporcionado vs CA → sospecha acortamiento de extremidades (enanismo, displasia esquelética, FGEG simétrico).
-Microcefalia: CC &lt;p3 para EG.</div>
-      </div>
-    </div>
-
-    <!-- EG POR CC Y/O LF EN ASIMETRÍA -->
-    <div class="bio-card" style="margin-top:10px">
-      <div class="bio-head">
-        <h3>📐 EG por CC y/o LF en contexto de asimetría / 3T</h3>
-        <span class="bio-trim">FUM dudosa · RCIU</span>
-      </div>
-      <div class="bio-body">
-        <div class="note-box">En 3T con asimetría o FUM dudosa: usar <strong>CC y/o LF</strong> para estimar EG (no DBP ni CA que se afectan por la asimetría). No corregir FUM en 3T — usar como referencia.</div>
-        <div class="row2">
-          <div class="field"><label>CC (mm)</label><input type="number" id="eg_cc_asim" placeholder="—" step="0.1" oninput="calcEGAsimetria()"></div>
-          <div class="field"><label>LF (mm)</label><input type="number" id="eg_lf_asim" placeholder="—" step="0.1" oninput="calcEGAsimetria()"></div>
-        </div>
-        <div id="eg_asim_result" style="display:none">
-          <div class="row2" id="eg_asim_chips" style="margin-top:8px"></div>
-          <div class="bio-alerta show ok" id="eg_asim_nota" style="margin-top:8px"></div>
-        </div>
-        <div class="bio-ref">📚 En RCIU asimétrico: LF y CC están relativamente preservados → mejores estimadores de EG real que DBP o CA. Hadlock 1984.</div>
-      </div>
-    </div>
-  </div>
-
-</div>
-
 <!-- ════════════════════════════════════════════════════════
      ECOGRAFÍA MORFOLÓGICA (2T) — checklist por sistema
      Diseño: claude/calculadora-morfologia-fetal.md (cerrado 2026-10-11)
@@ -3359,6 +2981,385 @@ Microcefalia: CC &lt;p3 para EG.</div>
     <div class="bio-ref">📚 Signos y factores de riesgo: FIGO/Jauniaux 2018 · ISUOG/Jauniaux 2016–2018 · ACOG/SMFM Obstetric Care Consensus No.7 (2018/2021) · MSPyBS Paraguay, Manual Nacional.<br>⚠️ <strong>Probabilidad y Extensión se calculan con la "Clasificación CaVeSal"</strong> — esquema de puntaje propio del equipo (NO es un score FIGO/ISUOG/ACOG publicado) — ver resultado en el panel consolidado.</div>
   </div>
 </div>
+
+<div class="section-card">
+  <div class="section-head" onclick="toggleSection(this)">
+    <span class="icon">🌊</span><h2>Doppler fetal — 2T/3T</h2><span class="chevron">▼</span>
+  </div>
+  <div class="section-body" style="padding:14px 14px 4px">
+    <div class="row2" style="margin-bottom:10px">
+      <div class="field">
+        <label>EG al estudio</label>
+        <div style="display:flex;gap:6px;align-items:center">
+          <input type="number" id="dopp_eg_sem" placeholder="ss" step="1" min="20" max="42" style="width:70px" oninput="calcDopplerPercentil()">
+          <span style="font-size:.78rem;color:var(--slate)">sem</span>
+          <input type="number" id="dopp_eg_dias" placeholder="0" step="1" min="0" max="6" style="width:55px" oninput="calcDopplerPercentil()">
+          <span style="font-size:.78rem;color:var(--slate)">días</span>
+        </div>
+      </div>
+    </div>
+    <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin:4px 0">🫀 Arteria Umbilical</div>
+    <div class="row2">
+      <div class="field"><label>AU — IP</label><input type="number" id="dopp_au_pi" placeholder="IP art. umbilical" step="0.01" oninput="calcDopplerPercentil()"></div>
+      <div class="field"><label>AU — IR</label><input type="number" id="dopp_au_ir" placeholder="IR art. umbilical" step="0.01"></div>
+    </div>
+    <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin:8px 0 4px">🧠 Arteria Cerebral Media</div>
+    <div class="row2">
+      <div class="field"><label>ACM — IP</label><input type="number" id="dopp_acm_pi" placeholder="IP ACM" step="0.01" oninput="calcDopplerPercentil()"></div>
+      <div class="field"><label>ACM — PSV (cm/s)</label><input type="number" id="dopp_acm_psv" placeholder="Pico sistólico" step="0.1" oninput="calcDopplerPercentil()"></div>
+    </div>
+    <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin:8px 0 4px">🩸 Ducto Venoso</div>
+    <div class="row2">
+      <div class="field"><label>DV — PIV</label><input type="number" id="dopp_dv" placeholder="PIV ducto venoso" step="0.01" oninput="calcDopplerPercentil()"></div>
+
+    </div>
+    <div style="font-size:.65rem;color:var(--slate);margin:4px 0 8px;padding:6px 8px;background:var(--mist);border-radius:6px;line-height:1.5">
+      <strong>⚠️ Doppler hemodinámico avanzado</strong> — Indicar solo cuando AU, ACM o ICP estén alterados. Son marcadores de estadio tardío en RCIU severo (compromiso cardiovascular fetal). Ref: ISUOG 2020 · Baschat 2011 · TRUFFLE Study.
+    </div>
+
+    <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin:8px 0 4px">❤️ Regurgitación Tricuspídea (RT) 2T/3T</div>
+    <div style="font-size:.63rem;color:var(--slate);margin-bottom:5px;line-height:1.4">Marcador de disfunción cardíaca fetal derecha. Indicar si DV alterado o sospecha de cardiomiopatía fetal. <em>Solo en 2T/3T — no confundir con RT del 1T (cribado cromosómico).</em></div>
+    <div class="row2">
+      <div class="field">
+        <label>RT — 2T/3T</label>
+        <select id="dopp_rt" onchange="calcDopplerPercentil()">
+          <option value="">—</option>
+          <option value="ausente">Ausente (normal)</option>
+          <option value="leve">Leve</option>
+          <option value="moderada">Moderada</option>
+          <option value="severa">Severa</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin:8px 0 4px">🩺 Istmo Aórtico (AoI)</div>
+    <div style="font-size:.63rem;color:var(--slate);margin-bottom:5px;line-height:1.4">Refleja redistribución cerebral y postcarga ventricular izquierda. Flujo retrógrado = compromiso neurológico grave. Indicar si ACM o ICP alterados en RCIU pretérmino.</div>
+    <div class="row2">
+      <div class="field"><label>AoI — IP</label><input type="number" id="dopp_aoi" placeholder="IP istmo aórtico" step="0.01" oninput="calcDopplerPercentil()"></div>
+      <div class="field">
+        <label>AoI — flujo diastólico</label>
+        <select id="dopp_aoi_flujo" onchange="calcDopplerPercentil()">
+          <option value="">—</option>
+          <option value="anterogrado">Anterógrado (normal)</option>
+          <option value="reducido">Reducido</option>
+          <option value="ausente">Ausente</option>
+          <option value="retrogrado">Retrógrado</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin:8px 0 4px">🔵 Vena Umbilical Pulsátil (VUP)</div>
+    <div style="font-size:.63rem;color:var(--slate);margin-bottom:5px;line-height:1.4">Pulsatilidad venosa umbilical = signo tardío de descompensación fetal. Indica fallo cardíaco fetal con congestión venosa. Asociada a mortalidad perinatal elevada.</div>
+    <div class="row2">
+      <div class="field">
+        <label>VU — pulsatilidad</label>
+        <select id="dopp_vup" onchange="calcDopplerPercentil()">
+          <option value="">—</option>
+          <option value="no">No pulsátil (normal)</option>
+          <option value="leve">Pulsatilidad leve</option>
+          <option value="franca">Pulsatilidad franca</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div class="field"><label style="font-size:.68rem">ICP = ACM/AU (automático)</label><div id="dopp_icp_display" style="padding:8px;background:var(--mist);border-radius:8px;font-size:.78rem;font-weight:700;color:var(--navy)">—</div></div>
+    </div>
+    <div id="dopp_result" style="display:none;margin:10px 0"></div>
+    <div style="font-size:.65rem;color:var(--slate);margin-bottom:10px">ICP normal &gt; P5 para EG · Ref: Baschat AA &amp; Gembruch U. UOG 2003;22:529-536</div>
+
+    <!-- ARTERIA OFTÁLMICA 2T/3T — pronóstico HIE/PE -->
+    <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin:14px 0 4px">👁️ Arteria Oftálmica — Pronóstico HIE/PE</div>
+    <div class="note-box" style="margin-bottom:8px">En paciente con HIE/PE establecida, el ratio PSV2/PSV1 evalúa el <strong>grado de compromiso vascular sistémico</strong>. Ratio ≥0.78: compromiso grave. 0.70–0.77: limítrofe. &lt;0.70: favorable.</div>
+    <div class="row2">
+      <div class="field">
+        <label>AO — PSV1 (cm/s)</label>
+        <input type="number" id="dopp_ao_psv1" placeholder="Pico sistólico 1" step="0.01" oninput="calcAORatio2T()">
+      </div>
+      <div class="field">
+        <label>AO — PSV2 (cm/s)</label>
+        <input type="number" id="dopp_ao_psv2" placeholder="Pico sistólico 2" step="0.01" oninput="calcAORatio2T()">
+      </div>
+    </div>
+    <div class="row2" style="margin-top:-4px">
+      <div class="field">
+        <label style="font-size:.72rem">Ratio PSV2/PSV1 <span style="font-weight:400;color:var(--slate)">(calculado)</span></label>
+        <input type="number" id="dopp_ao_ratio" placeholder="—" step="0.01" style="background:var(--mist)" readonly>
+      </div>
+    </div>
+    <div id="dopp_ao_pronostico" style="display:none;margin:6px 0 10px"></div>
+  </div>
+</div>
+
+<!-- B. PESO FETAL ESTIMADO -->
+<div class="calc-card">
+  <h2>⚖️ Peso fetal estimado (PFE)</h2>
+
+  <!-- MOVIDO (2026-10-06): este selector vive acá porque pfeTabla afecta -->
+  <!-- tanto el modo "EG + peso → percentil" como "Biometría → Hadlock" -->
+  <!-- (ver calcPFE()) — había quedado en la tarjeta de Vía de parto desde -->
+  <!-- la reorganización de pestañas anterior. -->
+  <div style="margin:8px 0 12px;padding:8px;background:var(--mist);border-radius:10px;">
+    <div style="font-size:.72rem;color:var(--slate);margin-bottom:6px;font-weight:600;">📊 Tabla de percentiles:</div>
+    <div style="display:flex;gap:8px;margin-bottom:4px;">
+      <button id="pfe_tabla_figueras" onclick="setPfeTabla('figueras')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.70rem;font-weight:700;cursor:pointer;background:var(--teal);color:#fff;">Figueras 2008</button>
+      <button id="pfe_tabla_ig21" onclick="setPfeTabla('ig21')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.70rem;font-weight:700;cursor:pointer;background:var(--mist);color:var(--slate);">INTERGROWTH-21</button>
+    </div>
+    <div id="pfe_tabla_label" style="font-size:.66rem;color:var(--teal);font-style:italic;">Figueras 2008 · MFB (recomendado Latinoamérica)</div>
+  </div>
+
+  <div class="pfe-mode-btns">
+    <button class="pfe-btn active" id="pfebtn_directo" onclick="setPFEMode('directo')">Peso + percentil directo</button>
+    <button class="pfe-btn" id="pfebtn_egperc" onclick="setPFEMode('egperc')">Peso + EG → percentil</button>
+    <button class="pfe-btn" id="pfebtn_hadlock" onclick="setPFEMode('hadlock')">Biometría → Hadlock</button>
+  </div>
+
+  <!-- MODO DIRECTO -->
+  <div id="pfe_bloque_directo">
+    <div class="row2">
+      <div class="field"><label>PFE (gramos)</label>
+        <input type="number" id="pfe_peso_d" placeholder="ej. 3200" oninput="calcPFE()">
+      </div>
+      <div class="field"><label>Percentil</label>
+        <input type="number" id="pfe_perc_d" placeholder="ej. 75" min="1" max="99" oninput="calcPFE()">
+        <div class="hint">Percentil según curva usada en el informe</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODO EG + PESO → PERCENTIL (INTERGROWTH-21) -->
+  <div id="pfe_bloque_egperc" style="display:none">
+    <div class="note-box">Estimación de percentil por curvas INTERGROWTH-21st (método simplificado). Para resultado preciso usar software FMF.</div>
+    <div class="row2">
+      <div class="field"><label>PFE (gramos)</label>
+        <input type="number" id="pfe_peso_eg" placeholder="ej. 2800" oninput="calcPFE()">
+      </div>
+      <div class="field"><label>EG actual (semanas)</label>
+        <div style="display:flex;gap:6px;align-items:center"><input type="number" id="pfe_eg_sem" placeholder="ss" min="20" max="42" step="1" style="width:60px" oninput="calcPFE()"><span style="font-size:.8rem;color:var(--slate)">+</span><input type="number" id="pfe_eg_dias" placeholder="días" min="0" max="6" step="1" style="width:54px" oninput="calcPFE()"></div>
+        <div class="hint">Sem + días (ej. 36+4)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODO HADLOCK -->
+  <div id="pfe_bloque_hadlock" style="display:none">
+    <div class="note-box"><strong>Fórmula Hadlock 4 parámetros (1985):</strong> Log₁₀(PFE) = 1.3596 − 0.00386(CA×LF) + 0.0064(CC) + 0.00061(DBP×CA) + 0.0424(CA) + 0.174(LF). Error ±15%.</div>
+    <div class="row2">
+      <div class="field"><label>DBP (mm)</label><input type="number" id="pfe_dbp" placeholder="ej. 78" step="0.1" oninput="calcPFE()"></div>
+      <div class="field"><label>CC (mm)</label><input type="number" id="pfe_cc" placeholder="ej. 285" step="0.1" oninput="calcPFE()"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>CA (mm)</label><input type="number" id="pfe_ca" placeholder="ej. 270" step="0.1" oninput="calcPFE()"></div>
+      <div class="field"><label>LF (mm)</label><input type="number" id="pfe_lf" placeholder="ej. 58" step="0.1" oninput="calcPFE()"></div>
+    </div>
+    <div class="field"><label>EG actual (semanas)</label>
+      <div style="display:flex;gap:6px;align-items:center"><input type="number" id="pfe_eg_hadlock" placeholder="ss" min="20" max="42" step="1" style="width:60px" oninput="calcPFE()"><span style="font-size:.8rem;color:var(--slate)">+</span><input type="number" id="pfe_eg_hadlock_dias" placeholder="días" min="0" max="6" step="1" style="width:54px" oninput="calcPFE()"></div>
+    </div>
+  </div>
+
+  <!-- RESULTADO PFE -->
+  <div id="pfe_result" style="display:none">
+    <div class="pfe-chip-row" id="pfe_chips"></div>
+    <div id="pfe_alerta"></div>
+  </div>
+</div>
+
+<div class="calc-card">
+  <div class="section-head" onclick="toggleSection(this)">
+    <span class="icon">🩸</span><h2>Doppler ACM — Anemia Fetal</h2><span class="chevron">▼</span>
+  </div>
+  <div class="section-body" style="padding:14px">
+    <div style="font-size:.74rem;color:var(--slate);margin-bottom:10px;line-height:1.5">PSV ACM para anemia fetal (isoinmunización Rh/Kell).<br><em>Algoritmo propio CaVeSal® · Análisis basado en literatura de referencia (anemia fetal, Doppler ACM) · Umbral: MoM ≥1.50</em></div>
+    <div class="row2">
+      <div class="field"><label>EG (sem + días)</label>
+        <div style="display:flex;gap:6px;align-items:center">
+          <input type="number" id="acm_eg" placeholder="ss" min="18" max="42" step="1" style="width:60px" oninput="calcACM()">
+          <span style="font-size:.8rem;color:var(--slate)">+</span>
+          <input type="number" id="acm_eg_dias" placeholder="dd" min="0" max="6" step="1" style="width:54px" oninput="calcACM()">
+        </div></div>
+      <div class="field"><label>PSV ACM (cm/s)</label><input type="number" id="acm_psv" placeholder="ej. 55.5" step="0.1" oninput="calcACM()"></div>
+    </div>
+    <div id="acm_result" style="display:none;margin-top:10px"></div>
+    <div style="font-size:.65rem;color:var(--slate);margin-top:6px">⚠️ Ángulo ≤15°, ACM proximal al polígono, sin compresión cefálica</div>
+  </div>
+</div>
+
+
+<div class="calc-card" style="margin-bottom:12px">
+  <h2 style="font-size:.92rem;font-weight:700;color:var(--navy);margin-bottom:4px;display:flex;align-items:center;gap:8px">📐 Biometría fetal avanzada</h2>
+  <p style="font-size:.75rem;color:var(--slate);margin-bottom:12px">Cálculo de EG por diferentes parámetros · FMF / Hadlock / Nicolaides</p>
+
+  <!-- SELECTOR DE SECCIÓN -->
+  <div class="bio-tabs">
+    <button class="bio-tab-btn active" onclick="setBioTab('crl')">CRL · 1T</button>
+    <button class="bio-tab-btn" onclick="setBioTab('biom')">Biometrías · 2T/3T</button>
+    <button class="bio-tab-btn" onclick="setBioTab('humero')">Húmero</button>
+    <button class="bio-tab-btn" onclick="setBioTab('cerebelo')">Cerebelo</button>
+    <button class="bio-tab-btn" onclick="setBioTab('asimetria')">Asimetría LF/CA</button>
+  </div>
+
+  <!-- CRL — EG PRIMER TRIMESTRE -->
+  <div class="bio-section active" id="bio_crl">
+    <div class="bio-card">
+      <div class="bio-head">
+        <h3>🔬 EG por CRL — Longitud cráneo-caudal</h3>
+        <span class="bio-trim">1T · 6–13+6 sem</span>
+      </div>
+      <div class="bio-body">
+        <div class="note-box"><strong>Fórmula Robinson &amp; Fleming 1975 (estándar FMF/Nicolaides):</strong> EG (días) = 8.052 × √(CRL × 1.037) + 23.73 (CRL en mm). Margen de error: ±5 días. Es la medida más precisa para datar el embarazo.</div>
+        <div class="field">
+          <label>CRL — Longitud cráneo-caudal (mm)</label>
+          <input type="number" id="bio_crl_val" placeholder="ej. 65" step="0.1" min="10" max="84" oninput="calcCRL()">
+          <div class="hint">Rango válido: 10–84 mm (aprox. 6+3 sem a 13+6 sem)</div>
+        </div>
+        <div class="bio-result" id="bio_crl_result">
+          <div class="bio-eg-main" id="bio_crl_eg">—</div>
+          <div class="bio-eg-sub" id="bio_crl_fum">—</div>
+        </div>
+        <div class="bio-ref">📚 Robinson HP, Fleming JEE (1975) · Fórmula cuadrática Nicolaides/FMF. Corrección de FUM recomendada si diferencia ≥5 días con amenorrea.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BIOMETRÍAS 2T/3T -->
+  <div class="bio-section" id="bio_biom">
+    <div class="bio-card">
+      <div class="bio-head">
+        <h3>📏 EG por biometrías — 2T y 3T</h3>
+        <span class="bio-trim">14–42 sem</span>
+      </div>
+      <div class="bio-body">
+        <div class="note-box"><strong>Hadlock 1984:</strong> En 2T usar DBP o LF (margen ±1 sem). En 3T preferir CC o LF (menor variabilidad que DBP). En FUM dudosa o discordante en 3T: usar CC o LF para estimación (no corrección formal de FUM).</div>
+        <div class="row2">
+          <div class="field"><label>DBP (mm)</label><input type="number" id="bio_dbp" placeholder="—" step="0.1" oninput="calcBiom()"><div class="hint">Diámetro biparietal</div></div>
+          <div class="field"><label>CC (mm)</label><input type="number" id="bio_cc_biom" placeholder="—" step="0.1" oninput="calcBiom()"><div class="hint">Circunferencia cefálica</div></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label>CA (mm)</label><input type="number" id="bio_ca_biom" placeholder="—" step="0.1" oninput="calcBiom()"><div class="hint">Circunferencia abdominal</div></div>
+          <div class="field"><label>LF (mm)</label><input type="number" id="bio_lf_biom" placeholder="—" step="0.1" oninput="calcBiom()"><div class="hint">Longitud femoral</div></div>
+        </div>
+        <div id="bio_biom_results" style="display:none">
+          <div style="font-size:.76rem;font-weight:700;color:var(--slate);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">EG estimada por parámetro:</div>
+          <div class="row2" id="bio_biom_chips"></div>
+          <div id="bio_biom_discordancia" class="bio-alerta" style="margin-top:8px"></div>
+        </div>
+        <div class="bio-ref">📚 Hadlock FP et al. (1984) · Fórmulas estándar para estimación de EG por biometría. Corrección de FUM en 2T si diferencia ≥7 días. En 3T no corregir.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HÚMERO -->
+  <div class="bio-section" id="bio_humero">
+    <div class="bio-card">
+      <div class="bio-head">
+        <h3>🦴 EG por longitud humeral</h3>
+        <span class="bio-trim">2T / 3T</span>
+      </div>
+      <div class="bio-body">
+        <div class="note-box">Útil cuando el fémur no es medible (posición fetal, sombra acústica). Correlaciona bien con LF. Útil también en sospecha de displasia esquelética para comparar húmero vs fémur.</div>
+        <div class="field">
+          <label>Longitud humeral (mm)</label>
+          <input type="number" id="bio_humero_val" placeholder="ej. 42" step="0.1" oninput="calcHumero()">
+        </div>
+        <div class="field">
+          <label>LF simultáneo (mm) — opcional</label>
+          <input type="number" id="bio_humero_lf" placeholder="—" step="0.1" oninput="calcHumero()">
+          <div class="hint">Para calcular ratio H/LF (normal: 0.87–1.01)</div>
+        </div>
+        <div class="bio-result" id="bio_humero_result">
+          <div class="bio-eg-main" id="bio_humero_eg">—</div>
+          <div class="bio-eg-sub" id="bio_humero_ratio">—</div>
+        </div>
+        <div class="bio-alerta" id="bio_humero_alerta"></div>
+        <div class="bio-ref">📚 Jeanty P (1983) · Fórmula: EG (sem) = 10.9 + 0.998 × HL − 0.00385 × HL². Ratio H/LF &lt;0.85: sospecha acortamiento rizomélico (acondroplasia). Comparar con percentiles de LF.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CEREBELO -->
+  <div class="bio-section" id="bio_cerebelo">
+    <div class="bio-card">
+      <div class="bio-head">
+        <h3>🧠 EG por diámetro transverso del cerebelo (DTC)</h3>
+        <span class="bio-trim">2T / 3T</span>
+      </div>
+      <div class="bio-body">
+        <div class="note-box"><strong>Ventaja clave:</strong> El DTC es <strong>independiente de las restricciones de crecimiento</strong> — no se afecta en RCIU. Es el parámetro más confiable para estimar EG en fetos con RCIU o asimetría grave. DTC (mm) ≈ EG (semanas) entre sem 14–28.</div>
+        <div class="field">
+          <label>DTC — Diámetro transverso del cerebelo (mm)</label>
+          <input type="number" id="bio_dtc_val" placeholder="ej. 28" step="0.1" oninput="calcCerebelo()">
+        </div>
+        <div class="bio-result" id="bio_dtc_result">
+          <div class="bio-eg-main" id="bio_dtc_eg">—</div>
+          <div class="bio-eg-sub" id="bio_dtc_sub">—</div>
+        </div>
+        <div class="bio-alerta" id="bio_dtc_alerta"></div>
+        <div class="bio-ref">📚 Goldstein I et al. (1987) · Entre sem 14–28: DTC (mm) ≈ EG (sem). Después de sem 28 la correlación no es lineal — usar tablas de Goldstein. DTC pequeño para EG: marcador de patología del SNC (hipoplasia cerebelosa, síndrome de Dandy-Walker). DTC conservado en RCIU: confirma que la EG asignada es correcta.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ASIMETRÍA LF/CA -->
+  <div class="bio-section" id="bio_asimetria">
+    <div class="bio-card">
+      <div class="bio-head">
+        <h3>⚖️ Detección de asimetría — Ratio LF/CA</h3>
+        <span class="bio-trim">RCIU tardío · FGEG · Displasia</span>
+      </div>
+      <div class="bio-body">
+        <div class="note-box"><strong>Concepto:</strong> En RCIU tardío y asimétrico el feto redistribuye flujo (brain sparing) → el crecimiento abdominal se restringe antes que el cefálico. La relación LF/CA detecta esta asimetría precozmente.</div>
+        <div class="row2">
+          <div class="field"><label>LF (mm)</label><input type="number" id="asim_lf" placeholder="ej. 62" step="0.1" oninput="calcAsimetria()"></div>
+          <div class="field"><label>CA (mm)</label><input type="number" id="asim_ca" placeholder="ej. 310" step="0.1" oninput="calcAsimetria()"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label>CC (mm) — para microcefalia</label><input type="number" id="asim_cc" placeholder="ej. 285" step="0.1" oninput="calcAsimetria()"></div>
+          <div class="field"><label>EG actual (sem + días)</label>
+        <div style="display:flex;gap:6px;align-items:center">
+          <input type="number" id="asim_eg" placeholder="ss" min="18" max="42" step="1" style="width:60px" oninput="calcAsimetria()">
+          <span style="font-size:.8rem;color:var(--slate)">+</span>
+          <input type="number" id="asim_eg_dias" placeholder="dd" min="0" max="6" step="1" style="width:54px" oninput="calcAsimetria()">
+        </div></div>
+        </div>
+        <div id="asim_result" style="display:none">
+          <div style="margin-top:10px">
+            <div style="font-size:.75rem;font-weight:700;color:var(--slate);margin-bottom:6px">Ratio LF/CA</div>
+            <div id="asim_ratio_val" style="font-size:1.4rem;font-weight:800;color:var(--navy)">—</div>
+            <div class="percentil-bar"><div class="percentil-fill" id="asim_bar" style="width:0%;background:var(--green)"></div></div>
+          </div>
+          <div class="bio-alerta show" id="asim_interpretacion"></div>
+          <div id="asim_microcefalia" class="bio-alerta" style="margin-top:6px"></div>
+        </div>
+        <div class="bio-ref">📚 Campell S, Thoms A (1977) · Ratio LF/CA normal: 0.20–0.24. 
+&gt;0.24 = asimetría (CA desproporcionadamente pequeña vs LF) → RCIU asimétrico. 
+&lt;0.16 = LF corto desproporcionado vs CA → sospecha acortamiento de extremidades (enanismo, displasia esquelética, FGEG simétrico).
+Microcefalia: CC &lt;p3 para EG.</div>
+      </div>
+    </div>
+
+    <!-- EG POR CC Y/O LF EN ASIMETRÍA -->
+    <div class="bio-card" style="margin-top:10px">
+      <div class="bio-head">
+        <h3>📐 EG por CC y/o LF en contexto de asimetría / 3T</h3>
+        <span class="bio-trim">FUM dudosa · RCIU</span>
+      </div>
+      <div class="bio-body">
+        <div class="note-box">En 3T con asimetría o FUM dudosa: usar <strong>CC y/o LF</strong> para estimar EG (no DBP ni CA que se afectan por la asimetría). No corregir FUM en 3T — usar como referencia.</div>
+        <div class="row2">
+          <div class="field"><label>CC (mm)</label><input type="number" id="eg_cc_asim" placeholder="—" step="0.1" oninput="calcEGAsimetria()"></div>
+          <div class="field"><label>LF (mm)</label><input type="number" id="eg_lf_asim" placeholder="—" step="0.1" oninput="calcEGAsimetria()"></div>
+        </div>
+        <div id="eg_asim_result" style="display:none">
+          <div class="row2" id="eg_asim_chips" style="margin-top:8px"></div>
+          <div class="bio-alerta show ok" id="eg_asim_nota" style="margin-top:8px"></div>
+        </div>
+        <div class="bio-ref">📚 En RCIU asimétrico: LF y CC están relativamente preservados → mejores estimadores de EG real que DBP o CA. Hadlock 1984.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
 
 <!-- ════ PERFIL BIOFÍSICO FETAL (PBF) — Manning / Vintzileos / Clark ════ -->
 <div class="section-card">
