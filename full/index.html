@@ -3453,9 +3453,11 @@ Microcefalia: CC &lt;p3 para EG.</div>
           <option value="normal">Sin patrón especial</option>
           <option value="sinusoidal">Sinusoidal clásico ⚠️ (3–5 ciclos/min, sin variabilidad)</option>
           <option value="pseudosinusoidal">Pseudo-sinusoidal (&lt;20 min, transitorio)</option>
-          <option value="ondas_lambda">Ondas lambda (benigno)</option>
-          <option value="omega">Patrón omega (desaceleración variable compleja)</option>
+          <option value="ondas_lambda">Ondas lambda (referencia visual informal)</option>
+          <option value="omega">Patrón omega (referencia visual informal)</option>
+          <option value="signo_w">Signo W (Welt 1984 — desaceleración variable bifásica)</option>
         </select>
+        <div class="hint">"Ondas lambda" y "patrón omega" son analogías gráficas informales de uso docente/clínico frecuente (describen la silueta del trazado) — NO forman parte de la nomenclatura oficial FIGO/ACOG/NICHD. El Signo W sí corresponde a un patrón publicado con fuente propia (Welt 1984).</div>
       </div>
       <div class="field"><label>Desaceleraciones (Dips, Caldeyro-Barcia)</label>
         <select id="mf_nst_dip">
@@ -3468,7 +3470,18 @@ Microcefalia: CC &lt;p3 para EG.</div>
         </select>
       </div>
     </div>
-    <div class="bio-ref">📚 FIGO Consensus Guidelines on Intrapartum Fetal Monitoring (Ayres-de-Campos et al. 2015) · ACOG Practice Bulletin No. 229 (2021) · Caldeyro-Barcia R et al. 1966 (nomenclatura de Dips).</div>
+    <div class="row2">
+      <div class="field"><label>Fenómeno peri-desaceleración (hombros vs. overshoot)</label>
+        <select id="mf_nst_shoulder">
+          <option value="">—</option>
+          <option value="hombros">Hombros (shoulders) — aceleración breve pre/post-desaceleración</option>
+          <option value="overshoot">Overshoot — aceleración exagerada/rígida post-desaceleración ⚠️</option>
+        </select>
+        <div class="hint">NO son sinónimos: los hombros son un signo tranquilizador (indemnidad barorrefleja autonómica); el overshoot es un hallazgo NO tranquilizador (se asocia a hipoxia tisular en desarrollo/acidosis).</div>
+      </div>
+      <div class="field"></div>
+    </div>
+    <div class="bio-ref">📚 FIGO Consensus Guidelines on Intrapartum Fetal Monitoring (Ayres-de-Campos et al. 2015) · ACOG Practice Bulletin No. 229/106 (nomenclatura de Categorías I/II/III) · Caldeyro-Barcia R et al. 1966 (nomenclatura de Dips I/II/III) · Welt AM et al., Obstet Gynecol 1984;64(4):562-6 (Signo W) · Dawes GS, Redman CWG et al., Oxford (análisis computarizado de FCF — distinción hombros/overshoot). "Ondas lambda" y "patrón omega" son analogías visuales informales de uso docente, no nomenclatura oficial de ninguna de estas guías.</div>
   </div>
 </div>
 
@@ -5210,8 +5223,13 @@ function calcular(){
     const patron=sel('mf_nst_patron');
     if(patron==='sinusoidal') add(DOM3,'alto','Patrón sinusoidal clásico','Condición preterminal — descartar anemia fetal severa (isoinmunización Rh, vasa previa sangrante, transfusión feto-materna masiva) o acidosis metabólica crítica. Derivar urgente.','Caldeyro-Barcia et al. 1966 · FIGO 2015');
     else if(patron==='pseudosinusoidal') add(DOM3,'bajo','Patrón pseudo-sinusoidal','Habitualmente transitorio tras opioides maternos (fentanilo, meperidina) o succión del pulgar fetal. Vigilar evolución.','FIGO 2015');
-    else if(patron==='ondas_lambda') add(DOM3,'bajo','Ondas lambda','Variante fisiológica benigna (sueño fetal/movimientos rápidos) si la variabilidad basal es moderada. No requiere conducta adicional.','FIGO 2015');
-    else if(patron==='omega') add(DOM3,'moderado','Patrón omega (desaceleración variable compleja con hombros)','Compresión funicular. Correlacionar con el resto del trazado y considerar cambio de posición materna.','FIGO 2015 · Caldeyro-Barcia');
+    else if(patron==='ondas_lambda') add(DOM3,'bajo','Ondas lambda (analogía visual informal — no es nomenclatura FIGO/ACOG/NICHD)','Variante fisiológica benigna (sueño fetal/movimientos rápidos) si la variabilidad basal es moderada. No requiere conducta adicional.','Descripción informal de uso docente; no figura como término oficial en FIGO 2015 ni ACOG PB 106/229');
+    else if(patron==='omega') add(DOM3,'moderado','Patrón omega (analogía visual informal — no es nomenclatura FIGO/ACOG/NICHD)','Compresión funicular (Dip III atípico con meseta). Correlacionar con el resto del trazado; ver por separado el campo "hombros vs. overshoot" y considerar cambio de posición materna.','Descripción informal de uso docente derivada de la fisiopatología del Dip III (Caldeyro-Barcia et al. 1966); no figura como término oficial en FIGO 2015 ni ACOG PB 106/229');
+    else if(patron==='signo_w') add(DOM3,'bajo','Signo W (desaceleración variable bifásica)','Relativamente benigno — descrito en asociación con cordón umbilical largo. No requiere conducta adicional específica más allá de la vigilancia habitual del resto del trazado.','Welt AM et al., Obstet Gynecol 1984;64(4):562-6');
+
+    const shoulder=sel('mf_nst_shoulder');
+    if(shoulder==='hombros') add(DOM3,'bajo','Hombros (shoulders) peri-desaceleración','Signo tranquilizador — refleja indemnidad del reflejo autonómico (taquicardia compensatoria simpática por compresión transitoria de la vena umbilical antes/después de la desaceleración). No requiere conducta adicional.','Caldeyro-Barcia et al. 1966 · Dawes GS, Redman CWG et al. (análisis computarizado de FCF, Oxford)');
+    else if(shoulder==='overshoot') add(DOM3,'moderado','Overshoot post-desaceleración','Hallazgo NO tranquilizador — aceleración exagerada/rígida tras la desaceleración, distinta de los hombros fisiológicos. Se ha asociado a hipoxia tisular en desarrollo y acidosis fetal. Correlacionar con el resto del trazado; considerar vigilancia intensificada.','Dawes GS, Redman CWG et al. (análisis computarizado de FCF, Oxford)');
 
     const dip=sel('mf_nst_dip');
     if(dip==='dip1') add(DOM3,'bajo','Dip tipo I (temprano/cefálico)','Fisiológico/benigno — reflejo vagal por compresión cefálica, coincide con el acmé de la contracción. No requiere intervención.','Caldeyro-Barcia et al. 1966');
