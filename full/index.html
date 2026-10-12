@@ -2996,6 +2996,25 @@ Microcefalia: CC &lt;p3 para EG.</div>
       </div>
     </div>
     <div class="row2">
+      <div class="field"><label>Diámetro interorbitario interno — DII (mm)</label>
+        <input type="number" id="mf_dii" placeholder="ej. 12.5" step="0.1">
+        <div class="hint">Borde interno (nasal) a borde interno de ambas órbitas. Ref. orientativa por EG (Jeanty/Romero/FMF): 16 sem ≈9–10 · 20 sem ≈12–13 · 24 sem ≈14–15 · 28 sem ≈16–17 · 32 sem ≈18–19 mm</div>
+      </div>
+      <div class="field"><label>Diámetro interorbitario externo / binocular — DIO (mm)</label>
+        <input type="number" id="mf_dio" placeholder="ej. 38" step="0.1">
+        <div class="hint">Borde externo a borde externo de ambas órbitas. Ref.: 16 sem ≈28–30 · 20 sem ≈38–40 · 24 sem ≈46–48 · 28 sem ≈53–55 · 32 sem ≈60–62 mm</div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Diámetro orbitario individual — DO (mm, opcional)</label>
+        <input type="number" id="mf_do" placeholder="ej. 12" step="0.1">
+        <div class="hint">Diámetro transverso máximo de una órbita — para cribado de microftalmia</div>
+      </div>
+      <div class="field"><label>Cristalino / microftalmia</label>
+        <select id="mf_microftalmia"><option value="">—</option><option value="normal">Cristalino presente, DO normal</option><option value="sospecha">Sospecha de microftalmia/anoftalmia ⚠️ (DO pequeño, cristalino rudimentario o ausente)</option></select>
+      </div>
+    </div>
+    <div class="row2">
       <div class="field"><label>Maxilar</label>
         <select id="mf_maxilar"><option value="">—</option><option value="integro">Íntegro (normal)</option><option value="defecto">Defecto ⚠️</option></select>
       </div>
@@ -3010,7 +3029,7 @@ Microcefalia: CC &lt;p3 para EG.</div>
       </div>
       <div></div>
     </div>
-    <div class="bio-ref">📚 ISUOG Practice Guidelines (2020/2023). Labio+paladar se evalúan juntos: la conducta/consejo genético varía según la combinación exacta.</div>
+    <div class="bio-ref">📚 ISUOG Practice Guidelines (2020/2023). Labio+paladar se evalúan juntos: la conducta/consejo genético varía según la combinación exacta. DII/DIO/microftalmia: Jeanty P et al., J Ultrasound Med 1984;3(6):241–244 · Mayden KL et al., Am J Obstet Gynecol 1982 (regla de los tercios 1:1:1).</div>
   </div>
 </div>
 
@@ -3040,10 +3059,11 @@ Microcefalia: CC &lt;p3 para EG.</div>
   <div class="section-body" style="padding:14px 14px 4px">
     <div class="row2">
       <div class="field"><label>Ritmo cardíaco</label>
-        <select id="mf_ritmo"><option value="">—</option><option value="regular">Regular (normal)</option><option value="irregular">Irregular ⚠️</option></select>
+        <select id="mf_ritmo"><option value="">—</option><option value="regular">Regular (normal)</option><option value="taquicardia">Taquicardia sostenida (&gt;160 lpm) ⚠️</option><option value="bradicardia">Bradicardia sostenida (&lt;110 lpm) ⚠️</option><option value="extrasistole">Extrasístole aislada</option><option value="arritmia_sostenida">Otra arritmia sostenida</option></select>
+        <div class="hint">Taqui/bradicardia: sostenida &gt;10 min (mismo criterio que NST/monitoreo)</div>
       </div>
-      <div class="field"><label>Nota (si irregular)</label>
-        <input type="text" id="mf_ritmo_nota" placeholder="ej. extrasistolia aislada / taqui-bradiarritmia">
+      <div class="field"><label>Nota (tipo de arritmia, si corresponde)</label>
+        <input type="text" id="mf_ritmo_nota" placeholder="ej. detalle de la arritmia sostenida">
       </div>
     </div>
     <div class="row2">
@@ -3191,7 +3211,15 @@ Microcefalia: CC &lt;p3 para EG.</div>
       </div>
       <div></div>
     </div>
-    <div class="bio-ref">📚 Razón fémur/AC: usar la pestaña "📐 Biometría — Asimetría LF/CA" (ya calcula el ratio y lo integra al Resultado, incluyendo el corte &lt;0.16–0.18 como marcador blando de aneuploidía — PMC3345228). No se duplica el campo acá.</div>
+    <div class="row2">
+      <div class="field"><label>Miembros superiores — segmentos (brazo/antebrazo/mano)</label>
+        <select id="mf_miembro_sup_segmentos"><option value="">—</option><option value="completos">3 segmentos presentes (normal)</option><option value="incompletos">Segmento(s) ausente(s) ⚠️ — sospecha de focomelia/reducción de miembro</option></select>
+      </div>
+      <div class="field"><label>Miembros inferiores — segmentos (muslo/pierna/pie)</label>
+        <select id="mf_miembro_inf_segmentos"><option value="">—</option><option value="completos">3 segmentos presentes (normal)</option><option value="incompletos">Segmento(s) ausente(s) ⚠️ — sospecha de focomelia/reducción de miembro</option></select>
+      </div>
+    </div>
+    <div class="bio-ref">📚 Razón fémur/AC: usar la pestaña "📐 Biometría — Asimetría LF/CA" (ya calcula el ratio y lo integra al Resultado, incluyendo el corte &lt;0.16–0.18 como marcador blando de aneuploidía — PMC3345228). No se duplica el campo acá. Segmentos de miembros: evaluar los 3 segmentos de cada extremidad (proximal/intermedio/mano o pie) para no pasar por alto defectos de reducción (focomelia, amelia) cuando solo se mira fémur/húmero aislado.</div>
   </div>
 </div>
 
@@ -3291,6 +3319,156 @@ Microcefalia: CC &lt;p3 para EG.</div>
       </div>
     </div>
     <div class="bio-ref">📚 Signos y factores de riesgo: FIGO/Jauniaux 2018 · ISUOG/Jauniaux 2016–2018 · ACOG/SMFM Obstetric Care Consensus No.7 (2018/2021) · MSPyBS Paraguay, Manual Nacional.<br>⚠️ <strong>Probabilidad y Extensión se calculan con la "Clasificación CaVeSal"</strong> — esquema de puntaje propio del equipo (NO es un score FIGO/ISUOG/ACOG publicado) — ver resultado en el panel consolidado.</div>
+  </div>
+</div>
+
+<!-- ════ PERFIL BIOFÍSICO FETAL (PBF) — Manning / Vintzileos / Clark ════ -->
+<div class="section-card">
+  <div class="section-head" onclick="toggleSection(this)">
+    <span class="icon">🫄</span><h2>Perfil Biofísico Fetal (PBF)</h2><span class="chevron">▼</span>
+  </div>
+  <div class="section-body" style="padding:14px 14px 4px">
+    <div class="note-box">Los centros neurológicos fetales se deprimen ante hipoxia en orden inverso a su maduración: NST (más sensible) → movimientos respiratorios → movimientos corporales → tono (más resistente, el último en apagarse). El líquido amniótico es un marcador CRÓNICO (función renal/perfusión placentaria de días-semanas) — cambia radicalmente la conducta aunque el resto del puntaje sea normal.</div>
+    <div class="row2">
+      <div class="field"><label>Modalidad</label>
+        <select id="mf_pbf_modalidad">
+          <option value="">—</option>
+          <option value="completo">Completo (Manning, 10 puntos + NST)</option>
+          <option value="ecografico">Ecográfico puro (8 puntos, sin NST)</option>
+          <option value="abreviado">Abreviado (Clark: NST + líquido)</option>
+          <option value="vintzileos">Vintzileos (graduado 0/1/2 + grado placentario)</option>
+        </select>
+      </div>
+      <div class="field"><label>EG al estudio</label>
+        <div style="display:flex;gap:6px;align-items:center">
+          <input type="number" id="mf_pbf_eg_sem" placeholder="ss" step="1" min="24" max="42" style="width:70px">
+          <span style="font-size:.78rem;color:var(--slate)">sem</span>
+          <input type="number" id="mf_pbf_eg_dias" placeholder="0" step="1" min="0" max="6" style="width:55px">
+          <span style="font-size:.78rem;color:var(--slate)">días</span>
+        </div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Movimientos respiratorios fetales (MRF)</label>
+        <select id="mf_pbf_mrf">
+          <option value="">—</option>
+          <option value="2">2 — ≥1 episodio ≥30s en 30 min</option>
+          <option value="1">1 — episodio(s) &lt;30s (solo Vintzileos)</option>
+          <option value="0">0 — ausentes</option>
+        </select>
+      </div>
+      <div class="field"><label>Movimientos corporales fetales (MCF)</label>
+        <select id="mf_pbf_mcf">
+          <option value="">—</option>
+          <option value="2">2 — ≥3 movimientos discretos en 30 min</option>
+          <option value="1">1 — 1–2 movimientos (solo Vintzileos)</option>
+          <option value="0">0 — ausentes</option>
+        </select>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Tono fetal</label>
+        <select id="mf_pbf_tono">
+          <option value="">—</option>
+          <option value="2">2 — flexión activa, retorno rápido</option>
+          <option value="1">1 — extensión lenta, flexión incompleta (solo Vintzileos)</option>
+          <option value="0">0 — flacidez, sin retorno</option>
+        </select>
+      </div>
+      <div class="field"><label>Reactividad (NST)</label>
+        <select id="mf_pbf_nst">
+          <option value="">—</option>
+          <option value="2">2 — ≥2 aceleraciones en 20–40 min</option>
+          <option value="1">1 — 1 aceleración (solo Vintzileos)</option>
+          <option value="0">0 — ninguna</option>
+        </select>
+        <div class="hint">No aplica en la modalidad "Ecográfico puro"</div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Líquido amniótico</label>
+        <select id="mf_pbf_la">
+          <option value="">—</option>
+          <option value="2">2 — bolsillo &gt;2cm o ILA &gt;5</option>
+          <option value="1">1 — bolsillo 1–2cm (solo Vintzileos)</option>
+          <option value="0">0 — bolsillo &lt;1cm / oligoamnios</option>
+        </select>
+      </div>
+      <div class="field"><label>Grado placentario (Grannum) — solo Vintzileos</label>
+        <select id="mf_pbf_grannum">
+          <option value="">—</option>
+          <option value="2">2 — Grado 0, I o II</option>
+          <option value="1">1 — Grado III posterior a sem 37</option>
+          <option value="0">0 — Grado III precoz (&lt;sem 34)</option>
+        </select>
+      </div>
+    </div>
+    <div class="bio-ref">📚 Manning FA et al., Am J Obstet Gynecol 1980;136(6):787-95 · Vintzileos AM et al., Obstet Gynecol 1983;62(3):271-8 · Clark SL et al., Am J Obstet Gynecol 1989;160(3):694-7 · Queenan/Spong/Lockwood, Protocols for High-Risk Pregnancies 7ª ed. · MSPyBS Paraguay (Manual Nacional, Cap. O68).</div>
+  </div>
+</div>
+
+<!-- ════ MONITOREO FETAL (NST/CTG) ════ -->
+<div class="section-card">
+  <div class="section-head" onclick="toggleSection(this)">
+    <span class="icon">📈</span><h2>Monitoreo Fetal (NST/CTG)</h2><span class="chevron">▼</span>
+  </div>
+  <div class="section-body" style="padding:14px 14px 4px">
+    <div class="row2">
+      <div class="field"><label>EG al estudio</label>
+        <div style="display:flex;gap:6px;align-items:center">
+          <input type="number" id="mf_nst_eg_sem" placeholder="ss" step="1" min="24" max="42" style="width:70px">
+          <span style="font-size:.78rem;color:var(--slate)">sem</span>
+          <input type="number" id="mf_nst_eg_dias" placeholder="0" step="1" min="0" max="6" style="width:55px">
+          <span style="font-size:.78rem;color:var(--slate)">días</span>
+        </div>
+      </div>
+      <div class="field"><label>FCF basal (lpm)</label>
+        <input type="number" id="mf_nst_basal" placeholder="ej. 140" step="1">
+        <div class="hint">Normal 110–160 lpm (promedio en ventana de 10 min)</div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Variabilidad basal</label>
+        <select id="mf_nst_variabilidad">
+          <option value="">—</option>
+          <option value="moderada">Moderada, 6–25 lpm (normal)</option>
+          <option value="minima">Mínima, ≤5 lpm</option>
+          <option value="ausente">Ausente, &lt;2 lpm</option>
+          <option value="saltatoria">Saltatoria/marcada, &gt;25 lpm</option>
+        </select>
+      </div>
+      <div class="field"><label>Reactividad</label>
+        <select id="mf_nst_reactividad">
+          <option value="">—</option>
+          <option value="reactivo">Reactivo (≥2 aceleraciones en 20–40 min)</option>
+          <option value="no_reactivo">No reactivo (&lt;2 tras 40 min)</option>
+        </select>
+        <div class="hint">Aceleración ≥32 sem: ≥15 lpm por ≥15s (regla 15×15). &lt;32 sem: ≥10 lpm por ≥10s (regla 10×10)</div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Patrón morfológico especial</label>
+        <select id="mf_nst_patron">
+          <option value="">—</option>
+          <option value="normal">Sin patrón especial</option>
+          <option value="sinusoidal">Sinusoidal clásico ⚠️ (3–5 ciclos/min, sin variabilidad)</option>
+          <option value="pseudosinusoidal">Pseudo-sinusoidal (&lt;20 min, transitorio)</option>
+          <option value="ondas_lambda">Ondas lambda (benigno)</option>
+          <option value="omega">Patrón omega (desaceleración variable compleja)</option>
+        </select>
+      </div>
+      <div class="field"><label>Desaceleraciones (Dips, Caldeyro-Barcia)</label>
+        <select id="mf_nst_dip">
+          <option value="">—</option>
+          <option value="ninguno">Ninguna</option>
+          <option value="dip1">Dip I — temprano/cefálico (coincide con la contracción)</option>
+          <option value="dip2">Dip II — tardío/uteroplacentario (desfasado, tras el acmé) ⚠️</option>
+          <option value="dip3">Dip III — variable/funicular (forma y relación variables)</option>
+          <option value="ondas_blandas">Ondas blandas (descensos pequeños post-contracción)</option>
+        </select>
+      </div>
+    </div>
+    <div class="bio-ref">📚 FIGO Consensus Guidelines on Intrapartum Fetal Monitoring (Ayres-de-Campos et al. 2015) · ACOG Practice Bulletin No. 229 (2021) · Caldeyro-Barcia R et al. 1966 (nomenclatura de Dips).</div>
   </div>
 </div>
 
@@ -4778,6 +4956,22 @@ function calcular(){
     // ── 2.2 Cara ──
     if(sel('mf_orbitas')==='alterado') add(DOM,'moderado','Órbitas alteradas','Evaluar simetría y distancia interorbitaria (hipo/hipertelorismo). Derivar Medicina Fetal si se confirma.','ISUOG / Paladini & Volpe 2018');
     if(sel('mf_nariz')==='alterado') add(DOM,'moderado','Nariz aplanada o ausente','Marcador asociado a aneuploidía (T21, T13) y a holoprosencefalia si se asocia a otros hallazgos faciales. Integrar con cribado cromosómico.','ISUOG / Paladini & Volpe 2018');
+
+    // Diámetros orbitarios — regla de los tercios (Jeanty/Mayden): DII/DIO ≈1/3 en cara normal.
+    // Cortes confirmados por Carlos (del documento, no de su dictado por voz que daba otro número):
+    // ratio >0.40 → hipertelorismo · <0.25 → hipotelorismo.
+    const mfDii=val('mf_dii'), mfDio=val('mf_dio'), mfDo=val('mf_do');
+    if(mfDii!==null && mfDio!==null && mfDio>0){
+      const _ratioOrb=mfDii/mfDio;
+      if(_ratioOrb>0.40) add(DOM,'moderado',`DII/DIO ${_ratioOrb.toFixed(2)} (&gt;0.40) — sospecha de hipertelorismo`,'Evaluar encefalocele anterior/frontoetmoidal, displasias craneofaciales (Apert, Crouzon), síndrome de Turner, deleción 4p (Wolf-Hirschhorn) o fisura facial media. Derivar Medicina Fetal.','Jeanty/Mayden — regla de los tercios 1:1:1');
+      else if(_ratioOrb<0.25) add(DOM,'moderado',`DII/DIO ${_ratioOrb.toFixed(2)} (&lt;0.25) — sospecha de hipotelorismo`,'Marcador clave de anomalías del prosencéfalo y línea media anterior (holoprosencefalia, cebocefalia, etmocefalia, microcefalia, trisomía 13). Derivar Medicina Fetal.','Jeanty/Mayden — regla de los tercios 1:1:1');
+    }
+    if(mfDo!==null && mfDii!==null){
+      if(mfDii>mfDo*1.15) add(DOM,'bajo','DII proporcionalmente mayor que el DO individual (apoya hipertelorismo)','Correlacionar con la relación DII/DIO y el resto del checklist facial.','Jeanty/Mayden — regla de los tercios 1:1:1');
+      else if(mfDii<mfDo*0.85) add(DOM,'bajo','DII proporcionalmente menor que el DO individual (apoya hipotelorismo)','Correlacionar con la relación DII/DIO y el resto del checklist facial.','Jeanty/Mayden — regla de los tercios 1:1:1');
+    }
+    if(sel('mf_microftalmia')==='sospecha') add(DOM,'moderado','Sospecha de microftalmia/anoftalmia','DO pequeño con cristalino rudimentario o ausente. Descartar infección congénita (TORCH — CMV, toxoplasmosis) y trisomía 13. Derivar Medicina Fetal.','Jeanty/Mayden · ISUOG / Paladini & Volpe 2018');
+
     if(sel('mf_maxilar')==='defecto') add(DOM,'moderado','Defecto maxilar','Evaluar junto con paladar y labio. Derivar Medicina Fetal.','ISUOG / Paladini & Volpe 2018');
 
     const mfPaladar=sel('mf_paladar'), mfLabio=sel('mf_labio');
@@ -4794,10 +4988,11 @@ function calcular(){
     if(sel('mf_piel_columna')==='defecto') add(DOM,'alto','Defecto de piel sobre la columna','Sospecha de defecto de cierre del tubo neural. Derivar Medicina Fetal urgente.','ISUOG / Paladini & Volpe 2018');
 
     // ── 2.4 Tórax y corazón ──
-    if(sel('mf_ritmo')==='irregular'){
-      const _ritmoNota=(document.getElementById('mf_ritmo_nota')||{}).value||'';
-      add(DOM,'moderado','Ritmo cardíaco irregular'+(_ritmoNota?' — '+_ritmoNota:''),'Diferenciar extrasistolia aislada (generalmente benigna, seguimiento) de taqui/bradiarritmia sostenida (requiere cardiología fetal). Ecocardiografía fetal si persiste.','ISUOG / Paladini & Volpe 2018');
-    }
+    const mfRitmo=sel('mf_ritmo'), _mfRitmoNota=(document.getElementById('mf_ritmo_nota')||{}).value||'';
+    if(mfRitmo==='taquicardia') add(DOM,'alto','Taquicardia fetal sostenida (&gt;160 lpm)','Descartar fiebre materna, corioamnionitis, hipoxia inicial, fármacos beta-agonistas, taquiarritmia sostenida (flutter/TSV). Ecocardiografía fetal dirigida. Derivar cardiología fetal si persiste.','ISUOG / Paladini & Volpe 2018 · criterios FIGO/ACOG de monitoreo (&gt;160 lpm &gt;10 min)');
+    else if(mfRitmo==='bradicardia') add(DOM,'alto','Bradicardia fetal sostenida (&lt;110 lpm)','Descartar bloqueo AV completo (considerar anticuerpos anti-Ro/La maternos), hipoxia severa, hipotensión materna (ej. por bloqueo neuroaxial). Ecocardiografía fetal dirigida urgente. Derivar cardiología fetal.','ISUOG / Paladini & Volpe 2018 · criterios FIGO/ACOG de monitoreo (&lt;110 lpm &gt;10 min)');
+    else if(mfRitmo==='extrasistole') add(DOM,'moderado','Extrasistolia aislada'+(_mfRitmoNota?' — '+_mfRitmoNota:''),'Generalmente benigna — seguimiento ecográfico, suele resolver espontáneamente. Vigilar progresión a taquiarritmia sostenida (riesgo bajo pero descrito).','ISUOG / Paladini & Volpe 2018');
+    else if(mfRitmo==='arritmia_sostenida') add(DOM,'alto','Arritmia sostenida'+(_mfRitmoNota?' — '+_mfRitmoNota:''),'Ecocardiografía fetal dirigida urgente. Derivar cardiología fetal — caracterizar mecanismo (TSV, flutter, bloqueo AV) para definir manejo (ej. tratamiento transplacentario antiarrítmico si hay compromiso hemodinámico/hidrops).','ISUOG / Paladini & Volpe 2018');
     if(sel('mf_situs')==='inversus') add(DOM,'alto','Situs inversus','Descartar cardiopatía asociada (heterotaxia). Ecocardiografía fetal. Derivar Medicina Fetal.','ISUOG / Paladini & Volpe 2018');
     if(sel('mf_4cv')==='alterado') add(DOM,'alto','Corte de 4 cámaras (4CV) alterado','Ecocardiografía fetal dirigida. Derivar cardiología fetal/Medicina Fetal.','ISUOG / Paladini & Volpe 2018');
     if(sel('mf_sim_ventricular')==='asimetrica') add(DOM,'alto','Simetría ventricular alterada','Descartar cardiopatía estructural (ej. hipoplasia de cavidades). Ecocardiografía fetal dirigida.','ISUOG / Paladini & Volpe 2018');
@@ -4875,6 +5070,8 @@ function calcular(){
     if(chk('mf_femur_corto')) add(DOM,'moderado','Fémur acortado para la EG (criterio cualitativo)','Correlacionar con razón fémur/AC (pestaña Biometría — Asimetría) y resto de biometría. Marcador blando de aneuploidía si aislado; descartar displasia esquelética si desproporción marcada.','ISUOG / Paladini & Volpe 2018');
     if(chk('mf_humero_corto')) add(DOM,'moderado','Húmero acortado para la EG (criterio cualitativo)','Correlacionar con fémur y resto de biometría. Marcador blando de aneuploidía si aislado; descartar displasia esquelética si desproporción marcada.','ISUOG / Paladini & Volpe 2018');
     if(sel('mf_manos_pies')==='alterado') add(DOM,'moderado','Manos y/o pies alterados (orientación/posición)','Evaluar contracturas (artrogriposis), pie equino varo, polidactilia/sindactilia si se visualiza. Correlacionar con el resto del checklist.','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_miembro_sup_segmentos')==='incompletos') add(DOM,'alto','Miembro(s) superior(es) con segmento(s) ausente(s)','Sospecha de focomelia/defecto de reducción de miembro. Evaluar el miembro contralateral y los miembros inferiores. Descartar síndromes asociados (ej. Roberts, trombocitopenia-ausencia de radio). Derivar Medicina Fetal.','ISUOG / Paladini & Volpe 2018');
+    if(sel('mf_miembro_inf_segmentos')==='incompletos') add(DOM,'alto','Miembro(s) inferior(es) con segmento(s) ausente(s)','Sospecha de focomelia/defecto de reducción de miembro. Evaluar el miembro contralateral y los miembros superiores. Descartar síndromes asociados. Derivar Medicina Fetal.','ISUOG / Paladini & Volpe 2018');
 
     // ── 2.7 Placenta — localización ──
     const mfPlacentaIns=sel('mf_placenta_insercion');
@@ -4937,6 +5134,90 @@ function calcular(){
 
       add(DOM, _nivelMap[_probabilidad], _hallazgoPas, _conductaPas, 'Clasificación CaVeSal (esquema de puntaje propio del equipo — NO es un score FIGO/ISUOG/ACOG publicado)');
     })();
+  })();
+
+  // ════════════════════════════════════════════════
+  // PERFIL BIOFÍSICO FETAL (PBF) — Manning / Vintzileos / Clark
+  // MONITOREO FETAL (NST/CTG) — FIGO / ACOG / Caldeyro-Barcia
+  // Complemento dictado por Carlos 2026-10-12 (no reemplaza nada de arriba)
+  // ════════════════════════════════════════════════
+  (function(){
+    const DOM2='PERFIL BIOFÍSICO FETAL (PBF)';
+    const modalidadPbf=sel('mf_pbf_modalidad');
+    if(modalidadPbf){
+      const _pbfEgSem=val('mf_pbf_eg_sem'), _pbfEgDias=val('mf_pbf_eg_dias')||0;
+      const pbfEg=_pbfEgSem!==null?_pbfEgSem+(_pbfEgDias/7):null;
+      const mrf=val('mf_pbf_mrf'), mcf=val('mf_pbf_mcf'), tono=val('mf_pbf_tono'), nst=val('mf_pbf_nst'), la=val('mf_pbf_la'), grannum=val('mf_pbf_grannum');
+
+      function _mfPbfDecision(total, laDisminuido, egSem){
+        if(total>=8 && !laDisminuido) return {nivel:'bajo', hallazgo:`PBF ${total}/10 — líquido amniótico normal`, conducta:'Feto no asfixiado. Manejo expectante; control cada 7 días (2 veces/semana si diabetes mal controlada o embarazo ≥41 semanas).'};
+        if(total===8 && laDisminuido) return {nivel:'alto', hallazgo:'PBF 8/10 con líquido amniótico disminuido', conducta:'Insuficiencia placentaria crónica probable (sin asfixia aguda). '+((egSem!==null&&egSem>=36.5)?'EG ≥36–37 sem: finalización del embarazo.':'Pretérmino: Doppler diario + evaluación de maduración pulmonar/inductoconducción.')};
+        if(total===6 && !laDisminuido) return {nivel:'moderado', hallazgo:'PBF 6/10 con líquido amniótico normal', conducta:'Sospecha de compromiso agudo incipiente o sueño fetal prolongado. '+((egSem!==null&&egSem>=37)?'Término (≥37 sem): considerar finalización.':'Reevaluar en 12–24h (Manning/ACOG) o 2h (MSPyBS). Si persiste ≤6/10 → Doppler fetoplacentario y evaluar interrupción.')};
+        if(total===6 && laDisminuido) return {nivel:'alto', hallazgo:'PBF 6/10 con líquido amniótico disminuido', conducta:'Hipoxia crónica agudizada — alta tasa de óbito fetal o daño neurológico. Interrupción si viabilidad asegurada (≥34 sem o maduración pulmonar completa).'};
+        if(total===4) return {nivel:'alto', hallazgo:'PBF 4/10', conducta:(egSem!==null&&egSem>32)?'EG >32 sem: finalización activa del embarazo (generalmente cesárea).':'EG <32 sem: repetir en 2h + corticoides (maduración pulmonar) + sulfato de magnesio (neuroprotección) + Doppler urgente de ductus venoso. Si persiste ≤4/10 o Doppler descompensado → interrupción inmediata.'};
+        if(total<=2) return {nivel:'alto', hallazgo:`PBF ${total}/10`, conducta:'Asfixia fetal severa con acidosis metabólica crítica probable (pH &lt;7.20). Cesárea de urgencia inmediata, independientemente de la EG (previa estabilización hemodinámica materna). Aviso a neonatología.'};
+        return {nivel:'moderado', hallazgo:`PBF ${total}/10 (puntaje intermedio — escala graduada)`, conducta:'Puntaje no estándar en la escala clásica de Manning (posible por graduación 0/1/2 de Vintzileos). Interpretar con la banda más próxima por defecto, correlacionar clínicamente y considerar repetir o complementar con Doppler.'};
+      }
+
+      if(modalidadPbf==='abreviado'){
+        if(nst!==null && la!==null){
+          if(nst>=2 && la>=2) add(DOM2,'bajo','PBF abreviado (Clark): NST reactivo + líquido normal','Manejo expectante. Vigilancia habitual según patología de base.','Clark SL et al., Am J Obstet Gynecol 1989;160(3):694-7');
+          else add(DOM2,'moderado','PBF abreviado (Clark): NST no reactivo y/o oligoamnios','Completar PBF de 10 puntos (Manning) o Doppler fetoplacentario.','Clark SL et al., Am J Obstet Gynecol 1989;160(3):694-7');
+        }
+      } else if(modalidadPbf==='ecografico'){
+        if(mrf!==null && mcf!==null && tono!==null && la!==null){
+          const _totalEco=mrf+mcf+tono+la, _laBaja=la<2;
+          if(_totalEco===8 && !_laBaja) add(DOM2,'bajo',`PBF ecográfico puro ${_totalEco}/8 — líquido normal`,'Equivalente a 10/10 (sin NST). Manejo expectante según patología de base.','Manning FA et al., Am J Obstet Gynecol 1980;136(6):787-95');
+          else if(_laBaja) add(DOM2,'alto',`PBF ecográfico puro ${_totalEco}/8 con líquido disminuido`,'Insuficiencia placentaria crónica probable. Completar con NST y Doppler fetoplacentario; conducta según EG.','Manning FA et al., Am J Obstet Gynecol 1980;136(6):787-95');
+          else if(_totalEco<=6) add(DOM2,'moderado',`PBF ecográfico puro ${_totalEco}/8 (≤6/8)`,'Completar con NST para los 10 puntos, o solicitar Doppler vascular (umbilical/ACM/ductus venoso).','Manning FA et al., Am J Obstet Gynecol 1980;136(6):787-95');
+          add(DOM2,'bajo','Observación fija: en el PBF todos los marcadores son agudos salvo la placenta y el líquido amniótico, que son marcadores crónicos.','Interpretar siempre el puntaje junto con el estado del líquido amniótico (y el grado placentario, si se usa Vintzileos).','Manning 1980 / Vintzileos 1983');
+        }
+      } else if(modalidadPbf==='completo' || modalidadPbf==='vintzileos'){
+        const _varsOk = modalidadPbf==='vintzileos'
+          ? [mrf,mcf,tono,nst,la,grannum].every(function(v){return v!==null})
+          : [mrf,mcf,tono,nst,la].every(function(v){return v!==null});
+        if(_varsOk){
+          const total5=mrf+mcf+tono+nst+la;
+          const laDisminuido=la<2;
+          const _dec=_mfPbfDecision(total5, laDisminuido, pbfEg);
+          const _hallazgoPbf=_dec.hallazgo+(modalidadPbf==='vintzileos'?' (escala Vintzileos, graduada 0/1/2)':' (escala Manning, 10 puntos)');
+          add(DOM2, _dec.nivel, _hallazgoPbf, _dec.conducta, modalidadPbf==='vintzileos' ? 'Vintzileos AM et al., Obstet Gynecol 1983;62(3):271-8' : 'Manning FA et al., Am J Obstet Gynecol 1980;136(6):787-95');
+          if(modalidadPbf==='vintzileos' && grannum!==null){
+            const total12=total5+grannum;
+            if(grannum===0) add(DOM2,'alto',`Placenta grado III precoz (&lt;34 sem) — Vintzileos total ${total12}/12`,'Envejecimiento placentario precoz — marcador crónico adicional de insuficiencia placentaria. Vigilancia estrecha, Doppler fetoplacentario, considerar adelantar reevaluación.','Vintzileos AM et al., Obstet Gynecol 1983;62(3):271-8 (grado Grannum)');
+            else if(grannum===1) add(DOM2,'bajo',`Placenta grado III tras sem 37 — Vintzileos total ${total12}/12`,'Maduración placentaria esperable en embarazo de término; no es un hallazgo patológico por sí solo.','Vintzileos AM et al., Obstet Gynecol 1983;62(3):271-8 (grado Grannum)');
+          }
+          add(DOM2,'bajo','Observación fija: en el PBF todos los marcadores son agudos salvo la placenta y el líquido amniótico, que son marcadores crónicos.','Interpretar siempre el puntaje junto con el estado del líquido amniótico (y el grado placentario, si se usa Vintzileos).','Manning 1980 / Vintzileos 1983');
+        }
+      }
+    }
+  })();
+
+  (function(){
+    const DOM3='MONITOREO FETAL (NST/CTG)';
+    const basal=val('mf_nst_basal');
+    if(basal!==null){
+      if(basal>160) add(DOM3,'alto',`FCF basal ${basal} lpm (taquicardia, &gt;160 lpm)`,'Descartar fiebre materna, corioamnionitis, hipoxia inicial, fármacos beta-agonistas. Evaluar variabilidad y reactividad asociadas.','FIGO Consensus Guidelines on Intrapartum Fetal Monitoring (Ayres-de-Campos et al. 2015) · ACOG PB 229 (2021)');
+      else if(basal<110) add(DOM3,'alto',`FCF basal ${basal} lpm (bradicardia, &lt;110 lpm)`,'Descartar bloqueo AV, hipoxia severa, hipotensión materna (ej. bloqueo neuroaxial). Ecocardiografía fetal si sostenida.','FIGO Consensus Guidelines (Ayres-de-Campos et al. 2015) · ACOG PB 229 (2021)');
+    }
+    const variab=sel('mf_nst_variabilidad');
+    if(variab==='ausente') add(DOM3,'alto','Variabilidad ausente (&lt;2 lpm)','Patrón preocupante — descartar acidemia hipóxica, efecto de sedantes/sulfato de magnesio, sueño fetal profundo. Prolongar registro/estimulación vibroacústica. Correlacionar con el resto del trazado.','FIGO/ACOG');
+    else if(variab==='minima') add(DOM3,'moderado','Variabilidad mínima (≤5 lpm)','Puede deberse a sueño fetal, depresión por fármacos/sulfato de magnesio o acidemia hipóxica incipiente. Prolongar observación.','FIGO/ACOG');
+    else if(variab==='saltatoria') add(DOM3,'moderado','Variabilidad saltatoria/marcada (&gt;25 lpm, &gt;30 min)','Posible compresión recurrente de cordón o hiperactividad autonómica. Correlacionar con desaceleraciones.','FIGO/ACOG');
+
+    if(sel('mf_nst_reactividad')==='no_reactivo') add(DOM3,'moderado','Trazado no reactivo (&lt;2 aceleraciones en 40 min)','Prolongar registro / estimulación vibroacústica. Si persiste, completar con PBF o Doppler.','FIGO/ACOG — regla 15x15 (≥32 sem) / 10x10 (&lt;32 sem)');
+
+    const patron=sel('mf_nst_patron');
+    if(patron==='sinusoidal') add(DOM3,'alto','Patrón sinusoidal clásico','Condición preterminal — descartar anemia fetal severa (isoinmunización Rh, vasa previa sangrante, transfusión feto-materna masiva) o acidosis metabólica crítica. Derivar urgente.','Caldeyro-Barcia et al. 1966 · FIGO 2015');
+    else if(patron==='pseudosinusoidal') add(DOM3,'bajo','Patrón pseudo-sinusoidal','Habitualmente transitorio tras opioides maternos (fentanilo, meperidina) o succión del pulgar fetal. Vigilar evolución.','FIGO 2015');
+    else if(patron==='ondas_lambda') add(DOM3,'bajo','Ondas lambda','Variante fisiológica benigna (sueño fetal/movimientos rápidos) si la variabilidad basal es moderada. No requiere conducta adicional.','FIGO 2015');
+    else if(patron==='omega') add(DOM3,'moderado','Patrón omega (desaceleración variable compleja con hombros)','Compresión funicular. Correlacionar con el resto del trazado y considerar cambio de posición materna.','FIGO 2015 · Caldeyro-Barcia');
+
+    const dip=sel('mf_nst_dip');
+    if(dip==='dip1') add(DOM3,'bajo','Dip tipo I (temprano/cefálico)','Fisiológico/benigno — reflejo vagal por compresión cefálica, coincide con el acmé de la contracción. No requiere intervención.','Caldeyro-Barcia et al. 1966');
+    else if(dip==='dip2') add(DOM3,'alto','Dip tipo II (tardío/uteroplacentario)','Patológico — hipoxemia miocárdica/acidosis por insuficiencia de intercambio placentario. Si es recurrente (≥50% de contracciones) o con variabilidad mínima: Categoría III, requiere reanimación intrauterina y resolución inmediata.','Caldeyro-Barcia et al. 1966 · FIGO 2015');
+    else if(dip==='dip3') add(DOM3,'moderado','Dip tipo III (variable/funicular)','Oclusión transitoria de vasos del cordón. Si es aislado con retorno rápido suele tolerarse; si es atípico (&gt;60s, &lt;70lpm, pérdida de hombros o variabilidad mínima) sugiere hipoxia funicular progresiva (Categoría II–III).','Caldeyro-Barcia et al. 1966 · FIGO 2015');
+    else if(dip==='ondas_blandas') add(DOM3,'moderado','Descensos pequeños post-contracción ("ondas blandas")','No llegan a ser desaceleraciones típicas — sugieren compresión funicular leve/circular de cordón. Vigilar progresión a Dip III franco.','Caldeyro-Barcia et al. 1966');
   })();
 
   // TRISOMÍAS - cribado combinado
