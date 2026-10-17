@@ -100,6 +100,33 @@ function mostrarPanel(){
   document.getElementById('panel_screen').style.display = 'block';
 }
 
+// FIX (2026-10-17): Google a veces tarda o falla en entregarle al navegador
+// la respuesta de esta "aplicación web", aunque el script en sí ya terminó
+// bien del lado del servidor (confirmado mirando "Ejecuciones" en Apps
+// Script: siempre decía "Completada", incluso cuando acá aparecía "No se
+// pudo conectar con el servidor"). Es una falla intermitente conocida de
+// este tipo de integración, no algo que podamos arreglar del lado de
+// Google — así que en vez de mostrar el error a la primera, reintentamos
+// solos unas pocas veces antes de rendirnos. Centralizado acá para que
+// las 4 acciones del panel (entrar, actualizar, confirmar, rechazar, ver
+// comprobante) se beneficien todas igual, sin repetir el mismo código.
+async function llamarAPI(params, maxIntentos){
+  maxIntentos = maxIntentos || 4;
+  for(let intento = 1; intento <= maxIntentos; intento++){
+    try{
+      const body = new URLSearchParams(params);
+      const resp = await fetch(LICENSE_API, { method: 'POST', body });
+      return await resp.json();
+    }catch(e){
+      if(intento < maxIntentos){
+        await new Promise(function(r){ setTimeout(r, 450); });
+        continue;
+      }
+      throw e;
+    }
+  }
+}
+
 async function hacerLogin(){
   const email = document.getElementById('login_email').value.trim();
   const pin = document.getElementById('login_pin').value.trim();
@@ -155,11 +182,9 @@ function ordenPrioridad(estado){
 async function cargarPedidos(esLogin){
   const errBox = document.getElementById('login_error');
   try{
-    const body = new URLSearchParams({
+    const data = await llamarAPI({
       accion: 'listar_pedidos', autor_email: autor.email, autor_pin: autor.pin,
     });
-    const resp = await fetch(LICENSE_API, { method: 'POST', body });
-    const data = await resp.json();
 
     if(!data.ok){
       if(esLogin){
@@ -236,16 +261,14 @@ function mostrarMotivo(referencia){
 
 async function verComprobante(referencia){
   try{
-    const body = new URLSearchParams({ accion: 'ver_comprobante', autor_email: autor.email, autor_pin: autor.pin, referencia });
-    const resp = await fetch(LICENSE_API, { method: 'POST', body });
-    const data = await resp.json();
+    const data = await llamarAPI({ accion: 'ver_comprobante', autor_email: autor.email, autor_pin: autor.pin, referencia });
     if(data.ok && data.url){
       window.open(data.url, '_blank');
     } else {
       alert(data.error || 'No se pudo abrir el comprobante.');
     }
   }catch(e){
-    alert('Error de conexión al abrir el comprobante.');
+    alert('No se pudo conectar con el servidor. Probá de nuevo.');
   }
 }
 
@@ -254,9 +277,7 @@ async function confirmarPedido(referencia, btn){
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span>Confirmando...';
   try{
-    const body = new URLSearchParams({ accion: 'confirmar_pedido', autor_email: autor.email, autor_pin: autor.pin, referencia });
-    const resp = await fetch(LICENSE_API, { method: 'POST', body });
-    const data = await resp.json();
+    const data = await llamarAPI({ accion: 'confirmar_pedido', autor_email: autor.email, autor_pin: autor.pin, referencia });
     if(data.ok){
       cargarPedidos();
     } else {
@@ -265,7 +286,7 @@ async function confirmarPedido(referencia, btn){
       btn.textContent = '✅ Confirmar';
     }
   }catch(e){
-    alert('Error de conexión al confirmar el pedido.');
+    alert('No se pudo conectar con el servidor. Probá de nuevo.');
     btn.disabled = false;
     btn.textContent = '✅ Confirmar';
   }
@@ -280,9 +301,7 @@ async function rechazarPedido(referencia, btn){
   btn.disabled = true;
   btn.textContent = 'Rechazando...';
   try{
-    const body = new URLSearchParams({ accion: 'rechazar_pedido', autor_email: autor.email, autor_pin: autor.pin, referencia, motivo });
-    const resp = await fetch(LICENSE_API, { method: 'POST', body });
-    const data = await resp.json();
+    const data = await llamarAPI({ accion: 'rechazar_pedido', autor_email: autor.email, autor_pin: autor.pin, referencia, motivo });
     if(data.ok){
       cargarPedidos();
     } else {
@@ -291,7 +310,7 @@ async function rechazarPedido(referencia, btn){
       btn.textContent = 'Confirmar rechazo';
     }
   }catch(e){
-    alert('Error de conexión al rechazar el pedido.');
+    alert('No se pudo conectar con el servidor. Probá de nuevo.');
     btn.disabled = false;
     btn.textContent = 'Confirmar rechazo';
   }
