@@ -220,7 +220,15 @@ function renderizarPedidos(pedidos){
 
   cont.innerHTML = ordenados.map((p, i) => {
     const fecha = p.fecha ? new Date(p.fecha).toLocaleString('es-PY') : '';
-    const wa = p.whatsapp ? '<a href="https://wa.me/' + p.whatsapp.replace(/[^0-9]/g,'') + '" target="_blank" style="color:var(--teal)">' + p.whatsapp + '</a>' : '—';
+    // FIX (2026-10-18): p.whatsapp puede llegar como NÚMERO (si en la planilla
+    // quedó guardado como número en vez de texto) en lugar de string — antes
+    // acá se le hacía .replace() directo, que solo existe en texto, y explotaba
+    // con un TypeError. Esa excepción quedaba atrapada por el catch de
+    // cargarPedidos(), que mostraba "No se pudo conectar con el servidor" aunque
+    // el problema real no tenía nada que ver con la conexión. Pasarlo por
+    // String(...) primero lo soluciona sea que venga como texto o como número.
+    const waTexto = String(p.whatsapp || '');
+    const wa = waTexto ? '<a href="https://wa.me/' + waTexto.replace(/[^0-9]/g,'') + '" target="_blank" style="color:var(--teal)">' + waTexto + '</a>' : '—';
     const totalGs = 'Gs. ' + Number(p.totalGs || 0).toLocaleString('es-PY');
 
     let acciones = '';
