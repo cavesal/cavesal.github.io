@@ -1343,7 +1343,7 @@ document.addEventListener('DOMContentLoaded', function(){
       <div style="font-size:.69rem;color:var(--slate);margin-top:4px">
         *AUDT = ácidos biliares séricos totales — <strong>opcional</strong>, no disponible en muchos centros de la región.<br>
         ⚠️ Todos los casos: UDCA 10–15 mg/kg/día · Interrumpir ante compromiso del bienestar fetal independientemente de la EG.<br>
-        <em>Guía Perinatal MINSAL Chile 2015 · RCOG 2024 · SFMFM · Williamson C et al. Lancet 2018 · ACOG</em>
+        <em>Guía Perinatal MINSAL Chile 2015 · RCOG GTG 43 (2022) · SFMFM · Williamson C et al. Lancet 2018 · ACOG</em>
       </div>
     </div>    </div>
 
@@ -2975,7 +2975,7 @@ document.addEventListener('DOMContentLoaded', function(){
         <select id="mf_pas_parametrios"><option value="">—</option><option value="si">Sí</option><option value="inseguro">Inseguro</option><option value="no">No</option></select>
       </div>
       <div class="field"><label>Clasificación FIGO (grado quirúrgico/histopatológico)</label>
-        <select id="mf_pas_figo"><option value="">—</option><option value="g1">Grado 1 — Accreta</option><option value="g2">Grado 2 — Increta</option><option value="g3a">Grado 3a — Percreta (subserosa/parametrial)</option><option value="g3b">Grado 3b — Percreta (vesical/rectal)</option></select>
+        <select id="mf_pas_figo"><option value="">—</option><option value="g1">Grado 1 — Accreta</option><option value="g2">Grado 2 — Increta</option><option value="g3a">Grado 3a — Percreta limitada a la serosa uterina</option><option value="g3b">Grado 3b — Percreta con invasión vesical</option><option value="g3c">Grado 3c — Percreta con invasión de otros tejidos/órganos pélvicos (± vejiga)</option></select>
       </div>
     </div>
     <div class="bio-ref">📚 Signos y factores de riesgo: FIGO/Jauniaux 2018 · ISUOG/Jauniaux 2016–2018 · ACOG/SMFM Obstetric Care Consensus No.7 (2018/2021) · MSPyBS Paraguay, Manual Nacional.<br>⚠️ <strong>Probabilidad y Extensión se calculan con la "Clasificación CaVeSal"</strong> — esquema de puntaje propio del equipo (NO es un score FIGO/ISUOG/ACOG publicado) — ver resultado en el panel consolidado.</div>
@@ -4826,7 +4826,7 @@ function calcular(){
         'Bilirrubina elevada. Descartar colestasis intrahepática del embarazo (CIE). ' +
         'Solicitar TGO/TGP, FA, GGT. Evaluar prurito palmoplantar de predominio nocturno. ' +
         'Si ácidos biliares séricos disponibles: solicitarlos (marcador específico de CIE).',
-        'RCOG 2024 / ACOG / EASL');
+        'RCOG GTG 43 (2022) / ACOG / EASL');
     }
     // Solo prurito intenso sin laboratorio
     else if(prurito==='intenso' && !cie_enzimas && !cie_bili){
@@ -4835,7 +4835,7 @@ function calcular(){
         'Solicitar urgente: bilirrubina total, TGO/TGP, FA, GGT. ' +
         'Si disponible: ácidos biliares séricos totales. ' +
         'El prurito puede preceder horas/días la elevación del laboratorio.',
-        'RCOG 2024 / Williamson 2018');
+        'RCOG GTG 43 (2022) / Williamson 2018');
     }
 
     // Refinamiento por AUDT si disponible
@@ -4869,12 +4869,12 @@ function calcular(){
       cie_desc+='· MONITOREO: NST semanal desde sem 32. Control laboratorio hepático c/2 semanas. ';
       if(audt!==null) cie_desc+='Ácidos biliares c/1–2 semanas. ';
       cie_desc+='· Resumen conducta: Anictérica (prurito + enzimas↑, bili normal) → UDCA + parto 38 sem | Ictérica (prurito + enzimas↑ + bili >1.2) → UDCA + parto 36 sem | Severa (AUDT ≥100 µmol/L) → UDCA + parto 34–36 sem. ';
-      cie_desc+='Fuente: Guía Perinatal MINSAL Chile 2015 · RCOG 2024 · SFMFM · ACOG.';
+      cie_desc+='Fuente: Guía Perinatal MINSAL Chile 2015 · RCOG GTG 43 (2022) · SFMFM · ACOG.';
 
       add('LABORATORIO', cie_color,
         `🟡 ${cie_tipo} — Colestasis Intrahepática del Embarazo`,
         cie_desc,
-        'Guía Perinatal MINSAL Chile 2015 · RCOG 2024 · SFMFM · Williamson C et al. Lancet 2018 · Ovadia C et al. Lancet 2019 · ACOG · EASL');
+        'Guía Perinatal MINSAL Chile 2015 · RCOG GTG 43 (2022) · SFMFM · Williamson C et al. Lancet 2018 · Ovadia C et al. Lancet 2019 · ACOG · EASL');
     }
   }
 
@@ -5208,7 +5208,7 @@ function calcular(){
 
       const _nivelMap={alta:'alto',intermedia:'moderado',baja:'bajo'};
       const _figo=sel('mf_pas_figo');
-      const _figoLabel={g1:'Grado 1 (Accreta)',g2:'Grado 2 (Increta)',g3a:'Grado 3a (Percreta subserosa/parametrial)',g3b:'Grado 3b (Percreta vesical/rectal)'}[_figo]||'';
+      const _figoLabel={g1:'Grado 1 (Accreta)',g2:'Grado 2 (Increta)',g3a:'Grado 3a (Percreta limitada a la serosa uterina)',g3b:'Grado 3b (Percreta con invasión vesical)',g3c:'Grado 3c (Percreta con invasión de otros tejidos/órganos pélvicos, ± vejiga)'}[_figo]||'';
 
       let _hallazgoPas=`Probabilidad de PAS (Clasificación CaVeSal): ${_probabilidad.toUpperCase()} (puntaje ${_puntaje}/9${_excepcion?' — regla de excepción aplicada':''})`;
       if(_extension) _hallazgoPas+=` · Extensión: ${_extension.toUpperCase()}`;
