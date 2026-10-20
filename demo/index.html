@@ -606,6 +606,7 @@ main{padding:14px;max-width:680px;margin:0 auto}
     <button class="tab" onclick="showTab('calculadoras')">🗓️ Gestograma · Parto</button>
     <button class="tab" onclick="showTab('biometria')">🔊 Ecografía</button>
     <button class="tab" onclick="showTab('pacientes')">👤 Pacientes</button>
+    <button class="tab" onclick="showTab('simulador')">🎓 Simulador 🔒</button>
     <button class="tab" onclick="showTab('acerca')">ℹ️ Acerca</button>
   </div>
 </header>
@@ -744,7 +745,7 @@ main{padding:14px;max-width:680px;margin:0 auto}
     <p class="sub-title">Coagulopatías y trombosis</p>
     <div class="checks">
       <label class="check-item" id="lbl_p_trombo"><input type="checkbox" id="p_trombo" onchange="toggleCheck('lbl_p_trombo',this)"><span>Trombofilia hereditaria (Fact. V Leiden, protrombina G20210A, déf. Prot. C/S/AT)</span></label>
-      <label class="check-item" id="lbl_p_saf"><input type="checkbox" id="p_saf" onchange="toggleCheck('lbl_p_saf',this)"><span>Síndrome antifosfolípido (SAF) — criterios de Sapporo</span></label>
+      <label class="check-item" id="lbl_p_saf"><input type="checkbox" id="p_saf" onchange="toggleCheck('lbl_p_saf',this)"><span>Síndrome antifosfolípido (SAF) — criterios de Sydney 2006 / ACR-EULAR 2023</span></label>
       <label class="check-item" id="lbl_p_tvp"><input type="checkbox" id="p_tvp" onchange="toggleCheck('lbl_p_tvp',this)"><span>TVP previa (trombosis venosa profunda)</span></label>
       <label class="check-item" id="lbl_p_tep"><input type="checkbox" id="p_tep" onchange="toggleCheck('lbl_p_tep',this)"><span>TEP previo (tromboembolismo pulmonar)</span></label>
       <label class="check-item" id="lbl_p_pti"><input type="checkbox" id="p_pti" onchange="toggleCheck('lbl_p_pti',this)"><span>Trombocitopenia / Púrpura (PTI, PTT, trombocitopenia gestacional)</span></label>
@@ -1295,6 +1296,17 @@ main{padding:14px;max-width:680px;margin:0 auto}
 </div>
 </div>
 <!-- ════ RESULTADO ════ -->
+<!-- ===== SIMULADOR (bloqueado en la demo) ===== -->
+<div id="page-simulador" class="page">
+<div class="section-card locked-section" onclick="mostrarModalUpgrade('simulador')">
+  <div class="section-head"><span class="icon">🎓</span><h2>Simulador de casos prenatales</h2><span class="lock-badge">🔒 Versión completa</span></div>
+  <div class="locked-preview">
+    <p style="font-size:.8rem;color:var(--slate);margin:0 0 10px">Casos ficticios: decidís, el caso avanza y al final recibís la devolución con la fuente de cada respuesta.</p>
+    <div class="locked-items"><span class="lp-item">Diabetes gestacional (IADPSG 2010)</span><span class="lp-item">Cribado y prevención de preeclampsia (FIGO 2019)</span><span class="lp-item">Hipertensión gestacional y preeclampsia (ACOG 2020)</span></div>
+  <button class="btn-unlock">🔓 Desbloquear</button></div>
+</div>
+</div>
+
 <div id="page-acerca" class="page">
 
 <!-- ── ACCESOS RÁPIDOS: FULL + INSTRUCCIONES ── -->
@@ -1538,7 +1550,7 @@ function showTab(tab){
   var pg=document.getElementById('page-'+tab);
   if(pg) pg.classList.add('active');
   var tabs=document.querySelectorAll('.tab');
-  var map={formulario:0,resultado:1,calculadoras:2,biometria:3,pacientes:4,acerca:5};
+  var map={formulario:0,resultado:1,calculadoras:2,biometria:3,pacientes:4,simulador:5,acerca:6};
   if(map[tab]!==undefined && tabs[map[tab]]) tabs[map[tab]].classList.add('active');
   if(tab==='calculadoras' && typeof calcDextograma==='function'){
     // Page is now visible (display:block), so getElementById works correctly
@@ -1740,8 +1752,8 @@ function actualizarPE1T(){
   const factoresPE=[clpi==='alto',clao==='alto',clpg==='alto',clpa==='alto'].filter(Boolean).length;
   const factoresModer=[clpi==='moder',clao==='limite',clpg==='moder',clpa==='moder'].filter(Boolean).length;
   let interp='';
-  if(factoresPE>=2) interp=`<strong>Alto riesgo de PE precoz:</strong> ≥2 marcadores alterados. AAS 150 mg/día obligatorio desde sem 12. PlGF seriado. Derivar a Medicina Fetal.`;
-  else if(factoresPE===1&&factoresModer>=1) interp=`<strong>Riesgo moderado-alto PE:</strong> 1 marcador alto + 1 moderado. AAS 100–150 mg/día. Reevaluar con PI uterinas 2T y sFlt-1/PlGF.`;
+  if(factoresPE>=2) interp=`<strong>Alto riesgo de PE precoz:</strong> ≥2 marcadores alterados. AAS indicado. AAS ~150 mg cada noche desde 11–14+6 sem hasta 36 sem, el parto o el diagnóstico de PE (FIGO 2019, pauta preferida por CaVeSal). Alternativa: 81 mg/día desde 12–28 sem (idealmente antes de 16) hasta el parto (ACOG PB 222, 2020). PlGF seriado. Derivar a Medicina Fetal.`;
+  else if(factoresPE===1&&factoresModer>=1) interp=`<strong>Riesgo moderado-alto PE:</strong> 1 marcador alto + 1 moderado. AAS ~150 mg cada noche desde 11–14+6 sem hasta 36 sem, el parto o el diagnóstico de PE (FIGO 2019, pauta preferida por CaVeSal). Alternativa: 81 mg/día desde 12–28 sem (idealmente antes de 16) hasta el parto (ACOG PB 222, 2020). Reevaluar con PI uterinas 2T y sFlt-1/PlGF.`;
   else if(factoresPE===1) interp=`<strong>1 marcador alto:</strong> AAS según riesgo combinado FMF. Control PI uterinas en 2T.`;
   else if(factoresModer>=2) interp=`<strong>2+ marcadores moderados:</strong> Vigilancia estrecha. Valorar AAS. Reevaluar en 2T.`;
   else if(factoresModer===1) interp=`1 marcador en zona moderada. Continuar seguimiento. Integrar con otros factores clínicos.`;
@@ -1831,8 +1843,8 @@ function calcular(){
 
   // IMC
   if(imcP){
-    if(imcP>=35) add('ESTADO NUTRICIONAL','alto',`IMC pregest. ${imcP.toFixed(1)} (obesidad gr. II-III)`,'AAS 150 mg/día desde sem 12. Cribado DG precoz. Vigilar PA. Derivar nutrición. Considerar metformina preventiva.','ACOG / NICE');
-    else if(imcP>=30) add('ESTADO NUTRICIONAL','moderado',`IMC pregest. ${imcP.toFixed(1)} (obesidad)`,'AAS 100–150 mg/día desde sem 12. Cribado precoz DG. Vigilar PA. Valorar nutricionista.','ACOG / NICE');
+    if(imcP>=35) add('ESTADO NUTRICIONAL','alto',`IMC pregest. ${imcP.toFixed(1)} (obesidad gr. II-III)`,'AAS ~150 mg cada noche desde 11–14+6 sem hasta 36 sem, el parto o el diagnóstico de PE (FIGO 2019, pauta preferida por CaVeSal). Alternativa: 81 mg/día desde 12–28 sem (idealmente antes de 16) hasta el parto (ACOG PB 222, 2020). Cribado DG precoz. Vigilar PA. Derivar nutrición. Considerar metformina preventiva.','FIGO 2019 / NICE / ACOG');
+    else if(imcP>=30) add('ESTADO NUTRICIONAL','moderado',`IMC pregest. ${imcP.toFixed(1)} (obesidad)`,'AAS ~150 mg cada noche desde 11–14+6 sem hasta 36 sem, el parto o el diagnóstico de PE (FIGO 2019, pauta preferida por CaVeSal). Alternativa: 81 mg/día desde 12–28 sem (idealmente antes de 16) hasta el parto (ACOG PB 222, 2020). Cribado precoz DG. Vigilar PA. Valorar nutricionista.','FIGO 2019 / NICE / ACOG');
     else if(imcP>=25) add('ESTADO NUTRICIONAL','bajo',`IMC pregest. ${imcP.toFixed(1)} (sobrepeso)`,'Controlar ganancia ponderal. Cribado DG estándar.','OMS');
     else if(imcP<18.5) add('ESTADO NUTRICIONAL','moderado',`IMC pregest. ${imcP.toFixed(1)} (bajo peso)`,'Riesgo RCIU y pretérmino. Suplementación calórica y proteica. Biometría seriada.','OMS / ACOG');
   }
@@ -1845,7 +1857,7 @@ function calcular(){
   }
 
   // ANTECEDENTES OBS
-  if(chk('obs_pe')) add('ANTECEDENTE OBSTÉTRICO','alto','Preeclampsia previa','AAS 100–150 mg/día desde sem 12 hasta el parto. Doppler uterinas 1T y 2T. PlGF/sFlt-1 si sospecha. Vigilancia PA semanal.','FMF / ACOG / NICE');
+  if(chk('obs_pe')) add('ANTECEDENTE OBSTÉTRICO','alto','Preeclampsia previa','AAS ~150 mg cada noche desde 11–14+6 sem hasta 36 sem, el parto o el diagnóstico de PE (FIGO 2019, pauta preferida por CaVeSal). Alternativa: 81 mg/día desde 12–28 sem (idealmente antes de 16) hasta el parto (ACOG PB 222, 2020). Doppler uterinas 1T y 2T. PlGF/sFlt-1 si sospecha. Vigilancia PA semanal.','FIGO 2019 / FMF / NICE / ACOG');
   if(chk('obs_dg')) add('ANTECEDENTE OBSTÉTRICO','moderado','Diabetes gestacional previa','SOG precoz (<20 sem) + estándar sem 24–28. Autocontrol glucémico. Valorar metformina preventiva.','ADA / ACOG');
   if(chk('obs_pt')) add('ANTECEDENTE OBSTÉTRICO','alto','Parto pretérmino previo','Cervicometría seriada desde sem 16. Progesterona vaginal 200 mg si cérvix <25 mm. Cerclaje si <15 mm.','FMF / ACOG');
   if(chk('obs_rciu')) add('ANTECEDENTE OBSTÉTRICO','alto','RCIU previo','Biometría mensual desde sem 24. Doppler uterinas 1T. AAS si PI alterado. Vigilancia placentaria.','FMF / ACOG');
@@ -1859,10 +1871,10 @@ function calcular(){
   if(ig&&ig>60) add('ANTECEDENTE OBSTÉTRICO','moderado',`Período intergenésico ${ig} m (>60)`,'Comportamiento similar a primigesta. Vigilar PE y trabajo de parto.','ACOG');
 
   // PERSONALES
-  if(chk('p_hta')) add('ANTECEDENTE PERSONAL','alto','HTA crónica','AAS 100–150 mg/día desde sem 12. Monitoreo domiciliario. Ajuste antihipertensivo (labetalol, nifedipino, metildopa). Descartar PE sobreagregada.','ACOG / ISH');
+  if(chk('p_hta')) add('ANTECEDENTE PERSONAL','alto','HTA crónica','AAS ~150 mg cada noche desde 11–14+6 sem hasta 36 sem, el parto o el diagnóstico de PE (FIGO 2019, pauta preferida por CaVeSal). Alternativa: 81 mg/día desde 12–28 sem (idealmente antes de 16) hasta el parto (ACOG PB 222, 2020). Monitoreo domiciliario. Ajuste antihipertensivo (labetalol, nifedipino, metildopa). Descartar PE sobreagregada.','FIGO 2019 / ISH / ACOG');
   if(chk('p_dm')) add('ANTECEDENTE PERSONAL','alto','Diabetes pregestacional','HbA1c <6.5% objetivo. Autocontrol estricto (ayunas <95 mg/dL, 2h <120). ECO morfológica + ecocardiografía. Biometría mensual.','ADA / ACOG');
   if(chk('p_trombo')) add('ANTECEDENTE PERSONAL','alto','Trombofilia hereditaria','HBPM profiláctica según genotipo y riesgo (inicio en 1T, continuar hasta 6 sem postparto). Medias de compresión elástica. Evitar inmovilización prolongada. Hematología.','ACOG / RCOG / ASH');
-  if(chk('p_saf')) add('ANTECEDENTE PERSONAL','alto','Síndrome antifosfolípido (SAF)','HBPM + AAS 100 mg/día desde sem 12 (criterios obstétricos). Si SAF trombótico: anticoagulación terapéutica. Vigilar RCIU, PE, pérdida gestacional. Reumatología.','ACOG / EULAR');
+  if(chk('p_saf')) add('ANTECEDENTE PERSONAL','alto','Síndrome antifosfolípido (SAF)','SAF obstétrico sin trombosis previa (≥3 abortos antes de la sem 10 o pérdida fetal desde la sem 10): AAS + heparina en dosis profiláctica durante el embarazo y 6 sem posparto. Parto antes de la sem 34 por PE grave/eclampsia o insuficiencia placentaria: AAS sola o con heparina profiláctica según el perfil de riesgo. SAF trombótico: AAS + heparina en dosis terapéutica; si recibe antagonistas de la vitamina K, pasar a heparina al confirmar el embarazo (idealmente antes de la sem 6). Complicaciones recurrentes pese al tratamiento: considerar heparina en dosis terapéutica, hidroxicloroquina o prednisolona en dosis baja en el 1T. Vigilar RCIU, PE y pérdida gestacional. Dosis de AAS: CaVeSal usa ~150 mg cada noche (FIGO 2019); EULAR 2019 indica 75–100 mg/día. Reumatología.','EULAR 2019 (Tektonidou) / FIGO 2019');
   if(chk('p_tvp')) add('ANTECEDENTE PERSONAL','alto','TVP previa','HBPM profiláctica o terapéutica todo el embarazo según riesgo. Estudio de trombofilia si no realizado. Medias de compresión. Hematología.','ACOG / RCOG');
   if(chk('p_tep')) add('ANTECEDENTE PERSONAL','alto','TEP previo','HBPM terapéutica obligatoria. Mayor riesgo de recurrencia en embarazo. Hematología + obstetricia. Plan de parto con anticoagulación.','ACOG / RCOG');
   if(chk('p_pti')) add('ANTECEDENTE PERSONAL','moderado','Trombocitopenia / Púrpura (PTI/PTT)','Vigilar recuento plaquetario mensual. PTI: corticoides/IGIV si plaquetas <30.000. PTT: plasmaféresis urgente. Informar a anestesiología (epidural contraindicada si <80.000). Hematología.','ACOG / ASH');
@@ -1888,7 +1900,7 @@ function calcular(){
 
   // HÁBITOS
   if(chk('h_tab')) add('HÁBITOS','moderado','Tabaquismo activo','Intervención 5As. Terapia reemplazo nicotínico si necesario. Vigilar RCIU: Doppler y biometría seriadas.','ACOG / OMS');
-  if(chk('h_alc')) add('HÁBITOS','alto','Consumo de alcohol','Abstinencia total. Riesgo SAF. Apoyo psicosocial y deshabituación.','OMS / ACOG');
+  if(chk('h_alc')) add('HÁBITOS','alto','Consumo de alcohol','Abstinencia total. Riesgo de trastorno del espectro alcohólico fetal. Apoyo psicosocial y deshabituación.','OMS / ACOG');
   if(chk('h_dro')) add('HÁBITOS','alto','Consumo de sustancias','Derivar unidad drogodependencia. Vigilar RCIU, DPPNI, síndrome abstinencia neonatal.','ACOG');
   if(chk('h_vd')) add('HÁBITOS','alto','Violencia doméstica','Protocolo seguridad. Trabajo social. Consultas individuales sin acompañante.','OMS / ACOG');
   if(chk('h_vs')) add('HÁBITOS','moderado','Vulnerabilidad socioeconómica','Trabajo social. Programas de apoyo nutricional y prenatal. Mayor frecuencia de controles.','OMS');
@@ -2032,7 +2044,7 @@ function calcular(){
 
   // PI uterinas 1T
   if(pi1t!==null){
-    if(pi1t>=2.35) add('ECOGRAFÍA 1T','alto',`PI uterinas 1T ${pi1t} (>p95 FMF)`,'Alto riesgo PE. AAS 100–150 mg/día obligatorio desde sem 12. PlGF si disponible. Reevaluar PI uterinas en 2T.','FMF / Nicolaides');
+    if(pi1t>=2.35) add('ECOGRAFÍA 1T','alto',`PI uterinas 1T ${pi1t} (>p95 FMF)`,'Alto riesgo PE. AAS indicado. AAS ~150 mg cada noche desde 11–14+6 sem hasta 36 sem, el parto o el diagnóstico de PE (FIGO 2019, pauta preferida por CaVeSal). Alternativa: 81 mg/día desde 12–28 sem (idealmente antes de 16) hasta el parto (ACOG PB 222, 2020). PlGF si disponible. Reevaluar PI uterinas en 2T.','FIGO 2019 / FMF / Nicolaides / ACOG');
     else if(pi1t>=1.90) add('ECOGRAFÍA 1T','moderado',`PI uterinas 1T ${pi1t} (p90–95 FMF)`,'Riesgo moderado PE. Valorar AAS según riesgo combinado FMF. Reevaluar en 2T.','FMF');
   }
   // Doppler AO
@@ -2047,7 +2059,7 @@ function calcular(){
   }
   // PlGF 1T (MoM)
   if(pigf1t!==null){
-    if(pigf1t<0.5) add('ECOGRAFÍA 1T','alto',`PlGF 1T ${pigf1t} MoM (<0.5 – alto riesgo PE)`,'Alto riesgo PE precoz. AAS 150 mg/día + vigilancia estrecha. sFlt-1/PlGF si síntomas.','FMF / Poon 2019');
+    if(pigf1t<0.5) add('ECOGRAFÍA 1T','alto',`PlGF 1T ${pigf1t} MoM (<0.5 – alto riesgo PE)`,'Alto riesgo PE precoz. AAS ~150 mg cada noche desde 11–14+6 sem hasta 36 sem, el parto o el diagnóstico de PE (FIGO 2019, pauta preferida por CaVeSal). Alternativa: 81 mg/día desde 12–28 sem (idealmente antes de 16) hasta el parto (ACOG PB 222, 2020). Vigilancia estrecha. sFlt-1/PlGF si síntomas.','FIGO 2019 / FMF / ACOG');
     else if(pigf1t<0.7) add('ECOGRAFÍA 1T','moderado',`PlGF 1T ${pigf1t} MoM (0.5–0.7 – moderado)`,'Riesgo moderado PE. AAS según riesgo combinado. Control Doppler 2T.','FMF');
   }
   // β-hCG como marcador PE independiente (muy elevado)
@@ -2178,7 +2190,7 @@ function calcular(){
     const hepbEst=document.getElementById('pr_hepb_estado').value;
     if(hepbEst==='susceptible'&&!chk('pr_hepbvac')) add('PROFILAXIS','moderado','Hepatitis B: paciente susceptible sin vacuna','Anti-HBs− y HBsAg− → Iniciar esquema vacunal (3 dosis: 0, 1, 6 meses). Vacuna segura en embarazo. Completar esquema postparto si es necesario.','ACOG / CDC / EASL');
     // AAS
-    if(!chk('pr_aas')&&findings.some(f=>f.conducta.includes('AAS'))) add('PROFILAXIS','moderado','AAS indicado pero no registrado como iniciado','Verificar e iniciar AAS 100–150 mg/día según perfil de riesgo PE.','FMF / ACOG');
+    if(!chk('pr_aas')&&findings.some(f=>f.conducta.includes('AAS'))) add('PROFILAXIS','moderado','AAS indicado pero no registrado como iniciado','Verificar e iniciar AAS ~150 mg cada noche desde 11–14+6 sem hasta 36 sem, el parto o el diagnóstico de PE (FIGO 2019, pauta preferida por CaVeSal). Alternativa: 81 mg/día desde 12–28 sem (idealmente antes de 16) hasta el parto (ACOG PB 222, 2020).','FIGO 2019 / FMF / ACOG');
   }
 
   // NIVEL GLOBAL
@@ -4638,6 +4650,7 @@ function editarVisita(){}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2);}
 
 var _UPC={
+  simulador:{icon:'🎓',title:'Simulador de casos prenatales',sub:'3 casos con devolución y fuentes'},
   laboratorio:{icon:'🧪',title:'Laboratorio completo',sub:'SOG/TTOG, HbA1c, TSH, TORCH, ITS, SGB'},
   ecografia:{icon:'🔊',title:'Cribado FMF completo',sub:'NT, T21/T18/T13, Doppler, ILA'},
   pfe:{icon:'⚖️',title:'Peso fetal estimado',sub:'Hadlock, INTERGROWTH-21'},
