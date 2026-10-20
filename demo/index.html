@@ -149,6 +149,20 @@ main{padding:14px;max-width:680px;margin:0 auto}
 .section-head.open .chevron{transform:rotate(180deg)}
 .section-body{padding:13px 14px;display:none}
 .section-body.open{display:block}
+.eco-invite-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:4px 2px 2px}
+.eco-invite-card{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;border:1.5px solid var(--border);border-radius:12px;padding:12px 8px;background:var(--mist);text-decoration:none}
+.eco-invite-card img{width:84px;height:84px;border-radius:8px;background:#fff}
+.eco-invite-card .eco-nombre{font-size:.74rem;font-weight:700;color:var(--navy)}
+.eco-invite-card .eco-bajada{font-size:.64rem;color:var(--slate);line-height:1.3}
+.eco-invite-card .eco-abrir{font-size:.68rem;font-weight:700;color:var(--teal);margin-top:2px}
+@media (max-width:420px){.eco-invite-grid{grid-template-columns:1fr}}
+.eco-invite-card.mama{border-top:4px solid #be123c}
+.eco-invite-card.mama .eco-abrir{background:#be123c;color:#fff;border-radius:20px;padding:4px 14px;margin-top:4px}
+.eco-invite-card.mujer{border-top:4px solid var(--teal)}
+.eco-invite-card.mujer .eco-abrir{background:var(--teal);color:#fff;border-radius:20px;padding:4px 14px;margin-top:4px}
+.eco-pacientes-head{text-align:center;margin-bottom:10px}
+.eco-pacientes-head h3{font-size:.95rem;color:var(--navy);margin-bottom:3px}
+.eco-pacientes-head p{font-size:.72rem;color:var(--slate)}
 
 /* FIELDS */
 .field{margin-bottom:12px}
@@ -1352,6 +1366,39 @@ main{padding:14px;max-width:680px;margin:0 auto}
     <span style="margin-left:auto;font-size:1rem">↗</span>
   </a>
 
+</div>
+
+<!-- ════ INVITÁ A TU PACIENTE — Ecosistema CaVeSal® ════ -->
+<div class="section-card" style="margin:14px 14px 0">
+  <div class="section-head open" onclick="toggleSection(this)"><span class="icon">📲</span><h2>Invitá a tu paciente</h2><span class="chevron">▼</span></div>
+  <div class="section-body open" style="padding:14px">
+    <div class="eco-pacientes-head">
+      <h3>💟 Elegí tu app, gratis para empezar</h3>
+      <p>Embarazada, buscando embarazo, o cuidando su salud ginecológica — cada paciente con su propia app, gratis para siempre.</p>
+    </div>
+    <div class="eco-invite-grid">
+      <a class="eco-invite-card mama" href="https://mama.cavesal.app/" target="_blank" rel="noopener">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https%3A%2F%2Fmama.cavesal.app%2F" alt="QR CaVeSal® Mamá" loading="lazy">
+        <span class="eco-nombre">CaVeSal® Mamá</span>
+        <span class="eco-bajada">Desde que buscás el embarazo hasta el primer año del bebé</span>
+        <span class="eco-abrir">Abrir gratis</span>
+      </a>
+      <a class="eco-invite-card mujer" href="https://mujer.cavesal.app/" target="_blank" rel="noopener">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https%3A%2F%2Fmujer.cavesal.app%2F" alt="QR CaVeSal® Mujer" loading="lazy">
+        <span class="eco-nombre">CaVeSal® Mujer</span>
+        <span class="eco-bajada">Salud ginecológica en todas las etapas de su vida</span>
+        <span class="eco-abrir">Abrir gratis</span>
+      </a>
+      <a class="eco-invite-card" href="https://cavesal.app/" target="_blank" rel="noopener">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https%3A%2F%2Fcavesal.app%2F" alt="QR maestro — Ecosistema CaVeSal®" loading="lazy">
+        <span class="eco-nombre">Ecosistema CaVeSal®</span>
+        <span class="eco-bajada">Conocé todas las apps del ecosistema</span>
+        <span class="eco-abrir">Mirá el ecosistema completo</span>
+      </a>
+    </div>
+    <div style="font-size:.62rem;color:var(--slate);text-align:center;margin-top:6px">Gratis para siempre · Planes Premium opcionales · Sin tarjeta de crédito para empezar</div>
+    <div style="font-size:.62rem;color:var(--slate);text-align:center;margin-top:4px">Estas Aplicaciones orientan a la paciente y la acercan a su médico — no reemplazan su criterio.</div>
+  </div>
 </div>
 
 <div style="text-align:center;padding:24px 16px 14px">
