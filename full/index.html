@@ -201,6 +201,13 @@ main{padding:14px;max-width:680px;margin:0 auto}
 .eco-invite-card .eco-bajada{font-size:.64rem;color:var(--slate);line-height:1.3}
 .eco-invite-card .eco-abrir{font-size:.68rem;font-weight:700;color:var(--teal);margin-top:2px}
 @media (max-width:420px){.eco-invite-grid{grid-template-columns:1fr}}
+.eco-invite-card.mama{border-top:4px solid #be123c}
+.eco-invite-card.mama .eco-abrir{background:#be123c;color:#fff;border-radius:20px;padding:4px 14px;margin-top:4px}
+.eco-invite-card.mujer{border-top:4px solid var(--teal)}
+.eco-invite-card.mujer .eco-abrir{background:var(--teal);color:#fff;border-radius:20px;padding:4px 14px;margin-top:4px}
+.eco-pacientes-head{text-align:center;margin-bottom:10px}
+.eco-pacientes-head h3{font-size:.95rem;color:var(--navy);margin-bottom:3px}
+.eco-pacientes-head p{font-size:.72rem;color:var(--slate)}
 .btn-calc:hover{opacity:.9}
 
 /* RESULTS */
@@ -3696,18 +3703,21 @@ Microcefalia: CC &lt;p3 para EG.</div>
 <div class="section-card" style="margin:0 16px 10px">
   <div class="section-head open" onclick="toggleSection(this)"><span class="icon">📲</span><h2>Invitá a tu paciente</h2><span class="chevron">▼</span></div>
   <div class="section-body open" style="padding:14px">
-    <div style="font-size:.78rem;color:var(--slate);margin-bottom:10px">Dos apps gratuitas del ecosistema CaVeSal, según el momento de cada paciente, más el ecosistema completo.</div>
+    <div class="eco-pacientes-head">
+      <h3>💟 Elegí tu app, gratis para empezar</h3>
+      <p>Embarazada, buscando embarazo, o cuidando su salud ginecológica — cada paciente con su propia app, gratis para siempre.</p>
+    </div>
     <div class="eco-invite-grid">
-      <a class="eco-invite-card" href="https://mama.cavesal.app/" target="_blank" rel="noopener">
+      <a class="eco-invite-card mama" href="https://mama.cavesal.app/" target="_blank" rel="noopener">
         <img src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https%3A%2F%2Fmama.cavesal.app%2F" alt="QR CaVeSal® Mamá" loading="lazy">
         <span class="eco-nombre">CaVeSal® Mamá</span>
-        <span class="eco-bajada">Embarazo, parto, lactancia y desarrollo del bebé</span>
+        <span class="eco-bajada">Desde que buscás el embarazo hasta el primer año del bebé</span>
         <span class="eco-abrir">Abrir gratis</span>
       </a>
-      <a class="eco-invite-card" href="https://mujer.cavesal.app/" target="_blank" rel="noopener">
+      <a class="eco-invite-card mujer" href="https://mujer.cavesal.app/" target="_blank" rel="noopener">
         <img src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https%3A%2F%2Fmujer.cavesal.app%2F" alt="QR CaVeSal® Mujer" loading="lazy">
         <span class="eco-nombre">CaVeSal® Mujer</span>
-        <span class="eco-bajada">Salud ginecológica y ciclo fuera del embarazo</span>
+        <span class="eco-bajada">Salud ginecológica en todas las etapas de su vida</span>
         <span class="eco-abrir">Abrir gratis</span>
       </a>
       <a class="eco-invite-card" href="https://cavesal.app/" target="_blank" rel="noopener">
@@ -3717,7 +3727,8 @@ Microcefalia: CC &lt;p3 para EG.</div>
         <span class="eco-abrir">Mirá el ecosistema completo</span>
       </a>
     </div>
-    <div style="font-size:.62rem;color:var(--slate);text-align:center;margin-top:8px">Estas Aplicaciones orientan a la paciente y la acercan a su médico — no reemplazan su criterio.</div>
+    <div style="font-size:.62rem;color:var(--slate);text-align:center;margin-top:6px">Gratis para siempre · Planes Premium opcionales · Sin tarjeta de crédito para empezar</div>
+    <div style="font-size:.62rem;color:var(--slate);text-align:center;margin-top:4px">Estas Aplicaciones orientan a la paciente y la acercan a su médico — no reemplazan su criterio.</div>
   </div>
 </div>
 
@@ -10552,6 +10563,202 @@ function abrirContacto(){
               { t: "Debió finalizarse a las 37 semanas.", fb: "Finalizar a las 37 semanas corresponde a la RCIU estadio I. En el PEG, MFB indica desde las 40 semanas." }
             ],
             ref: refMFB("Finalización"), url: MFB
+          }
+        ]
+      }
+    ]
+  });
+})();
+
+/* E. Colestasis intrahepática del embarazo (ICP): RCOG Green-top Guideline No. 43 (2022).
+ * ⚠️ Carlos: validar los 3 cortes numéricos de ácidos biliares totales (19 / 40 / 100 µmol/L)
+ * y las semanas de nacimiento sugeridas (35-36 vs 38-39) contra el documento RCOG GTG43 antes
+ * de publicar — son los valores que recuerdo de la guía pero no los re-verifiqué línea por línea. */
+(function () {
+  var RCOG43 = "https://obgyn.onlinelibrary.wiley.com/doi/10.1111/1471-0528.17206";
+  var pam = function (s, d) { return Math.round((s + 2 * d) / 3); };
+  var PA = function (s, d) { return ["PA", s + "/" + d, "mmHg · PAM " + pam(s, d), s >= 160 || d >= 110 ? "rojo" : s >= 140 || d >= 90 ? "amar" : "ok"]; };
+
+  window.SIM_CASOS = window.SIM_CASOS || [];
+  window.SIM_CASOS.push({
+    id: "cie",
+    grupo: "Control prenatal",
+    codigo: "cie",
+    modo: "prenatal",
+    titulo: "Secundigesta de 29 años con prurito palmo-plantar a las 34 semanas",
+    tema: "Colestasis intrahepática del embarazo",
+    resumen: "Prurito sin rash, ácidos biliares totales y el momento del nacimiento según la severidad — guía RCOG.",
+    fuentes: [["Girling J, Knight CL, Chappell L; Royal College of Obstetricians and Gynaecologists (RCOG). Intrahepatic Cholestasis of Pregnancy: Green-top Guideline No. 43 (BJOG 2022;129(13):e95-e114)", RCOG43]],
+    escenas: [
+      {
+        min: 34, titulo: "Consulta por prurito",
+        relato: "Secundigesta de 29 años, 34 semanas, sin antecedentes. Consulta por prurito intenso en palmas y plantas, de predominio nocturno, de una semana de evolución. No hay lesiones cutáneas primarias visibles.",
+        vit: { panel: [["EG", "34", "semanas", "neutro"], PA(110, 70), ["Prurito", "Palmo-plantar", "nocturno, sin rash", "amar"], ["Piel", "Sin lesiones primarias", "", "ok"]] },
+        datos: [["Antecedentes", "Sin antecedentes hepáticos ni dermatológicos"], ["Ácidos biliares totales", "Solicitados, pendientes"]],
+        preguntas: [
+          {
+            tipo: "opcion", q: "Prurito palmo-plantar nocturno, sin lesión cutánea primaria, en el tercer trimestre: ¿qué sospechás primero?",
+            ops: [
+              { t: "Colestasis intrahepática del embarazo (ICP).", ok: true, fb: "El prurito sin rash, típicamente palmo-plantar y de predominio nocturno, en la segunda mitad del embarazo, es la presentación característica de la ICP." },
+              { t: "Dermatosis polimorfa del embarazo.", fb: "Las dermatosis del embarazo cursan con lesiones cutáneas primarias (pápulas, placas urticariformes). Acá no hay lesión primaria visible: el patrón orienta a ICP." },
+              { t: "Escabiosis.", fb: "La sarna también pica de noche, pero deja lesiones cutáneas (surcos, pápulas) y suele afectar a convivientes. Sin lesión primaria y con ese patrón palmo-plantar, lo primero a descartar es ICP." }
+            ],
+            ref: "RCOG GTG43 · Presentación clínica", url: RCOG43
+          },
+          {
+            tipo: "opcion", q: "¿Qué estudio de laboratorio confirma el diagnóstico?",
+            ops: [
+              { t: "Ácidos biliares totales (en ayunas o aleatorios) más pruebas de función hepática.", ok: true, fb: "RCOG define la ICP por ácidos biliares totales elevados (con o sin transaminasas elevadas) en presencia de prurito, habiendo excluido otras causas, con resolución posparto." },
+              { t: "Ecografía hepatobiliar únicamente.", fb: "La ecografía sirve para descartar otras causas (litiasis, obstrucción), pero el diagnóstico de ICP se confirma con ácidos biliares totales elevados." },
+              { t: "Serología viral únicamente.", fb: "La serología ayuda a descartar hepatitis viral como diagnóstico diferencial, pero no confirma la ICP: eso lo da el valor de ácidos biliares." }
+            ],
+            ref: "RCOG GTG43 · Diagnóstico", url: RCOG43
+          }
+        ]
+      },
+      {
+        min: 34, titulo: "Resultado de laboratorio",
+        relato: "Ácidos biliares totales: 55 µmol/L. Transaminasas levemente elevadas. Bilirrubina normal. Coagulación normal.",
+        vit: { panel: [["EG", "34", "semanas", "neutro"], ["Ácidos biliares", "55", "µmol/L", "amar"], ["Transaminasas", "Elevadas", "leve", "amar"], ["Coagulación", "Normal", "", "ok"]] },
+        preguntas: [
+          {
+            tipo: "numero", q: "⚠️ A confirmar con Carlos — ¿a partir de qué valor de ácidos biliares totales se considera anormal, para RCOG GTG43?",
+            resp: 19, tol: 0, dec: 0, unidad: "µmol/L",
+            fbOk: "El corte habitual citado para ácidos biliares totales anormales es 19 µmol/L — valor a confirmar contra el texto completo de RCOG GTG43.",
+            fbMal: "El corte habitual es 19 µmol/L — valor a confirmar contra el texto completo de RCOG GTG43.",
+            ref: "RCOG GTG43 · Valores de referencia", url: RCOG43
+          },
+          {
+            tipo: "opcion", q: "⚠️ A confirmar con Carlos — Con 55 µmol/L, ¿cómo se clasifica la severidad?",
+            ops: [
+              { t: "ICP moderada (habitualmente 40-99 µmol/L).", ok: true, fb: "La estratificación habitual por ácidos biliares totales es: leve menor de 40, moderada 40-99, severa 100 o más µmol/L — confirmar los cortes exactos contra RCOG GTG43." },
+              { t: "ICP leve.", fb: "55 µmol/L supera el corte habitual de 40 µmol/L para \"leve\" — orientaría a moderada, a confirmar." },
+              { t: "ICP severa.", fb: "El corte habitual para \"severa\" es 100 µmol/L o más. Con 55 µmol/L correspondería a moderada, a confirmar." }
+            ],
+            ref: "RCOG GTG43 · Estratificación por severidad", url: RCOG43
+          },
+          {
+            tipo: "opcion", q: "¿Qué conducta tomás con el prurito y el seguimiento?",
+            ops: [
+              { t: "Tratamiento sintomático del prurito, control seriado de ácidos biliares y función hepática, y planificar el momento del nacimiento según la severidad.", ok: true, fb: "RCOG recomienda seguimiento seriado (ácidos biliares y función hepática) y decidir el momento del nacimiento según el nivel de ácidos biliares, más que una conducta fija para todas las pacientes." },
+              { t: "Nacimiento inmediato, sin más estudios.", fb: "Con 55 µmol/L y coagulación normal no hay indicación de nacimiento inmediato. Corresponde seguimiento seriado y planificar el nacimiento según la severidad." },
+              { t: "Sin seguimiento adicional: alta y control de rutina.", fb: "RCOG indica seguimiento seriado de ácidos biliares y función hepática en la ICP, no un alta sin controles adicionales." }
+            ],
+            ref: "RCOG GTG43 · Manejo y seguimiento", url: RCOG43
+          }
+        ]
+      },
+      {
+        min: 36, titulo: "Control a las 36 semanas",
+        relato: "Nuevo control de ácidos biliares: 136 µmol/L. Persiste el prurito. Transaminasas elevadas, coagulación normal.",
+        vit: { panel: [["EG", "36", "semanas", "neutro"], ["Ácidos biliares", "136", "µmol/L", "rojo"], ["Transaminasas", "Elevadas", "", "amar"], ["Coagulación", "Normal", "", "ok"]] },
+        preguntas: [
+          {
+            tipo: "opcion", q: "⚠️ A confirmar con Carlos — Con 136 µmol/L (ICP severa), ¿qué cambia en el plan de nacimiento respecto a una ICP leve-moderada?",
+            ops: [
+              { t: "Se adelanta el nacimiento planificado (habitualmente entre 35-36 semanas en la ICP severa), por mayor riesgo de muerte fetal.", ok: true, fb: "RCOG asocia el ascenso de ácidos biliares totales (especialmente ≥100 µmol/L) con mayor riesgo de muerte fetal, y por eso se recomienda adelantar el nacimiento en la ICP severa respecto a la leve-moderada (que habitualmente se planifica más cerca del término) — confirmar las semanas exactas contra el texto completo." },
+              { t: "No cambia nada: todas las ICP se manejan igual, independientemente del valor de ácidos biliares.", fb: "RCOG gradúa la conducta según el nivel de ácidos biliares: a mayor valor, mayor riesgo de muerte fetal y antes se plantea el nacimiento." },
+              { t: "Se indica cesárea electiva por el solo diagnóstico de ICP severa.", fb: "La severidad de la ICP orienta el momento del nacimiento, no necesariamente la vía: la vía de parto se decide por los criterios obstétricos habituales." }
+            ],
+            ref: "RCOG GTG43 · Momento del nacimiento según severidad", url: RCOG43
+          },
+          {
+            tipo: "opcion", q: "¿Qué otro estudio es razonable pedir dado el nivel de transaminasas y el riesgo de colestasis severa?",
+            ops: [
+              { t: "Coagulación (ya solicitada) y vigilancia de vitamina K si hay esteatorrea o coagulopatía.", ok: true, fb: "La malabsorción de vitamina K puede ocurrir en la colestasis; RCOG señala vigilar la coagulación y considerar vitamina K si hay esteatorrea o tiempos de coagulación prolongados." },
+              { t: "Ninguno adicional: alcanza con los ácidos biliares.", fb: "Con transaminasas elevadas y riesgo de malabsorción de vitamina K en la colestasis, RCOG orienta a vigilar también la coagulación." },
+              { t: "Biopsia hepática de rutina.", fb: "La biopsia hepática no es parte del manejo habitual de la ICP; el diagnóstico y seguimiento se basan en ácidos biliares y pruebas de función hepática." }
+            ],
+            ref: "RCOG GTG43 · Seguimiento de laboratorio", url: RCOG43
+          }
+        ]
+      }
+    ]
+  });
+})();
+
+/* F. Control prenatal de bajo riesgo (semáforo verde): mismo embarazo, sin alarmas.
+ * Cribado de preeclampsia: FIGO 2019 (Poon et al., IJGO 2019;145 Suppl 1:1-33).
+ * OGTT: IADPSG 2010 (Diabetes Care 2010;33:676-82).
+ * Controles prenatales de rutina: OMS 2016, Recomendaciones de la OMS sobre atención prenatal para
+ * una experiencia positiva del embarazo. */
+(function () {
+  var FIGO = "https://pmc.ncbi.nlm.nih.gov/articles/PMC6944283/";
+  var IADPSG = "https://pmc.ncbi.nlm.nih.gov/articles/PMC2827530/";
+  var OMS = "https://www.who.int/publications/i/item/9789241549912";
+  var pam = function (s, d) { return Math.round((s + 2 * d) / 3); };
+  var PA = function (s, d) { return ["PA", s + "/" + d, "mmHg · PAM " + pam(s, d), s >= 160 || d >= 110 ? "rojo" : s >= 140 || d >= 90 ? "amar" : "ok"]; };
+
+  window.SIM_CASOS = window.SIM_CASOS || [];
+  window.SIM_CASOS.push({
+    id: "brn",
+    grupo: "Control prenatal",
+    codigo: "brn",
+    modo: "prenatal",
+    titulo: "Primigesta de 24 años sin antecedentes: control prenatal de rutina",
+    tema: "Control prenatal de bajo riesgo (semáforo verde)",
+    resumen: "No todo caso es de alto riesgo: reconocer cuándo los parámetros son normales también es parte de usar bien la calculadora.",
+    fuentes: [
+      ["FIGO 2019 · Poon LC et al. The FIGO initiative on pre-eclampsia (IJGO 2019;145 Suppl 1:1-33)", FIGO],
+      ["IADPSG 2010 · Recommendations on the Diagnosis and Classification of Hyperglycemia in Pregnancy (Diabetes Care 2010;33:676-82)", IADPSG],
+      ["OMS 2016 · WHO recommendations on antenatal care for a positive pregnancy experience", OMS]
+    ],
+    escenas: [
+      {
+        min: 12, titulo: "Primera consulta y cribado combinado",
+        relato: "Primigesta de 24 años, 12+1 semanas por ecografía, sin antecedentes personales ni familiares de riesgo. El cribado combinado del primer trimestre da riesgo de T21 de 1 en 8000 y riesgo de preeclampsia pretérmino de 1 en 900.",
+        vit: { panel: [["EG", "12+1", "semanas", "neutro"], PA(110, 68), ["Riesgo T21", "1 en 8000", "cribado combinado", "ok"], ["Riesgo PE pretérmino", "1 en 900", "cribado FIGO", "ok"]] },
+        datos: [["Antecedentes", "Sin factores de riesgo"], ["IMC pregestacional", "22"]],
+        preguntas: [
+          {
+            tipo: "opcion", q: "Con un riesgo de preeclampsia pretérmino de 1 en 900, ¿qué indicás respecto a la aspirina?",
+            ops: [
+              { t: "No está indicada: el riesgo es menor al corte de 1 en 100 que define alto riesgo.", ok: true, fb: "FIGO indica aspirina cuando el riesgo combinado es de 1 en 100 o mayor. Con 1 en 900 esta paciente es de bajo riesgo y no corresponde indicarla." },
+              { t: "Indicarla de todas formas, por las dudas, ya que no tiene riesgos conocidos.", fb: "FIGO es explícita en que la aspirina en dosis baja no debe indicarse a todas las embarazadas; se reserva para quienes superan el corte de alto riesgo." },
+              { t: "Pedir primero un Doppler de arterias uterinas antes de decidir.", fb: "El cribado combinado ya incluyó los parámetros necesarios. Con 1 en 900, por debajo del corte de 1 en 100, no se requiere otro estudio para decidir sobre la aspirina." }
+            ],
+            ref: "FIGO 2019 · Recomendaciones de prevención", url: FIGO
+          },
+          {
+            tipo: "opcion", q: "¿Cómo seguís el control prenatal de esta paciente?",
+            ops: [
+              { t: "Esquema habitual de controles, sin estudios adicionales por el momento.", ok: true, fb: "Sin factores de riesgo y con cribado combinado tranquilizador, corresponde el esquema de controles habitual, no un seguimiento intensificado." },
+              { t: "Agregar controles cada 2 semanas desde ya, por tratarse de una primigesta.", fb: "La primiparidad por sí sola, sin otros factores de riesgo ni hallazgos alterados, no justifica intensificar la frecuencia de controles." },
+              { t: "Derivar a Medicina Fetal de rutina.", fb: "Con cribado de bajo riesgo y sin otros antecedentes, no hay indicación de derivación a Medicina Fetal." }
+            ],
+            ref: "OMS 2016 · Esquema de visitas prenatales", url: OMS
+          }
+        ]
+      },
+      {
+        min: 26, titulo: "Prueba de tolerancia oral con 75 g",
+        relato: "A las 26 semanas realiza la prueba con 75 g de glucosa. Resultados: ayunas 78 mg/dL, 1 hora 140 mg/dL, 2 horas 118 mg/dL. Altura uterina y movimientos fetales normales.",
+        vit: { panel: [["EG", "26", "semanas", "neutro"], ["Ayunas", "78", "mg/dL", "ok"], ["1 hora", "140", "mg/dL", "ok"], ["2 horas", "118", "mg/dL", "ok"]] },
+        preguntas: [
+          {
+            tipo: "opcion", q: "¿Cómo interpretás esta prueba de tolerancia oral?",
+            ops: [
+              { t: "Normal: los tres valores están por debajo de los umbrales IADPSG (92 / 180 / 153 mg/dL).", ok: true, fb: "Los tres valores (78, 140 y 118 mg/dL) están por debajo de los umbrales de IADPSG (92 ayunas, 180 a la hora, 153 a las 2 horas): la prueba es normal." },
+              { t: "Diabetes gestacional: el valor de 1 hora está elevado.", fb: "El umbral IADPSG a la 1 hora es 180 mg/dL. Con 140 mg/dL ese valor está dentro de lo normal." },
+              { t: "Repetir la prueba en 2 semanas por las dudas.", fb: "Con los tres valores normales según IADPSG no hay indicación de repetir la prueba." }
+            ],
+            ref: "IADPSG 2010 · Tabla 1, umbrales de la prueba con 75 g", url: IADPSG
+          }
+        ]
+      },
+      {
+        min: 38, titulo: "Control de las 38 semanas",
+        relato: "Continúa sin complicaciones. Presentación cefálica, movimientos fetales conservados, presión arterial normal, altura uterina acorde, peso fetal estimado en percentil 55.",
+        vit: { panel: [["EG", "38", "semanas", "neutro"], PA(112, 72), ["Presentación", "Cefálica", "", "ok"], ["PFE", "p55", "", "ok"]] },
+        preguntas: [
+          {
+            tipo: "opcion", q: "Con este cuadro, ¿cuál es la conducta respecto al nacimiento?",
+            ops: [
+              { t: "Conducta expectante: esperar el inicio espontáneo del trabajo de parto, con controles habituales hasta el término.", ok: true, fb: "Sin factores de riesgo ni hallazgos alterados, en una gestante de bajo riesgo corresponde esperar el inicio espontáneo del trabajo de parto, sin indicación de inducción ni de cesárea electiva." },
+              { t: "Programar cesárea electiva por tratarse de una primigesta.", fb: "La primiparidad sin otra indicación obstétrica no es motivo de cesárea electiva." },
+              { t: "Inducir el trabajo de parto ya, por haber llegado a las 38 semanas.", fb: "Sin indicación médica, 38 semanas en un embarazo de bajo riesgo no amerita inducción; se espera el inicio espontáneo hasta el término." }
+            ],
+            ref: "OMS 2016 · Atención prenatal integral", url: OMS
           }
         ]
       }
