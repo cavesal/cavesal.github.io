@@ -1,7 +1,7 @@
 {
-  "name": "CaVeSal® Demo",
-  "short_name": "CaVeSal Demo",
-  "description": "DEMO",
+  "name": "CaVeSal® Prenatal Demo",
+  "short_name": "CaVeSal Prenatal Demo",
+  "description": "CaVeSal® Prenatal — versión DEMO",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
