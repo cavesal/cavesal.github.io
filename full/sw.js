@@ -1,4 +1,4 @@
-const CACHE = "cavesal-v3";
+const CACHE = "cavesal-v6";
 
 self.addEventListener("install", e => {
   e.waitUntil(
@@ -7,12 +7,25 @@ self.addEventListener("install", e => {
 });
 
 self.addEventListener("activate", e => {
-  e.waitUntil(self.clients.claim());
+  e.waitUntil(
+    caches.keys()
+      .then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      .then(() => self.clients.claim())
+  );
 });
 
 self.addEventListener("fetch", e => {
   if (e.request.method !== "GET") return;
   e.respondWith(
-    caches.match(e.request).then(c => c || fetch(e.request))
+    caches.match(e.request).then(cached => {
+      const net = fetch(e.request).then(r => {
+        if (r && r.status === 200 && new URL(e.request.url).origin === location.origin) {
+          const cl = r.clone();
+          caches.open(CACHE).then(c => c.put(e.request, cl));
+        }
+        return r;
+      }).catch(() => cached);
+      return cached || net;
+    })
   );
 });

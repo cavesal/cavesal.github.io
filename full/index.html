@@ -538,6 +538,123 @@ main{padding:14px;max-width:680px;margin:0 auto}
     background:#a9c3c9;cursor:not-allowed;
   }
 </style>
+<style id="sim-css">
+/* ================= Simulador ================= */
+#page-simulador .sim-intro { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; }
+#page-simulador .sim-intro p { margin: 0 0 10px; }
+#page-simulador .sim-switch { display: inline-flex; gap: 8px; align-items: center; font-weight: 600; cursor: pointer; }
+#page-simulador .sim-switch input { width: 20px; height: 20px; }
+#page-simulador .sim-casos { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+#page-simulador .sim-caso { --c: var(--primary); --cbg: var(--surface); background: var(--surface); border: 1px solid var(--border); border-top: 6px solid var(--c); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; }
+#page-simulador .sim-caso.amarillo, #page-simulador .sim-top.amarillo { --c: var(--ambar); --cbg: var(--ambar-bg); }
+#page-simulador .sim-caso.azul, #page-simulador .sim-top.azul { --c: var(--azul); --cbg: var(--azul-bg); }
+#page-simulador .sim-caso.rcp, #page-simulador .sim-top.rcp { --c: var(--azuloscuro); --cbg: var(--azuloscuro-bg); }
+#page-simulador .sim-caso-n { font-size: .8rem; font-weight: 700; color: var(--c); text-transform: uppercase; letter-spacing: .03em; }
+#page-simulador .sim-caso h3 { margin: 6px 0; font-size: 1.05rem; }
+#page-simulador .sim-caso p { margin: 0 0 12px; color: var(--text-muted); flex: 1; }
+#page-simulador .sim-caso-pie { display: flex; flex-direction: column; gap: 8px; font-size: .85rem; color: var(--text-muted); }
+#page-simulador .sim-nota { font-size: .85rem; color: var(--text-muted); margin-top: 16px; }
+#page-simulador .sim-top { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; background: var(--cbg, var(--surface)); border-left: 6px solid var(--c, var(--primary)); border-radius: 10px; padding: 8px 12px; margin-bottom: 12px; }
+#page-simulador .sim-top-t { font-weight: 700; color: var(--c); }
+#page-simulador .sim-top-s { font-size: .85rem; color: var(--text-muted); }
+#page-simulador .sim-prog { font-weight: 700; font-variant-numeric: tabular-nums; }
+#page-simulador .sim-escena { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; }
+#page-simulador .sim-min { font-size: .82rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: .03em; }
+#page-simulador .sim-relato { margin: 6px 0 12px; font-size: 1.02rem; }
+#page-simulador .sim-monitor { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; background: #0f1d1f; border-radius: 10px; padding: 8px; }
+#page-simulador .sim-vit { background: #182b2e; border-radius: 8px; padding: 6px 8px; color: #b9f5c8; display: flex; flex-direction: column; min-width: 0; }
+#page-simulador .sim-vit span { font-size: .72rem; font-weight: 700; opacity: .85; }
+#page-simulador .sim-vit strong { font-size: 1.35rem; font-variant-numeric: tabular-nums; line-height: 1.2; }
+#page-simulador .sim-vit small { font-size: .7rem; opacity: .8; overflow-wrap: anywhere; }
+#page-simulador .sim-vit.amar { color: #ffd77a; }
+#page-simulador .sim-vit.rojo { color: #ff8f8f; }
+#page-simulador .sim-monitor.paro { outline: 3px solid #ff5c5c; }
+#page-simulador .sim-mental { margin-top: 8px; font-weight: 600; }
+#page-simulador .sim-peor { margin-top: 8px; color: var(--rojo); font-weight: 600; font-size: .9rem; }
+#page-simulador .sim-datos { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 6px 14px; margin: 12px 0 0; }
+#page-simulador .sim-datos div { border-bottom: 1px dashed var(--border); padding-bottom: 4px; }
+#page-simulador .sim-datos dt { font-size: .78rem; color: var(--text-muted); }
+#page-simulador .sim-datos dd { margin: 0; font-weight: 600; }
+#page-simulador .sim-q { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+#page-simulador .sim-q h3 { margin: 0 0 10px; font-size: 1.08rem; }
+#page-simulador .sim-reloj { float: right; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--text-muted); margin-left: 10px; }
+#page-simulador .sim-reloj.poco { color: var(--rojo); }
+#page-simulador .sim-ops { display: flex; flex-direction: column; gap: 8px; }
+#page-simulador .sim-op { font: inherit; text-align: left; display: flex; gap: 10px; align-items: flex-start; min-height: 48px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text); cursor: pointer; }
+#page-simulador .sim-op:hover:not(:disabled) { border-color: var(--primary); }
+#page-simulador .sim-op-l { flex: 0 0 26px; height: 26px; border-radius: 50%; background: var(--azuloscuro-bg); color: var(--azuloscuro); font-weight: 700; display: grid; place-items: center; font-size: .85rem; }
+#page-simulador .sim-op:disabled { cursor: default; }
+#page-simulador .sim-op.bien { border: 2px solid #2e7d4f; background: #e9f6ee; }
+#page-simulador .sim-op.mal { border: 2px solid var(--rojo); background: var(--rojo-bg); }
+#page-simulador .sim-numf { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+#page-simulador .sim-numf input { font: inherit; font-size: 1.2rem; width: 130px; min-height: 48px; padding: 6px 10px; border: 1px solid var(--border-strong); border-radius: 10px; }
+#page-simulador .sim-fb { margin-top: 12px; border-radius: 10px; padding: 10px 14px; border-left: 6px solid; }
+#page-simulador .sim-fb.ok { background: #e9f6ee; border-color: #2e7d4f; }
+#page-simulador .sim-fb.mal { background: var(--rojo-bg); border-color: var(--rojo); }
+#page-simulador .sim-fb p { margin: 6px 0 0; }
+#page-simulador .sim-cons { font-weight: 600; color: var(--rojo); }
+#page-simulador .sim-ref { font-size: .85rem; color: var(--text-muted); }
+#page-simulador .sim-next { margin-top: 12px; }
+#page-simulador .sim-score { text-align: center; border-radius: 12px; padding: 18px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 4px; }
+#page-simulador .sim-score strong { font-size: 2.4rem; }
+#page-simulador .sim-score em { font-style: normal; font-weight: 700; }
+#page-simulador .sim-score.ok { background: #e9f6ee; color: #1f5e3a; }
+#page-simulador .sim-score.med { background: var(--ambar-bg); color: var(--ambar); }
+#page-simulador .sim-score.bajo { background: var(--rojo-bg); color: var(--rojo); }
+#page-simulador .sim-revision { list-style: none; padding: 0; margin: 0 0 14px; display: flex; flex-direction: column; gap: 8px; }
+#page-simulador .sim-revision li { background: var(--surface); border: 1px solid var(--border); border-left: 6px solid #2e7d4f; border-radius: 10px; padding: 10px 12px; }
+#page-simulador .sim-revision li.mal { border-left-color: var(--rojo); }
+#page-simulador .sim-rev-h { font-size: .78rem; color: var(--text-muted); font-weight: 700; }
+#page-simulador .sim-rev-q { font-weight: 600; margin: 4px 0; }
+#page-simulador .sim-rev-a span, #page-simulador .sim-rev-c span { font-weight: 700; }
+#page-simulador .sim-rev-c { color: #1f5e3a; }
+#page-simulador .sim-fuentes { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px; margin-bottom: 14px; }
+#page-simulador .sim-fuentes h3 { margin: 0 0 6px; font-size: 1rem; }
+#page-simulador .sim-fuentes ul { margin: 0; padding-left: 18px; }
+#page-simulador .sim-fuentes li { margin: 4px 0; overflow-wrap: anywhere; }
+#page-simulador .sim-acc { display: flex; gap: 8px; flex-wrap: wrap; }
+@media (max-width: 640px) {
+  #page-simulador .sim-monitor { grid-template-columns: repeat(3, 1fr); }
+  #page-simulador .sim-vit strong { font-size: 1.15rem; }
+  #page-simulador .sim-top { grid-template-columns: auto 1fr; }
+  #page-simulador .sim-prog { grid-column: 2; justify-self: end; }
+  #page-simulador .sim-acc .sim-btn { flex: 1 1 100%; }
+}
+@media (max-width: 420px) {
+}
+#page-simulador .sim-caso.parto, #page-simulador .sim-top.parto { --c: #2e7d4f; --cbg: #e9f6ee; }
+#page-simulador .sim-grupo { margin-bottom: 22px; }
+#page-simulador .sim-grupo h2 { font-size: 1.15rem; margin: 6px 0 10px; color: var(--text); display: flex; align-items: baseline; gap: 8px; }
+#page-simulador .sim-grupo h2 span { font-size: .82rem; font-weight: 600; color: var(--text-muted); }
+#page-simulador .sim-vit.neutro { color: #d6e6e8; }
+#page-simulador .sim-vit.neutro strong { font-size: 1.05rem; }
+
+#page-simulador { --primary:#0b7f8c; --text:var(--navy); --text-muted:var(--slate); --surface:#fff; --border-strong:#a9cdd5;
+  --rojo:var(--red); --rojo-bg:var(--red-lt); --ambar:#a35a00; --ambar-bg:var(--amber-lt); --azul:#1d5fa8; --azul-bg:#e8f0fb; --azuloscuro:#0D1B2D; --azuloscuro-bg:#e3eef2; color:var(--text); }
+#page-simulador .sim-head h2 { font-size:1.15rem; margin:4px 0 2px; color:var(--navy); }
+#page-simulador .sim-head p { margin:0 0 12px; color:var(--slate); font-size:.86rem; }
+#page-simulador .sim-btn { font:inherit; font-weight:700; font-size:.88rem; min-height:44px; padding:9px 16px; border-radius:12px; cursor:pointer; border:1.5px solid var(--teal); }
+#page-simulador .sim-btn-p { background:var(--teal); color:#fff; border-color:#0b8e9d; }
+#page-simulador .sim-btn-p:hover { background:#0b8e9d; }
+#page-simulador .sim-btn-o { background:#fff; color:#0b6f7b; }
+#page-simulador .sim-btn-block { display:block; width:100%; }
+#page-simulador .sim-back { min-height:38px; padding:6px 10px; font-size:.8rem; }
+#page-simulador .sim-monitor.panel { grid-template-columns:repeat(4, 1fr); }
+#page-simulador .sim-vit.neutro strong { font-size:1.15rem; }
+#page-simulador .sim-casos { grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); }
+#page-simulador .sim-caso.dg, #page-simulador .sim-top.dg { --c:#a35a00; --cbg:var(--amber-lt); }
+#page-simulador .sim-caso.pe1t, #page-simulador .sim-top.pe1t { --c:#0b7f8c; --cbg:var(--teal-lt); }
+#page-simulador .sim-caso.hta, #page-simulador .sim-top.hta { --c:var(--red); --cbg:var(--red-lt); }
+@media (max-width: 640px) { #page-simulador .sim-monitor.panel { grid-template-columns:repeat(2, 1fr); } }
+#page-simulador .sim-evol { margin: 0 0 10px; padding: 8px 12px; border-left: 4px solid #a35a00; background: var(--amber-lt); border-radius: 8px; font-weight: 600; font-size: .92rem; }
+#page-simulador .sim-ruta { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px; margin-bottom: 14px; }
+#page-simulador .sim-ruta h3 { margin: 0 0 6px; font-size: 1rem; }
+#page-simulador .sim-ruta ol { margin: 0 0 6px; padding-left: 20px; }
+#page-simulador .sim-ruta li { margin: 3px 0; }
+#page-simulador .sim-ruta p { margin: 0; font-size: .85rem; opacity: .8; }
+#page-simulador .sim-caso.rciu, #page-simulador .sim-top.rciu { --c:#6a3fa0; --cbg:var(--surface); }
+
+</style>
 </head>
 <body>
 <!-- ═══ AVISO LEGAL · MODAL DE ACEPTACIÓN (bloquea antes que el gate de licencia) ═══ -->
@@ -770,6 +887,7 @@ document.addEventListener('DOMContentLoaded', function(){
     <button class="tab" onclick="showTab('calculadoras')">🗓️ Gestograma · Parto</button>
     <button class="tab" onclick="showTab('biometria')">🔊 Ecografía</button>
     <button class="tab" onclick="showTab('pacientes')">👤 Pacientes</button>
+    <button class="tab" onclick="showTab('simulador')">🎓 Simulador</button>
     <button class="tab" onclick="showTab('acerca')">ℹ️ Acerca</button>
   </div>
   <button class="btn-calc-header" onclick="calcular()">⚡ Calcular</button>
@@ -937,7 +1055,7 @@ document.addEventListener('DOMContentLoaded', function(){
     <p class="sub-title">Coagulopatías y trombosis</p>
     <div class="checks">
       <label class="check-item" id="lbl_p_trombo"><input type="checkbox" id="p_trombo" onchange="toggleCheck('lbl_p_trombo',this)"><span>Trombofilia hereditaria (Fact. V Leiden, protrombina G20210A, déf. Prot. C/S/AT)</span></label>
-      <label class="check-item" id="lbl_p_saf"><input type="checkbox" id="p_saf" onchange="toggleCheck('lbl_p_saf',this)"><span>Síndrome antifosfolípido (SAF) — criterios de Sapporo</span></label>
+      <label class="check-item" id="lbl_p_saf"><input type="checkbox" id="p_saf" onchange="toggleCheck('lbl_p_saf',this)"><span>Síndrome antifosfolípido (SAF) — criterios de Sydney 2006 / ACR-EULAR 2023</span></label>
       <label class="check-item" id="lbl_p_tvp"><input type="checkbox" id="p_tvp" onchange="toggleCheck('lbl_p_tvp',this)"><span>TVP previa (trombosis venosa profunda)</span></label>
       <label class="check-item" id="lbl_p_tep"><input type="checkbox" id="p_tep" onchange="toggleCheck('lbl_p_tep',this)"><span>TEP previo (tromboembolismo pulmonar)</span></label>
       <label class="check-item" id="lbl_p_pti"><input type="checkbox" id="p_pti" onchange="toggleCheck('lbl_p_pti',this)"><span>Trombocitopenia / Púrpura (PTI, PTT, trombocitopenia gestacional)</span></label>
@@ -2388,9 +2506,17 @@ document.addEventListener('DOMContentLoaded', function(){
 
       <!-- CRIBADO COMBINADO -->
       <div id="bloque_cc" style="display:none">
+        <div style="margin:0 0 10px;padding:8px;background:var(--mist);border-radius:10px;max-width:100%;box-sizing:border-box;">
+  <div style="font-size:.72rem;color:var(--slate);margin-bottom:6px;font-weight:600;">📊 Cortes de riesgo del cribado combinado:</div>
+  <div style="display:flex;flex-direction:column;gap:6px;">
+    <button type="button" id="tri_corte_mfb" onclick="setTriCorte('mfb')" style="width:100%;padding:7px 4px;border:none;border-radius:8px;font-size:.68rem;font-weight:700;cursor:pointer;box-sizing:border-box;background:var(--teal);color:#fff;">Medicina Fetal Barcelona (preferida)</button>
+    <button type="button" id="tri_corte_fmf" onclick="setTriCorte('fmf')" style="width:100%;padding:7px 4px;border:none;border-radius:8px;font-size:.68rem;font-weight:700;cursor:pointer;box-sizing:border-box;background:var(--mist);color:var(--slate);">Nicolaides 2005 · FMF</button>
+  </div>
+  <div id="tri_corte_nota" style="font-size:.66rem;color:var(--slate);text-align:center;margin-top:6px;line-height:1.4">Muy alto ≥1/10 · Alto 1/11–1/250 · Intermedio 1/251–1/1100 · Bajo &lt;1/1100</div>
+</div>
         <div class="row3">
-          <div class="field"><label>Riesgo T21 (1/X)</label><input type="number" id="t21" placeholder="ej. 180" oninput="actualizarPaneles()"><div class="hint">≤100 alto · 101–1000 interm.</div></div>
-          <div class="field"><label>Riesgo T18 (1/X)</label><input type="number" id="t18" placeholder="ej. 500" oninput="actualizarPaneles()"><div class="hint">≤100 alto · 101–1000 interm.</div></div>
+          <div class="field"><label>Riesgo T21 (1/X)</label><input type="number" id="t21" placeholder="ej. 180" oninput="actualizarPaneles()"><div class="hint tri-hint">≤250 alto · 251–1100 interm.</div></div>
+          <div class="field"><label>Riesgo T18 (1/X)</label><input type="number" id="t18" placeholder="ej. 500" oninput="actualizarPaneles()"><div class="hint tri-hint">≤250 alto · 251–1100 interm.</div></div>
           <div class="field"><label>Riesgo T13 (1/X)</label><input type="number" id="t13" placeholder="ej. 1200" oninput="actualizarPaneles()"></div>
         </div>
         <div class="note-box" style="margin-bottom:10px"><strong>Normalización MoM:</strong> PAPP-A bajo (&lt;0.4 MoM) ↑ riesgo PE/RCIU/aneuploidía. β-hCG &gt;2.5 MoM sugestivo T21 · &lt;0.4 MoM sugestivo T18/T13. PlGF &lt;0.5 MoM = alto riesgo PE precoz.</div>
@@ -3529,6 +3655,15 @@ Microcefalia: CC &lt;p3 para EG.</div>
 <!-- /biometria -->
 
 <!-- ════ ACERCA DE ════ -->
+<!-- ===== SIMULADOR (casos ficticios de control prenatal) ===== -->
+<div id="page-simulador" class="page">
+  <div class="sim-head">
+    <h2>Simulador CaVeSal®</h2>
+    <p>Casos ficticios de control prenatal: diabetes gestacional (IADPSG 2010), cribado y prevención de preeclampsia (FIGO 2019), hipertensión gestacional y preeclampsia (ACOG 2020) y un caso con evolución, del cribado del primer trimestre a la restricción del crecimiento (Medicina Fetal Barcelona para los cortes de riesgo y el crecimiento fetal, y FIGO 2019 para la aspirina).</p>
+  </div>
+  <div id="sim-app" aria-live="polite"></div>
+</div>
+
 <div id="page-acerca" class="page">
 <div style="text-align:center;padding:24px 16px 14px">
   <img src="../img/CaVeSal_Calculadora_Prenatal.png" alt="CaVeSal® Calculadora Prenatal" style="width:220px;max-width:80%;height:auto;margin-bottom:8px">
@@ -3622,7 +3757,7 @@ Microcefalia: CC &lt;p3 para EG.</div>
   </div>
   <div class="section-body" style="padding:14px">
     <div style="font-size:.76rem;color:var(--slate);line-height:1.8">
-      <strong style="color:var(--navy)">Cribado cromosómico:</strong> FMF / Nicolaides · Snijders 1998 · Sharifzadeh 2019 · Kagan · Cicero<br>
+      <strong style="color:var(--navy)">Cribado cromosómico:</strong> Medicina Fetal Barcelona (cortes de riesgo, preferida) · Nicolaides 2005 / FMF (alternativa) · Snijders 1998 · Sharifzadeh 2019 · Kagan · Cicero<br>
       <strong style="color:var(--navy)">Preeclampsia:</strong> FMF · ISSHP · Roche/BRAHMS (sFlt-1/PlGF) · Medicina Fetal Barcelona<br>
       <strong style="color:var(--navy)">Diabetes gestacional:</strong> IADPSG 2010 · ADA 2026 · ALAD 2019 · OMS<br>
       <strong style="color:var(--navy)">Tiroides (TSH · T4 libre · Anti-TPO):</strong> ATA Guidelines 2017 · Endocrine Society · ACOG<br>
@@ -3752,7 +3887,7 @@ function showTab(tab){
   var pg=document.getElementById('page-'+tab);
   if(pg) pg.classList.add('active');
   var tabs=document.querySelectorAll('.tab');
-  var map={formulario:0,resultado:1,calculadoras:2,biometria:3,pacientes:4,acerca:5};
+  var map={formulario:0,resultado:1,calculadoras:2,biometria:3,pacientes:4,simulador:5,acerca:6};
   if(map[tab]!==undefined && tabs[map[tab]]) tabs[map[tab]].classList.add('active');
   if(tab==='calculadoras' && typeof calcDextograma==='function'){
     // Page is now visible (display:block), so getElementById works correctly
@@ -3784,34 +3919,71 @@ function setPrueba(tipo){
 // ════════════════════════════════════════════════
 // CLASIFICACIÓN TRISOMÍA
 // ════════════════════════════════════════════════
+// Cortes seleccionables (Algoritmo propio CaVeSal®):
+//  'mfb' (predeterminado): Medicina Fetal Barcelona, protocolo "Cribado prenatal de las anomalías cromosómicas"
+//        muy alto 1/2–1/10 · alto 1/11–1/250 · intermedio 1/251–1/1100 · bajo <1/1100
+//  'fmf' (alternativo): Nicolaides KH et al. Ultrasound Obstet Gynecol 2005;25:221-6 (estrategia en dos etapas)
+//        alto ≥1/100 · intermedio 1/101–1/1000 · bajo <1/1000
+var triCorte='mfb';
+function setTriCorte(t){
+  triCorte=t;
+  var a=document.getElementById('tri_corte_mfb'),b=document.getElementById('tri_corte_fmf');
+  if(a){a.style.background=t==='mfb'?'var(--teal)':'var(--mist)';a.style.color=t==='mfb'?'#fff':'var(--slate)';}
+  if(b){b.style.background=t==='fmf'?'var(--teal)':'var(--mist)';b.style.color=t==='fmf'?'#fff':'var(--slate)';}
+  var n=document.getElementById('tri_corte_nota');
+  if(n) n.innerHTML=t==='fmf'?'Alto ≥1/100 · Intermedio 1/101–1/1000 · Bajo &lt;1/1000':'Muy alto ≥1/10 · Alto 1/11–1/250 · Intermedio 1/251–1/1100 · Bajo &lt;1/1100';
+  [].forEach.call(document.querySelectorAll('.tri-hint'),function(h){h.textContent=t==='fmf'?'≤100 alto · 101–1000 interm.':'≤250 alto · 251–1100 interm.';});
+  if(typeof actualizarPaneles==='function')actualizarPaneles();
+}
+function triFuente(){return triCorte==='fmf'?'Nicolaides 2005 (FMF)':'Medicina Fetal Barcelona';}
 function clTri(den){
   if(!den)return null;
-  if(den<=100)return'alto';
-  if(den<=1000)return'interm';
+  if(triCorte==='fmf'){ if(den<=100)return'alto'; if(den<=1000)return'interm'; return'bajo'; }
+  if(den<=250)return'alto';
+  if(den<=1100)return'interm';
   return'bajo';
 }
-function labelTri(cl){
-  if(cl==='alto')return'<span class="c-cat cat-alto">ALTO (&gt;1/100)</span>';
-  if(cl==='interm')return'<span class="c-cat cat-interm">INTERMEDIO</span>';
-  if(cl==='bajo')return'<span class="c-cat cat-bajo">BAJO (&lt;1/1000)</span>';
+function triMuyAlto(den){return triCorte==='mfb'&&!!den&&den<=10;}
+function triNivelTxt(den){var c=clTri(den);if(!c)return'';if(triMuyAlto(den))return'MUY ALTO';return c==='alto'?'ALTO':c==='interm'?'INTERM.':'BAJO';}
+function labelTri(cl,den){
+  var fmf=triCorte==='fmf';
+  if(cl==='alto'&&triMuyAlto(den))return'<span class="c-cat cat-alto">MUY ALTO (≥1/10)</span>';
+  if(cl==='alto')return'<span class="c-cat cat-alto">ALTO ('+(fmf?'≥1/100':'1/11–1/250')+')</span>';
+  if(cl==='interm')return'<span class="c-cat cat-interm">INTERMEDIO ('+(fmf?'1/101–1/1000':'1/251–1/1100')+')</span>';
+  if(cl==='bajo')return'<span class="c-cat cat-bajo">BAJO (&lt;1/'+(fmf?'1000':'1100')+')</span>';
   return'<span class="c-cat" style="color:var(--slate)">—</span>';
 }
-function siguientePasoTri(cl,trisomia,tipoPrueba,nipt){
+// Conducta según el corte elegido (texto propio CaVeSal®, no copia literal de los protocolos)
+function conductaTri(cl,den){
+  if(triCorte==='fmf'){
+    if(cl==='alto')return'Ofrecer prueba invasiva (biopsia corial <14 sem / amniocentesis ≥15 sem) y consejo genético. Hoy el NIPT puede ofrecerse como alternativa no invasiva.';
+    if(cl==='interm')return'Segunda etapa ecográfica en el 1T: hueso nasal, regurgitación tricuspídea o Doppler del ductus venoso; ofrecer biopsia corial si el riesgo ajustado llega a 1/100 o más (Nicolaides 2005). Hoy el NIPT es una alternativa.';
+    if(cl==='bajo')return'Sin más estudios.';
+    return'';
+  }
+  if(cl==='alto'&&triMuyAlto(den))return'Asesoramiento genético y ofrecer prueba invasiva con microarray. Si la paciente lo prefiere puede aceptarse el NIPT, salvo anomalía ecográfica o TN aumentada.';
+  if(cl==='alto')return'Asesoramiento genético: NIPT o prueba invasiva según la elección informada de la paciente (NIPT sin riesgo de pérdida, detección T21 ~99 %, solo los cromosomas estudiados; prueba invasiva con riesgo de pérdida 0,1–0,2 %, estudia todos los cromosomas). Con anomalía ecográfica o TN >p99: biopsia corial + microarray.';
+  if(cl==='interm')return'Informar el resultado y ofrecer NIPT para completar el cribado. Si el NIPT es positivo, confirmar con prueba invasiva.';
+  if(cl==='bajo')return'Entregar el resultado y explicar las limitaciones del cribado.';
+  return'';
+}
+function siguientePasoTri(cl,trisomia,tipoPrueba,nipt,den){
   if(nipt&&nipt!=='no'&&nipt!=='normal'&&nipt!=='fallo'){
     return`<strong>NIPT positivo para ${trisomia}:</strong> Confirmar con diagnóstico invasivo (amniocentesis / biopsia corial). Consejo genético urgente. Derivar a Medicina Fetal.`;
   }
   if(nipt==='normal'){
     return`NIPT negativo — riesgo residual bajo pero no nulo. Seguimiento ecográfico habitual.`;
   }
+  var fuente=' <span style="opacity:.75">('+triFuente()+')</span>';
   if(cl==='alto'){
     if(tipoPrueba==='cc'||tipoPrueba==='ambos')
-      return`<strong>Riesgo alto en cribado combinado:</strong> Ofrecer diagnóstico invasivo (biopsia corial <14 sem / amniocentesis ≥15 sem). Si paciente prefiere no invasivo: NIPT contingente (sensibilidad T21 >99%). Consejo genético.`;
+      return`<strong>${triMuyAlto(den)?'Riesgo muy alto':'Riesgo alto'} en cribado combinado:</strong> `+conductaTri(cl,den)+fuente;
     return`Derivar a consejo genético urgente.`;
   }
   if(cl==='interm'){
-    return`<strong>Riesgo intermedio:</strong> Ofrecer NIPT contingente (protocolo FMF). Si NIPT positivo → diagnóstico invasivo. Reevaluar marcadores ecográficos (NT, hueso nasal, ductus venoso).`;
+    return`<strong>Riesgo intermedio:</strong> `+conductaTri(cl,den)+fuente;
   }
-  return`Riesgo bajo. Cribado habitual. Considerar NIPT si factores adicionales.`;
+  return`Riesgo bajo. `+conductaTri('bajo',den)+fuente;
 }
 
 // ════════════════════════════════════════════════
@@ -3961,7 +4133,7 @@ function actualizarCromosomico(){
   html+=`<div class="cromo-chip">
     <div class="c-label">T21</div>
     <div class="c-val">${t21?'1/'+t21:'—'}</div>
-    ${cl21?labelTri(cl21):'<span class="c-cat" style="color:var(--slate)">—</span>'}
+    ${cl21?labelTri(cl21,t21):'<span class="c-cat" style="color:var(--slate)">—</span>'}
   </div>`;
 
   // T18
@@ -3969,7 +4141,7 @@ function actualizarCromosomico(){
   html+=`<div class="cromo-chip">
     <div class="c-label">T18</div>
     <div class="c-val">${t18?'1/'+t18:'—'}</div>
-    ${cl18?labelTri(cl18):'<span class="c-cat" style="color:var(--slate)">—</span>'}
+    ${cl18?labelTri(cl18,t18):'<span class="c-cat" style="color:var(--slate)">—</span>'}
   </div>`;
 
   // T13
@@ -3977,7 +4149,7 @@ function actualizarCromosomico(){
   html+=`<div class="cromo-chip">
     <div class="c-label">T13</div>
     <div class="c-val">${t13?'1/'+t13:'—'}</div>
-    ${cl13?labelTri(cl13):'<span class="c-cat" style="color:var(--slate)">—</span>'}
+    ${cl13?labelTri(cl13,t13):'<span class="c-cat" style="color:var(--slate)">—</span>'}
   </div>`;
 
   html+='</div>';// cromo-row
@@ -4015,8 +4187,9 @@ function actualizarCromosomico(){
   // Siguiente paso: prioridad al hallazgo más grave
   const maxCl=[cl21,cl18,cl13].filter(Boolean).sort((a,b)=>['alto','interm','bajo'].indexOf(a)-['alto','interm','bajo'].indexOf(b))[0];
   const triNombre=cl21==='alto'?'T21':cl18==='alto'?'T18':cl13==='alto'?'T13':cl21==='interm'?'T21':cl18==='interm'?'T18':cl13==='interm'?'T13':'';
+  const triDen=Math.min.apply(null,[t21,t18,t13].filter(function(x){return x>0;}).concat([Infinity]));
   if(maxCl||nipt){
-    html+=`<div class="cromo-sig">📋 <strong>Siguiente paso:</strong> ${siguientePasoTri(maxCl,triNombre,tipoPrueba,showNIPT?nipt:null)}</div>`;
+    html+=`<div class="cromo-sig">📋 <strong>Siguiente paso:</strong> ${siguientePasoTri(maxCl,triNombre,tipoPrueba,showNIPT?nipt:null,triDen)}</div>`;
   }
 
   panel.innerHTML=html;
@@ -4042,8 +4215,8 @@ function actualizarPE1T(){
   const factoresPE=[clpi==='alto',clao==='alto',clpg==='alto',clpa==='alto'].filter(Boolean).length;
   const factoresModer=[clpi==='moder',clao==='limite',clpg==='moder',clpa==='moder'].filter(Boolean).length;
   let interp='';
-  if(factoresPE>=2) interp=`<strong>Alto riesgo de PE precoz:</strong> ≥2 marcadores alterados. AAS 150 mg/día obligatorio desde sem 12. PlGF seriado. Derivar a Medicina Fetal.`;
-  else if(factoresPE===1&&factoresModer>=1) interp=`<strong>Riesgo moderado-alto PE:</strong> 1 marcador alto + 1 moderado. AAS 100–150 mg/día. Reevaluar con PI uterinas 2T y sFlt-1/PlGF.`;
+  if(factoresPE>=2) interp=`<strong>Alto riesgo de PE precoz:</strong> ≥2 marcadores alterados. AAS indicado. AAS ~150 mg cada noche desde 11–14+6 sem hasta 36 sem, el parto o el diagnóstico de PE (FIGO 2019, pauta preferida por CaVeSal). Alternativa: 81 mg/día desde 12–28 sem (idealmente antes de 16) hasta el parto (ACOG PB 222, 2020). PlGF seriado. Derivar a Medicina Fetal.`;
+  else if(factoresPE===1&&factoresModer>=1) interp=`<strong>Riesgo moderado-alto PE:</strong> 1 marcador alto + 1 moderado. AAS ~150 mg cada noche desde 11–14+6 sem hasta 36 sem, el parto o el diagnóstico de PE (FIGO 2019, pauta preferida por CaVeSal). Alternativa: 81 mg/día desde 12–28 sem (idealmente antes de 16) hasta el parto (ACOG PB 222, 2020). Reevaluar con PI uterinas 2T y sFlt-1/PlGF.`;
   else if(factoresPE===1) interp=`<strong>1 marcador alto:</strong> AAS según riesgo combinado FMF. Control PI uterinas en 2T.`;
   else if(factoresModer>=2) interp=`<strong>2+ marcadores moderados:</strong> Vigilancia estrecha. Valorar AAS. Reevaluar en 2T.`;
   else if(factoresModer===1) interp=`1 marcador en zona moderada. Continuar seguimiento. Integrar con otros factores clínicos.`;
@@ -4175,8 +4348,8 @@ function calcular(){
 
   // IMC
   if(imcP){
-    if(imcP>=35) add('ESTADO NUTRICIONAL','alto',`IMC pregest. ${imcP.toFixed(1)} (obesidad gr. II-III)`,'AAS 150 mg/día desde sem 12. Cribado DG precoz. Vigilar PA. Derivar nutrición. Considerar metformina preventiva.','ACOG / NICE');
-    else if(imcP>=30) add('ESTADO NUTRICIONAL','moderado',`IMC pregest. ${imcP.toFixed(1)} (obesidad)`,'AAS 100–150 mg/día desde sem 12. Cribado precoz DG. Vigilar PA. Valorar nutricionista.','ACOG / NICE');
+    if(imcP>=35) add('ESTADO NUTRICIONAL','alto',`IMC pregest. ${imcP.toFixed(1)} (obesidad gr. II-III)`,'AAS ~150 mg cada noche desde 11–14+6 sem hasta 36 sem, el parto o el diagnóstico de PE (FIGO 2019, pauta preferida por CaVeSal). Alternativa: 81 mg/día desde 12–28 sem (idealmente antes de 16) hasta el parto (ACOG PB 222, 2020). Cribado DG precoz. Vigilar PA. Derivar nutrición. Considerar metformina preventiva.','FIGO 2019 / NICE / ACOG');
+    else if(imcP>=30) add('ESTADO NUTRICIONAL','moderado',`IMC pregest. ${imcP.toFixed(1)} (obesidad)`,'AAS ~150 mg cada noche desde 11–14+6 sem hasta 36 sem, el parto o el diagnóstico de PE (FIGO 2019, pauta preferida por CaVeSal). Alternativa: 81 mg/día desde 12–28 sem (idealmente antes de 16) hasta el parto (ACOG PB 222, 2020). Cribado precoz DG. Vigilar PA. Valorar nutricionista.','FIGO 2019 / NICE / ACOG');
     else if(imcP>=25) add('ESTADO NUTRICIONAL','moderado',`IMC pregest. ${imcP.toFixed(1)} (sobrepeso)`,'Riesgo moderado de DG, PE y macrosomía. Controlar ganancia ponderal (meta: 7–11.5 kg). Cribado DG estándar sem 24–28. Vigilar PA desde 1T. Valorar plan nutricional.','ACOG 2021 / OMS');
     else if(imcP<18.5) add('ESTADO NUTRICIONAL','moderado',`IMC pregest. ${imcP.toFixed(1)} (bajo peso)`,'Riesgo RCIU y pretérmino. Suplementación calórica y proteica. Biometría seriada.','OMS / ACOG');
 
@@ -4361,7 +4534,7 @@ function calcular(){
   }
 
   // ANTECEDENTES OBS
-  if(chk('obs_pe')) add('ANTECEDENTE OBSTÉTRICO','alto','Preeclampsia previa','AAS 100–150 mg/día desde sem 12 hasta el parto. Doppler uterinas 1T y 2T. PlGF/sFlt-1 si sospecha. Vigilancia PA semanal.','FMF / ACOG / NICE');
+  if(chk('obs_pe')) add('ANTECEDENTE OBSTÉTRICO','alto','Preeclampsia previa','AAS ~150 mg cada noche desde 11–14+6 sem hasta 36 sem, el parto o el diagnóstico de PE (FIGO 2019, pauta preferida por CaVeSal). Alternativa: 81 mg/día desde 12–28 sem (idealmente antes de 16) hasta el parto (ACOG PB 222, 2020). Doppler uterinas 1T y 2T. PlGF/sFlt-1 si sospecha. Vigilancia PA semanal.','FIGO 2019 / FMF / NICE / ACOG');
   if(chk('obs_dg')) add('ANTECEDENTE OBSTÉTRICO','moderado','Diabetes gestacional previa','SOG precoz (<20 sem) + estándar sem 24–28. Autocontrol glucémico. Valorar metformina preventiva.','ADA / ACOG');
   if(chk('obs_pt')) add('ANTECEDENTE OBSTÉTRICO','alto','Parto pretérmino previo','Cervicometría seriada desde sem 16. Progesterona vaginal 200 mg si cérvix <25 mm. Cerclaje si <15 mm.','FMF / ACOG');
   if(chk('obs_rciu')) add('ANTECEDENTE OBSTÉTRICO','alto','RCIU previo','Biometría mensual desde sem 24. Doppler uterinas 1T. AAS si PI alterado. Vigilancia placentaria.','FMF / ACOG');
@@ -4378,14 +4551,14 @@ function calcular(){
   if(ig&&ig>60) add('ANTECEDENTE OBSTÉTRICO','moderado',`Período intergenésico ${ig} m (>60)`,'Comportamiento similar a primigesta. Vigilar PE y trabajo de parto.','ACOG');
 
   // PERSONALES
-  if(chk('p_ob')&&!(imcP&&imcP>=30)) add('ANTECEDENTE PERSONAL','alto','Obesidad pregestacional (IMC ≥30)','AAS 100–150 mg/día desde sem 12. Cribado DG precoz (SOG a las 24–28 sem, o precoz si IMC ≥35). Valorar nutricionista. Vigilar PA. Asociada a ↑ riesgo PE, DG, cesárea, macrosomía.','ACOG / NICE');
+  if(chk('p_ob')&&!(imcP&&imcP>=30)) add('ANTECEDENTE PERSONAL','alto','Obesidad pregestacional (IMC ≥30)','AAS ~150 mg cada noche desde 11–14+6 sem hasta 36 sem, el parto o el diagnóstico de PE (FIGO 2019, pauta preferida por CaVeSal). Alternativa: 81 mg/día desde 12–28 sem (idealmente antes de 16) hasta el parto (ACOG PB 222, 2020). Cribado DG precoz (SOG a las 24–28 sem, o precoz si IMC ≥35). Valorar nutricionista. Vigilar PA. Asociada a ↑ riesgo PE, DG, cesárea, macrosomía.','FIGO 2019 / NICE / ACOG');
   if(chk('p_asma')) add('ANTECEDENTE PERSONAL','moderado','Asma bronquial','Continuar tratamiento. Asma no controlada ↑ riesgo de PE, RCIU y prematurez. Evitar AINE si asma aspirina-sensible. Monitoreo de PEF si moderada-grave.','ACOG / GINA 2024');
   if(chk('p_hepb')) add('ANTECEDENTE PERSONAL','alto','Hepatitis B (HBsAg positiva)','Derivar a hepatología. Carga viral HBV. Tenofovir si carga viral >200.000 UI/mL. Profilaxis neonatal obligatoria: Hep B + IGHB en primeras 12 horas. Lactancia permitida.','ACOG / AASLD');
   if(chk('p_hepc')) add('ANTECEDENTE PERSONAL','alto','Hepatitis C (anti-VHC positiva)','No hay antivirales seguros en embarazo (DAA contraindicados). Transmisión vertical ~5%. Evitar monitoreo invasivo. Lactancia permitida si sin grietas. Testear RN a los 18 meses.','ACOG / EASL');
-  if(chk('p_hta')) add('ANTECEDENTE PERSONAL','alto','HTA crónica','AAS 100–150 mg/día desde sem 12. Monitoreo domiciliario. Ajuste antihipertensivo (labetalol, nifedipino, metildopa). Descartar PE sobreagregada.','ACOG / ISH');
+  if(chk('p_hta')) add('ANTECEDENTE PERSONAL','alto','HTA crónica','AAS ~150 mg cada noche desde 11–14+6 sem hasta 36 sem, el parto o el diagnóstico de PE (FIGO 2019, pauta preferida por CaVeSal). Alternativa: 81 mg/día desde 12–28 sem (idealmente antes de 16) hasta el parto (ACOG PB 222, 2020). Monitoreo domiciliario. Ajuste antihipertensivo (labetalol, nifedipino, metildopa). Descartar PE sobreagregada.','FIGO 2019 / ISH / ACOG');
   if(chk('p_dm')) add('ANTECEDENTE PERSONAL','alto','Diabetes pregestacional','HbA1c <6.5% objetivo. Autocontrol estricto (ayunas <95 mg/dL, 2h <120). ECO morfológica + ecocardiografía. Biometría mensual.','ADA / ACOG');
   if(chk('p_trombo')) add('ANTECEDENTE PERSONAL','alto','Trombofilia hereditaria','HBPM profiláctica según genotipo y riesgo (inicio en 1T, continuar hasta 6 sem postparto). Medias de compresión elástica. Evitar inmovilización prolongada. Hematología.','ACOG / RCOG / ASH');
-  if(chk('p_saf')) add('ANTECEDENTE PERSONAL','alto','Síndrome antifosfolípido (SAF)','HBPM + AAS 100 mg/día desde sem 12 (criterios obstétricos). Si SAF trombótico: anticoagulación terapéutica. Vigilar RCIU, PE, pérdida gestacional. Reumatología.','ACOG / EULAR');
+  if(chk('p_saf')) add('ANTECEDENTE PERSONAL','alto','Síndrome antifosfolípido (SAF)','SAF obstétrico sin trombosis previa (≥3 abortos antes de la sem 10 o pérdida fetal desde la sem 10): AAS + heparina en dosis profiláctica durante el embarazo y 6 sem posparto. Parto antes de la sem 34 por PE grave/eclampsia o insuficiencia placentaria: AAS sola o con heparina profiláctica según el perfil de riesgo. SAF trombótico: AAS + heparina en dosis terapéutica; si recibe antagonistas de la vitamina K, pasar a heparina al confirmar el embarazo (idealmente antes de la sem 6). Complicaciones recurrentes pese al tratamiento: considerar heparina en dosis terapéutica, hidroxicloroquina o prednisolona en dosis baja en el 1T. Vigilar RCIU, PE y pérdida gestacional. Dosis de AAS: CaVeSal usa ~150 mg cada noche (FIGO 2019); EULAR 2019 indica 75–100 mg/día. Reumatología.','EULAR 2019 (Tektonidou) / FIGO 2019');
   if(chk('p_tvp')) add('ANTECEDENTE PERSONAL','alto','TVP previa','HBPM profiláctica o terapéutica todo el embarazo según riesgo. Estudio de trombofilia si no realizado. Medias de compresión. Hematología.','ACOG / RCOG');
   if(chk('p_tep')) add('ANTECEDENTE PERSONAL','alto','TEP previo','HBPM terapéutica obligatoria. Mayor riesgo de recurrencia en embarazo. Hematología + obstetricia. Plan de parto con anticoagulación.','ACOG / RCOG');
   if(chk('p_pti')) add('ANTECEDENTE PERSONAL','moderado','Trombocitopenia / Púrpura (PTI/PTT)','Vigilar recuento plaquetario mensual. PTI: corticoides/IGIV si plaquetas <30.000. PTT: plasmaféresis urgente. Informar a anestesiología (epidural contraindicada si <80.000). Hematología.','ACOG / ASH');
@@ -4412,7 +4585,7 @@ function calcular(){
 
   // HÁBITOS
   if(chk('h_tab')) add('HÁBITOS','moderado','Tabaquismo activo','Intervención 5As. Terapia reemplazo nicotínico si necesario. Vigilar RCIU: Doppler y biometría seriadas.','ACOG / OMS');
-  if(chk('h_alc')) add('HÁBITOS','alto','Consumo de alcohol','Abstinencia total. Riesgo SAF. Apoyo psicosocial y deshabituación.','OMS / ACOG');
+  if(chk('h_alc')) add('HÁBITOS','alto','Consumo de alcohol','Abstinencia total. Riesgo de trastorno del espectro alcohólico fetal. Apoyo psicosocial y deshabituación.','OMS / ACOG');
   if(chk('h_dro')) add('HÁBITOS','alto','Consumo de sustancias','Derivar unidad drogodependencia. Vigilar RCIU, DPPNI, síndrome abstinencia neonatal.','ACOG');
   if(chk('h_vd')) add('HÁBITOS','alto','Violencia doméstica','Protocolo seguridad. Trabajo social. Consultas individuales sin acompañante.','OMS / ACOG');
   if(chk('h_vs')) add('HÁBITOS','moderado','Vulnerabilidad socioeconómica','Trabajo social. Programas de apoyo nutricional y prenatal. Mayor frecuencia de controles.','OMS');
@@ -4924,12 +5097,12 @@ function calcular(){
 
   // PI uterinas 1T
   if(pi1t!==null){
-    if(pi1t>=2.35) add('ECOGRAFÍA 1T','alto',`PI uterinas 1T ${pi1t} (>p95 FMF)`,'Alto riesgo PE. AAS 100–150 mg/día obligatorio desde sem 12. PlGF si disponible. Reevaluar PI uterinas en 2T.','FMF / Nicolaides');
+    if(pi1t>=2.35) add('ECOGRAFÍA 1T','alto',`PI uterinas 1T ${pi1t} (>p95 FMF)`,'Alto riesgo PE. AAS indicado. AAS ~150 mg cada noche desde 11–14+6 sem hasta 36 sem, el parto o el diagnóstico de PE (FIGO 2019, pauta preferida por CaVeSal). Alternativa: 81 mg/día desde 12–28 sem (idealmente antes de 16) hasta el parto (ACOG PB 222, 2020). PlGF si disponible. Reevaluar PI uterinas en 2T.','FIGO 2019 / FMF / Nicolaides / ACOG');
     else if(pi1t>=1.90) add('ECOGRAFÍA 1T','moderado',`PI uterinas 1T ${pi1t} (p90–95 FMF)`,'Riesgo moderado PE. Valorar AAS según riesgo combinado FMF. Reevaluar en 2T.','FMF');
   }
   // Doppler AO
   if(ao!==null){
-    if(ao>=0.78) add('ECOGRAFÍA 1T','alto',`Doppler AO ratio ${ao} (≥0.78 – alto riesgo PE/RCIU)`,'Cribado 1T: predictor independiente PE precoz (Medicina Fetal Barcelona). Iniciar AAS 100–150 mg/día. Integrar con PI uterinas, PAPP-A y PlGF para riesgo combinado FMF. Repetir Doppler AO en 2T.','Medicina Fetal BCN / Gyselaers 2020');
+    if(ao>=0.78) add('ECOGRAFÍA 1T','alto',`Doppler AO ratio ${ao} (≥0.78 – alto riesgo PE/RCIU)`,'Cribado 1T: predictor independiente PE precoz (Medicina Fetal Barcelona). Iniciar AAS ~150 mg cada noche desde 11–14+6 sem hasta 36 sem, el parto o el diagnóstico de PE (FIGO 2019, pauta preferida por CaVeSal). Alternativa: 81 mg/día desde 12–28 sem (idealmente antes de 16) hasta el parto (ACOG PB 222, 2020). Integrar con PI uterinas, PAPP-A y PlGF para riesgo combinado FMF. Repetir Doppler AO en 2T.','FIGO 2019 / Medicina Fetal BCN / Gyselaers 2020 / ACOG');
     else if(ao>=0.70) add('ECOGRAFÍA 1T','moderado',`Doppler AO ratio ${ao} (0.70–0.77 – limítrofe)`,'Cribado 1T: zona limítrofe. Vigilar junto con PI uterinas y PlGF. Repetir Doppler AO en 2T. AAS según riesgo combinado.','Medicina Fetal BCN / Gyselaers 2020');
   }
   // PAPP-A como marcador PE/RCIU
@@ -4939,7 +5112,7 @@ function calcular(){
   }
   // PlGF 1T (MoM)
   if(pigf1t!==null){
-    if(pigf1t<0.5) add('ECOGRAFÍA 1T','alto',`PlGF 1T ${pigf1t} MoM (<0.5 – alto riesgo PE)`,'Alto riesgo PE precoz. AAS 150 mg/día + vigilancia estrecha. sFlt-1/PlGF si síntomas.','FMF / Poon 2019');
+    if(pigf1t<0.5) add('ECOGRAFÍA 1T','alto',`PlGF 1T ${pigf1t} MoM (<0.5 – alto riesgo PE)`,'Alto riesgo PE precoz. AAS ~150 mg cada noche desde 11–14+6 sem hasta 36 sem, el parto o el diagnóstico de PE (FIGO 2019, pauta preferida por CaVeSal). Alternativa: 81 mg/día desde 12–28 sem (idealmente antes de 16) hasta el parto (ACOG PB 222, 2020). Vigilancia estrecha. sFlt-1/PlGF si síntomas.','FIGO 2019 / FMF / ACOG');
     else if(pigf1t<0.7) add('ECOGRAFÍA 1T','moderado',`PlGF 1T ${pigf1t} MoM (0.5–0.7 – moderado)`,'Riesgo moderado PE. AAS según riesgo combinado. Control Doppler 2T.','FMF');
   }
   // β-hCG como marcador PE independiente (muy elevado)
@@ -5314,21 +5487,13 @@ function calcular(){
 
   // TRISOMÍAS - cribado combinado
   if(showCC){
-    if(t21!==null){
-      const cl=clTri(t21);
-      if(cl==='alto') add('CRIBADO CROMOSÓMICO','alto',`Riesgo T21 1/${t21} (ALTO – FMF)`,'Ofrecer diagnóstico invasivo (biopsia corial <14 sem / amniocentesis ≥15 sem). NIPT como alternativa si paciente prefiere no invasivo. Consejo genético urgente.','FMF / Nicolaides');
-      else if(cl==='interm') add('CRIBADO CROMOSÓMICO','moderado',`Riesgo T21 1/${t21} (INTERMEDIO – FMF)`,'Ofrecer NIPT contingente (protocolo FMF). Si NIPT positivo → diagnóstico invasivo. Reevaluar marcadores ecográficos (NT, hueso nasal, ductus venoso).','FMF / Nicolaides');
-    }
-    if(t18!==null){
-      const cl=clTri(t18);
-      if(cl==='alto') add('CRIBADO CROMOSÓMICO','alto',`Riesgo T18 1/${t18} (ALTO)`,'T18 generalmente letal. Diagnóstico invasivo urgente. Consejo genético. Soporte a la pareja.','FMF / Nicolaides');
-      else if(cl==='interm') add('CRIBADO CROMOSÓMICO','moderado',`Riesgo T18 1/${t18} (INTERMEDIO)`,'Ofrecer NIPT contingente. Si positivo → biopsia corial / amniocentesis. Consejo genético.','FMF / Nicolaides');
-    }
-    if(t13!==null){
-      const cl=clTri(t13);
-      if(cl==='alto') add('CRIBADO CROMOSÓMICO','alto',`Riesgo T13 1/${t13} (ALTO)`,'T13 generalmente letal. Diagnóstico invasivo urgente. Consejo genético. Soporte a la pareja.','FMF / Nicolaides');
-      else if(cl==='interm') add('CRIBADO CROMOSÓMICO','moderado',`Riesgo T13 1/${t13} (INTERMEDIO)`,'Ofrecer NIPT contingente. Si positivo → diagnóstico invasivo.','FMF / Nicolaides');
-    }
+    [['T21',t21],['T18',t18],['T13',t13]].forEach(function(x){
+      var nom=x[0],den=x[1]; if(den===null)return;
+      var cl=clTri(den); if(cl!=='alto'&&cl!=='interm')return;
+      var niv=triMuyAlto(den)?'MUY ALTO':cl==='alto'?'ALTO':'INTERMEDIO';
+      var extra=(cl==='alto'&&nom!=='T21')?' '+nom+' de mal pronóstico: soporte a la pareja.':'';
+      add('CRIBADO CROMOSÓMICO',cl==='alto'?'alto':'moderado',`Riesgo ${nom} 1/${den} (${niv} – ${triCorte==='fmf'?'FMF 2005':'MFB'})`,conductaTri(cl,den)+extra,triFuente());
+    });
     if(bhcg!==null&&bhcg>2.5&&!t21) add('CRIBADO CROMOSÓMICO','moderado',`β-hCG libre ${bhcg} MoM (>2.5 – sugestivo T21)`,'Integrar con riesgo combinado T21. Reevaluar marcadores 2T.','FMF');
     if(bhcg!==null&&bhcg<0.4) add('CRIBADO CROMOSÓMICO','moderado',`β-hCG libre ${bhcg} MoM (<0.4 – sugestivo T18/T13)`,'Integrar con riesgo combinado T18/T13. Reevaluar marcadores.','FMF');
   }
@@ -5460,7 +5625,7 @@ function calcular(){
     const hepbEst=document.getElementById('pr_hepb_estado').value;
     if(hepbEst==='susceptible'&&!chk('pr_hepbvac')) add('PROFILAXIS','moderado','Hepatitis B: paciente susceptible sin vacuna','Anti-HBs− y HBsAg− → Iniciar esquema vacunal (3 dosis: 0, 1, 6 meses). Vacuna segura en embarazo. Completar esquema postparto si es necesario.','ACOG / CDC / EASL');
     // AAS
-    if(!chk('pr_aas')&&findings.some(f=>f.conducta.includes('AAS'))) add('PROFILAXIS','moderado','AAS indicado pero no registrado como iniciado','Verificar e iniciar AAS 100–150 mg/día según perfil de riesgo PE.','FMF / ACOG');
+    if(!chk('pr_aas')&&findings.some(f=>f.conducta.includes('AAS'))) add('PROFILAXIS','moderado','AAS indicado pero no registrado como iniciado','Verificar e iniciar AAS ~150 mg cada noche desde 11–14+6 sem hasta 36 sem, el parto o el diagnóstico de PE (FIGO 2019, pauta preferida por CaVeSal). Alternativa: 81 mg/día desde 12–28 sem (idealmente antes de 16) hasta el parto (ACOG PB 222, 2020).','FIGO 2019 / FMF / ACOG');
   }
 
   // NIVEL GLOBAL
@@ -5556,9 +5721,9 @@ function calcular(){
         const rc21=clT21==='alto'?'var(--red)':clT21==='interm'?'var(--amber)':clT21==='bajo'?'var(--green)':'var(--slate)';
         const rc18=clT18==='alto'?'var(--red)':clT18==='interm'?'var(--amber)':clT18==='bajo'?'var(--green)':'var(--slate)';
         const rc13=clT13==='alto'?'var(--red)':clT13==='interm'?'var(--amber)':clT13==='bajo'?'var(--green)':'var(--slate)';
-        html+=`<div class="sum-mini-row"><span class="sm-label">T21</span><span class="sm-val" style="color:${rc21}">${t21?'1/'+t21+' '+(clT21==='alto'?'ALTO':clT21==='interm'?'INTERM.':'BAJO'):'—'}</span></div>`;
-        html+=`<div class="sum-mini-row"><span class="sm-label">T18</span><span class="sm-val" style="color:${rc18}">${t18?'1/'+t18+' '+(clT18==='alto'?'ALTO':clT18==='interm'?'INTERM.':'BAJO'):'—'}</span></div>`;
-        html+=`<div class="sum-mini-row"><span class="sm-label">T13</span><span class="sm-val" style="color:${rc13}">${t13?'1/'+t13+' '+(clT13==='alto'?'ALTO':clT13==='interm'?'INTERM.':'BAJO'):'—'}</span></div>`;
+        html+=`<div class="sum-mini-row"><span class="sm-label">T21</span><span class="sm-val" style="color:${rc21}">${t21?'1/'+t21+' '+triNivelTxt(t21):'—'}</span></div>`;
+        html+=`<div class="sum-mini-row"><span class="sm-label">T18</span><span class="sm-val" style="color:${rc18}">${t18?'1/'+t18+' '+triNivelTxt(t18):'—'}</span></div>`;
+        html+=`<div class="sum-mini-row"><span class="sm-label">T13</span><span class="sm-val" style="color:${rc13}">${t13?'1/'+t13+' '+triNivelTxt(t13):'—'}</span></div>`;
         if(pappa!==null) html+=`<div class="sum-mini-row"><span class="sm-label">PAPP-A</span><span class="sm-val" style="color:${clPA==='alto'?'var(--red)':clPA==='moder'?'var(--amber)':'var(--green)'}">${pappa} MoM</span></div>`;
         if(pigf1t!==null) html+=`<div class="sum-mini-row"><span class="sm-label">PlGF 1T</span><span class="sm-val" style="color:${clPG==='alto'?'var(--red)':clPG==='moder'?'var(--amber)':'var(--green)'}">${pigf1t} MoM</span></div>`;
       }
@@ -9898,5 +10063,781 @@ function abrirContacto(){
 })();
 </script>
 
+<script id="sim-js">/* CaVeSal® Simulador prenatal — 3 casos ficticios, una fuente por caso.
+ * A. Diabetes gestacional: IADPSG 2010 (Diabetes Care 2010;33:676-82).
+ * B. Prevención de preeclampsia: FIGO 2019 (Poon et al., IJGO 2019;145 Suppl 1:1-33).
+ * C. Hipertensión gestacional y preeclampsia: ACOG Practice Bulletin 222 (2020). */
+(function () {
+  var IADPSG = "https://pmc.ncbi.nlm.nih.gov/articles/PMC2827530/";
+  var FIGO = "https://pmc.ncbi.nlm.nih.gov/articles/PMC6944283/";
+  var ACOG = "https://www.preeclampsia.org/frontend/assets/img/advocacy_resource/Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf";
+  var GRUPO = "Control prenatal";
+  var pam = function (s, d) { return Math.round((s + 2 * d) / 3); };
+  var paNivel = function (s, d) { return s >= 160 || d >= 110 ? "rojo" : s >= 140 || d >= 90 ? "amar" : "ok"; };
+  var PA = function (s, d) { return ["PA", s + "/" + d, "mmHg · PAM " + pam(s, d), paNivel(s, d)]; };
+
+  window.SIM_CASOS = window.SIM_CASOS || [];
+  window.SIM_CASOS.push(
+    /* ===================== A. Diabetes gestacional ===================== */
+    {
+      id: "dg",
+      grupo: GRUPO,
+      codigo: "dg",
+      modo: "prenatal",
+      titulo: "Secundigesta de 31 años con IMC 29",
+      tema: "Diabetes gestacional",
+      resumen: "Desde la primera consulta hasta la prueba de tolerancia oral: ¿sabés interpretar cada valor según IADPSG?",
+      fuentes: [["IADPSG 2010 · International Association of Diabetes and Pregnancy Study Groups Recommendations on the Diagnosis and Classification of Hyperglycemia in Pregnancy (Diabetes Care 2010;33:676-82)", IADPSG]],
+      escenas: [
+        {
+          min: 10, titulo: "Primera consulta prenatal",
+          relato: "Secundigesta de 31 años, 10 semanas por ecografía. IMC pregestacional 29. Sin diabetes conocida. Trae glucemia en ayunas de 84 mg/dL.",
+          vit: { panel: [["EG", "10", "semanas", "neutro"], PA(112, 70), ["IMC", "29", "kg/m²", "amar"], ["Glucemia ayunas", "84", "mg/dL", "ok"]] },
+          datos: [["Antecedentes", "Primer embarazo sin complicaciones"], [ "Diabetes previa", "No"], ["HbA1c", "No solicitada"]],
+          preguntas: [
+            {
+              tipo: "opcion", q: "Con una glucemia en ayunas de 84 mg/dL en la primera consulta, ¿cuál es la conducta?",
+              ops: [
+                { t: "Valor normal: indicar la prueba de tolerancia oral con 75 g a las 24-28 semanas.", ok: true, fb: "IADPSG recomienda la prueba con 75 g a las 24-28 semanas a todas las embarazadas sin diagnóstico previo de diabetes o de diabetes gestacional." },
+                { t: "Valor normal: no hace falta otro estudio de glucemia en el embarazo.", fb: "Una glucemia normal en el primer trimestre no descarta la diabetes gestacional. IADPSG indica la prueba con 75 g a las 24-28 semanas a todas las que no tienen diagnóstico previo." },
+                { t: "Indicar ya una prueba de tolerancia oral con 75 g, antes de las 24 semanas.", fb: "IADPSG señala que no hay evidencia suficiente para recomendar la prueba de tolerancia oral temprana de forma generalizada. La prueba se hace a las 24-28 semanas." }
+              ],
+              ref: "IADPSG 2010 · Estrategia de detección, paso 2", url: IADPSG
+            },
+            {
+              tipo: "numero", q: "En la primera consulta, ¿desde qué glucemia en ayunas se diagnostica diabetes gestacional (si es menor de 126 mg/dL)?",
+              resp: 92, tol: 0, dec: 0, unidad: "mg/dL",
+              fbOk: "En la primera consulta, una glucemia en ayunas de 92 mg/dL o más, pero menor de 126 mg/dL, se clasifica como diabetes gestacional.",
+              fbMal: "El umbral es 92 mg/dL. Entre 92 y 125 mg/dL en la primera consulta se clasifica como diabetes gestacional; 126 mg/dL o más indica diabetes manifiesta.",
+              ref: "IADPSG 2010 · Tabla 2, primera consulta prenatal", url: IADPSG
+            },
+            {
+              tipo: "opcion", q: "Si en esa misma consulta la HbA1c hubiera sido 6,7 %, ¿cómo la clasificarías?",
+              ops: [
+                { t: "Diabetes manifiesta (diabetes previa no diagnosticada).", ok: true, fb: "IADPSG considera diabetes manifiesta una HbA1c de 6,5 % o más en la primera consulta, igual que una glucemia en ayunas de 126 mg/dL o más." },
+                { t: "Diabetes gestacional.", fb: "Con HbA1c de 6,5 % o más en la primera consulta el diagnóstico es diabetes manifiesta, no diabetes gestacional." },
+                { t: "Valor sin significado en el embarazo: esperar la prueba de las 24-28 semanas.", fb: "IADPSG sí incluye la HbA1c de 6,5 % o más como criterio de diabetes manifiesta en la primera consulta." }
+              ],
+              ref: "IADPSG 2010 · Tabla 2, diabetes manifiesta", url: IADPSG
+            }
+          ]
+        },
+        {
+          min: 26, titulo: "Prueba de tolerancia oral con 75 g",
+          relato: "A las 26 semanas realiza la prueba con 75 g de glucosa, en ayunas y por la mañana. Resultados: ayunas 88 mg/dL, 1 hora 186 mg/dL, 2 horas 150 mg/dL.",
+          vit: { panel: [["EG", "26", "semanas", "neutro"], ["Ayunas", "88", "mg/dL", "ok"], ["1 hora", "186", "mg/dL", "rojo"], ["2 horas", "150", "mg/dL", "ok"]] },
+          preguntas: [
+            {
+              tipo: "opcion", q: "¿Cómo interpretás la prueba?",
+              ops: [
+                { t: "Diabetes gestacional: alcanza con un valor igual o mayor al umbral.", ok: true, fb: "Con IADPSG basta un solo valor alterado. La glucemia de 1 hora (186 mg/dL) supera el umbral de 180 mg/dL." },
+                { t: "Normal: hacen falta dos valores alterados para el diagnóstico.", fb: "Exigir dos valores corresponde a otros criterios. IADPSG diagnostica diabetes gestacional con un solo valor igual o mayor al umbral." },
+                { t: "Normal: la glucemia en ayunas es menor de 92 mg/dL.", fb: "Los tres valores cuentan por separado. La de 1 hora (186 mg/dL) supera el umbral de 180 mg/dL y alcanza para el diagnóstico." }
+              ],
+              ref: "IADPSG 2010 · Tabla 1, umbrales de la prueba con 75 g", url: IADPSG
+            },
+            {
+              tipo: "numero", q: "¿Cuál es el umbral de la glucemia a la 1 hora?",
+              resp: 180, tol: 0, dec: 0, unidad: "mg/dL",
+              fbOk: "Umbrales IADPSG con 75 g: ayunas 92, 1 hora 180 y 2 horas 153 mg/dL.",
+              fbMal: "El umbral a la 1 hora es 180 mg/dL. Los otros dos son 92 mg/dL en ayunas y 153 mg/dL a las 2 horas.",
+              ref: "IADPSG 2010 · Tabla 1", url: IADPSG
+            },
+            {
+              tipo: "numero", q: "¿Y el umbral a las 2 horas?",
+              resp: 153, tol: 0, dec: 0, unidad: "mg/dL",
+              fbOk: "A las 2 horas el umbral es 153 mg/dL. Esta paciente tuvo 150 mg/dL: ese valor por sí solo no alcanzaba.",
+              fbMal: "El umbral a las 2 horas es 153 mg/dL (8,5 mmol/L).",
+              ref: "IADPSG 2010 · Tabla 1", url: IADPSG
+            }
+          ]
+        }
+      ]
+    },
+
+    /* ===================== B. Prevención de preeclampsia ===================== */
+    {
+      id: "pe1t",
+      grupo: GRUPO,
+      codigo: "pe1t",
+      modo: "prenatal",
+      titulo: "Nulípara de 36 años en la ecografía de 12 semanas",
+      tema: "Cribado y prevención de preeclampsia",
+      resumen: "Cribado combinado del primer trimestre y aspirina: quién, cuándo, cuánto y hasta cuándo, según FIGO.",
+      fuentes: [["FIGO 2019 · Poon LC et al. The International Federation of Gynecology and Obstetrics (FIGO) initiative on pre-eclampsia: A pragmatic guide for first-trimester screening and prevention (IJGO 2019;145 Suppl 1:1-33)", FIGO]],
+      escenas: [
+        {
+          min: 12, titulo: "Ecografía de 11-13+6 semanas",
+          relato: "Nulípara de 36 años, embarazo espontáneo, 12+3 semanas. Viene a la ecografía del primer trimestre. No tiene hipertensión crónica, diabetes ni enfermedad renal.",
+          vit: { panel: [["EG", "12+3", "semanas", "neutro"], PA(124, 80), ["Edad", "36", "años", "neutro"], ["Paridad", "Nulípara", "", "neutro"]] },
+          preguntas: [
+            {
+              tipo: "opcion", q: "¿A quién corresponde hacer el cribado de preeclampsia pretérmino en esta etapa?",
+              ops: [
+                { t: "A todas las embarazadas, con la prueba combinada del primer trimestre.", ok: true, fb: "FIGO recomienda cribar a todas las embarazadas en el embarazo temprano con la prueba combinada del primer trimestre, en un solo paso." },
+                { t: "Solo a las que tienen factores de riesgo en la historia clínica.", fb: "FIGO recomienda el cribado de todas las embarazadas. Usar solo los factores maternos detecta menos casos que la prueba combinada." },
+                { t: "Solo si la presión arterial ya está elevada.", fb: "El cribado de FIGO es universal y se hace en el primer trimestre, antes de que aparezca la hipertensión." }
+              ],
+              ref: "FIGO 2019 · Recomendaciones de cribado del primer trimestre", url: FIGO
+            },
+            {
+              tipo: "opcion", q: "¿Qué incluye la mejor prueba combinada?",
+              ops: [
+                { t: "Factores maternos, presión arterial media, PlGF sérico e índice de pulsatilidad de las arterias uterinas.", ok: true, fb: "Es la combinación que FIGO define como la mejor prueba. Si no se dispone de PlGF ni de Doppler uterino, la base mínima es factores maternos más presión arterial media; la PAPP-A es útil cuando no hay PlGF ni Doppler uterino." },
+                { t: "Solo edad materna y PAPP-A.", fb: "FIGO define la mejor prueba con factores maternos, presión arterial media, PlGF e índice de pulsatilidad uterino. La PAPP-A se usa cuando faltan PlGF y Doppler uterino." },
+                { t: "Solo los factores maternos de la historia clínica.", fb: "FIGO indica que, aun sin PlGF ni Doppler uterino, se deben combinar los factores maternos con la presión arterial media, y no usar los factores maternos solos." }
+              ],
+              ref: "FIGO 2019 · Mejor prueba combinada", url: FIGO
+            }
+          ]
+        },
+        {
+          min: 12, titulo: "Resultado del cálculo de riesgo",
+          relato: "El cálculo combinado da un riesgo de preeclampsia pretérmino de 1 en 45. La paciente pregunta si tiene que hacer algo.",
+          vit: { panel: [["EG", "12+3", "semanas", "neutro"], PA(124, 80), ["Riesgo PE pretérmino", "1 en 45", "prueba combinada", "rojo"], ["Corte FIGO", "1 en 100", "alto riesgo", "neutro"]] },
+          preguntas: [
+            {
+              tipo: "numero", q: "Según FIGO, ¿desde qué riesgo se considera alto riesgo? Escribí N en «1 en N».",
+              resp: 100, tol: 0, dec: 0, unidad: "",
+              fbOk: "FIGO considera alto riesgo un resultado de 1 en 100 o mayor en la prueba combinada. Con 1 en 45 esta paciente es de alto riesgo.",
+              fbMal: "El corte de FIGO es 1 en 100. Con 1 en 45 esta paciente es de alto riesgo.",
+              ref: "FIGO 2019 · Definición de alto riesgo", url: FIGO
+            },
+            {
+              tipo: "opcion", q: "¿Qué indicás?",
+              ops: [
+                { t: "Aspirina cerca de 150 mg cada noche, desde ahora (11-14+6 semanas).", ok: true, fb: "FIGO recomienda aspirina de alrededor de 150 mg cada noche, iniciada entre las 11 y las 14+6 semanas, en las mujeres de alto riesgo." },
+                { t: "Aspirina 81 mg por la mañana desde las 20 semanas.", fb: "FIGO indica empezar entre las 11 y las 14+6 semanas, con alrededor de 150 mg cada noche." },
+                { t: "Nada por ahora: repetir la presión arterial en el próximo control.", fb: "Con riesgo de 1 en 45 está indicada la aspirina. Postergarla pierde la ventana de inicio de 11-14+6 semanas." }
+              ],
+              ref: "FIGO 2019 · Recomendaciones de prevención", url: FIGO
+            },
+            {
+              tipo: "numero", q: "¿Hasta qué semana se continúa la aspirina, si antes no nace ni se diagnostica preeclampsia?",
+              resp: 36, tol: 0, dec: 0, unidad: "semanas",
+              fbOk: "FIGO indica continuarla hasta las 36 semanas, o hasta el parto o el diagnóstico de preeclampsia, lo que ocurra primero.",
+              fbMal: "FIGO indica suspenderla a las 36 semanas, o antes si ocurre el parto o se diagnostica preeclampsia.",
+              ref: "FIGO 2019 · Recomendaciones de prevención", url: FIGO
+            }
+          ]
+        },
+        {
+          min: 20, titulo: "Control de las 20 semanas",
+          relato: "Toma la aspirina todas las noches. Consulta porque tuvo un manchado vaginal escaso. La evaluación no muestra otra alteración. Su hermana, también embarazada y sin cribado, pregunta si puede tomar aspirina por las dudas.",
+          vit: { panel: [["EG", "20", "semanas", "neutro"], PA(118, 74), ["Aspirina", "150 mg", "cada noche", "neutro"], ["Sangrado", "Manchado", "escaso", "amar"]] },
+          preguntas: [
+            {
+              tipo: "opcion", q: "¿Qué hacés con la aspirina de la paciente?",
+              ops: [
+                { t: "Evaluar el manchado y continuar la aspirina, controlando la adherencia en cada consulta.", ok: true, fb: "FIGO indica que el manchado vaginal debe evaluarse, pero no obliga a suspender la aspirina, y que la adherencia se controla en cada visita." },
+                { t: "Suspender la aspirina por el sangrado.", fb: "Para FIGO el manchado vaginal debe evaluarse, pero no es motivo para suspender la profilaxis." },
+                { t: "Reducir la dosis a 75 mg.", fb: "FIGO no indica reducir la dosis por manchado. Recomienda evaluarlo y continuar con alrededor de 150 mg." }
+              ],
+              ref: "FIGO 2019 · Recomendaciones de prevención", url: FIGO
+            },
+            {
+              tipo: "opcion", q: "¿Qué le respondés a la hermana?",
+              ops: [
+                { t: "No se indica aspirina a todas las embarazadas: primero corresponde el cribado.", ok: true, fb: "FIGO es explícita: la aspirina en dosis baja no debe indicarse a todas las embarazadas." },
+                { t: "Sí, en dosis baja es segura para cualquier embarazada.", fb: "FIGO indica que la aspirina en dosis baja no debe prescribirse a todas las embarazadas." },
+                { t: "Sí, pero solo a partir de las 28 semanas.", fb: "La indicación depende del resultado del cribado, y FIGO la inicia entre las 11 y las 14+6 semanas." }
+              ],
+              ref: "FIGO 2019 · Recomendaciones de prevención", url: FIGO
+            }
+          ]
+        }
+      ]
+    },
+
+    /* ===================== C. Hipertensión gestacional y preeclampsia ===================== */
+    {
+      id: "hta",
+      grupo: GRUPO,
+      codigo: "hta",
+      modo: "prenatal",
+      titulo: "Nulípara de 27 años con presión elevada a las 32 semanas",
+      tema: "Hipertensión gestacional y preeclampsia",
+      resumen: "Diagnóstico, criterios de severidad, tratamiento de la hipertensión grave y momento del nacimiento según ACOG.",
+      fuentes: [["ACOG Practice Bulletin 222 (2020) · Gestational Hypertension and Preeclampsia (Obstet Gynecol 2020;135:e237-60)", ACOG]],
+      escenas: [
+        {
+          min: 32, titulo: "Control de las 32 semanas",
+          relato: "Nulípara de 27 años, con presión normal en los controles previos. Hoy tiene 146/94 mmHg y, 4 horas después, 148/96 mmHg. Está asintomática. Laboratorio con plaquetas, transaminasas y creatinina normales. Índice proteína/creatinina en orina: 0,4.",
+          vit: { panel: [["EG", "32", "semanas", "neutro"], PA(148, 96), ["Proteína/creatinina", "0,4", "orina", "amar"], ["Síntomas", "Ninguno", "", "ok"]] },
+          datos: [["Plaquetas", "245.000/µL"], ["Transaminasas", "Normales"], ["Creatinina", "0,7 mg/dL"]],
+          preguntas: [
+            {
+              tipo: "opcion", q: "¿Cuál es el diagnóstico?",
+              ops: [
+                { t: "Preeclampsia sin criterios de severidad.", ok: true, fb: "Presión de 140/90 o más en dos tomas separadas por al menos 4 horas, después de las 20 semanas y con presión previa normal, más proteinuria, sin criterios de severidad." },
+                { t: "Hipertensión gestacional.", fb: "La hipertensión gestacional no tiene proteinuria. Con índice proteína/creatinina de 0,3 o más el diagnóstico es preeclampsia." },
+                { t: "Hipertensión crónica.", fb: "La presión era normal antes y la hipertensión apareció después de las 20 semanas: no es hipertensión crónica." }
+              ],
+              ref: "ACOG PB 222 · Recuadro 1, criterios diagnósticos", url: ACOG
+            },
+            {
+              tipo: "numero", q: "¿Desde qué índice proteína/creatinina se considera proteinuria?",
+              resp: 0.3, tol: 0, dec: 1, unidad: "",
+              fbOk: "ACOG define proteinuria con 300 mg o más en orina de 24 horas, o índice proteína/creatinina de 0,3 o más. La tira reactiva de 2+ solo se usa si no hay métodos cuantitativos.",
+              fbMal: "El corte es 0,3. También vale 300 mg o más en orina de 24 horas; la tira reactiva de 2+ solo si no hay otro método.",
+              ref: "ACOG PB 222 · Recuadro 1, proteinuria", url: ACOG
+            },
+            {
+              tipo: "opcion", q: "¿Cuál es la conducta?",
+              ops: [
+                { t: "Conducta expectante con vigilancia materna y fetal, y nacimiento a las 37 semanas.", ok: true, fb: "En la hipertensión gestacional o la preeclampsia sin criterios de severidad, ACOG recomienda el nacimiento a las 37 0/7 semanas, con vigilancia materna y fetal hasta entonces." },
+                { t: "Interrupción inmediata del embarazo.", fb: "Sin criterios de severidad y con 32 semanas, ACOG recomienda conducta expectante con vigilancia hasta las 37 semanas." },
+                { t: "Sulfato de magnesio de rutina hasta el parto.", fb: "ACOG señala que no hay consenso sobre el sulfato de magnesio profiláctico en la preeclampsia sin criterios de severidad; la decisión queda al médico o la institución." }
+              ],
+              ref: "ACOG PB 222 · Manejo de la preeclampsia sin criterios de severidad", url: ACOG
+            }
+          ]
+        },
+        {
+          min: 35, titulo: "Guardia, 35 semanas",
+          relato: "Consulta por cefalea que no cede con paracetamol. Presión 164/112 mmHg; 15 minutos después, 166/110 mmHg. Feto con buena vitalidad.",
+          vit: { panel: [["EG", "35", "semanas", "neutro"], PA(166, 110), ["Cefalea", "Persistente", "no cede con analgésicos", "rojo"], ["Vitalidad fetal", "Conservada", "", "ok"]] },
+          preguntas: [
+            {
+              tipo: "opcion", q: "¿Cómo la clasificás?",
+              ops: [
+                { t: "Preeclampsia con criterios de severidad.", ok: true, fb: "La presión de 160/110 o más y la cefalea nueva que no responde a la medicación son criterios de severidad para ACOG." },
+                { t: "Preeclampsia sin criterios de severidad: falta repetir la presión en 4 horas.", fb: "ACOG aclara que la hipertensión grave puede confirmarse en un intervalo corto, de minutos, para no demorar el tratamiento." },
+                { t: "Cefalea tensional: tratar el dolor y reevaluar.", fb: "En una preeclámptica, la cefalea nueva que no cede con analgésicos es un criterio de severidad." }
+              ],
+              ref: "ACOG PB 222 · Recuadro 2, criterios de severidad", url: ACOG
+            },
+            {
+              tipo: "opcion", q: "¿Qué hacés primero?",
+              ops: [
+                { t: "Antihipertensivo cuanto antes (labetalol IV, hidralazina IV o nifedipino oral) y sulfato de magnesio.", ok: true, fb: "ACOG indica tratar la hipertensión grave persistente cuanto antes, con labetalol o hidralazina IV o nifedipino oral, y usar sulfato de magnesio para prevenir convulsiones en la preeclampsia con criterios de severidad." },
+                { t: "Repetir la presión en 4 horas antes de tratar.", fb: "Con 160/110 o más confirmada en 15 minutos, ACOG indica iniciar el antihipertensivo cuanto antes; la literatura sugiere hacerlo en 30-60 minutos." },
+                { t: "Cesárea de urgencia sin otro tratamiento previo.", fb: "ACOG indica el nacimiento después de estabilizar a la madre: primero el antihipertensivo y el sulfato de magnesio." }
+              ],
+              ref: "ACOG PB 222 · Hipertensión grave de inicio agudo y sulfato de magnesio", url: ACOG
+            },
+            {
+              tipo: "numero", q: "¿En cuántos minutos, como máximo, sugiere la literatura administrar el antihipertensivo?",
+              resp: 60, tol: 0, dec: 0, unidad: "minutos",
+              fbOk: "ACOG cita que el antihipertensivo debería darse en 30-60 minutos, y recomienda hacerlo lo antes posible una vez cumplidos los criterios.",
+              fbMal: "La literatura citada por ACOG sugiere 30-60 minutos, y lo recomendado es tratar lo antes posible.",
+              ref: "ACOG PB 222 · Hipertensión grave de inicio agudo", url: ACOG
+            },
+            {
+              tipo: "opcion", q: "Ya estabilizada, a las 35 semanas, ¿cuándo indicás el nacimiento?",
+              ops: [
+                { t: "Ahora, después de la estabilización materna.", ok: true, fb: "En la preeclampsia con criterios de severidad a las 34 0/7 semanas o más, ACOG recomienda el nacimiento después de estabilizar a la madre." },
+                { t: "Esperar a las 37 semanas con control estricto.", fb: "Esperar a las 37 semanas corresponde a la preeclampsia sin criterios de severidad. Con criterios de severidad y 34 semanas o más, el nacimiento es tras la estabilización." },
+                { t: "Esperar 48 horas para completar corticoides.", fb: "ACOG indica corticoides si el nacimiento ocurre antes de las 34 0/7 semanas. A las 35 semanas, con criterios de severidad, el nacimiento es tras estabilizar a la madre." }
+              ],
+              ref: "ACOG PB 222 · Momento del nacimiento", url: ACOG
+            }
+          ]
+        }
+      ]
+    }
+  );
+})();
+/* D. Caso longitudinal con evolución al azar: del cribado del 1T a la RCIU.
+ * Cribado de trisomías: cortes de Medicina Fetal Barcelona (protocolo "Cribado prenatal de las anomalías cromosómicas");
+ * se mencionan como alternativas Nicolaides 2005 (FMF) y FIGO 2015.
+ * Aspirina: FIGO 2019 (Poon et al., IJGO 2019;145 Suppl 1:1-33).
+ * PEG/RCIU: Protocolo Medicina Fetal Barcelona "Fetal growth disorders".
+ * Percentiles de PFE calculados con la tabla Figueras (MFB) de la propia calculadora. */
+(function () {
+  var FIGO15 = "https://www.glowm.com/pdf/PIIS0020729214005359.pdf";
+  var MFBCR = "https://fetalmedicinebarcelona.org/wp-content/uploads/2024/02/diagnostico-prenatal.pdf";
+  var NIC05 = "https://pubmed.ncbi.nlm.nih.gov/15736186/";
+  var FIGO19 = "https://pmc.ncbi.nlm.nih.gov/articles/PMC6944283/";
+  var MFB = "https://fetalmedicinebarcelona.org/wp-content/uploads/2024/02/fetalgrowthdisorders.pdf";
+  var pam = function (s, d) { return Math.round((s + 2 * d) / 3); };
+  var PA = function (s, d) { return ["PA", s + "/" + d, "mmHg · PAM " + pam(s, d), s >= 160 || d >= 110 ? "rojo" : s >= 140 || d >= 90 ? "amar" : "ok"]; };
+  var EG = function (s) { return ["EG", String(s), "semanas", "neutro"]; };
+  var refMFB = function (t) { return "Medicina Fetal Barcelona · Fetal growth disorders · " + t; };
+
+  window.SIM_CASOS = window.SIM_CASOS || [];
+  window.SIM_CASOS.push({
+    id: "rciu",
+    grupo: "Control prenatal",
+    codigo: "rciu",
+    modo: "prenatal",
+    titulo: "Primigesta de 34 años: del cribado del 1T al tercer trimestre",
+    tema: "Del cribado a la RCIU (caso con evolución)",
+    resumen: "Seguís a la misma paciente desde la semana 12. Según cómo evolucione el crecimiento fetal, el caso toma un camino distinto y cambia la conducta.",
+    fuentes: [
+      ["Medicina Fetal Barcelona · Protocolo Cribado prenatal de las anomalías cromosómicas", MFBCR],
+      ["Nicolaides KH et al. Multicenter study of first-trimester screening for trisomy 21 in 75 821 pregnancies (Ultrasound Obstet Gynecol 2005;25:221-226)", NIC05],
+      ["FIGO 2015 · Best practice in maternal-fetal medicine (Int J Gynaecol Obstet 2015;128:80-82)", FIGO15],
+      ["FIGO 2019 · Poon LC et al. The FIGO initiative on pre-eclampsia: a pragmatic guide for first-trimester screening and prevention (Int J Gynaecol Obstet 2019;145 Suppl 1:1-33)", FIGO19],
+      ["Medicina Fetal Barcelona (BCNatal) · Protocolo Fetal growth disorders", MFB]
+    ],
+    escenas: [
+      {
+        id: "s12", min: 12, titulo: "Cribado combinado del primer trimestre",
+        relato: "Primigesta de 34 años, 12+4 semanas por LCN. Sin antecedentes. Trae el cribado combinado de trisomías y de preeclampsia calculado con la calculadora.",
+        vit: { panel: [EG(12), PA(118, 74), ["Riesgo T21", "1 en 6000", "cribado combinado", "ok"], ["Riesgo PE pretérmino", "1 en 50", "cribado FIGO", "rojo"]] },
+        datos: [["Riesgo T18 / T13", "1 en 20000"], ["Translucencia nucal", "1,6 mm"], ["PAPP-A", "0,38 MoM (baja)"], ["IP medio de arterias uterinas", "Por encima del p95"]],
+        preguntas: [
+          {
+            tipo: "opcion", q: "Con un riesgo combinado de trisomía 21 de 1 en 6000, ¿qué estudio corresponde?",
+            ops: [
+              { t: "Ninguno: es riesgo bajo (menor de 1 en 1100). Se entrega el resultado y se explican sus limitaciones.", ok: true, fb: "Con los cortes de Medicina Fetal Barcelona, que usa CaVeSal, un riesgo menor de 1 en 1100 es bajo y no requiere más estudios. El NIPT se ofrece entre 1 en 251 y 1 en 1100, y desde 1 en 250 se ofrece NIPT o prueba invasiva. Con Nicolaides 2005 (FMF: bajo menor de 1 en 1000) o FIGO 2015 (menor de 1 en 2500) la conducta es la misma." },
+              { t: "Ofrecer NIPT (ADN fetal libre en sangre materna).", fb: "Medicina Fetal Barcelona ofrece el NIPT en el riesgo intermedio (1 en 251 a 1 en 1100) o como opción en el riesgo alto. Con 1 en 6000 no hace falta otro estudio." },
+              { t: "Ofrecer biopsia corial por la PAPP-A baja.", fb: "La prueba invasiva se ofrece con riesgo alto (1 en 250 o mayor, Medicina Fetal Barcelona; 1 en 100 o mayor, Nicolaides 2005). La PAPP-A baja ya está incluida en el cálculo del riesgo y aquí orienta al riesgo de preeclampsia." }
+            ],
+            ref: "Medicina Fetal Barcelona · Cribado prenatal de las anomalías cromosómicas", url: MFBCR
+          },
+          {
+            tipo: "opcion", q: "El riesgo de preeclampsia pretérmino es de 1 en 50. ¿Qué indicás?",
+            ops: [
+              { t: "Aspirina ~150 mg cada noche desde ahora hasta las 36 semanas.", ok: true, fb: "FIGO 2019 (pauta que prefiere CaVeSal): con riesgo de 1 en 100 o mayor, aspirina ~150 mg por la noche desde las 11-14+6 semanas hasta las 36 semanas, el parto o el diagnóstico de preeclampsia. ACOG PB 222 propone como alternativa 81 mg/día desde las 12-28 semanas hasta el parto." },
+              { t: "Nada por ahora: repetir el Doppler uterino en la ecografía morfológica.", fb: "La aspirina debe empezar antes de las 16 semanas para ser útil. FIGO 2019 la indica con riesgo de 1 en 100 o mayor desde el primer trimestre." },
+              { t: "Aspirina 75 mg/día desde la semana 20.", fb: "FIGO 2019 indica ~150 mg por la noche y comenzar en las 11-14+6 semanas. Empezar en la semana 20 pierde el beneficio." }
+            ],
+            ref: "FIGO 2019 · Prevención con aspirina", url: FIGO19
+          }
+        ]
+      },
+      {
+        id: "s20", min: 20, titulo: "Ecografía morfológica y Doppler",
+        relato: "Toma la aspirina cada noche. Ecografía morfológica normal, placenta normoinserta. El IP medio de las arterias uterinas sigue por encima del p95. PFE en el p28 (tabla Figueras).",
+        vit: { panel: [EG(20), PA(116, 72), ["Morfológica", "Normal", "", "ok"], ["IP medio AUt", "> p95", "persiste alterado", "amar"], ["PFE", "p28", "Figueras", "ok"]] },
+        datos: [["Aspirina", "150 mg cada noche desde la sem 12"], ["Cumplimiento", "Bueno"]],
+        evol: [
+          { p: 0.34, ir: "r1a", nota: "Semana 32: PFE p2 con Doppler fetal normal (RCIU estadio I)" },
+          { p: 0.33, ir: "r2a", nota: "Semana 32: PFE p6 con flujo diastólico ausente en la arteria umbilical (RCIU estadio II)" },
+          { p: 0.33, ir: "r3a", nota: "Semana 32: PFE p6 con Doppler fetal y uterino normales (PEG)" }
+        ],
+        preguntas: [
+          {
+            tipo: "opcion", q: "El Doppler uterino sigue alterado. ¿Qué hacés con la aspirina?",
+            ops: [
+              { t: "Continuarla igual, cada noche, hasta las 36 semanas.", ok: true, fb: "FIGO 2019 indica mantener la aspirina hasta las 36 semanas, el parto o el diagnóstico de preeclampsia." },
+              { t: "Subirla a 300 mg/día porque no está funcionando.", fb: "FIGO 2019 no indica aumentar la dosis. La pauta es ~150 mg por la noche hasta las 36 semanas." },
+              { t: "Suspenderla porque la morfológica es normal.", fb: "La morfológica normal no cambia la indicación. FIGO 2019 mantiene la aspirina hasta las 36 semanas." }
+            ],
+            ref: "FIGO 2019 · Duración de la aspirina", url: FIGO19
+          }
+        ]
+      },
+      /* ---------- Rama 1: RCIU estadio I ---------- */
+      {
+        id: "r1a", min: 32, titulo: "Control de crecimiento: PFE p2",
+        relato: "PFE 1450 g a las 32 semanas: la calculadora la ubica en el p2 (tabla Figueras). Arteria umbilical normal, índice cerebroplacentario normal, IP de la cerebral media normal. Líquido amniótico normal. PA normal.",
+        vit: { panel: [EG(32), PA(122, 76), ["PFE", "1450 g · p2", "Figueras", "rojo"], ["Arteria umbilical", "Normal", "", "ok"], ["ICP", "Normal", "", "ok"]] },
+        preguntas: [
+          {
+            tipo: "opcion", q: "¿Cómo clasificás este feto?",
+            ops: [
+              { t: "RCIU estadio I: PFE menor del p3, aunque el Doppler fetal sea normal.", ok: true, fb: "MFB: un PFE menor del p3 alcanza para definir RCIU estadio I, cualquiera sea el Doppler. También es estadio I el ICP o el IP de la cerebral media menores del p5, o el IP medio de las uterinas mayor del p95." },
+              { t: "PEG, porque el Doppler fetal es normal.", fb: "MFB define PEG solo entre el p3 y el p10 con Doppler normal. Por debajo del p3 es RCIU estadio I." },
+              { t: "RCIU estadio II.", fb: "El estadio II exige flujo diastólico ausente en la arteria umbilical. Aquí la umbilical es normal: es estadio I." }
+            ],
+            ref: refMFB("Clasificación"), url: MFB
+          },
+          {
+            tipo: "opcion", q: "¿Cada cuánto la controlás?",
+            ops: [
+              { t: "Cada 1-2 semanas.", ok: true, fb: "MFB: seguimiento cada 1-2 semanas en el estadio I, con ICP en cada visita y PFE con intervalos mínimos de 2 semanas." },
+              { t: "Cada 2-4 días.", fb: "Ese intervalo corresponde al estadio II. En el estadio I, MFB indica controles cada 1-2 semanas." },
+              { t: "Cada 2-3 semanas.", fb: "Ese intervalo es el del PEG. En el estadio I, MFB indica controles cada 1-2 semanas." }
+            ],
+            ref: refMFB("Seguimiento"), url: MFB
+          }
+        ]
+      },
+      {
+        id: "r1b", min: 37, titulo: "Semana 37: momento del parto", fin: true,
+        relato: "Se mantuvo en estadio I, sin preeclampsia. A las 37 semanas la calculadora de vía del parto da un Bishop de 3. Feto cefálico.",
+        vit: { panel: [EG(37), PA(124, 78), ["PFE", "p2", "Figueras", "rojo"], ["Estadio", "RCIU I", "sin cambios", "amar"], ["Bishop", "3", "desfavorable", "amar"]] },
+        preguntas: [
+          {
+            tipo: "opcion", q: "¿Qué indicás?",
+            ops: [
+              { t: "Finalizar desde ahora: maduración cervical con dispositivo de PGE2 de liberación lenta y monitoreo continuo.", ok: true, fb: "MFB: en el estadio I, finalizar desde las 37 semanas; el parto vaginal no está contraindicado. Con cuello desfavorable, maduración con PGE2 de liberación lenta (u oxitocina según condiciones cervicales y dinámica) y monitoreo intraparto continuo." },
+              { t: "Cesárea electiva por la RCIU.", fb: "En el estadio I el parto vaginal no está contraindicado (MFB). La cesárea electiva corresponde desde el estadio II." },
+              { t: "Esperar hasta las 40 semanas si el Doppler sigue normal.", fb: "Esperar hasta las 40 semanas corresponde al PEG. En la RCIU estadio I, MFB indica finalizar desde las 37 semanas." }
+            ],
+            ref: refMFB("Finalización e inducción"), url: MFB
+          }
+        ]
+      },
+      /* ---------- Rama 2: RCIU estadio II ---------- */
+      {
+        id: "r2a", min: 32, titulo: "Control de crecimiento: flujo diastólico ausente",
+        relato: "PFE 1550 g a las 32 semanas: p6 (tabla Figueras). La arteria umbilical muestra flujo diastólico ausente en más de la mitad de los ciclos, en ambas arterias, confirmado en dos exploraciones separadas por más de 12 horas.",
+        vit: { panel: [EG(32), PA(128, 80), ["PFE", "1550 g · p6", "Figueras", "amar"], ["Arteria umbilical", "Diástole ausente", "confirmado", "rojo"], ["Ductus venoso", "Sin evaluar", "", "neutro"]] },
+        preguntas: [
+          {
+            tipo: "opcion", q: "¿Cómo clasificás este feto?",
+            ops: [
+              { t: "RCIU estadio II.", ok: true, fb: "MFB: PFE menor del p10 con flujo diastólico ausente en la arteria umbilical es RCIU estadio II." },
+              { t: "PEG, porque el PFE está por encima del p3.", fb: "Entre el p3 y el p10 es PEG solo si el Doppler es normal. Con diástole ausente en la umbilical es RCIU estadio II (MFB)." },
+              { t: "RCIU estadio III.", fb: "El estadio III requiere flujo diastólico reverso en la umbilical o un ductus venoso alterado. La diástole ausente es estadio II." }
+            ],
+            ref: refMFB("Clasificación"), url: MFB
+          },
+          {
+            tipo: "opcion", q: "¿Qué seguimiento indicás?",
+            ops: [
+              { t: "Controles cada 2-4 días con Doppler (incluido el ductus venoso) y monitoreo fetal.", ok: true, fb: "MFB: en el estadio II, controles cada 2-4 días. El ductus venoso se evalúa cuando hay Doppler fetal alterado y el monitoreo fetal se indica desde el estadio II por encima de las 26 semanas." },
+              { t: "Controles cada 1-2 semanas.", fb: "Ese intervalo es del estadio I. En el estadio II, MFB indica cada 2-4 días." },
+              { t: "Finalizar ahora por cesárea.", fb: "MFB indica finalizar el estadio II desde las 34 semanas. A las 32 semanas corresponde vigilancia estrecha." }
+            ],
+            ref: refMFB("Seguimiento"), url: MFB
+          }
+        ]
+      },
+      {
+        id: "r2b", min: 34, titulo: "Semana 34: finalización", fin: true,
+        relato: "Persiste en estadio II, sin signos de estadio III. Recibió maduración pulmonar a las 33 semanas. Llega a las 34+0 semanas.",
+        vit: { panel: [EG(34), PA(130, 82), ["Arteria umbilical", "Diástole ausente", "", "rojo"], ["Ductus venoso", "Normal", "", "ok"], ["Monitoreo", "Normal", "", "ok"]] },
+        preguntas: [
+          {
+            tipo: "opcion", q: "¿Cómo y cuándo finalizás?",
+            ops: [
+              { t: "Cesárea electiva ahora, a las 34 semanas.", ok: true, fb: "MFB: en el estadio II, finalizar desde las 34 semanas por cesárea electiva." },
+              { t: "Inducción con PGE2 a las 37 semanas.", fb: "Esa conducta es del estadio I. En el estadio II, MFB indica cesárea electiva desde las 34 semanas." },
+              { t: "Esperar a las 37 semanas si el ductus sigue normal.", fb: "MFB fija la finalización del estadio II desde las 34 semanas." }
+            ],
+            ref: refMFB("Finalización"), url: MFB
+          },
+          {
+            tipo: "opcion", q: "¿Indicás sulfato de magnesio para neuroprotección fetal?",
+            ops: [
+              { t: "No: el criterio es menos de 34 semanas.", ok: true, fb: "MFB: la neuroprotección con sulfato de magnesio se indica con menos de 34 semanas y, si es posible, más de 4 horas antes del nacimiento. A las 34+0 ya no corresponde." },
+              { t: "Sí, en toda RCIU antes del parto.", fb: "MFB la limita a gestaciones de menos de 34 semanas." },
+              { t: "Sí, por la diástole ausente.", fb: "El criterio de MFB es la edad gestacional (menos de 34 semanas), no el Doppler." }
+            ],
+            ref: refMFB("Sulfato de magnesio"), url: MFB
+          }
+        ]
+      },
+      /* ---------- Rama 3: PEG ---------- */
+      {
+        id: "r3a", min: 32, titulo: "Control de crecimiento: PFE p6 con Doppler normal",
+        relato: "PFE 1550 g a las 32 semanas: p6 (tabla Figueras). Arteria umbilical, cerebral media e índice cerebroplacentario normales. En este control el IP medio de las uterinas ya es normal.",
+        vit: { panel: [EG(32), PA(120, 74), ["PFE", "1550 g · p6", "Figueras", "amar"], ["Doppler fetal", "Normal", "", "ok"], ["IP medio AUt", "Normal", "", "ok"]] },
+        preguntas: [
+          {
+            tipo: "opcion", q: "¿Cómo clasificás este feto?",
+            ops: [
+              { t: "PEG: PFE entre el p3 y el p10 con Doppler normal.", ok: true, fb: "MFB: PFE mayor del p3 y menor del p10 con Doppler normal es PEG." },
+              { t: "RCIU estadio I por estar debajo del p10.", fb: "Entre el p3 y el p10, MFB exige un Doppler alterado para hablar de RCIU. Con Doppler normal es PEG." },
+              { t: "Feto adecuado para la edad gestacional.", fb: "Por debajo del p10 no es adecuado. Con Doppler normal es PEG (MFB)." }
+            ],
+            ref: refMFB("Definiciones"), url: MFB
+          },
+          {
+            tipo: "opcion", q: "¿Cada cuánto la controlás?",
+            ops: [
+              { t: "Cada 2-3 semanas.", ok: true, fb: "MFB: seguimiento del PEG cada 2-3 semanas." },
+              { t: "Cada 2-4 días.", fb: "Ese intervalo es del estadio II. En el PEG, MFB indica cada 2-3 semanas." },
+              { t: "No hace falta otro control: el Doppler es normal.", fb: "El PEG necesita seguimiento cada 2-3 semanas según MFB." }
+            ],
+            ref: refMFB("Seguimiento"), url: MFB
+          }
+        ]
+      },
+      {
+        id: "r3b", min: 40, titulo: "Semana 40: momento del parto", fin: true,
+        relato: "Siguió como PEG con Doppler normal en todos los controles. Llega a las 40 semanas sin trabajo de parto. Feto cefálico.",
+        vit: { panel: [EG(40), PA(118, 76), ["PFE", "p7", "Figueras", "amar"], ["Doppler", "Normal", "", "ok"], ["Clasificación", "PEG", "", "amar"]] },
+        preguntas: [
+          {
+            tipo: "opcion", q: "¿Qué indicás?",
+            ops: [
+              { t: "Finalizar desde las 40 semanas, por vía vaginal salvo indicación obstétrica.", ok: true, fb: "MFB: en el PEG, finalizar desde las 40 semanas; se recomienda el parto vaginal según las indicaciones obstétricas." },
+              { t: "Cesárea electiva por el bajo peso.", fb: "El PEG no es indicación de cesárea. MFB recomienda parto vaginal según indicaciones obstétricas." },
+              { t: "Debió finalizarse a las 37 semanas.", fb: "Finalizar a las 37 semanas corresponde a la RCIU estadio I. En el PEG, MFB indica desde las 40 semanas." }
+            ],
+            ref: refMFB("Finalización"), url: MFB
+          }
+        ]
+      }
+    ]
+  });
+})();
+
+/* CaVeSal® Calculadora prenatal — Motor del Simulador (misma base que el de Emergencias).
+ * La app presenta el caso ficticio, el usuario decide, el caso reacciona y al final hay devolución con fuentes. */
+(function () {
+  "use strict";
+  var CASOS = window.SIM_CASOS || [];
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
+  var fmt = function (n, d) { return Number(n).toFixed(d || 0).replace(".", ","); };
+  var S = null, timerInt = null, MEJOR = {};
+
+  function arriba() { window.scrollTo({ top: 0, behavior: "smooth" }); }
+  function guardado() { return MEJOR; }
+  function guardar(id, pct) { if (MEJOR[id] == null || pct > MEJOR[id]) MEJOR[id] = pct; }
+  function mezclar(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var x = a[i]; a[i] = a[j]; a[j] = x; } return a; }
+  function tiempo(min) {
+    if (S && S.c.modo === "parto") { var h = Math.floor(min / 60), m = min % 60; return "Hora " + h + ":" + (m < 10 ? "0" : "") + m; }
+    if (S && S.c.modo === "prenatal") return "Semana " + min;
+    return "Minuto " + min;
+  }
+  function grupos() {
+    var out = [], idx = {};
+    CASOS.forEach(function (c) { var n = c.grupo || "Emergencias maternas"; if (!(n in idx)) { idx[n] = out.length; out.push({ nombre: n, casos: [] }); } out[idx[n]].casos.push(c); });
+    return out;
+  }
+  function totalPreguntas(c) { return c.escenas.reduce(function (n, e) { return n + e.preguntas.length; }, 0); }
+  /* Casos con evolución: la escena puede tener id, fin:true, evol:[{p, ir, nota}] (evolución al azar) y cada opción puede tener ir. */
+  function ramificado(c) { return c.escenas.some(function (e) { return e.evol || e.fin; }); }
+  function idxEscena(id) { for (var i = 0; i < S.c.escenas.length; i++) if (S.c.escenas[i].id === id) return i; return -1; }
+  function sortear(evol) { var r = Math.random(), acc = 0; for (var i = 0; i < evol.length; i++) { acc += evol[i].p; if (r < acc) return evol[i]; } return evol[evol.length - 1]; }
+  function etiquetaDecisiones(c) { return ramificado(c) ? "Evolución variable · cada intento puede cambiar" : totalPreguntas(c) + " decisiones"; }
+
+  /* ---------- lista de casos ---------- */
+  function lista() {
+    pararTimer(); S = null;
+    var g2 = guardado();
+    $("#sim-app").innerHTML =
+      '<div class="sim-intro">' +
+        "<p>Casos ficticios para entrenar. La app presenta a la paciente, vos decidís, el caso reacciona y al final recibís la devolución con la fuente de cada respuesta.</p>" +
+        '<label class="sim-switch"><input type="checkbox" id="sim-reloj" checked> Con reloj (tiempo límite por decisión)</label>' +
+      "</div>" +
+      grupos().map(function (g) {
+        return '<section class="sim-grupo"><h2>' + esc(g.nombre) + ' <span>' + g.casos.length + (g.casos.length === 1 ? " caso" : " casos") + '</span></h2><div class="sim-casos">' + g.casos.map(function (c, i) {
+        var best = g2[c.id];
+        return '<article class="sim-caso ' + c.codigo + '">' +
+          '<div class="sim-caso-n">Caso ' + (i + 1) + " · " + esc(c.tema) + "</div>" +
+          "<h3>" + esc(c.titulo) + "</h3><p>" + esc(c.resumen) + "</p>" +
+          '<div class="sim-caso-pie"><span>' + etiquetaDecisiones(c) + (best != null ? " · mejor resultado: " + best + " %" : "") + "</span>" +
+          '<button type="button" class="sim-btn sim-btn-p" data-caso="' + c.id + '">Iniciar caso</button></div>' +
+        "</article>";
+      }).join("") + "</div></section>";
+      }).join("") +
+      '<p class="sim-nota">Herramienta de entrenamiento. Los casos son ficticios y no reemplazan el criterio clínico.</p>';
+  }
+
+  /* ---------- inicio ---------- */
+  function iniciar(id) {
+    var c = CASOS.filter(function (x) { return x.id === id; })[0]; if (!c) return;
+    var conReloj = ($("#sim-reloj") || {}).checked !== false;
+    S = { c: c, e: 0, p: 0, reloj: conReloj, pts: 0, res: [], peor: { fc: 0, pas: 0, sat: 0 }, t0: Date.now(), ir: null, ruta: [] };
+    pintarEscena();
+    arriba();
+  }
+
+  /* ---------- monitor ---------- */
+  function nivel(k, v, vit) {
+    if (vit.paro) return "rojo";
+    switch (k) {
+      case "fc": return v === 0 || v > 120 || v < 50 ? "rojo" : v > 100 ? "amar" : "ok";
+      case "pas": return v < 90 ? "rojo" : v < 100 ? "amar" : "ok";
+      case "pam": return v < 65 ? "rojo" : v < 70 ? "amar" : "ok";
+      case "fr": return v > 25 || v < 10 ? "rojo" : v > 20 ? "amar" : "ok";
+      case "sat": return v < 90 ? "rojo" : v < 95 ? "amar" : "ok";
+      case "t": return v > 38 || v < 35 ? "rojo" : v > 37.5 ? "amar" : "ok";
+    }
+    return "ok";
+  }
+  function monitorParto(vit) {
+    var cel = function (cls, lab, val, uni) { return '<div class="sim-vit ' + cls + '"><span>' + lab + "</span><strong>" + val + "</strong><small>" + uni + "</small></div>"; };
+    var pam = Math.round((vit.pas + 2 * vit.pad) / 3);
+    var fcfCls = vit.fcf == null ? "ok" : (vit.fcf < 110 || vit.fcf > 160 ? "rojo" : "ok");
+    return '<div class="sim-monitor parto">' +
+      cel(nivel("fc", vit.fc, vit), "FC materna", vit.fc, "lpm") +
+      cel(nivel("pas", vit.pas, vit), "PA", vit.pas + "/" + vit.pad, "mmHg · PAM " + pam) +
+      cel(nivel("t", vit.t, vit), "T", fmt(vit.t, 1), "°C") +
+      cel(fcfCls, "FCF", vit.fcf == null ? "—" : vit.fcf, vit.fcf == null ? "nacido" : "lpm · normal 110-160") +
+      cel("neutro", "Contracciones", esc(vit.cu || "—"), "") +
+      cel("neutro", "Dilatación", vit.dil == null ? "—" : vit.dil + " cm", vit.dil === 10 ? "completa" : vit.dil != null && vit.dil < 5 ? "fase latente" : vit.dil != null ? "fase activa" : "") +
+      "</div>";
+  }
+  function monitorPanel(p) {
+    return '<div class="sim-monitor panel">' + p.map(function (x) { return '<div class="sim-vit ' + (x[3] || "neutro") + '"><span>' + esc(x[0]) + "</span><strong>" + esc(x[1]) + "</strong><small>" + esc(x[2] || "") + "</small></div>"; }).join("") + "</div>";
+  }
+  function monitor(vit) {
+    if (vit.panel) return monitorPanel(vit.panel);
+    if (S.c.modo === "parto") return monitorParto(vit);
+    var p = S.peor, paro = !!vit.paro;
+    var fc = paro ? 0 : Math.max(20, vit.fc + p.fc), pas = paro ? 0 : Math.max(40, vit.pas + p.pas), pad = paro ? 0 : Math.max(20, vit.pad + Math.round(p.pas / 2));
+    var sat = paro ? 0 : Math.max(50, Math.min(100, vit.sat + p.sat));
+    var pam = paro ? 0 : Math.round((pas + 2 * pad) / 3);
+    var cel = function (k, lab, val, uni, extra) {
+      return '<div class="sim-vit ' + nivel(k, k === "pam" ? pam : k === "pas" ? pas : k === "fc" ? fc : k === "sat" ? sat : k === "fr" ? vit.fr : vit.t, vit) + '"><span>' + lab + "</span><strong>" + val + "</strong><small>" + uni + (extra ? " · " + esc(extra) : "") + "</small></div>";
+    };
+    var empeora = (p.fc || p.pas || p.sat) && !paro;
+    return '<div class="sim-monitor' + (paro ? " paro" : "") + '">' +
+      cel("fc", "FC", paro ? "—" : fc, "lpm") +
+      cel("pas", "PA", paro ? "—" : pas + "/" + pad, "mmHg") +
+      cel("pam", "PAM", paro ? "—" : pam, "mmHg") +
+      cel("fr", "FR", paro ? "—" : vit.fr, "rpm") +
+      cel("sat", "SpO₂", paro ? "—" : sat + " %", "", vit.satNota) +
+      cel("t", "T", fmt(vit.t, 1), "°C") +
+      "</div>" +
+      (vit.mental || vit.vaso ? '<div class="sim-mental">' + esc(vit.mental || "") + (vit.vaso ? (vit.mental ? " · " : "") + "Vasopresor en curso" : "") + "</div>" : "") +
+      (empeora ? '<div class="sim-peor">La paciente empeoró por las decisiones demoradas o incorrectas.</div>' : "");
+  }
+
+  /* ---------- escena y pregunta ---------- */
+  function pintarEscena() {
+    var c = S.c, e = c.escenas[S.e], q = e.preguntas[S.p];
+    var n = S.res.length + 1;
+    var tot = ramificado(c) ? null : totalPreguntas(c);
+    var html =
+      '<div class="sim-top ' + c.codigo + '">' +
+        '<button type="button" class="sim-btn sim-btn-o sim-back" data-sim="salir">← Casos</button>' +
+        '<div><div class="sim-top-t">' + esc(c.tema) + '</div><div class="sim-top-s">' + esc(c.titulo) + "</div></div>" +
+        '<div class="sim-prog" aria-label="Progreso">' + (tot ? n + " / " + tot : "Decisión " + n) + "</div>" +
+      "</div>" +
+      '<div class="sim-escena">' +
+        '<div class="sim-min">' + tiempo(e.min) + " · " + esc(e.titulo) + "</div>" +
+        (S.evolNota ? '<div class="sim-evol" role="status">Evolución: ' + esc(S.evolNota) + "</div>" : "") +
+        '<p class="sim-relato">' + esc(e.relato) + "</p>" +
+        monitor(e.vit) +
+        (e.datos ? '<dl class="sim-datos">' + e.datos.map(function (d) { return "<div><dt>" + esc(d[0]) + "</dt><dd>" + esc(d[1]) + "</dd></div>"; }).join("") + "</dl>" : "") +
+      "</div>" +
+      '<div class="sim-q" id="sim-q">' + preguntaHTML(q) + "</div>";
+    $("#sim-app").innerHTML = html;
+    S.qt0 = Date.now(); S.respondida = false;
+    if (q.tipo === "numero") { var inp = $("#sim-num"); if (inp) inp.focus({ preventScroll: true }); }
+    arrancarTimer(q);
+  }
+  function preguntaHTML(q) {
+    var reloj = S.reloj ? '<div class="sim-reloj" id="sim-reloj-q"></div>' : "";
+    if (q.tipo === "numero") {
+      return reloj + "<h3>" + esc(q.q) + "</h3>" +
+        '<form class="sim-numf" id="sim-numf"><input type="text" inputmode="decimal" id="sim-num" autocomplete="off" aria-label="Respuesta">' + (q.unidad ? "<span>" + esc(q.unidad) + "</span>" : "") +
+        '<button type="submit" class="sim-btn sim-btn-p">Responder</button></form><div id="sim-fb"></div>';
+    }
+    S.ops = mezclar(q.ops.map(function (o, i) { return { o: o, i: i }; }));
+    return reloj + "<h3>" + esc(q.q) + '</h3><div class="sim-ops">' + S.ops.map(function (x, k) {
+      return '<button type="button" class="sim-op" data-op="' + k + '"><span class="sim-op-l">' + "ABC"[k] + "</span>" + esc(x.o.t) + "</button>";
+    }).join("") + '</div><div id="sim-fb"></div>';
+  }
+
+  /* ---------- reloj ---------- */
+  function limite(q) { return q.tipo === "numero" ? 60 : 45; }
+  function arrancarTimer(q) {
+    pararTimer(); if (!S.reloj) return;
+    var lim = limite(q), el = $("#sim-reloj-q");
+    var tick = function () {
+      if (!S || S.respondida) return pararTimer();
+      var r = lim - Math.floor((Date.now() - S.qt0) / 1000);
+      if (el) { el.textContent = "Tiempo: " + Math.max(0, r) + " s"; el.className = "sim-reloj" + (r <= 10 ? " poco" : ""); }
+      if (r <= 0) { pararTimer(); responder(null, true); }
+    };
+    tick(); timerInt = setInterval(tick, 250);
+  }
+  function pararTimer() { if (timerInt) { clearInterval(timerInt); timerInt = null; } }
+
+  /* ---------- respuesta ---------- */
+  function responder(valor, vencido) {
+    if (!S || S.respondida) return;
+    S.respondida = true; pararTimer();
+    var e = S.c.escenas[S.e], q = e.preguntas[S.p];
+    var seg = Math.round((Date.now() - S.qt0) / 1000);
+    var ok = false, fb = "", elegido = "", correcto = "";
+    if (q.tipo === "numero") {
+      var v = parseFloat(String(valor == null ? "" : valor).replace(",", "."));
+      ok = !vencido && !isNaN(v) && Math.abs(v - q.resp) <= q.tol + 1e-9;
+      fb = ok ? q.fbOk : q.fbMal;
+      elegido = vencido ? "Sin respuesta (tiempo agotado)" : isNaN(v) ? "—" : fmt(v, q.dec) + (q.unidad ? " " + q.unidad : "");
+      correcto = fmt(q.resp, q.dec) + (q.unidad ? " " + q.unidad : "");
+      var inp = $("#sim-num"); if (inp) inp.disabled = true;
+      var b = $("#sim-numf button"); if (b) b.disabled = true;
+    } else {
+      var buenos = q.ops.filter(function (o) { return o.ok; })[0];
+      correcto = buenos.t;
+      if (vencido) { fb = "Se agotó el tiempo. " + buenos.fb; elegido = "Sin respuesta (tiempo agotado)"; }
+      else { var x = S.ops[valor]; ok = !!x.o.ok; fb = x.o.fb; elegido = x.o.t; if (x.o.ir) S.ir = x.o.ir; }
+      [].forEach.call(document.querySelectorAll(".sim-op"), function (btn, k) {
+        btn.disabled = true;
+        if (S.ops[k].o.ok) btn.classList.add("bien");
+        else if (!vencido && k === valor) btn.classList.add("mal");
+      });
+    }
+    if (ok) { S.pts += 10; fb = String(fb).replace(/^Correcto[.:]\s*/, ""); fb = fb.charAt(0).toUpperCase() + fb.slice(1); }
+    else if (q.peor) { S.peor.fc += q.peor.fc || 0; S.peor.pas += q.peor.pas || 0; S.peor.sat += q.peor.sat || 0; }
+    S.res.push({ escena: e.titulo, min: e.min, q: q.q, ok: ok, elegido: elegido, correcto: correcto, seg: seg, vencido: !!vencido, ref: q.ref, url: q.url });
+    var ultimo = S.p + 1 >= e.preguntas.length && (e.fin || (!e.evol && !S.ir && S.e + 1 >= S.c.escenas.length));
+    $("#sim-fb").innerHTML =
+      '<div class="sim-fb ' + (ok ? "ok" : "mal") + '" role="status">' +
+        "<strong>" + (ok ? "Correcto" : vencido ? "Tiempo agotado" : "No es la mejor decisión") + "</strong>" +
+        "<p>" + esc(fb) + "</p>" +
+        (!ok && q.peor ? '<p class="sim-cons">Consecuencia: la paciente se deteriora.</p>' : "") +
+        '<p class="sim-ref">Fuente: <a href="' + esc(q.url) + '" target="_blank" rel="noopener">' + esc(q.ref) + "</a></p>" +
+      "</div>" +
+      '<button type="button" class="sim-btn sim-btn-p sim-btn-block sim-next" data-sim="next">' + (ultimo ? "Ver devolución" : "Continuar") + "</button>";
+    var nb = $(".sim-next"); if (nb) nb.focus({ preventScroll: true });
+    $("#sim-fb").scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+  function siguiente() {
+    var e = S.c.escenas[S.e];
+    if (S.p + 1 < e.preguntas.length) { S.p++; return pintarEscena(); }
+    if (e.fin) return devolucion();
+    var dest = S.ir, nota = null; S.ir = null;
+    if (!dest && e.evol) { var x = sortear(e.evol); dest = x.ir; nota = x.nota || null; }
+    var k = dest ? idxEscena(dest) : S.e + 1;
+    S.evolNota = nota;
+    if (nota) S.ruta.push(nota);
+    if (k >= 0 && k < S.c.escenas.length) { S.e = k; S.p = 0; pintarEscena(); return arriba(); }
+    devolucion();
+  }
+
+  /* ---------- devolución ---------- */
+  function devolucion() {
+    pararTimer();
+    var c = S.c, tot = S.res.length, buenas = S.res.filter(function (r) { return r.ok; }).length;
+    var pct = Math.round(100 * buenas / tot);
+    guardar(c.id, pct);
+    var seg = Math.round((Date.now() - S.t0) / 1000);
+    var nivelTxt = pct >= 85 ? "Equipo entrenado" : pct >= 60 ? "Buen manejo, con puntos para reforzar" : "Conviene repasar el protocolo";
+    var txt = textoResultado(c, buenas, tot, pct, seg);
+    $("#sim-app").innerHTML =
+      '<div class="sim-top ' + c.codigo + '"><button type="button" class="sim-btn sim-btn-o sim-back" data-sim="salir">← Casos</button><div><div class="sim-top-t">Devolución</div><div class="sim-top-s">' + esc(c.tema) + "</div></div><div></div></div>" +
+      '<div class="sim-score ' + (pct >= 85 ? "ok" : pct >= 60 ? "med" : "bajo") + '"><strong>' + pct + " %</strong><span>" + buenas + " de " + tot + " decisiones correctas · " + Math.floor(seg / 60) + " min " + (seg % 60) + " s</span><em>" + nivelTxt + "</em></div>" +
+      (S.ruta.length ? '<section class="sim-ruta"><h3>Cómo evolucionó tu caso</h3><ol>' + S.ruta.map(function (r) { return "<li>" + esc(r) + "</li>"; }).join("") + "</ol><p>Al repetir el caso la evolución puede ser otra.</p></section>" : "") +
+      '<ol class="sim-revision">' + S.res.map(function (r) {
+        return '<li class="' + (r.ok ? "ok" : "mal") + '"><div class="sim-rev-h">' + tiempo(r.min) + " · " + esc(r.escena) + " · " + r.seg + " s</div>" +
+          '<div class="sim-rev-q">' + esc(r.q) + "</div>" +
+          '<div class="sim-rev-a"><span>Tu respuesta:</span> ' + esc(r.elegido) + "</div>" +
+          (r.ok ? "" : '<div class="sim-rev-c"><span>Mejor decisión:</span> ' + esc(r.correcto) + "</div>") +
+          '<div class="sim-ref">Fuente: <a href="' + esc(r.url) + '" target="_blank" rel="noopener">' + esc(r.ref) + "</a></div></li>";
+      }).join("") + "</ol>" +
+      '<section class="sim-fuentes"><h3>Fuentes del caso</h3><ul>' + c.fuentes.map(function (f) { return '<li><a href="' + esc(f[1]) + '" target="_blank" rel="noopener">' + esc(f[0]) + "</a></li>"; }).join("") + "</ul></section>" +
+      '<div class="sim-acc"><button type="button" class="sim-btn sim-btn-p" data-caso="' + c.id + '">Repetir caso</button>' +
+      '<button type="button" class="sim-btn sim-btn-o" data-sim="copiar">Copiar resultado</button>' +
+      '<button type="button" class="sim-btn sim-btn-o" data-sim="salir">Otro caso</button></div>' +
+      '<pre class="sim-txt" id="sim-txt" hidden>' + esc(txt) + "</pre>";
+    arriba();
+  }
+  function textoResultado(c, buenas, tot, pct, seg) {
+    var L = ["CaVeSal® Simulador — " + c.tema, "Caso: " + c.titulo, "Resultado: " + pct + " % (" + buenas + "/" + tot + ") · " + Math.floor(seg / 60) + " min " + (seg % 60) + " s", ""];
+    if (S.ruta.length) L.push("Evolución: " + S.ruta.join(" → "), "");
+    S.res.forEach(function (r, i) { L.push((i + 1) + ". " + (r.ok ? "✓ " : "✗ ") + r.q + " — " + r.elegido + (r.ok ? "" : " | Mejor: " + r.correcto)); });
+    L.push("", "Caso ficticio de entrenamiento. No reemplaza el criterio clínico.");
+    return L.join("\n");
+  }
+
+  /* ---------- eventos ---------- */
+  document.addEventListener("click", function (ev) {
+    var t = ev.target.closest("[data-caso],[data-sim],.sim-op"); if (!t) return;
+    if (t.hasAttribute("data-caso")) return iniciar(t.getAttribute("data-caso"));
+    if (t.classList.contains("sim-op")) return responder(parseInt(t.getAttribute("data-op"), 10), false);
+    var a = t.getAttribute("data-sim");
+    if (a === "next") siguiente();
+    else if (a === "salir") { if (S && !$(".sim-score") && !confirm("¿Salir del caso en curso?")) return; lista(); arriba(); }
+    else if (a === "copiar") {
+      var x = $("#sim-txt").textContent;
+      (navigator.clipboard ? navigator.clipboard.writeText(x) : Promise.reject()).then(function () { t.textContent = "Copiado"; }).catch(function () { prompt("Copiá el resultado:", x); });
+    }
+  });
+  document.addEventListener("submit", function (ev) {
+    if (ev.target.id !== "sim-numf") return;
+    ev.preventDefault(); responder($("#sim-num").value, false);
+  });
+
+  window.CaVeSalSim = { iniciar: iniciar, lista: lista, _estado: function () { return S; } };
+  document.addEventListener("DOMContentLoaded", function () {
+    lista();
+  });
+})();
+</script>
 </body>
 </html>
