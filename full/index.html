@@ -791,7 +791,7 @@ function validarClave(){
   btn.disabled = true;
   btn.textContent = 'Validando...';
   
-  fetch(LICENSE_API + '?clave=' + encodeURIComponent(clave) + '&accion=activar&app=calculadora')
+  fetch(LICENSE_API + '?clave=' + encodeURIComponent(clave) + '&accion=activar&producto=calculadora')
     .then(r => r.json())
     .then(data => {
       if(data.valido){
