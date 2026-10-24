@@ -20,68 +20,84 @@
   ul{padding-left:20px;margin-bottom:8px}
   .updated{font-size:.78rem;color:var(--slate);text-align:center;margin-top:20px}
   a{color:var(--teal)}
+  .tag{display:inline-block;font-size:.72rem;font-weight:700;color:var(--teal);background:var(--teal-lt);border-radius:6px;padding:2px 8px;margin-bottom:8px}
 </style>
 </head>
 <body>
 
 <header>
   <h1>CaVeSal® · Política de Privacidad</h1>
-  <p>Maternal Fetal Intelligence — Calculadora Prenatal</p>
+  <p>Maternal Fetal Intelligence — Ecosistema de aplicaciones clínicas</p>
 </header>
 
 <main>
 
 <section>
   <h2>1. Responsable</h2>
-  <p>CaVeSal® Maternal Fetal Intelligence es desarrollada y mantenida por el Dr. Carlos Vera Salerno, especialista en Medicina Materno-Fetal. Para consultas sobre esta política, podés escribir a <a href="mailto:drverasalerno@gmail.com">drverasalerno@gmail.com</a>.</p>
+  <p>El Ecosistema CaVeSal® Maternal Fetal Intelligence (Calculadora Prenatal, Historia Clínica, Emergencias Obstétricas y CaVeSal® IA) es desarrollado y mantenido por el Dr. Carlos Vera Salerno, especialista en Medicina Materno-Fetal. Para consultas sobre esta política, podés escribir a <a href="mailto:drverasalerno@gmail.com">drverasalerno@gmail.com</a>.</p>
 </section>
 
 <section>
-  <h2>2. Qué datos procesa la aplicación</h2>
-  <p>CaVeSal® es una calculadora clínica de uso profesional. Todos los cálculos (riesgo cromosómico, biometría fetal, preeclampsia, edad gestacional, vía de parto, laboratorio, vacunación, etc.) se realizan <strong>completamente en el dispositivo del usuario</strong>. La aplicación no envía estos datos a ningún servidor externo ni a terceros.</p>
-  <p>La app no utiliza servicios de analítica, publicidad ni rastreo de ningún tipo (no incluye Google Analytics, Firebase, ni SDKs de terceros).</p>
-  <p><strong>CaVeSal® no tiene acceso a, no almacena en servidores propios, ni controla los datos que usted registra, calcula o exporta dentro de la aplicación.</strong> Toda la información permanece exclusivamente en su dispositivo o en el destino que usted elija al exportar (Google Drive, correo, etc.), bajo su exclusiva responsabilidad y custodia conforme al secreto profesional.</p>
+  <span class="tag">Calculadora Prenatal · Historia Clínica · Emergencias Obstétricas</span>
+  <h2>2. Qué datos procesan estas tres Apps</h2>
+  <p>Estas tres Apps son herramientas de uso profesional cuyos cálculos (riesgo cromosómico, biometría fetal, preeclampsia, edad gestacional, vía de parto, laboratorio, vacunación, código rojo, THAE, sepsis materna, etc.) se realizan <strong>completamente en el dispositivo del usuario</strong>. Ninguna de las tres envía estos datos a ningún servidor externo ni a terceros, y ninguna utiliza servicios de analítica, publicidad ni rastreo (no incluyen Google Analytics, Firebase, ni SDKs de terceros).</p>
+  <p><strong>CaVeSal® no tiene acceso a, no almacena en servidores propios, ni controla los datos que usted registra, calcula o exporta dentro de Calculadora Prenatal, Historia Clínica o Emergencias Obstétricas.</strong> Toda la información permanece exclusivamente en su dispositivo o en el destino que usted elija al exportar (Google Drive, correo, WhatsApp, impresión, etc.), bajo su exclusiva responsabilidad y custodia conforme al secreto profesional.</p>
+  <p>Esto es distinto de CaVeSal® IA — ver la sección 3 para el detalle de cómo procesa los datos esa App en particular.</p>
 </section>
 
 <section>
-  <h2>3. Módulo de Pacientes y sincronización con Google Drive</h2>
-  <p>La app incluye un módulo opcional de "Gestión de Pacientes", pensado para que el profesional de salud guarde localmente los registros de sus consultas. Este módulo funciona por defecto de forma local, almacenado únicamente en el dispositivo del usuario.</p>
+  <span class="tag">CaVeSal® IA</span>
+  <h2>3. Qué datos procesa CaVeSal® IA</h2>
+  <p>A diferencia de las tres Apps anteriores, <strong>CaVeSal® IA sí procesa información en un servidor</strong>, porque necesita generar una respuesta a tu consulta usando un modelo de lenguaje. El funcionamiento es el siguiente:</p>
+  <ul>
+    <li>Cuando usás el botón "Analizar con CaVeSal® IA" (desde Historia Clínica o desde Calculadora Prenatal) o escribís directamente en el chat, se envía a nuestro servidor (un Cloudflare Worker) un resumen clínico del caso puntual que elegiste compartir en ese momento — por ejemplo, los hallazgos y cálculos ya realizados — más tu pregunta. Nunca se envía automáticamente el resto de tu base de pacientes.</li>
+    <li>Ese servidor arma la consulta y llama a la API de un proveedor de inteligencia artificial (Anthropic, modelo Claude) para generar la respuesta clínica.</li>
+    <li><strong>El contenido clínico de tu consulta no se almacena de forma permanente</strong>: se procesa para generar esa respuesta puntual y no queda guardado en nuestra base de datos una vez respondida.</li>
+    <li>Lo único que CaVeSal® IA guarda de forma persistente es tu <strong>cuenta</strong> (email y PIN, el PIN siempre en formato hasheado, nunca en texto plano) y el <strong>conteo de consultas usadas</strong> de tu plan — esto es necesario para identificarte y aplicar el cupo diario de tu plan, y no incluye datos clínicos de pacientes.</li>
+  </ul>
+  <p>Como con el resto del Ecosistema, es responsabilidad del profesional que usa CaVeSal® IA decidir qué comparte en cada consulta, conforme a su deber de secreto profesional y a las normativas locales de protección de datos de pacientes vigentes en su jurisdicción.</p>
+</section>
+
+<section>
+  <span class="tag">Historia Clínica</span>
+  <h2>4. Módulo de Pacientes y sincronización con Google Drive</h2>
+  <p>Calculadora Prenatal e Historia Clínica incluyen un módulo de "Gestión de Pacientes"/historias clínicas, pensado para que el profesional de salud guarde localmente los registros de sus consultas. Este módulo funciona por defecto de forma local, almacenado únicamente en el dispositivo del usuario.</p>
   <p>Si el usuario decide activarlo manualmente, la app permite <strong>sincronizar estos registros con la cuenta personal de Google Drive del propio usuario</strong>, mediante autenticación OAuth de Google. En ese caso:</p>
   <ul>
     <li>Los datos se guardan en la propia cuenta de Google Drive del usuario, no en un servidor de CaVeSal®.</li>
     <li>CaVeSal® no tiene acceso a esos archivos ni los almacena en ningún servidor propio.</li>
     <li>El usuario puede desconectar la sincronización en cualquier momento desde la propia app.</li>
   </ul>
-  <p>El campo "ID / Historia clínica" de cada paciente es de texto libre y queda a criterio del profesional: puede usarse un número de historia clínica propio del consultorio, el número de documento/cédula del paciente, u otro identificador interno. Este dato, como el resto de la información del módulo, se almacena únicamente en el dispositivo del profesional (o en su propia cuenta de Google Drive si activa la sincronización) y en ningún caso es enviado a servidores de CaVeSal® ni a terceros.</p>
+  <p>El campo "ID / Historia clínica" de cada paciente es de texto libre y queda a criterio del profesional: puede usarse un número de historia clínica propio del consultorio, el número de documento/cédula del paciente, u otro identificador interno. Este dato, como el resto de la información del módulo, se almacena únicamente en el dispositivo del profesional (o en su propia cuenta de Google Drive si activa la sincronización) y en ningún caso es enviado a servidores de CaVeSal® ni a terceros — salvo el resumen puntual que vos decidís enviar a CaVeSal® IA, descrito en la sección 3.</p>
   <p>Es responsabilidad del profesional de salud que use este módulo resguardar estos datos conforme a su deber de secreto profesional y a las normativas locales de protección de datos de pacientes vigentes en su jurisdicción.</p>
 </section>
 
 <section>
-  <h2>4. Permisos del dispositivo</h2>
-  <p>La aplicación no solicita permisos especiales del dispositivo (cámara, ubicación, contactos, micrófono) más allá de los necesarios para su funcionamiento como aplicación web instalable (PWA) y, opcionalmente, el acceso a Google Drive descrito arriba.</p>
+  <h2>5. Permisos del dispositivo</h2>
+  <p>Las Apps del Ecosistema no solicitan permisos especiales del dispositivo (cámara, ubicación, contactos, micrófono) más allá de los necesarios para su funcionamiento como aplicación web instalable (PWA) y, opcionalmente, el acceso a Google Drive descrito arriba.</p>
 </section>
 
 <section>
-  <h2>5. Recomendaciones de seguridad</h2>
-  <p>Dado que la información del módulo de pacientes se almacena localmente bajo su responsabilidad, le recomendamos: proteja su dispositivo con contraseña/PIN o biometría, active el cifrado del dispositivo si está disponible, y evite compartir archivos de respaldo (.json) por canales no cifrados (por ejemplo, WhatsApp sin cifrado de extremo a extremo verificado, o email sin protección adicional).</p>
+  <h2>6. Recomendaciones de seguridad</h2>
+  <p>Dado que la información del módulo de pacientes se almacena localmente bajo su responsabilidad, le recomendamos: proteja su dispositivo con contraseña/PIN o biometría, active el cifrado del dispositivo si está disponible, y evite compartir archivos de respaldo (.json) por canales no cifrados (por ejemplo, WhatsApp sin cifrado de extremo a extremo verificado, o email sin protección adicional). Para CaVeSal® IA, evite compartir el PIN de su cuenta con terceros — es personal e intransferible.</p>
 </section>
 
 <section>
-  <h2>6. Menores de edad</h2>
-  <p>CaVeSal® es una herramienta de uso profesional dirigida a médicos y especialistas en Medicina Materno-Fetal. No está dirigida a niños ni recolecta intencionalmente datos de menores de edad.</p>
+  <h2>7. Menores de edad</h2>
+  <p>El Ecosistema CaVeSal® es de uso profesional, dirigido a médicos y especialistas en Medicina Materno-Fetal. Ninguna de sus Apps está dirigida a niños ni recolecta intencionalmente datos de menores de edad.</p>
 </section>
 
 <section>
-  <h2>7. Cambios en esta política</h2>
-  <p>Esta política puede actualizarse ocasionalmente para reflejar mejoras o cambios en la aplicación. La fecha de la última actualización figura al final de esta página.</p>
+  <h2>8. Cambios en esta política</h2>
+  <p>Esta política puede actualizarse ocasionalmente para reflejar mejoras, cambios en las Apps existentes o la incorporación de nuevas Apps al Ecosistema. La fecha de la última actualización figura al final de esta página.</p>
 </section>
 
 <section>
-  <h2>8. Contacto</h2>
-  <p>Ante cualquier duda sobre esta política de privacidad o sobre el manejo de datos dentro de la aplicación, podés escribir a <a href="mailto:drverasalerno@gmail.com">drverasalerno@gmail.com</a>.</p>
+  <h2>9. Contacto</h2>
+  <p>Ante cualquier duda sobre esta política de privacidad o sobre el manejo de datos dentro de cualquier App del Ecosistema, podés escribir a <a href="mailto:drverasalerno@gmail.com">drverasalerno@gmail.com</a>.</p>
 </section>
 
-<p class="updated">Versión: v1.1 · Última actualización: julio de 2026</p>
+<p class="updated">Versión: v1.2 · Última actualización: octubre de 2026 — unificada para todo el Ecosistema CaVeSal®</p>
 
 </main>
 </body>
