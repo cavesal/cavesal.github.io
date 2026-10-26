@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>CaVeSal® — Maternal Fetal Intelligence</title>
-<meta name="description" content="CaVeSal® es el ecosistema de herramientas digitales para la salud materno-fetal. Calculadora Prenatal, Historia Clínica Gineco-Obstétrica Integral y CaVeSal® Mamá — para profesionales y pacientes."/>
+<meta name="description" content="CaVeSal® es el ecosistema de herramientas digitales para la salud materno-fetal. Calculadora Prenatal, Historia Clínica Gineco-Obstétrica Integral, Emergencias Obstétricas, CaVeSal® IA, CaVeSal® Mamá y CaVeSal® Mujer — para profesionales y pacientes."/>
 <meta property="og:type" content="website"/>
 <meta property="og:title" content="CaVeSal® — Maternal Fetal Intelligence"/>
 <meta property="og:description" content="El ecosistema digital que vela por tu salud. Mujer · Embarazo · Maternidad · Neonatología. Para profesionales y para mamás."/>
@@ -194,6 +194,9 @@ section{padding:80px 24px}
 }
 .pro-card-price .amount{font-family:var(--font-title);font-size:1.8rem;font-weight:900;color:var(--navy)}
 .pro-card-price .currency{font-size:.85rem;color:var(--gray-400);font-weight:600}
+.pro-card-price{flex-wrap:wrap}
+.pro-card-price .amount{white-space:nowrap}
+.pro-card.combo .pro-card-logo img{width:31%;max-width:120px;height:130px;flex:1 1 0}
 .pro-card-price .save{font-size:.78rem;background:#dcfce7;color:#15803d;padding:2px 8px;border-radius:100px;font-weight:700}
 .btn-pro{
   display:block;text-align:center;text-decoration:none;
@@ -353,6 +356,7 @@ section{padding:80px 24px}
   box-shadow:0 0 0 1px #F472B6,var(--shadow);
 }
 .price-icon{font-size:1.8rem;margin-bottom:10px}
+.pricing-group{font-family:var(--font-title);font-size:1.15rem;font-weight:800;color:var(--navy);margin:44px 0 0}
 .price-name{font-weight:800;font-size:.95rem;color:var(--navy);margin-bottom:4px}
 .price-category{font-size:.72rem;color:var(--gray-400);margin-bottom:14px;text-transform:uppercase;letter-spacing:1px}
 .price-amount{font-family:var(--font-title);font-size:2.2rem;font-weight:900;color:var(--navy);margin-bottom:4px}
@@ -605,11 +609,38 @@ footer{
         </div>
       </div>
 
+      <!-- EMERGENCIAS -->
+      <div class="pro-card">
+        <div class="pro-card-logo">
+          <img src="img/logo-emergencia.jpg" alt="Emergencias Obstétricas CaVeSal®" loading="lazy"/>
+        </div>
+        <div class="pro-card-body">
+          <div class="bridge-chip">🚨 Guardia y sala de partos</div>
+          <div class="pro-card-name">Emergencias Obstétricas &amp; Parto</div>
+          <p class="pro-card-desc">Apoyo a la decisión clínica en tiempo real: Código Rojo (hemorragia), Código THAE (hipertensión), Código Amarillo (sepsis), Código Azul Obstétrico (RCP), tromboprofilaxis y parto con partogramas.</p>
+          <ul class="pro-card-features">
+            <li>Escalada Nivel 0-3, sangrados de 1.ª y 2.ª mitad</li>
+            <li>Alerta Obstétrica CaVeSal®, HELLP, MgSO4</li>
+            <li>Partograma Ministerio CLAP, OMS 2020 y ACOG 2024</li>
+            <li>Modo voz manos libres, Modo Guía y simulador</li>
+            <li>1 clave de activación (1 dispositivo)</li>
+          </ul>
+          <div class="pro-card-price">
+            <span class="amount">USD 19.90</span>
+            <span class="currency">pago único</span>
+          </div>
+          <a href="https://cavesal.app/cavesal-emergencias/demo/" class="btn-demo" target="_blank" rel="noopener">Probar demo gratuita →</a>
+          <a href="https://cavesal.gumroad.com/l/cavesal" class="btn-pro" target="_blank" rel="noopener">Adquirir licencia completa</a>
+          <a href="https://cavesal.github.io/comprar.html?producto=emergencia" class="btn-demo" target="_blank" rel="noopener" style="margin-top:6px">💸 Comprar sin tarjeta (transferencia) →</a>
+          <a href="https://cavesal.app/cavesal-emergencias/manual.html" class="btn-demo" target="_blank" rel="noopener" style="margin-top:6px">Ver tutorial →</a>
+        </div>
+      </div>
+
       <!-- COMBO -->
       <div class="pro-card combo">
         <div class="pro-card-logo" style="padding-top:24px">
           <div style="display:flex;gap:8px;justify-content:center">
-            <img src="img/logo-calculadora.jpg" alt="Calculadora" style="width:48%;max-width:120px;height:100px;object-fit:contain"/>
+            <img src="img/logo-calculadora.jpg" alt="Calculadora Prenatal CaVeSal®"/>
             <img src="img/logo-hc.jpg" alt="Historia Clínica CaVeSal®">
           </div>
         </div>
@@ -620,7 +651,7 @@ footer{
             <li>Acceso completo a las dos apps</li>
             <li>Sincronización de datos entre Calculadora e HC</li>
             <li>Importación directa desde CaVeSal® Mamá</li>
-            <li>Una sola clave, dos herramientas</li>
+            <li>3 claves: 1 Calculadora + 2 Historia Clínica (PC y celular)</li>
           </ul>
           <div class="pro-card-price">
             <span class="amount">USD 29.90</span>
@@ -629,6 +660,73 @@ footer{
           </div>
           <a href="https://cavesal.gumroad.com/l/cavesal" class="btn-pro" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#92400e,#d97706);margin-top:auto">Adquirir Combo Profesional</a>
           <a href="https://cavesal.github.io/comprar.html?producto=combo" class="btn-demo" target="_blank" rel="noopener" style="margin-top:6px">💸 Comprar sin tarjeta (transferencia) →</a>
+        </div>
+      </div>
+
+
+      <!-- COMBO EMERGENCIAS + CALCULADORA -->
+      <div class="pro-card combo">
+        <div class="pro-card-logo" style="padding-top:24px">
+          <div style="display:flex;gap:8px;justify-content:center"><img src="img/logo-emergencia.jpg" alt=""/><img src="img/logo-calculadora.jpg" alt=""/></div>
+        </div>
+        <div class="pro-card-body">
+          <div class="pro-card-name">Combo Emergencias + Calculadora</div>
+          <p class="pro-card-desc">Emergencias Obstétricas &amp; Parto + Calculadora Prenatal: del control prenatal a la guardia.</p>
+          <ul class="pro-card-features">
+            <li>Acceso completo a las dos apps</li>
+            <li>2 claves: 1 Emergencias + 1 Calculadora</li>
+          </ul>
+          <div class="pro-card-price">
+            <span class="amount">USD 29.90</span>
+            <span class="currency">pago único</span>
+            <span class="save">Ahorrás USD 9.90</span>
+          </div>
+          <a href="https://cavesal.gumroad.com/l/cavesal" class="btn-pro" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#9f1239,#e11d48);margin-top:auto">Adquirir combo</a>
+          <a href="https://cavesal.github.io/comprar.html?producto=combo_calc_emergencia" class="btn-demo" target="_blank" rel="noopener" style="margin-top:6px">💸 Comprar sin tarjeta (transferencia) →</a>
+        </div>
+      </div>
+
+      <!-- COMBO EMERGENCIAS + HISTORIA CLÍNICA -->
+      <div class="pro-card combo">
+        <div class="pro-card-logo" style="padding-top:24px">
+          <div style="display:flex;gap:8px;justify-content:center"><img src="img/logo-emergencia.jpg" alt=""/><img src="img/logo-hc.jpg" alt=""/></div>
+        </div>
+        <div class="pro-card-body">
+          <div class="pro-card-name">Combo Emergencias + Historia Clínica</div>
+          <p class="pro-card-desc">Emergencias Obstétricas &amp; Parto + Historia Clínica Gineco-Obstétrica Integral.</p>
+          <ul class="pro-card-features">
+            <li>Acceso completo a las dos apps</li>
+            <li>3 claves: 1 Emergencias + 2 Historia Clínica (PC y celular)</li>
+          </ul>
+          <div class="pro-card-price">
+            <span class="amount">USD 29.90</span>
+            <span class="currency">pago único</span>
+            <span class="save">Ahorrás USD 9.90</span>
+          </div>
+          <a href="https://cavesal.gumroad.com/l/cavesal" class="btn-pro" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#9f1239,#e11d48);margin-top:auto">Adquirir combo</a>
+          <a href="https://cavesal.github.io/comprar.html?producto=combo_hc_emergencia" class="btn-demo" target="_blank" rel="noopener" style="margin-top:6px">💸 Comprar sin tarjeta (transferencia) →</a>
+        </div>
+      </div>
+
+      <!-- SUPER COMBO -->
+      <div class="pro-card combo">
+        <div class="pro-card-logo" style="padding-top:24px">
+          <div style="display:flex;gap:8px;justify-content:center"><img src="img/logo-calculadora.jpg" alt=""/><img src="img/logo-hc.jpg" alt=""/><img src="img/logo-emergencia.jpg" alt=""/></div>
+        </div>
+        <div class="pro-card-body">
+          <div class="pro-card-name">Super Combo</div>
+          <p class="pro-card-desc">Calculadora Prenatal + Historia Clínica + Emergencias Obstétricas &amp; Parto. El ecosistema profesional completo.</p>
+          <ul class="pro-card-features">
+            <li>Acceso completo a las tres apps</li>
+            <li>4 claves: 1 Calculadora + 2 Historia Clínica + 1 Emergencias</li>
+          </ul>
+          <div class="pro-card-price">
+            <span class="amount">USD 39.90</span>
+            <span class="currency">pago único</span>
+            <span class="save">Ahorrás USD 19.80</span>
+          </div>
+          <a href="https://cavesal.gumroad.com/l/cavesal" class="btn-pro" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#0D1B2D,#0EA5B7);margin-top:auto">Adquirir Super Combo</a>
+          <a href="https://cavesal.github.io/comprar.html?producto=combo_total" class="btn-demo" target="_blank" rel="noopener" style="margin-top:6px">💸 Comprar sin tarjeta (transferencia) →</a>
         </div>
       </div>
 
@@ -646,8 +744,8 @@ footer{
             <li>Accedés con email + PIN, desde cualquier dispositivo</li>
           </ul>
           <div class="pro-card-price">
-            <span class="amount">USD 34.90</span>
-            <span class="currency">por año · 3 planes disponibles</span>
+            <span class="amount">Desde USD 34.90</span>
+            <span class="currency">suscripción anual · 3 planes</span>
           </div>
           <a href="https://cavesal.gumroad.com/l/tcnehw" class="btn-pro" target="_blank" rel="noopener">Adquirir CaVeSal® IA</a>
           <a href="https://ia.cavesal.app" class="btn-demo" target="_blank" rel="noopener" style="margin-top:6px">Ver cómo funciona / activar →</a>
@@ -657,7 +755,7 @@ footer{
     </div><!-- /pro-cards -->
 
     <p style="font-size:.78rem;color:var(--gray-400);text-align:center;margin-top:28px">
-      Pago único · Sin suscripción · Sin vencimiento · Licencia por dispositivo · Datos almacenados localmente · <a href="https://cavesal.app/demo/" style="color:var(--teal);text-decoration:none">Demo gratuita disponible</a>
+      Apps profesionales: pago único · Sin suscripción · Sin vencimiento · Licencia por dispositivo · CaVeSal® IA: suscripción anual · Datos almacenados localmente · <a href="https://cavesal.app/demo/" style="color:var(--teal);text-decoration:none">Demo gratuita disponible</a>
     </p>
   </div>
 </section>
@@ -669,8 +767,9 @@ footer{
   <div class="section-inner" style="text-align:center">
     <div class="section-badge badge-pro">💳 Precios</div>
     <h2 class="section-title">Simple y transparente</h2>
-    <p class="section-sub" style="margin:0 auto">Pago único para las apps profesionales · Suscripción anual para CaVeSal® Mamá y CaVeSal® Mujer · Sin sorpresas.</p>
+    <p class="section-sub" style="margin:0 auto">Apps profesionales: pago único · CaVeSal® IA: suscripción anual · CaVeSal® Mamá y CaVeSal® Mujer: gratis con planes anuales opcionales.</p>
 
+    <h3 class="pricing-group">Para profesionales de salud</h3>
     <div class="pricing-grid">
 
       <!-- Calculadora Prenatal -->
@@ -718,10 +817,73 @@ footer{
           <li>Las dos apps profesionales</li>
           <li>Integración entre Calculadora e HC</li>
           <li>Importación desde CaVeSal® Mamá</li>
-          <li>Una sola clave de activación</li>
+          <li>3 claves: 1 Calculadora + 2 HC (PC y celular)</li>
         </ul>
         <a href="https://cavesal.gumroad.com/l/cavesal" class="btn-price pro" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#92400e,#d97706)">Adquirir Combo</a>
         <a href="https://cavesal.github.io/comprar.html?producto=combo" class="btn-price" target="_blank" rel="noopener" style="margin-top:8px;background:transparent;border:1.5px solid currentColor">💸 Sin tarjeta →</a>
+      </div>
+
+      <!-- Emergencias Obstétricas -->
+      <div class="price-card">
+        <div class="price-icon">🚑</div>
+        <div class="price-name">Emergencias Obstétricas</div>
+        <div class="price-category">Uso profesional</div>
+        <div class="price-amount">USD 19<span>.90</span></div>
+        <div class="price-period">Pago único · sin vencimiento</div>
+        <ul class="price-includes">
+          <li>Código Rojo, THAE, Amarillo y Azul</li>
+          <li>Tromboprofilaxis y parto con partogramas</li>
+          <li>Modo voz, Modo Guía y simulador</li>
+          <li>1 clave · demo gratuita disponible</li>
+        </ul>
+        <a href="https://cavesal.gumroad.com/l/cavesal" class="btn-price pro" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#9f1239,#e11d48)">Adquirir licencia</a>
+        <a href="https://cavesal.github.io/comprar.html?producto=emergencia" class="btn-price" target="_blank" rel="noopener" style="margin-top:8px;background:transparent;border:1.5px solid currentColor">💸 Sin tarjeta →</a>
+      </div>
+
+      <!-- Combo Emergencias + Calculadora -->
+      <div class="price-card">
+        <div class="price-icon">⭐</div>
+        <div class="price-name">Combo Emergencias + Calculadora</div>
+        <div class="price-category">Dos apps</div>
+        <div class="price-amount">USD 29<span>.90</span></div>
+        <div class="price-period">Pago único · ahorrás USD 9.90</div>
+        <ul class="price-includes">
+          <li>Emergencias + Calculadora Prenatal</li>
+          <li>2 claves de activación</li>
+        </ul>
+        <a href="https://cavesal.gumroad.com/l/cavesal" class="btn-price pro" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#9f1239,#e11d48)">Adquirir Combo</a>
+        <a href="https://cavesal.github.io/comprar.html?producto=combo_calc_emergencia" class="btn-price" target="_blank" rel="noopener" style="margin-top:8px;background:transparent;border:1.5px solid currentColor">💸 Sin tarjeta →</a>
+      </div>
+
+      <!-- Combo Emergencias + HC -->
+      <div class="price-card">
+        <div class="price-icon">⭐</div>
+        <div class="price-name">Combo Emergencias + HC</div>
+        <div class="price-category">Dos apps</div>
+        <div class="price-amount">USD 29<span>.90</span></div>
+        <div class="price-period">Pago único · ahorrás USD 9.90</div>
+        <ul class="price-includes">
+          <li>Emergencias + Historia Clínica</li>
+          <li>3 claves (HC en PC y celular)</li>
+        </ul>
+        <a href="https://cavesal.gumroad.com/l/cavesal" class="btn-price pro" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#9f1239,#e11d48)">Adquirir Combo</a>
+        <a href="https://cavesal.github.io/comprar.html?producto=combo_hc_emergencia" class="btn-price" target="_blank" rel="noopener" style="margin-top:8px;background:transparent;border:1.5px solid currentColor">💸 Sin tarjeta →</a>
+      </div>
+
+      <!-- Super Combo -->
+      <div class="price-card">
+        <div class="price-icon">🏆</div>
+        <div class="price-name">Super Combo</div>
+        <div class="price-category">Calculadora + HC + Emergencias</div>
+        <div class="price-amount">USD 39<span>.90</span></div>
+        <div class="price-period">Pago único · ahorrás USD 19.80</div>
+        <ul class="price-includes">
+          <li>Las tres apps profesionales</li>
+          <li>4 claves de activación</li>
+          <li>Precio de lanzamiento 2026</li>
+        </ul>
+        <a href="https://cavesal.gumroad.com/l/cavesal" class="btn-price pro" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#0D1B2D,#0EA5B7)">Adquirir Super Combo</a>
+        <a href="https://cavesal.github.io/comprar.html?producto=combo_total" class="btn-price" target="_blank" rel="noopener" style="margin-top:8px;background:transparent;border:1.5px solid currentColor">💸 Sin tarjeta →</a>
       </div>
 
       <!-- CaVeSal IA -->
@@ -730,7 +892,7 @@ footer{
         <div class="price-name">CaVeSal® IA</div>
         <div class="price-category">Uso profesional</div>
         <div class="price-amount">USD 34<span>.90</span></div>
-        <div class="price-period">Pago único anual · 3 planes disponibles</div>
+        <div class="price-period">Suscripción anual · desde USD 34.90 · 3 planes</div>
         <ul class="price-includes">
           <li>Chatbot + agente guiado con IA clínica</li>
           <li>Integrado con Calculadora e Historia Clínica</li>
@@ -739,6 +901,12 @@ footer{
         </ul>
         <a href="https://cavesal.gumroad.com/l/tcnehw" class="btn-price pro" target="_blank" rel="noopener">Adquirir CaVeSal® IA</a>
       </div>
+
+    </div>
+
+    <h3 class="pricing-group">Para pacientes</h3>
+    <p class="section-sub" style="margin:0 auto;font-size:.85rem">Apps gratuitas para la mujer, con planes anuales opcionales. El asistente de Premium Plus es la IA de la app de pacientes, distinta de CaVeSal® IA profesional.</p>
+    <div class="pricing-grid" style="margin-top:24px">
 
       <!-- CaVeSal Mamá — 3 planes -->
       <div class="price-card featured-mama">
@@ -763,7 +931,7 @@ footer{
         <!-- Plan Premium Plus -->
         <div style="margin:8px 0 14px;padding:10px 12px;background:rgba(245,158,11,.07);border-radius:10px;border:1px solid rgba(245,158,11,.2);text-align:left">
           <div style="font-weight:800;font-size:.82rem;color:#b45309;margin-bottom:2px">Premium Plus · Anual</div>
-          <div style="font-size:.75rem;color:var(--gray-600)">Todo lo de Premium · más Agente de inteligencia artificial con respuestas personalizadas</div>
+          <div style="font-size:.75rem;color:var(--gray-600)">Todo lo de Premium · más asistente de inteligencia artificial para pacientes con respuestas personalizadas</div>
           <div style="font-size:.72rem;color:#b45309;font-weight:700;margin-top:4px">USD 29.90 / año</div>
         </div>
 
@@ -793,7 +961,7 @@ footer{
         <!-- Plan Premium Plus -->
         <div style="margin:8px 0 14px;padding:10px 12px;background:rgba(245,158,11,.07);border-radius:10px;border:1px solid rgba(245,158,11,.2);text-align:left">
           <div style="font-weight:800;font-size:.82rem;color:#b45309;margin-bottom:2px">Premium Plus · Anual</div>
-          <div style="font-size:.75rem;color:var(--gray-600)">Todo lo de Premium · más Conversemos con CaVeSal IA</div>
+          <div style="font-size:.75rem;color:var(--gray-600)">Todo lo de Premium · más Conversemos, el asistente de IA para pacientes</div>
           <div style="font-size:.72rem;color:#b45309;font-weight:700;margin-top:4px">USD 29.90 / año</div>
         </div>
 
@@ -803,7 +971,7 @@ footer{
     </div>
 
     <p style="margin-top:28px;font-size:.78rem;color:var(--gray-400)">
-      Compra a través de Gumroad · Clave de activación enviada por correo · Sin renovación automática · Datos almacenados en tu dispositivo
+      Compra por Gumroad o transferencia · Clave de activación enviada por correo · Sin renovación automática · Datos almacenados en tu dispositivo
     </p>
   </div>
 </section>
@@ -1166,18 +1334,11 @@ footer{
         <a href="https://ia.cavesal.app" class="eco-card-url" target="_blank" rel="noopener">ia.cavesal.app</a>
       </div>
 
-    </div>
-
-    <!-- EN PROCESO -->
-    <div class="eco-group-label lbl-inprogress">🔶 En proceso</div>
-    <div class="eco-grid">
-
-      <div class="eco-card inprogress">
-        <span class="badge-inprogress">En proceso</span>
-        <img src="img/logo-emergencia.jpg" alt="Emergencia Obstétrica CaVeSal®" loading="lazy"/>
-        <div class="eco-card-name">Emergencia Obstétrica &amp; Parto</div>
-        <div class="eco-card-audience">Emergencias · Guardia obstétrica</div>
-        <span class="eco-card-url" style="color:#F59E0B;cursor:default">En desarrollo activo</span>
+      <div class="eco-card">
+        <img src="img/logo-emergencia.jpg" alt="Emergencias Obstétricas CaVeSal®" loading="lazy"/>
+        <div class="eco-card-name">Emergencias Obstétricas &amp; Parto</div>
+        <div class="eco-card-audience">Guardia · Sala de partos</div>
+        <a href="https://cavesal.app/cavesal-emergencias/demo/" class="eco-card-url" target="_blank" rel="noopener">cavesal.app/cavesal-emergencias</a>
       </div>
 
     </div>

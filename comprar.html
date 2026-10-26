@@ -65,6 +65,10 @@
       <option value="calculadora">Calculadora Prenatal CaVeSal® — USD 19.90</option>
       <option value="hc">Historia Clínica CaVeSal® — USD 19.90</option>
       <option value="combo">Combo (Calculadora + Historia Clínica) — USD 29.90</option>
+      <option value="emergencia">Emergencias Obstétricas CaVeSal® — USD 19.90</option>
+      <option value="combo_calc_emergencia">Combo (Emergencias + Calculadora) — USD 29.90</option>
+      <option value="combo_hc_emergencia">Combo (Emergencias + Historia Clínica) — USD 29.90</option>
+      <option value="combo_total">Super Combo (Calculadora + Historia Clínica + Emergencias) — USD 39.90</option>
     </select>
 
     <label for="f_nombre">Nombre y apellido</label>
@@ -186,7 +190,7 @@ function mostrarRetomar(){
   mostrarPaso('Retomar');
 }
 
-// Preselecciona el producto según ?producto=calculadora|hc|combo en la URL
+// Preselecciona el producto según ?producto=calculadora|hc|combo|emergencia|combo_calc_emergencia|combo_hc_emergencia|combo_total en la URL
 (function(){
   const params = new URLSearchParams(window.location.search);
   const producto = params.get('producto');
