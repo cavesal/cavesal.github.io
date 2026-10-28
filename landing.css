@@ -320,3 +320,17 @@ footer .col a:hover{color:var(--teal-l)}
 .lb-next{right:10px;top:50%;transform:translateY(-50%)}
 .lb.solo .lb-prev,.lb.solo .lb-next{display:none}
 .lb-cap{position:absolute;bottom:14px;left:16px;right:16px;text-align:center;color:#fff;font-size:.85rem}
+/* precio 2027 */
+.up2027{margin:-8px 0 14px;font-size:.8rem;font-weight:700;color:#b45309}
+.promo-2027{max-width:760px;margin:18px auto 0;background:#fffbeb;border:1px solid #fcd34d;color:#78350f;border-radius:14px;padding:14px 18px;font-size:.92rem;line-height:1.55;text-align:left}
+.price .was{font-size:.74rem;font-weight:700;color:#b45309}
+/* invitar amigas */
+.invite-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:980px;margin:6px auto 0;text-align:left}
+.istep{background:#fff;border:1px solid var(--g200,#e5e7eb);border-radius:16px;padding:18px}
+.istep .n{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#a21caf;color:#fff;font-weight:800;font-size:.85rem;margin-bottom:8px}
+.istep b{display:block;margin-bottom:4px;color:var(--navy)}
+.istep p{font-size:.88rem;color:var(--g600);line-height:1.5}
+.invite-note{max-width:760px;margin:16px auto 0;font-size:.86rem;color:var(--g600)}
+@media(max-width:760px){.invite-steps{grid-template-columns:1fr}}
+.price-line{flex-wrap:wrap;row-gap:2px}
+.price-line strong{white-space:nowrap}
