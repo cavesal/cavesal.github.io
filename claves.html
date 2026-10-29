@@ -18,8 +18,8 @@
   .card{background:#fff;border-radius:14px;padding:20px;box-shadow:0 2px 14px rgba(14,165,183,.10);margin-bottom:14px}
   label{display:block;font-size:.8rem;font-weight:700;color:var(--slate);margin:12px 0 5px}
   label:first-child{margin-top:0}
-  input{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:9px;font-size:.9rem;font-family:inherit}
-  input:focus{outline:none;border-color:var(--teal)}
+  input,select{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:9px;font-size:.9rem;font-family:inherit;background:#fff}
+  input:focus,select:focus{outline:none;border-color:var(--teal)}
   .btn{padding:10px 16px;border:none;border-radius:9px;font-size:.84rem;font-weight:700;cursor:pointer}
   .btn-primary{background:linear-gradient(135deg,#0D1B2D,#0EA5B7);color:#fff;width:100%;margin-top:14px;padding:12px}
   .btn-green{background:var(--green);color:#fff}
@@ -69,6 +69,29 @@
   </div>
 
   <div id="panel_screen">
+
+    <div class="card" id="generar_suelta_card">
+      <div class="toolbar">
+        <h2>🔑 Generar clave suelta</h2>
+      </div>
+      <label for="gs_producto">Producto</label>
+      <select id="gs_producto">
+        <option value="calculadora">Calculadora Prenatal</option>
+        <option value="hc">Historia Clínica</option>
+        <option value="combo">Combo (Calculadora + HC)</option>
+        <option value="emergencia">Emergencias Obstétricas</option>
+        <option value="combo_calc_emergencia">Combo (Emergencias + Calculadora)</option>
+        <option value="combo_hc_emergencia">Combo (Emergencias + HC)</option>
+        <option value="combo_total">Super Combo (las 3 apps)</option>
+      </select>
+      <label for="gs_email">Email del destinatario (opcional)</label>
+      <input type="email" id="gs_email" placeholder="paciente@email.com">
+      <label for="gs_nota">Nota (opcional — ej. "promo 50%", "regalo")</label>
+      <input type="text" id="gs_nota" placeholder="promo / regalo / motivo">
+      <button class="btn btn-primary" id="btn_gs_generar" onclick="generarClaveSuelta()">🔑 Generar clave</button>
+      <div id="gs_resultado" style="margin-top:4px"></div>
+    </div>
+
     <div class="toolbar">
       <h2 id="panel_titulo">Pedidos</h2>
       <button class="btn btn-outline" onclick="cargarPedidos()">🔄 Actualizar</button>
@@ -298,6 +321,67 @@ async function confirmarPedido(referencia, btn){
     btn.disabled = false;
     btn.textContent = '✅ Confirmar';
   }
+}
+
+// NUEVO (2026-10-29): "Generar clave suelta" — para las ventas manuales que
+// Carlos hace por fuera de "Comprar sin tarjeta" y de Gumroad (transferencia
+// directa con precio promocional, o regalo), sin armar un pedido completo
+// primero. Reemplaza escribir la fila a mano en Hoja 1 con prefijo PROM-/
+// GIFT-: reutiliza el mismo generador del backend (generarClave()), así
+// nunca hay 2 formatos de clave distintos.
+async function generarClaveSuelta(){
+  const producto = document.getElementById('gs_producto').value;
+  const email = document.getElementById('gs_email').value.trim();
+  const nota = document.getElementById('gs_nota').value.trim();
+  const btn = document.getElementById('btn_gs_generar');
+  const resultBox = document.getElementById('gs_resultado');
+  resultBox.innerHTML = '';
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Generando...';
+  try{
+    const data = await llamarAPI({
+      accion: 'generar_clave_suelta', autor_email: autor.email, autor_pin: autor.pin,
+      producto, email, nota,
+    });
+    if(data.ok){
+      mostrarResultadoClaveSuelta(data.claves, email);
+      document.getElementById('gs_email').value = '';
+      document.getElementById('gs_nota').value = '';
+    } else {
+      resultBox.innerHTML = '<div class="error-box">' + (data.error || 'No se pudo generar la clave.') + '</div>';
+    }
+  }catch(e){
+    resultBox.innerHTML = '<div class="error-box">No se pudo conectar con el servidor. Probá de nuevo.</div>';
+  }
+  btn.disabled = false;
+  btn.textContent = '🔑 Generar clave';
+}
+
+function mostrarResultadoClaveSuelta(claves, email){
+  const texto = claves.map(c => c.clave).join('\n');
+  const mensajeWa = encodeURIComponent('Hola, acá va tu clave de acceso a CaVeSal®:\n\n' + texto + '\n\nCualquier duda, escribime.');
+  const asuntoMail = encodeURIComponent('Tu clave de acceso a CaVeSal®');
+  const cuerpoMail = encodeURIComponent('Hola,\n\nAcá va tu clave de acceso a CaVeSal®:\n\n' + texto + '\n\nCualquier duda, escribime.\n\nDr. Carlos Vera Salerno');
+  const mailto = 'mailto:' + encodeURIComponent(email || '') + '?subject=' + asuntoMail + '&body=' + cuerpoMail;
+
+  document.getElementById('gs_resultado').innerHTML =
+    '<div class="claves-box" id="gs_claves_texto">🔑 ' + texto.split('\n').join('<br>') + '</div>'
+    + '<div class="pedido-actions">'
+    + '<button class="btn btn-outline" onclick="copiarClaveSuelta()">📋 Copiar</button>'
+    + '<a class="btn btn-green" href="https://wa.me/?text=' + mensajeWa + '" target="_blank" style="text-decoration:none;display:inline-flex;align-items:center">💬 Abrir WhatsApp</a>'
+    + '<a class="btn btn-outline" href="' + mailto + '" style="text-decoration:none;display:inline-flex;align-items:center">✉️ Abrir email</a>'
+    + '</div>'
+    + (email ? '<div class="pedido-fecha" style="margin-top:6px">También se envió por email a ' + email + '.</div>' : '');
+}
+
+function copiarClaveSuelta(){
+  const box = document.getElementById('gs_claves_texto');
+  const texto = box.textContent.replace('🔑', '').trim();
+  navigator.clipboard.writeText(texto).then(function(){
+    alert('Clave copiada.');
+  }).catch(function(){
+    alert('No se pudo copiar automáticamente. Clave: ' + texto);
+  });
 }
 
 async function rechazarPedido(referencia, btn){
