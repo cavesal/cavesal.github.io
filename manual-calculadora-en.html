@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tutorial and User Manual · CaVeSal® Calculator</title>
+<meta content="Complete user manual for the CaVeSal® Prenatal Calculator: FMF chromosomal screening, fetal anatomy, preeclampsia, fetal weight, gestational age and mode of delivery." name="description"/>
+<meta content="CaVeSal" name="author"/>
+<meta content="website" property="og:type"/>
+<meta content="Tutorial and User Manual · CaVeSal® Calculator" property="og:title"/>
+<meta content="Complete user manual for the CaVeSal® Prenatal Calculator: FMF chromosomal screening, fetal anatomy, preeclampsia, fetal weight, gestational age and mode of delivery." property="og:description"/>
+<meta content="https://cavesal.app/manual-calculadora.html" property="og:url"/>
+<meta content="https://cavesal.app/og-cover-calculadora.jpg" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="CaVeSal® Prenatal Calculator" property="og:image:alt"/>
+<meta content="CaVeSal®" property="og:site_name"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Tutorial and User Manual · CaVeSal® Calculator" name="twitter:title"/>
+<meta content="Complete user manual for the CaVeSal® Prenatal Calculator: FMF chromosomal screening, fetal anatomy, preeclampsia, fetal weight, gestational age and mode of delivery." name="twitter:description"/>
+<meta content="https://cavesal.app/og-cover-calculadora.jpg" name="twitter:image"/>
+<style>
+  :root{
+    --navy:#0D1B2D;--teal:#0EA5B7;--teal-lt:#e6f7f9;--slate:#4a6274;--mist:#f2f7f9;--border:#d0e8ed;--gold:#c9a227;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--mist);color:var(--navy);line-height:1.6}
+  header{background:linear-gradient(135deg,#0D1B2D,#0EA5B7);color:#fff;padding:32px 20px;text-align:center}
+  header h1{font-size:1.4rem;font-weight:800}
+  header p{font-size:.9rem;opacity:.85;margin-top:6px}
+  main{max-width:760px;margin:0 auto;padding:28px 20px 60px}
+
+  nav.toc{background:#fff;border-radius:14px;padding:18px 20px;margin-bottom:22px;box-shadow:0 2px 12px rgba(14,165,183,.10)}
+  nav.toc h2{font-size:1rem;color:var(--teal);margin-bottom:10px}
+  nav.toc>ol{padding-left:18px;font-size:.88rem}
+  nav.toc>ol>li{margin-bottom:10px;font-weight:700}
+  nav.toc>ol>li>a{color:var(--navy);text-decoration:none}
+  nav.toc ol ol{padding-left:18px;font-weight:400;margin-top:4px}
+  nav.toc ol ol li{margin-bottom:3px;font-size:.84rem}
+  nav.toc a{color:var(--navy);text-decoration:none}
+  nav.toc ol ol a{color:var(--slate)}
+  nav.toc a:hover{color:var(--teal)}
+
+  .tab-divider{background:linear-gradient(135deg,#0D1B2D,#0EA5B7);color:#fff;border-radius:14px;padding:16px 20px;margin:26px 0 14px;scroll-margin-top:16px}
+  .tab-divider:first-of-type{margin-top:0}
+  .tab-divider h2{font-size:1.15rem;display:flex;align-items:center;gap:8px}
+  .tab-divider p{font-size:.8rem;opacity:.88;margin-top:4px}
+
+  section{background:#fff;border-radius:14px;padding:22px;margin-bottom:18px;box-shadow:0 2px 12px rgba(14,165,183,.10);scroll-margin-top:16px}
+  section h2{font-size:1.1rem;color:var(--teal);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+  section h3{font-size:.95rem;color:var(--navy);margin:14px 0 6px}
+  section .ref{font-size:.74rem;color:var(--slate);margin-bottom:14px;font-style:italic}
+  section p{font-size:.9rem;margin-bottom:10px}
+
+  .step{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start}
+  .step-num{background:var(--teal);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.76rem;font-weight:800;flex-shrink:0;margin-top:2px}
+  .step p{font-size:.88rem;margin:0}
+
+  .tip{background:var(--teal-lt);border-left:3px solid var(--teal);border-radius:8px;padding:12px 14px;font-size:.85rem;margin-top:10px}
+  .warn{background:#fff8e6;border-left:3px solid var(--gold);border-radius:8px;padding:12px 14px;font-size:.85rem;margin-top:10px}
+
+  .shot{border:2px dashed var(--border);border-radius:12px;padding:22px;text-align:center;color:var(--slate);font-size:.82rem;margin:14px 0;background:#fafdfe}
+  .shot .cam{font-size:1.6rem;display:block;margin-bottom:6px}
+  .shot code{background:#eef7f9;padding:2px 6px;border-radius:5px;font-size:.78rem;color:var(--navy)}
+
+  .new{background:#eafbf0;border-left:3px solid #0d8f4a;border-radius:8px;padding:10px 14px;font-size:.78rem;margin-bottom:10px;color:#0d6b38;font-weight:600;display:inline-block}
+
+  .updated{font-size:.78rem;color:var(--slate);text-align:center;margin-top:20px}
+  a{color:var(--teal)}
+  .back-top{display:inline-block;margin-top:14px;font-size:.78rem}
+</style>
+<link rel="alternate" hreflang="es" href="https://cavesal.app/manual-calculadora.html"/>
+<link rel="alternate" hreflang="en" href="https://cavesal.app/manual-calculadora-en.html"/>
+<link rel="alternate" hreflang="pt-BR" href="https://cavesal.app/manual-calculadora-pt.html"/>
+<link rel="alternate" hreflang="x-default" href="https://cavesal.app/manual-calculadora.html"/>
+<style>.lang-sw{display:flex;justify-content:center;gap:6px;margin-top:12px;flex-wrap:wrap}.lang-sw a{color:#fff;text-decoration:none;font-size:.78rem;font-weight:700;padding:4px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.55);opacity:.85}.lang-sw a[aria-current]{background:#fff;color:#0D1B2D;opacity:1}</style>
+</head>
+<body>
+<header>
+<h1>📊 Tutorial and User Manual · CaVeSal® Calculator</h1>
+<p>Learn how to use every tab and every module, in the same order they appear in the app</p>
+  <nav class="lang-sw" aria-label="Idioma / Language"><a href="manual-calculadora.html" lang="es">ES</a><a href="manual-calculadora-en.html" lang="en" aria-current="page">EN</a><a href="manual-calculadora-pt.html" lang="pt">PT</a></nav>
+</header>
+<main>
+<nav class="toc" id="top">
+<h2>Contents</h2>
+<ol>
+<li><a href="#intro">Before you start</a></li>
+<li><a href="#tab-ficha">📋 Prenatal record</a>
+<ol>
+<li><a href="#datos-generales">General data</a></li>
+<li><a href="#antecedentes">Obstetric and personal history</a></li>
+<li><a href="#habitos">Habits and psychosocial environment</a></li>
+<li><a href="#embarazo-actual">Current pregnancy</a></li>
+<li><a href="#vacunacion">Prophylaxis and vaccination</a></li>
+<li><a href="#laboratorio">Laboratory</a></li>
+<li><a href="#metabolismo">Metabolism · Diabetes · Weight gain</a></li>
+</ol>
+</li>
+<li><a href="#tab-resultado">📊 Result</a>
+<ol>
+<li><a href="#como-leer">How to read the results</a></li>
+<li><a href="#riesgo-integral">Comprehensive prenatal risk calculation</a></li>
+</ol>
+</li>
+<li><a href="#tab-gestograma">🗓️ Gestogram · Delivery</a>
+<ol>
+<li><a href="#eg-calendario">Gestational age and calendar (LMP / early US)</a></li>
+<li><a href="#altura-uterina">Fundal height</a></li>
+<li><a href="#via-parto">Mode-of-delivery prognosis</a></li>
+</ol>
+</li>
+<li><a href="#tab-ecografia">🔊 Ultrasound</a>
+<ol>
+<li><a href="#cribado-fmf">Ultrasound · FMF screening (1T/2T, PE, amniotic fluid)</a></li>
+<li><a href="#morfologia">Anomaly Scan (2T) — 7 systems</a></li>
+<li><a href="#acretismo">Placenta accreta spectrum (PAS) — CaVeSal Classification</a></li>
+<li><a href="#doppler">Fetal Doppler 2T/3T (UA, MCA, CPR, ductus venosus, advanced, prognostic OA)</a></li>
+<li><a href="#pfe">Estimated Fetal Weight (EFW) and growth</a></li>
+<li><a href="#anemia-fetal">MCA Doppler — Fetal Anemia and Biometry by parameter (GA)</a></li>
+<li><a href="#pbf">Fetal Biophysical Profile (BPP)</a></li>
+<li><a href="#monitoreo-fetal">Fetal Monitoring (NST/CTG)</a></li>
+</ol>
+</li>
+<li><a href="#tab-pacientes">👤 Patients</a>
+<ol>
+<li><a href="#pacientes">Patient management and backup</a></li>
+<li><a href="#puente-hc">Sync with the CaVeSal® Clinical Record</a></li>
+</ol>
+</li>
+<li><a href="#tab-simulador">🎓 Simulator</a>
+<ol>
+<li><a href="#simulador">Training cases</a></li>
+</ol>
+</li>
+<li><a href="#tab-acerca">ℹ️ About</a>
+<ol>
+<li><a href="#invitar-paciente">Invite your patient</a></li>
+<li><a href="#autor-clinico">Clinical author</a></li>
+<li><a href="#bases-clinicas">Clinical bases</a></li>
+<li><a href="#aviso-legal">Legal notice</a></li>
+</ol>
+</li>
+</ol>
+</nav>
+<section id="intro">
+<h2>ℹ️ Before you start</h2>
+<p>The CaVeSal® Calculator has <strong>6 tabs</strong> in the header — 📋 Ficha prenatal (Prenatal record), 📊 Resultado (Result), 🗓️ Gestograma·Parto (Gestogram·Delivery), 🔊 Ecografía (Ultrasound), 👤 Pacientes (Patients) and ℹ️ Acerca (About) — and this manual is organized <strong>in that same order</strong>: each part below corresponds to a real tab in the app, and each subsection to a card (or sub-tab) inside it. The app interface is in Spanish; button and field names are shown as they appear, with their translation.</p>
+<p>Within each tab, cards work as <strong>collapsible sections</strong>: tap the header of each one to open it, enter the available data, and the result updates automatically as you type — no "Calculate" button is needed for individual calculations. The <strong>"⚡ Calcular"</strong> (Calculate) button in the header (visible on every tab) builds the consolidated comprehensive prenatal risk report (📊 Result tab), gathering all findings from every tab.</p>
+<p>All calculations are done <strong>on your own device</strong>, without an internet connection or sending data to external servers.</p>
+<div class="warn">⚠️ It is a <strong>clinical decision-support</strong> tool. It does not replace the treating professional's judgment or current official guidelines.</div>
+<div style="margin:14px 0">
+<img alt="CaVeSal About screen" src="img/manual-calc-00-portada.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+<img alt="Main form with general data" src="img/manual-calc-00-formulario.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15)"/>
+</div>
+</section>
+<!-- ════════════════════════════════════════ PESTAÑA: FICHA PRENATAL ════════════════════════════════════════ -->
+<div class="tab-divider" id="tab-ficha">
+<h2>📋 Prenatal record</h2>
+<p>What you enter when opening a patient: general data, history, habits, current pregnancy, prophylaxis, laboratory and metabolism. It is the foundation that feeds the rest of the calculator.</p>
+</div>
+<section id="datos-generales">
+<h2>📋 General data</h2>
+<div class="step"><div class="step-num">1</div><p>Enter <strong>maternal age, LMP, height, pre-pregnancy and current weight</strong>. The LMP syncs automatically with the 🗓️ Gestogram·Delivery tab, the vaccine traffic light and the mode of delivery — no need to repeat it elsewhere.</p></div>
+<div class="step"><div class="step-num">2</div><p>If you enter an <strong>early ultrasound</strong> in Gestogram·Delivery, this card receives the correction automatically. Correction criteria: 1T (&lt;14 wk) ≥5 days' difference · 2T (14–28 wk) ≥7 days · 3T (&gt;28 wk) the LMP is not corrected.</p></div>
+<div class="step"><div class="step-num">3</div><p>Enter <strong>systolic and diastolic BP</strong>. If you enter any value, the app automatically shows the extended hypertension fields: <strong>proteinuria</strong> (negative / trace / ≥1+ dipstick / PCR &gt;0.3 / ≥300 mg/24h / ≥2 g/24h nephrotic range) and <strong>vasospasm symptoms</strong> (severe/frontal headache, tinnitus, photopsia/scotomas, epigastric/RUQ pain, dyspnea/pulmonary edema).</p></div>
+<div class="tip">💡 ≥1 vasospasm symptom + BP ≥140/90 points to preeclampsia with severe features — the app automatically integrates this into the comprehensive risk report.</div>
+</section>
+<section id="antecedentes">
+<h2>🍼 Obstetric and personal history</h2>
+<h3>Obstetric history</h3>
+<div class="step"><div class="step-num">1</div><p>Enter <strong>pregnancies, births, cesareans, miscarriages</strong> and the <strong>interpregnancy interval</strong> (months) — with this the app automatically builds the obstetric formula (G/P/C/A) that you will later see repeated in the "Mis pacientes" (My patients) record.</p></div>
+<div class="step"><div class="step-num">2</div><p>Tick the <strong>obstetric risk history</strong>: previous preeclampsia, previous gestational diabetes, previous preterm birth, previous FGR, previous macrosomia (&gt;4000 g), previous fetal death, previous fetal malformation, previous PPH, previous isoimmunization, previous cervical insufficiency, previous postpartum depression, previous uterine surgery.</p></div>
+<h3>Personal history</h3>
+<div class="warn">⚠️ This is <strong>previous history only</strong> — it does not include the current pregnancy (that is entered on the "Current pregnancy" card, below).</div>
+<div class="step"><div class="step-num">3</div><p><strong>Cardiovascular/metabolic:</strong> chronic hypertension, pregestational diabetes, chronic kidney disease, pre-pregnancy obesity (BMI≥30), moderate/severe asthma. If you tick <strong>Heart disease</strong>, a sub-block opens to specify the type (congenital ASD/VSD/Fallot/other, valvular, cardiomyopathy, arrhythmia) and the <strong>modified WHO classification of cardiovascular risk in pregnancy</strong> (I to IV, with IV = pregnancy contraindicated).</p></div>
+<div class="step"><div class="step-num">4</div><p><strong>Thyroid:</strong> treated hypothyroidism, untreated hypothyroidism/Anti-TPO+, hyperthyroidism/Graves (Anti-TRAb+).</p></div>
+<div class="step"><div class="step-num">5</div><p><strong>Coagulopathies and thrombosis:</strong> inherited thrombophilia, APS (Sydney 2006 / ACR-EULAR 2023 criteria), previous DVT, previous PE, thrombocytopenia/purpura, Von Willebrand/hemophilia carrier.</p></div>
+<div class="tip">🧪 <strong>APS (EULAR 2019):</strong> if you tick APS, the Result shows the management from the EULAR 2019 recommendations (Tektonidou et al.): in obstetric APS, aspirin + prophylactic-dose heparin during pregnancy and for 6 weeks postpartum; in thrombotic APS, aspirin + therapeutic-dose heparin (switch from vitamin K antagonists to heparin when pregnancy is confirmed, ideally before week 6); and the options for recurrent complications despite treatment. For the aspirin dose, CaVeSal uses the FIGO 2019 regimen (~150 mg every night) and also states the EULAR one (75–100 mg/day).</div>
+<div class="step"><div class="step-num">6</div><p><strong>Neurological/immunological:</strong> epilepsy, documented MTHFR polymorphism, autoimmune disease (SLE, RA, Sjögren, scleroderma), mental health (depression/anxiety/bipolar disorder).</p></div>
+<div class="step"><div class="step-num">7</div><p><strong>Oncological:</strong> previous cancer in remission (with type: breast, cervix, thyroid, hematological, melanoma, other) and, separately, <strong>active cancer during pregnancy</strong> (with type and ongoing treatment).</p></div>
+<div class="step"><div class="step-num">8</div><p><strong>Infectious (history):</strong> HIV on ART, chronic hepatitis B (HBsAg+), hepatitis C (Anti-HCV+), syphilis (history/on treatment).</p></div>
+</section>
+<section id="habitos">
+<h2>🧠 Habits and psychosocial environment</h2>
+<div class="step"><div class="step-num">1</div><p>Tick whatever applies: active smoking, alcohol use, drug use, domestic violence, socioeconomic vulnerability, vegetarian/vegan diet. Each one is integrated into the comprehensive risk report with its own suggested management (e.g. a vegetarian/vegan diet adjusts the recommended supplementation).</p></div>
+</section>
+<section id="embarazo-actual">
+<h2>🤰 Current pregnancy</h2>
+<div class="step"><div class="step-num">1</div><p>Tick the findings of the ongoing pregnancy: multiple pregnancy, assisted reproduction (ART), vaginal bleeding, Rh negative, positive indirect Coombs/antibody screen, GBS positive (35–37 wk), placenta previa, polyhydramnios, oligohydramnios, threatened preterm labor, short cervix (&lt;25 mm), reduced fetal movements, discordant fundal height, symptomatic UTI, vaginosis/vaginitis.</p></div>
+<div class="step"><div class="step-num">2</div><p>If you ticked <strong>assisted reproduction (ART)</strong>, the app flags it as a risk finding (higher risk of placenta previa, preeclampsia and twins) — this is also repeated automatically in the "Mis pacientes" (My patients) record.</p></div>
+<div class="step"><div class="step-num">3</div><p><strong>Active pregnancy disease</strong> (tick only if the patient already arrives with an established diagnosis in this pregnancy): ongoing preeclampsia, gestational hypertension, already diagnosed gestational diabetes, FGR confirmed by biometry, intrahepatic cholestasis (ICP), hyperemesis gravidarum/intractable vomiting, HELLP syndrome, placental abruption.</p></div>
+</section>
+<section id="vacunacion">
+<h2>💉 Prophylaxis and vaccination</h2>
+<p class="ref">Ref: CDC · WHO · ACOG · FIGO 2024 · National Immunization Committee</p>
+<div class="step"><div class="step-num">1</div><p>Tick the vaccines already given (Tdap, influenza, RSV, COVID-19, Hepatitis B) with their date and gestational age and, if applicable, whether <strong>folic acid</strong> was started (the latter is grouped with the vaccines under the "Prophylaxis" domain of the report).</p></div>
+<div class="step"><div class="step-num">2</div><p>The app shows the <strong>status of the schedule</strong> and what is still pending according to the current GA, with the specific management for each one:</p></div>
+<div class="tip">🔹 <strong>Folic acid:</strong> if not recorded, 0.4–0.8 mg/day from preconception until at least week 12.<br/><br/> 🔹 <strong>Influenza:</strong> inactivated vaccine, safe in any trimester. Priority in heart disease, diabetes, asthma, obesity, immunosuppression, HIV. <strong>Never</strong> use live attenuated influenza vaccine (LAIV) in pregnancy.<br/><br/> 🔹 <strong>COVID-19:</strong> mRNA vaccines (Pfizer/Moderna) recommended by WHO, CDC, ACOG and FIGO. Safe in any trimester — pregnant women are at higher risk of severe COVID. Booster if &gt;6 months have passed since the last dose.</div>
+<div style="margin:14px 0">
+<img alt="Screenshot" src="img/manual-calc-10-vacunas.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+</div>
+</section>
+<section id="laboratorio">
+<h2>🧪 Laboratory</h2>
+<p class="ref">Ref: WHO · ACOG · ISSHP · Endocrine Society 2024 · CDC · EMTCT Plus 2024/PAHO</p>
+<p>An extensive module, organized into sub-areas. Enter only the values you have — each one is interpreted independently.</p>
+<h3>🩸 Blood count and coagulation</h3>
+<div class="step"><div class="step-num">1</div><p><strong>Hemoglobin:</strong> anemia if &lt;11 g/dL in 1T or &lt;10.5 g/dL in 2T-3T (WHO). <strong>Platelets:</strong> normal 150–400 (×10³/mL), &lt;150 = thrombocytopenia. <strong>PT/INR</strong> (normal in pregnancy 0.8–1.2) and <strong>aPTT</strong> (normal 25–40 s). You can also tick <strong>positive proteinuria</strong> and <strong>positive urine culture</strong> as findings.</p></div>
+<h3>🫘 Renal profile</h3>
+<div class="step"><div class="step-num">2</div><p><strong>Creatinine</strong> (normal in pregnancy &lt;0.8 mg/dL), <strong>uric acid</strong> (normal &lt;5.5 mg/dL — early PE marker if elevated together with hypertension), <strong>urea</strong> (normal 10–40 mg/dL).</p></div>
+<h3>🫀 Liver profile</h3>
+<div class="step"><div class="step-num">3</div><p><strong>AST</strong> and <strong>ALT</strong> (normal &lt;40 IU/L, suspicious if &gt;70), <strong>LDH</strong> (&gt;600 IU/L = HELLP criterion), <strong>total bilirubin</strong> (normal &lt;1.2, suspect cholestasis), <strong>alkaline phosphatase</strong> (normal up to 3× ULN due to placental origin). The app combines automatically: <strong>elevated AST/LDH + thrombocytopenia = HELLP criterion</strong>, with management of immediate hospitalization, lung maturation if &lt;34 wk, and individualized delivery.</p></div>
+<h3>🍔 Lipid profile</h3>
+<div class="step"><div class="step-num">4</div><p><strong>Total cholesterol</strong> (rises physiologically in pregnancy), <strong>triglycerides</strong> (&gt;400 mg/dL = risk of pancreatitis), HDL, LDL.</p></div>
+<h3>🔬 TORCH serology</h3>
+<div class="step"><div class="step-num">5</div><p><strong>Toxoplasmosis</strong> (IgG/IgM/IgG avidity — key: IgG+ in 1T = immune, do not repeat; IgG− = susceptible, repeat every trimester; IgM+ = request avidity test), <strong>Rubella</strong> (IgG/IgM), <strong>CMV</strong> (IgG/IgM/IgG avidity).</p></div>
+<h3>🧬 Vitamin D, Ferritin and Transferrin saturation</h3>
+<div class="step"><div class="step-num">6</div><p><strong>Serum vitamin D:</strong> request in obesity, dark skin, low sun exposure or vegetarians (deficiency &lt;20, insufficiency 20–29, optimal ≥30 — Endocrine Society 2024). <strong>Ferritin:</strong> request if iron-deficiency anemia is suspected (deficiency &lt;15, low 15–30, normal &gt;30). <strong>Transferrin saturation:</strong> normal 16–45%, &lt;16% = functional iron deficiency.</p></div>
+<h3>🦋 Thyroid</h3>
+<div class="step"><div class="step-num">7</div><p>Enter <strong>TSH</strong> together with the <strong>trimester of the test</strong> — the app applies the corresponding reference value (1T: 0.1–2.5 µIU/mL · 2T: 0.2–3.0 µIU/mL · 3T: 0.3–3.5 µIU/mL), plus <strong>free T4</strong> (normal 0.8–1.8 ng/dL) and <strong>anti-TPO</strong> (&gt;35 IU/mL = positive).</p></div>
+<h3>🦠 Group B Streptococcus (GBS) and STIs/Infectious serology</h3>
+<div class="step"><div class="step-num">8</div><p><strong>GBS:</strong> mandatory screening at 35–37 weeks (vaginal + perianal culture). If positive, the app indicates <strong>mandatory intrapartum prophylaxis</strong> (penicillin G, or clindamycin according to the antibiogram in case of allergy).</p></div>
+<div class="step"><div class="step-num">9</div><p><strong>Hepatitis B</strong> (HBsAg/anti-HBs/HBeAg — HBsAg+ requires mandatory neonatal immunoprophylaxis within the first 12 h, and if the viral load is &gt;200,000 IU/mL tenofovir is added from week 28), <strong>HIV</strong> (rapid test/ELISA + confirmatory Western Blot — a reactive rapid test is not a definitive diagnosis and warrants urgent infectious-disease referral without stopping ART if already on it; with a confirmed WB, ART is started immediately aiming for an undetectable viral load at delivery), <strong>Chagas</strong> (requires 2 reactive techniques based on different principles to confirm — ELISA + IHA/IFA; with only 1 reactive technique it is indeterminate and warrants a second technique), and <strong>Hepatitis C</strong> (anti-HCV, confirm with HCV RNA).</p></div>
+<div class="step"><div class="step-num">10</div><p><strong>Syphilis</strong> — interpretation depends on the combination of results:</p></div>
+<div class="tip">🔹 <strong>Reactive treponemal + reactive VDRL:</strong> confirmed active syphilis (the treponemal test is already the reference test, no further confirmation needed). Benzathine penicillin G dose by stage: primary/secondary/early latent (&lt;1 year) → single dose of 2.4 million IU IM; late latent or unknown duration → 3 weekly doses. Monthly VDRL after treatment, neonatal follow-up (cord blood VDRL), mandatory notification.<br/><br/> 🔹 <strong>Reactive treponemal + VDRL not yet available:</strong> urgent management — request quantitative VDRL, but <strong>do not delay treatment</strong>: start penicillin G now (late latent/unknown duration regimen) while awaiting the result.<br/><br/> 🔹 <strong>Reactive treponemal + non-reactive VDRL:</strong> possible serological scar (previous treatment), very early serological window, or a false-positive rapid test. If there is no documented treatment, treat as late latent; control VDRL in 4 weeks; notify infectious diseases.<br/><br/> 🔹 <strong>Reactive VDRL without confirmatory treponemal test:</strong> VDRL (non-treponemal) can be falsely positive in pregnancy, SLE or viral infections — confirmation with a treponemal test is required before treating.</div>
+<p class="ref">Ref: CDC STI Treatment Guidelines 2021 · PAHO Elimination of MTCT 2024 · EMTCT Plus 2024 · ACOG</p>
+<div class="tip">💡 Every out-of-range value you enter is automatically reflected in the <strong>comprehensive risk</strong> report, grouped under the "LABORATORIO" (Laboratory) domain with its level and management — for example, positive GBS, reactive HIV, suspected HELLP and positive proteinuria are listed as "HOY/URGENTE" (Today/Urgent) in the Action plan.</div>
+<div style="margin:14px 0">
+<img alt="Screenshot" src="img/manual-calc-09-lab-a.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+<img alt="Screenshot" src="img/manual-calc-09-lab-b.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+<img alt="Screenshot" src="img/manual-calc-09-lab-sifilis.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+</div>
+</section>
+<section id="metabolismo">
+<h2>🍬 Metabolism · Diabetes · Weight gain</h2>
+<p class="ref">Ref: IADPSG · ALAD · ADA · WHO · IOM/NAS 2009 · ACOG</p>
+<p>It is a single card in the app, with two functions that share the height/weight data already entered in "General data".</p>
+<h3>🩸 Gestational diabetes (GDM) diagnosis</h3>
+<div class="step"><div class="step-num">1</div><p>Choose the <strong>protocol</strong> to use: IADPSG/ALAD/ADA (1 step, 75 g) or 2 steps — from the corresponding selector.</p></div>
+<div class="step"><div class="step-num">2</div><p>Enter the <strong>glucose tolerance test</strong> values (fasting, 1 h, 2 h depending on the chosen protocol).</p></div>
+<div class="step"><div class="step-num">3</div><p>The app indicates whether the values confirm a diagnosis of gestational diabetes according to the cut-offs of the selected protocol.</p></div>
+<h3>⚖️ Gestational weight gain</h3>
+<div class="step"><div class="step-num">4</div><p>With the pre-pregnancy weight, height and current weight already entered in "General data", the app calculates the <strong>pre-pregnancy BMI</strong> and places the patient in her category (underweight, normal, overweight, obesity).</p></div>
+<div class="step"><div class="step-num">5</div><p>Shows the <strong>total weight-gain target</strong> for the pregnancy and the <strong>recommended weekly rate</strong> for that category (IOM/NAS 2009), comparing it with the actual gain so far.</p></div>
+<div style="margin:14px 0">
+<img alt="Screenshot" src="img/manual-calc-03-dg.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+<img alt="Screenshot" src="img/manual-calc-04-peso.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+</div>
+</section>
+<!-- ════════════════════════════════════════ PESTAÑA: RESULTADO ════════════════════════════════════════ -->
+<div class="tab-divider" id="tab-resultado">
+<h2>📊 Result</h2>
+<p>The output panel. It is built when you tap "⚡ Calcular" (Calculate) in the header (visible from any tab) and gathers all the findings from every other tab into a single report.</p>
+</div>
+<section id="como-leer">
+<h2>🎨 How to read the results</h2>
+<p>All Calculator modules use the same visual language, so interpreting a result is always equally quick, whatever you are calculating:</p>
+<div class="step"><div class="step-num">1</div><p><strong>Color code by risk/alert level:</strong> 🟢 green = normal/low risk · 🟡 yellow/orange = moderate, requires closer follow-up · 🔴 red = high risk, requires action or referral.</p></div>
+<div class="step"><div class="step-num">2</div><p>Each result with a relevant finding includes, in this order: the <strong>value or data</strong> that triggered the alert, the <strong>clinical interpretation</strong> in plain language, the <strong>suggested management</strong> (what to do, how often, whom to refer to), and the <strong>source</strong> of the recommendation (FMF, ACOG, NICE, WHO, CLAP, Fetal Medicine Barcelona, etc.).</p></div>
+<div class="step"><div class="step-num">3</div><p>When "⚡ Calcular" builds the global report, it automatically groups these same findings into an <strong>"Action plan"</strong>, ordered by urgency: first what requires attention <strong>today/urgently</strong>, then routine <strong>follow-up</strong>, with the next suggested visit date according to the global risk level.</p></div>
+<div class="tip">💡 If a value is within the normal range, it usually does not generate a highlighted alert — only findings that deserve your attention are listed, so the report is not cluttered with clinically irrelevant information.</div>
+</section>
+<section id="riesgo-integral">
+<h2>⚡ Comprehensive prenatal risk calculation</h2>
+<p>This is the "⚡ Calcular" button in the header: it goes through everything you entered in <strong>📋 Prenatal record</strong>, <strong>🗓️ Gestogram·Delivery</strong> and <strong>🔊 Ultrasound</strong>, and builds here, in <strong>📊 Result</strong>, a consolidated report with all relevant findings together.</p>
+<div class="step"><div class="step-num">1</div><p>The app goes through all the data entered and builds a list of <strong>findings by clinical domain</strong> (Maternal age, Nutritional status, Obstetric history, Blood pressure, 1T ultrasound, Chromosomal screening, Fetal morphology, etc.), each with:</p></div>
+<div class="tip">📋 <strong>Each finding in the report includes:</strong><br/> 🔹 The <strong>data or value</strong> that triggered the alert (e.g. "Pre-pregnancy BMI 32.1 — obesity").<br/> 🔹 The <strong>risk level</strong>: low, moderate or high.<br/> 🔹 The <strong>suggested management</strong> (e.g. aspirin dose, visit frequency, additional tests to request).<br/> 🔹 The <strong>source</strong> of the recommendation (FMF, ACOG, NICE, WHO, etc.).</div>
+<div class="tip">💊 <strong>Aspirin to prevent preeclampsia:</strong> the management shows both regimens, each with its reference. CaVeSal's preferred regimen: <strong>FIGO 2019</strong>, ~150 mg every night from 11–14+6 weeks until 36 weeks, delivery or diagnosis of PE. Alternative: <strong>ACOG PB 222 (2020)</strong>, 81 mg/day from 12–28 weeks (ideally before 16) until delivery.</div>
+<div class="step"><div class="step-num">2</div><p>If there are no risk findings in a domain, it simply does not appear in the report — only domains with something to flag are listed.</p></div>
+<div class="step"><div class="step-num">3</div><p>The report also automatically builds a <strong>Recommended supplementation according to the patient's profile</strong>: folic acid/methylfolate (dose for the general population or increased risk), iron (dose according to the degree of anemia), calcium (if there is PE risk, with the associated risk reduction), iodine, and omega-3/DHA — each with its exact dose and reference.</p></div>
+<div class="step"><div class="step-num">4</div><p>It also includes two <strong>basic-component calendars</strong>, marking what corresponds to the current GA (labeled "AHORA" / "PERÍODO ACTUAL" — Now / Current period), what has already passed and what is still pending:</p></div>
+<div class="tip">🔹 <strong>Ultrasound calendar:</strong> early 1T scan (wk 7–9), chromosomal markers scan (wk 11–14), anomaly scan (wk 20–24), growth and development scan (wk 28–32), final scan (wk 35–38) — each with what it should assess.<br/><br/> 🔹 <strong>Laboratory calendar:</strong> 1T panel (first visit: blood count, coagulation, blood group/Rh, serologies, TSH, glucose, lipid profile, urine culture, etc.), 2T panel (24–28 wk: blood count, 75 g OGTT, urine culture, VDRL, HIV, toxoplasmosis if applicable), and 3T panel (35–37 wk: blood count, coagulation, renal/liver profile, VDRL, HIV, GBS).</div>
+<div class="warn">⚠️ This report is a <strong>guidance summary</strong>; it does not replace the individualized clinical assessment of each finding — each suggested management must be put in the context of the patient's full clinical picture.</div>
+<div style="margin:14px 0">
+<img alt="Screenshot" src="img/manual-calc-ri-01.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+<img alt="Screenshot" src="img/manual-calc-ri-02.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+<img alt="Screenshot" src="img/manual-calc-ri-03.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+</div>
+</section>
+<!-- ════════════════════════════════════════ PESTAÑA: GESTOGRAMA · PARTO ════════════════════════════════════════ -->
+<div class="tab-divider" id="tab-gestograma">
+<h2>🗓️ Gestogram · Delivery</h2>
+<p>Gestational age and calendar, fundal height, and mode-of-delivery prognosis — what is neither record nor ultrasound, but the chronological follow-up of the pregnancy.</p>
+</div>
+<section id="eg-calendario">
+<h2>🗓️ Gestational age and calendar (LMP / early US)</h2>
+<p>This module is the basis of all the others — the gestational age (GA) you calculate here syncs automatically with the rest of the calculator.</p>
+<div class="step"><div class="step-num">1</div><p>Choose the mode: <strong>"Por FUM"</strong> (By LMP — last menstrual period) or <strong>"Por ECO precoz"</strong> (By early ultrasound) if you have an early scan with the GA already determined.</p></div>
+<div class="step"><div class="step-num">2</div><p><strong>LMP mode:</strong> enter the date of the last menstrual period. The app calculates the GA as of today (or any other date you choose in "Calcular para fecha" — Calculate for date).</p></div>
+<div class="step"><div class="step-num">3</div><p><strong>Early ultrasound mode:</strong> enter the date of the scan and the GA it gave (weeks+days format, e.g. "8+3"). The app automatically compares that GA with the entered LMP and tells you whether the <strong>LMP should be corrected</strong>, according to these criteria:</p></div>
+<div class="tip">📌 <strong>LMP correction criteria by ultrasound:</strong><br/> 🟢 <strong>1st trimester (&lt;14 wk):</strong> corrected if the difference is ≥5 days.<br/> 🟡 <strong>2nd trimester (14–28 wk):</strong> corrected if the difference is ≥7 days.<br/> 🔴 <strong>3rd trimester (&gt;28 wk):</strong> the LMP is not corrected — for uncertain GA in 3T it is better to use HC, FL or cerebellum as a single parameter (see the "MCA Doppler — Fetal Anemia and Biometry by parameter" section in the 🔊 Ultrasound tab).</div>
+<div class="step"><div class="step-num">4</div><p>With the calculated GA, the app shows a <strong>week-by-week calendar</strong> (22 to 42 weeks) with the calendar date for each week of pregnancy, marking the term range (37–40 wk) and post-term.</p></div>
+<div class="step"><div class="step-num">5</div><p>It also includes a <strong>reverse calculation</strong>: enter a specific week (e.g. "36") and the app tells you which calendar date corresponds to that week for this patient.</p></div>
+<div style="margin:14px 0">
+<img alt="Screenshot" src="img/manual-calc-eg-calendario.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+</div>
+</section>
+<section id="altura-uterina">
+<h2>📏 Fundal height</h2>
+<p class="ref">Ref: Gomes AG 2001 · CLAP-PAHO/WHO · McDonald formula (symphysis-fundus)</p>
+<div class="step"><div class="step-num">1</div><p>Enter the <strong>fundal height in cm</strong> (symphysis-fundus measurement, McDonald technique) and the <strong>gestational age</strong> in weeks+days.</p></div>
+<div class="step"><div class="step-num">2</div><p>The app shows the <strong>percentile</strong> (with the P10/P50/P90 reference values for that GA) and classifies the result: normal FH for GA, high FH for GA (&gt;P90), or low FH for GA (&lt;P10) — valid in the 20–36 week range, where FH(cm)≈GA±2.</p></div>
+<div class="step"><div class="step-num">3</div><p>Depending on the classification, it suggests what to rule out: <strong>high FH</strong> → fetal macrosomia, polyhydramnios, undiagnosed twins, uterine fibroids, gestational diabetes (request ultrasound). <strong>Low FH</strong> → FGR, oligohydramnios, GA discrepancy (urgent ultrasound with EFW, consider UA/MCA Doppler).</p></div>
+<div style="margin:14px 0">
+<img alt="Screenshot" src="img/manual-calc-06-au.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+</div>
+</section>
+<section id="via-parto">
+<h2>🏥 Mode-of-delivery prognosis</h2>
+<p class="ref">Ref: Robson · Grobman (ACOG/NICHD) · Bishop</p>
+<div class="tip">📊 <strong>EFW percentile chart:</strong> at the very top of this card there is a <strong>Figueras 2008 / INTERGROWTH-21</strong> selector. By default it is set to <strong>Figueras 2008 · MFB (recommended for Latin America)</strong>; tap "INTERGROWTH-21" if you prefer the international reference (WHO/FIGO). This selector <strong>is not exclusive to this section</strong> — it determines which chart is used to calculate the percentile across the whole calculator, including the "Estimated Fetal Weight (EFW)" card (🔊 Ultrasound tab). Changing it here also updates any percentile already calculated there.</div>
+<div class="step"><div class="step-num">1</div><p>Enter <strong>parity and history</strong> (previous vaginal births, previous cesareans, spontaneous miscarriages), <strong>maternal height</strong> (reference: &lt;150 cm risk of cephalopelvic disproportion, &lt;145 cm borderline pelvis), and <strong>3T fetal status</strong> (presentation, engagement, current GA).</p></div>
+<div class="step"><div class="step-num">2</div><p>The app automatically places the patient in her corresponding <strong>Robson Group</strong> (e.g. Group 5: previous cesarean + cephalic; Group 7: multiparous breech), with the interpretation of that group.</p></div>
+<div class="step"><div class="step-num">3</div><p>If there is a <strong>previous cesarean</strong>, the <strong>Grobman Score</strong> is enabled (validated by ACOG/NICHD, predicts the probability of successful vaginal birth after cesarean). Enter the <strong>type of uterine scar</strong>, the <strong>indication for the previous cesarean</strong> (recurrent or not), and tick whether there was a previous vaginal birth, previous spontaneous labor, recurrent pregnancy loss, a high-value pregnancy, or previous uterine surgery.</p></div>
+<div class="step"><div class="step-num">4</div><p>Based on these data, the app indicates whether she is a <strong>"Candidata a PVDC"</strong> (VBAC candidate — vaginal birth after cesarean), listing the favorable criteria found, or whether a <strong>"Cesárea programada indicada"</strong> (planned cesarean indicated) applies, with the specific justification (e.g. EFW ≥4500 g, high-value pregnancy).</p></div>
+<div class="step"><div class="step-num">5</div><p>If you enter the <strong>cervical exam</strong> (dilation, effacement, station, consistency, position), the app calculates the <strong>Bishop Score</strong> and classifies it (favorable/unfavorable), suggesting cervical ripening if appropriate.</p></div>
+<div class="tip">💡 The module also automatically integrates the <strong>EFW</strong> (percentile and classification) when entered — for example, an EFW ≥4500 g with percentile ≥97 is flagged as severe macrosomia, with the specific management (planned cesarean per ACOG/NICE, different threshold if the patient is diabetic).</div>
+<div class="warn">⚠️ If the current GA is preterm, the app flags it separately and reminds you to assess lung maturity/betamethasone if appropriate, coordinating with neonatology.</div>
+<div style="margin:14px 0">
+<img alt="Screenshot" src="img/manual-calc-08-viaparto.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+</div>
+</section>
+<!-- ════════════════════════════════════════ PESTAÑA: ECOGRAFÍA ════════════════════════════════════════ -->
+<div class="tab-divider" id="tab-ecografia">
+<h2>🔊 Ultrasound</h2>
+<p>Everything that is an ultrasound/Doppler study as such, in the same chronological order in which the studies are performed: 1T/2T screening → 2T structural anatomy → 2T/3T fetal Doppler → fetal weight → fetal anemia → 3T fetal well-being (BPP, monitoring).</p>
+</div>
+<section id="cribado-fmf">
+<h2>🔊 Ultrasound · FMF screening (1T/2T, PE, amniotic fluid)</h2>
+<span class="new">🆕 Expanded section</span>
+<p class="ref">Ref: FMF/Nicolaides · Snijders 1998 · Sharifzadeh 2019 · Fetal Medicine Barcelona · Gyselaers 2020 · Verlohren 2012 · ISUOG 2024 · SMFM Consult #46 (2018) · ACOG Clinical Consensus No.3 (2022) · Roche/BRAHMS sFlt-1/PlGF</p>
+<p>It is the first card of the tab, and the most extensive: it gathers everything assessed in the 1T and 2T screening scans — chromosomal, preeclampsia (maternal Doppler) and amniotic fluid.</p>
+<h3>🧬 1T chromosomal screening (FMF/Nicolaides)</h3>
+<div class="step"><div class="step-num">1</div><p>Choose the <strong>type of screening available</strong> for this patient: <strong>Ultrasound only</strong> (NT + markers, no biochemistry) · <strong>Combined</strong> (ultrasound + biochemistry: PAPP-A, β-hCG, 1T PlGF) · <strong>Primary NIPT</strong> · <strong>Combined + NIPT</strong>. Each mode shows its own fields.</p></div>
+<div class="step"><div class="step-num">2</div><p><strong>Ultrasound only (11–13+6 wk):</strong> choose the NT percentile chart (Snijders/FMF 1998 or Sharifzadeh 2019), enter <strong>NT</strong> and <strong>CRL</strong> at the time of measurement (45–84 mm), and tick the additional markers: <strong>nasal bone</strong> (absent: LR+ ~6 for T21), <strong>ductus venosus</strong> (reversed/absent a-wave = marker of aneuploidy + heart disease), <strong>tricuspid regurgitation</strong> (associated with T21 and congenital heart disease), and <strong>choroid plexus</strong> ("butterfly sign" — visible cyst(s) are a soft marker, more associated with T18 than T21 if isolated).</p></div>
+<div class="tip">🆕 <strong>1T fetal bladder — megacystis:</strong> next to the choroid plexus there is a new field for the <strong>maximum longitudinal diameter of the fetal bladder</strong> (11–13+6 wk). Normal &lt;7 mm · 7–14.9 mm suspected megacystis (aneuploidy risk ~20–25%, more T13/T18 than T21 — karyotype/NIPT + serial follow-up every 2–4 weeks, with frequent spontaneous resolution if isolated and euploid) · ≥15 mm high risk — low aneuploidy risk but ~90% risk of progressive obstructive uropathy (posterior urethral valves, more common in males): refer to Fetal Medicine/fetal urology, consider serial vesicocentesis or vesicoamniotic shunt. It is a separate field from 2T/3T megabladder, which has its own criterion (see "Anomaly Scan" below).</div>
+<div class="step"><div class="step-num">3</div><p><strong>Combined:</strong> enter the numerical T21/T18/T13 risk (1/X) given by the screening software, and the MoM values of <strong>PAPP-A</strong> (&lt;0.4 MoM ↑ risk of PE/FGR/aneuploidy), <strong>free β-hCG</strong> (&gt;2.5 MoM suggests T21, &lt;0.4 MoM suggests T18/T13) and <strong>1T PlGF</strong> (&lt;0.5 MoM high PE risk, &lt;0.7 moderate).</p></div>
+<div class="tip">📊 <strong>Combined screening risk cut-offs:</strong> above the risk fields there is a selector with two options. The classification, the label for each trisomy and the "Next step" change according to the option chosen.<br/> • <strong>Fetal Medicine Barcelona (preferred, default):</strong> very high ≥1/10 → genetic counseling and invasive testing with microarray (NIPT may be accepted if the patient prefers, except with an ultrasound anomaly or increased NT) · high 1/11–1/250 → NIPT or invasive testing by informed choice; with an ultrasound anomaly or NT &gt;p99, chorionic villus sampling + microarray · intermediate 1/251–1/1100 → offer NIPT · low &lt;1/1100 → give the result and explain its limitations.<br/> • <strong>Nicolaides 2005 / FMF (alternative):</strong> two-stage strategy. High ≥1/100 → invasive testing · intermediate 1/101–1/1000 → second 1T scan (nasal bone, tricuspid regurgitation or ductus venosus) and chorionic villus sampling if the adjusted risk reaches 1/100 · low &lt;1/1000 → no further tests.<br/> • Another published variant, not included in the selector: FIGO 2015 (&gt;1/100 cell-free fetal DNA or invasive testing · 1/101–1/2500 cell-free fetal DNA · &lt;1/2500 none).<br/> The NT percentile chart (Snijders 1998, default, or Sharifzadeh 2019) is chosen separately and does not change with this selector.</div>
+<div class="step"><div class="step-num">4</div><p><strong>NIPT:</strong> record the result (normal, T21/T18/T13 positive, Turner/45,X, Klinefelter/47,XXY, microdeletion, sample failure) — the app reminds you that a positive NIPT is not diagnostic and requires invasive confirmation.</p></div>
+<h3>🩺 Uterine artery and Ophthalmic Artery Doppler (PE screening) — 1T and 2T</h3>
+<p>This is the <strong>maternal</strong> Doppler for screening preeclampsia and systemic vascular compromise — different from fetal Doppler (UA, MCA), which has its own card further down.</p>
+<div class="step"><div class="step-num">5</div><p><strong>Uterine arteries (PI):</strong> enter the right and left PI, in both 1T and 2T — the app automatically calculates the <strong>mean PI</strong> of both. Cut-offs: 1T alert from PI ≥1.90 (moderate) and ≥2.35 (high, &gt;p95) · 2T from PI ≥1.44 (moderate, p90-95) and ≥1.80 (high, &gt;p95).</p></div>
+<div class="step"><div class="step-num">6</div><p><strong>Ophthalmic Artery (OA):</strong> enter <strong>PSV1</strong> and <strong>PSV2</strong> — the app calculates the <strong>PSV2/PSV1 ratio</strong> automatically. ≥0.70 borderline zone · ≥0.78 high risk of preeclampsia/vascular compromise (integrate with uterine PI and PlGF). Used the same way in 1T (screening) and 2T/3T (prognosis in established PE/HDP).</p></div>
+<div class="step"><div class="step-num">7</div><p><strong>2T cervical length (mm):</strong> &lt;25 mm short cervix · &lt;15 mm very short.</p></div>
+<div class="step"><div class="step-num">8</div><p><strong>sFlt-1/PlGF (2T/3T):</strong> enter the ratio and the GA at which the test was done (it matters to distinguish the 85 vs. 110 cut-off). Interpretation (Roche/BRAHMS): ≤38 rules out PE in the next week · 38–85 intermediate if &lt;34 wk (38–110 if ≥34 wk) · &gt;85/110 suspected PE · &gt;655 imminent PE.</p></div>
+<div class="tip">💡 The two live interpretation cards — "🩺 Interpretación PE — 1T" and "🩺 Interpretación PE — 2T/3T" (PE interpretation) — open automatically below each block as you enter data, integrating uterine PI + OA + sFlt-1/PlGF into a single reading.</div>
+<h3>💧 Amniotic fluid</h3>
+<div class="step"><div class="step-num">9</div><p>Enter the <strong>deepest vertical pocket</strong> (DVP/SDP) and/or the <strong>AFI</strong> (amniotic fluid index), and choose which guideline to use to classify the AFI: <strong>ACOG/SMFM 2022</strong> (with borderline zones) or <strong>ISUOG 2024</strong> (classic absolute cut-offs) — both charts coexist in the app because they do not match exactly.</p></div>
+<div class="tip">📊 <strong>Deepest vertical pocket</strong> (same in both guidelines): &lt;2 cm oligohydramnios · <strong>2–8 cm normal</strong> · &gt;8 cm polyhydramnios.<br/><br/> 📊 <strong>AFI — ISUOG 2024:</strong> &lt;5 cm oligohydramnios · <strong>5–24.9 cm normal</strong> · ≥25 cm polyhydramnios.<br/><br/> 📊 <strong>AFI — ACOG/SMFM 2022:</strong> &lt;5 cm oligohydramnios (&lt;3 cm severe oligohydramnios) · 5.1–8.0 cm lower borderline · <strong>8.1–18 cm normal</strong> · 18.1–24.9 cm upper borderline · 25–29.9 cm mild polyhydramnios · 30–34.9 cm moderate polyhydramnios · ≥35 cm severe polyhydramnios.</div>
+<div style="margin:14px 0">
+<img alt="Screenshot" src="img/manual-calc-01-cribado.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+<img alt="Screenshot" src="img/manual-calc-uterinas-ao.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+</div>
+</section>
+<section id="morfologia">
+<h2>🔬 Anomaly Scan (2T) — 7 systems</h2>
+<span class="new">🆕 New section</span>
+<p class="ref">Ref: ISUOG Practice Guidelines (2020/2023) — fetal CNS, face, heart · Paladini &amp; Volpe (2018) · Jeanty P et al. 1984 · Mayden KL et al. 1982 · Corteville JE et al. 1991/1992 · FMF/Nicolaides · CDHSG / Jani et al. 2007</p>
+<p>Structured checklist by system (18 to 24 weeks), immediately after FMF screening — it is the same 2T scan visit, so this section sits right after the one above instead of after Doppler/EFW.</p>
+<div class="step"><div class="step-num">1</div><p>Enter the <strong>GA of this study</strong> (weeks+days) — it is shared by the 7 systems and by Placenta accreta, and is used by items with a GA-dependent cut-off (TCD, nuchal fold, renal pelviectasis, megabladder).</p></div>
+<div class="tip">💡 This GA is entered manually here — it is not yet auto-filled from the corrected LMP in 🗓️ Gestogram·Delivery. It is a minor pending improvement and does not affect the calculation.</div>
+<h3>🧠 CNS</h3>
+<div class="step"><div class="step-num">2</div><p><strong>Cavum septi pellucidi</strong> (absent ⚠️) · <strong>Thalami</strong> (symmetrical/asymmetrical ⚠️) · <strong>Skull shape</strong> (oval normal / "lemon" sign ⚠️ / "strawberry" sign ⚠️) · <strong>Skull bone continuity</strong> (intact/defect ⚠️).</p></div>
+<div class="step"><div class="step-num">3</div><p><strong>Lateral ventricular atrium</strong>: choose the measurement scheme (A: classic 3 levels — normal &lt;10 · mild 10–12 · moderate 12.1–14.9 · severe ≥15 mm; or B: ISUOG 2 levels — normal &lt;10 · mild 10–15 · severe &gt;15 mm) and enter the value in mm (inner-to-inner measurement at the level of the choroid plexus glomus).</p></div>
+<div class="step"><div class="step-num">4</div><p><strong>TCD</strong> (mm, for reference — it does not trigger an automatic alert; the real cut-off is by p5–p95 percentile chart by GA) · <strong>Banana sign</strong> (present ⚠️) · <strong>Cerebellar vermis agenesis</strong> ⚠️ · <strong>Cisterna magna</strong> (normal 3.0–10.0 mm, &lt;2–3 mm obliterated, &gt;10 mm mega cisterna magna) · <strong>2T nuchal fold</strong> (valid 15.0–20.6 wk, normal &lt;6.0 mm, ≥6.0 mm major aneuploidy marker).</p></div>
+<div class="warn">⚠️ Correlate an obliterated cisterna magna + banana sign with the Spine (below) as indirect markers of open spina bifida.</div>
+<h3>😶 Face</h3>
+<div class="step"><div class="step-num">5</div><p><strong>Orbits</strong> (present and symmetrical / altered ⚠️) · <strong>Nose</strong> (normal shape / flattened or absent ⚠️) · <strong>Maxilla</strong> (intact/defect ⚠️) · <strong>Palate</strong> (intact/cleft ⚠️ — requires a retronasal coronal view, harder to visualize than the lip) · <strong>Upper lip</strong> (intact/unilateral defect ⚠️/bilateral defect ⚠️). Lip and palate are assessed together: management and genetic counseling vary according to the exact combination.</p></div>
+<div class="step"><div class="step-num">6</div><p><strong>Orbital diameters:</strong> enter the <strong>IOD</strong> (inner interorbital diameter), the <strong>BOD</strong> (outer interorbital/binocular diameter) and, if measured, the <strong>OD</strong> (individual orbital diameter) — all in mm. The app calculates the <strong>IOD/BOD ratio</strong> (rule of thirds) and classifies: &gt;0.40 suspected <strong>hypertelorism</strong> · &lt;0.25 suspected <strong>hypotelorism</strong>. The IOD is also compared qualitatively against the OD as additional support. Tick separately if <strong>microphthalmia/anophthalmia</strong> is suspected (small OD, rudimentary or absent lens) — it is a field independent of the ratio.</p></div>
+<div class="tip">💡 Reference charts by GA (Jeanty/Romero/FMF, weeks 16–32) are shown as an aid next to the field, but they do not generate an automatic percentile cut-off — classification is currently by the IOD/BOD ratio only.</div>
+<h3>🦴 Spine</h3>
+<div class="step"><div class="step-num">7</div><p><strong>Spine</strong> (longitudinal + axial view: intact/discontinuity ⚠️) · <strong>Skin over the spine</strong> (intact/defect ⚠️).</p></div>
+<h3>🫀 Chest and heart (+ CDH)</h3>
+<div class="step"><div class="step-num">8</div><p><strong>Heart rhythm:</strong> regular (normal) · sustained tachycardia (&gt;160 bpm, &gt;10 min) ⚠️ · sustained bradycardia (&lt;110 bpm) ⚠️ · isolated extrasystole · other sustained arrhythmia (with a free-text field to specify the type) — same bpm cut-offs as Fetal Monitoring.</p></div>
+<div class="step"><div class="step-num">9</div><p><strong>Visceroatrial situs</strong> (solitus/inversus ⚠️) · <strong>Four-chamber view</strong> · <strong>Ventricular symmetry</strong> and <strong>atrial symmetry + foramen ovale</strong> · <strong>Interventricular septum</strong> (defect = VSD ⚠️) · <strong>LV and RV outflow tracts</strong> · <strong>Three-vessel and trachea view</strong> (PA&gt;Ao&gt;SVC in decreasing caliber, "V" confluence to the left of the trachea) · <strong>Aortic arch</strong> (interruption/coarctation ⚠️) · <strong>Lungs</strong> (homogeneous and symmetrical normal).</p></div>
+<div class="step"><div class="step-num">10</div><p><strong>Cardiothoracic ratio:</strong> choose the method (by area, recommended — normal 0.25–0.33, cardiomegaly &gt;0.35; or by circumferences/diameters — GA-dependent cut-off: &gt;0.50 at 12–15 wk · &gt;0.52 at 18–20 wk · &gt;0.59 at 25–30 wk) and enter the value. <strong>Cardiac angle/axis:</strong> normal 45°±20° (25°–65°) to the left; &gt;65° points to conotruncal heart disease/CDH, &lt;25° or a right axis to dextrocardia/situs inversus.</p></div>
+<div class="step"><div class="step-num">11</div><p><strong>Congenital diaphragmatic hernia (CDH)</strong> — its own sub-card within Chest and heart: <strong>gastric bubble</strong> (infradiaphragmatic normal / supradiaphragmatic-intrathoracic ⚠️), <strong>side</strong> (left/Bochdalek ~85% · right ~10–15%), and <strong>O/E LHR</strong> (%) — &lt;25% severe · 25–44.9% moderate (TOTAL trial; 35–44.9% if liver herniation) · ≥45% favorable.</p></div>
+<h3>🫃 Abdomen</h3>
+<div class="step"><div class="step-num">12</div><p><strong>Stomach:</strong> present/infradiaphragmatic/left (normal) · <strong>"double bubble" image ⚠️</strong> (duodenal/high jejunal atresia, ~30% association with T21) · altered (other, see CDH). <strong>Abdominal wall/cord insertion:</strong> intact (normal) · omphalocele (covered) ⚠️ · gastroschisis (uncovered) ⚠️.</p></div>
+<div class="step"><div class="step-num">13</div><p><strong>Renal pelviectasis:</strong> AP diameter of the right and left pelvis (mm) — &lt;33 wk: normal &lt;4.0 · mild 4.0–10.0 · obstructive &gt;10.0 mm; ≥33 wk: normal &lt;7.0 · mild 7.0–10.0 · obstructive &gt;10.0 mm.</p></div>
+<div class="step"><div class="step-num">14</div><p><strong>Kidneys — visualization and position:</strong> both visible in usual position (normal) · unilateral absence ⚠️ · bilateral absence ⚠️⚠️ · pelvic ectopic ⚠️. <strong>Kidneys — parenchymal appearance:</strong> normal/homogeneous · multicystic/dysplastic ⚠️ (correlate with amniotic fluid — bilateral agenesis or bilateral dysplasia usually present with severe oligo/anhydramnios).</p></div>
+<div class="step"><div class="step-num">15</div><p><strong>Umbilical cord (vessels):</strong> 3 vessels (normal) · single umbilical artery ⚠️. <strong>2T/3T megabladder</strong> (≥16 wk) — maximum longitudinal diameter (mm), static criterion: pathological if it exceeds (GA in weeks + 12) mm. <strong>Filling/emptying cycle (dynamic):</strong> normal 25–45 min · does not empty after 40–60 min ⚠️. <strong>"Keyhole" sign (PUV):</strong> present ⚠️.</p></div>
+<div class="warn">⚠️ 2T/3T megabladder (this module) is different from 1T megacystis (see "Ultrasound · FMF screening" above) — same anatomical structure, different criteria and time windows; both fields coexist without replacing each other.</div>
+<h3>🦵 Limbs</h3>
+<div class="step"><div class="step-num">16</div><p><strong>Short femur for GA</strong> and <strong>short humerus for GA</strong> (checkboxes). <strong>Hands and feet — orientation</strong> (normal / altered ⚠️, other: contractures, syndactyly, etc.). <strong>Digits — number</strong> (5 per hand/foot normal / suspected polydactyly ⚠️ — soft marker associated with trisomy 13 and genetic syndromes such as Meckel-Gruber or Bardet-Biedl if accompanied by other findings; isolated, prognosis is usually good).</p></div>
+<div class="step"><div class="step-num">17</div><p><strong>3 segments per limb</strong> (so as not to miss reduction defects — phocomelia, amelia — when only the femur/humerus is looked at in isolation): upper limb → <strong>humerus</strong>, <strong>radius/ulna</strong>, <strong>hand</strong> (each present/absent ⚠️); lower limb → <strong>femur</strong>, <strong>tibia/fibula</strong>, <strong>foot</strong> (present, normal orientation / absent ⚠️ / present with suspected <strong>clubfoot (talipes equinovarus)</strong> ⚠️).</p></div>
+<div class="tip">💡 The femur/abdominal circumference ratio (FL/AC) <strong>is not duplicated here</strong> — it is calculated in the "MCA Doppler — Fetal Anemia and Biometry by parameter" tab ("Asimetría LF/CA" sub-tab — FL/AC asymmetry), which already integrates it into the Result, with the &lt;0.16–0.18 cut-off as a soft aneuploidy marker.</div>
+<h3>🟤 Placenta, cord, AF, cervix</h3>
+<div class="step"><div class="step-num">18</div><p><strong>Placenta — location:</strong> fundal/corporal/lateral away from the internal os (normal) · low-lying (edge &lt;20 mm from the internal os) ⚠️ — different from the 3T "Placenta previa" checkbox (Prenatal record → Current pregnancy), which confirms in 3T what is a 2T finding here. <strong>Cord — placental insertion site:</strong> central/paracentral (normal) · marginal ("battledore") ⚠️ · velamentous ⚠️⚠️ (risk of vasa previa — confirm with color Doppler over the internal os; elective cesarean if confirmed; risk of FGR). It is a separate field from the number of cord vessels (see Abdomen).</p></div>
+<div class="tip">💡 Amniotic fluid (AFI/pocket) and cervical length <strong>already have their own complete fields</strong> in "Ultrasound · FMF screening" (above) — they are not duplicated on this card.</div>
+<div class="shot"><span class="cam">📷</span>Screenshots of the 7 fetal anatomy cards are still missing.<br/><code>img/manual-calc-morfologia-*.png</code></div>
+</section>
+<section id="acretismo">
+<h2>🔴 Placenta accreta spectrum (PAS) — CaVeSal Classification</h2>
+<span class="new">🆕 New section</span>
+<p class="ref">Ref: FIGO/Jauniaux 2018 · ISUOG/Jauniaux 2016–2018 · ACOG/SMFM Obstetric Care Consensus No.7 (2018/2021) · MSPyBS Paraguay</p>
+<p>Placenta accreta spectrum (PAS: accreta/increta/percreta). Main risk factor: previous cesarean + placenta previa/low anterior insertion.</p>
+<div class="warn">⚠️ <strong>Golden rule:</strong> if there are signs of accreta, never perform manual removal of the placenta — leave the placenta in situ and proceed to en bloc hysterectomy, in a Level III-IV center, with planned cesarean at 34+0–35+6 weeks.</div>
+<div class="step"><div class="step-num">1</div><p><strong>Risk factors:</strong> number of previous cesareans (0/1/2/≥3), previous uterine curettage, previous uterine surgery (myomectomy, etc.), history of Asherman syndrome. Placenta previa/low insertion and maternal age &gt;35 or a history of IVF <strong>are not duplicated</strong> here — they are taken from the Anatomy (2.7) and History fields, where they are already entered.</p></div>
+<div class="step"><div class="step-num">2</div><p><strong>2D ultrasound signs</strong> (each Yes / Unsure / No): loss of the clear zone, myometrial thinning (&lt;1 mm), irregular placental lacunae ("Swiss cheese"), interruption of the bladder-uterine interface/wall, placental bulging toward the bladder, focal exophytic mass (transserosal invasion).</p></div>
+<div class="step"><div class="step-num">3</div><p><strong>Color Doppler signs</strong> (each Yes / Unsure / No): uterovesical hypervascularity, subplacental hypervascularity, bridging vessels, lacunae feeder vessels, parametrial involvement.</p></div>
+<div class="step"><div class="step-num">4</div><p>If you already have a confirmed diagnosis (surgical or histopathological), you can enter the <strong>FIGO Classification</strong>: Grade 1 (Accreta) · Grade 2 (Increta) · Grade 3a (Percreta limited to the uterine serosa) · Grade 3b (Percreta with bladder invasion) · Grade 3c (Percreta with invasion of other pelvic tissues/organs, ± bladder).</p></div>
+<div class="warn">⚠️ <strong>The Probability and Extent in the result are calculated with the "CaVeSal Classification"</strong> — a scoring scheme developed by the team (it is not a published FIGO/ISUOG/ACOG score) that combines risk factors + 2D signs + Doppler signs. The FIGO Classification (step 4) is a separate item, for surgical/histopathological confirmation — it neither replaces nor should be confused with the CaVeSal Classification.</div>
+<div class="shot"><span class="cam">📷</span>Screenshot of the Placenta accreta card is still missing.<br/><code>img/manual-calc-acretismo.png</code></div>
+</section>
+<section id="doppler">
+<h2>🩸 Fetal Doppler — 2T/3T (UA, MCA, CPR, ductus venosus, advanced)</h2>
+<p class="ref">Ref: Baschat AA &amp; Gembruch U. UOG 2003 · Arduini &amp; Rizzo 1990 · Mari NEJM 2000 · ISUOG 2020 · TRUFFLE Study</p>
+<h3>Basic Doppler</h3>
+<div class="step"><div class="step-num">1</div><p>Enter the <strong>GA at the study</strong> (weeks+days) and the available values: <strong>Umbilical Artery</strong> (PI, RI), <strong>Middle Cerebral Artery</strong> (PI, and PSV in cm/s for anemia screening), and <strong>Ductus Venosus</strong> (PIV).</p></div>
+<div class="step"><div class="step-num">2</div><p>The app automatically calculates the <strong>CPR = MCA/UA</strong>, with its dynamic P5 threshold according to GA (e.g. at 33 weeks, P5≈1.07) and flags it as abnormal if it falls below.</p></div>
+<div class="step"><div class="step-num">3</div><p>The result shows <strong>each parameter with its individual percentile</strong> (UA PI, MCA PI, CPR, DV PIV), indicating which are abnormal and what they mean (e.g. increased UA = placental resistance; abnormal CPR = hemodynamic redistribution).</p></div>
+<div class="tip">💡 For fetal anemia screening due to isoimmunization (MCA PSV), see the separate module "MCA Doppler — Fetal Anemia" below.</div>
+<h3>Advanced hemodynamic Doppler</h3>
+<div class="warn">⚠️ Indicate <strong>only when UA, MCA or CPR are abnormal</strong> — these are late-stage markers in severe FGR (fetal cardiovascular compromise).</div>
+<div class="step"><div class="step-num">4</div><p><strong>2T/3T tricuspid regurgitation (TR):</strong> marker of right heart dysfunction. Indicate if DV is abnormal or fetal cardiomyopathy is suspected (not to be confused with 1T TR, which is chromosomal screening).</p></div>
+<div class="step"><div class="step-num">5</div><p><strong>Aortic Isthmus (AoI):</strong> enter PI and diastolic flow (normal/reduced/absent/reversed). It reflects cerebral redistribution and left ventricular afterload — retrograde flow indicates severe neurological compromise. Indicate if MCA or CPR are abnormal in preterm FGR.</p></div>
+<div class="step"><div class="step-num">6</div><p><strong>Umbilical Vein Pulsations (UVP):</strong> umbilical venous pulsatility is a late sign of fetal decompensation — it indicates heart failure with venous congestion, associated with high perinatal mortality.</p></div>
+<div class="step"><div class="step-num">7</div><p>If the advanced Doppler is abnormal and the GA is <strong>&lt;34 weeks</strong>, the app reminds you of <strong>lung maturation</strong> (betamethasone 12 mg IM every 24 h x2 doses, ref. ACOG PB 127/RCOG) and that delivery is decided according to clinical and biophysical progress, coordinating with neonatology.</p></div>
+<h3>Ophthalmic Artery — HDP/PE prognosis (2T/3T)</h3>
+<div class="step"><div class="step-num">8</div><p>In a patient with <strong>established HDP/preeclampsia</strong>, enter the ophthalmic artery <strong>PSV1 and PSV2</strong> — the PSV2/PSV1 ratio assesses the degree of systemic vascular compromise: <strong>≥0.78</strong> severe compromise · <strong>0.70–0.77</strong> borderline · <strong>&lt;0.70</strong> favorable.</p></div>
+<div class="step"><div class="step-num">9</div><p>A ratio ≥0.78 indicates a higher risk of severe FGR and early-onset PE, with poor maternal-fetal prognosis — the app recommends <strong>urgent referral to Fetal Medicine</strong> and assessment of sFlt-1/PlGF, renal/liver function and fetal well-being.</p></div>
+<div style="margin:14px 0">
+<img alt="Screenshot" src="img/manual-calc-07-doppler.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+</div>
+</section>
+<section id="pfe">
+<h2>👶 Estimated Fetal Weight (EFW) and growth</h2>
+<p class="ref">Ref: Hadlock 1984 · INTERGROWTH-21 · Figueras 2008 · MFB Protocol 2024</p>
+<div class="step"><div class="step-num">1</div><p>Choose the <strong>calculation mode</strong>: weight and direct percentile, weight + gestational age, or Hadlock biometry (abdominal circumference + femur length).</p></div>
+<div class="step"><div class="step-num">2</div><p>Enter the values for the chosen mode. In <strong>"Peso + EG → percentil"</strong> (Weight + GA → percentile) mode you will see the notice "Estimación de percentil por curvas INTERGROWTH-21st (método simplificado). Para resultado preciso usar software FMF" (percentile estimate by INTERGROWTH-21st curves, simplified method; use FMF software for a precise result) — it is a note about the method and does not mean that mode ignores the chart you have selected (see point 4).</p></div>
+<div class="step"><div class="step-num">3</div><p>The app calculates the <strong>fetal weight percentile</strong> and classifies it: SGA, AGA, LGA, or FGR according to the percentile and — if you have already entered the Doppler — combining both criteria (see Doppler section).</p></div>
+<div class="step"><div class="step-num">4</div><p>The percentile in the "Weight + GA" and "Hadlock biometry" modes is calculated with the chart chosen in the <strong>Figueras 2008 / INTERGROWTH-21</strong> selector — this selector is on the <strong>"Mode-of-delivery prognosis"</strong> card (🗓️ Gestogram·Delivery tab), but it applies to the whole EFW module (see that section for details).</p></div>
+<div class="tip">💡 If you also enter the Doppler in its own module, the system automatically combines weight and Doppler to classify FGR/SGA, following the Fetal Medicine Barcelona protocol.</div>
+<div style="margin:14px 0">
+<img alt="Screenshot" src="img/manual-calc-05-pfe.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+</div>
+</section>
+<section id="anemia-fetal">
+<h2>🩸 MCA Doppler — Fetal Anemia and Biometry by parameter (GA)</h2>
+<p class="ref">Ref: Mari G. et al. NEJM 2000 · Algoritmo propio CaVeSal® · MoM threshold ≥1.50 · Robinson &amp; Fleming 1975 · Hadlock 1984 · Chitty &amp; Altman 2002 · Goldstein 1987 · Campbell &amp; Thoms 1977</p>
+<p>In the app it is a single card with 5 sub-tabs: fetal anemia screening by MCA-PSV, plus the different ways to estimate GA from a single biometric parameter (useful when GA by LMP is uncertain, or when FGR/asymmetry is suspected).</p>
+<h3>Fetal anemia (MCA-PSV)</h3>
+<div class="step"><div class="step-num">1</div><p>Enter the <strong>GA</strong> (weeks+days) and the <strong>MCA PSV in cm/s</strong>.</p></div>
+<div class="step"><div class="step-num">2</div><p>The app calculates the <strong>MoM</strong> (comparing against the expected median for that GA) and classifies: <strong>Normal</strong> (MoM &lt;1.29, no evidence of anemia, follow-up per protocol) · <strong>Possible mild anemia</strong> (MoM 1.29–1.49, surveillance, repeat in 1–2 weeks) · <strong>Moderate-severe anemia</strong> (MoM ≥1.50, indication for cordocentesis and urgent intrauterine transfusion).</p></div>
+<div class="warn">⚠️ Technical requirement for a valid measurement: angle of insonation ≤15°, MCA sampled in its proximal segment (near the circle of Willis), without probe compression of the fetal head.</div>
+<h3>🔬 GA by CRL — 1T</h3>
+<div class="step"><div class="step-num">3</div><p>Enter the <strong>CRL in mm</strong> (valid range: 10–84 mm, approx. 6+3 to 13+6 weeks). The app calculates the GA with the formula GA(days) = 8.052×√(CRL×1.037)+23.73, with a margin of error of ±5 days — it is the most accurate measurement for dating the pregnancy, and it shows the corrected LMP and the corresponding EDD.</p></div>
+<h3>📏 GA by biometry — 2T and 3T</h3>
+<div class="step"><div class="step-num">4</div><p>Enter the available parameters: <strong>BPD, HC, AC, FL</strong> (in mm) — each calculates its own estimated GA separately. Usage criterion: in <strong>2T</strong> use BPD or FL (margin ±1 week); in <strong>3T</strong> prefer HC or FL (less variability than BPD); with <strong>uncertain or discordant GA in 3T</strong>, use HC or FL for the estimate, without formal correction of the LMP. If there is a <strong>significant discrepancy between parameters (≥7 days)</strong>, the app alerts you and suggests assessing fetal asymmetry — considering asymmetric FGR if the AC is the lagging parameter — and recommends moving to the "Asimetría LF/CA" (FL/AC asymmetry) sub-tab.</p></div>
+<h3>🦴 GA by humerus length</h3>
+<div class="step"><div class="step-num">5</div><p>Enter the humerus length (mm) as an additional GA parameter, useful as an alternative or complement to the femur, especially if skeletal dysplasia is suspected.</p></div>
+<h3>🧠 GA by transverse cerebellar diameter (TCD)</h3>
+<div class="step"><div class="step-num">6</div><p>Enter the <strong>TCD in mm</strong>. Between weeks 14–28, the TCD in mm is approximately equal to the GA in weeks (after week 28 the correlation is no longer linear, and the app uses the Goldstein charts). <strong>Key advantage:</strong> the TCD is <strong>independent of growth restriction</strong> — it is not affected in FGR, which makes it the most reliable parameter for estimating GA in fetuses with FGR or severe asymmetry. A <strong>preserved</strong> TCD in a fetus with suspected FGR <strong>confirms that the assigned GA is correct</strong>; a small TCD for GA is a marker of CNS disease (cerebellar hypoplasia, Dandy-Walker syndrome) and warrants referral.</p></div>
+<h3>⚖️ FL/AC asymmetry</h3>
+<div class="step"><div class="step-num">7</div><p><strong>Concept:</strong> in late, asymmetric FGR, the fetus redistributes flow (brain sparing) — abdominal growth is restricted before head growth. The FL/AC ratio detects this asymmetry early. Enter <strong>FL, AC</strong> (in mm), and optionally <strong>HC</strong> (to check for microcephaly: HC &lt;p3 for GA) and the current GA.</p></div>
+<div class="step"><div class="step-num">8</div><p>Interpretation of the <strong>FL/AC ratio</strong>: normal 0.20–0.24 · <strong>&lt;0.16</strong> = FL disproportionately short relative to AC → suspected limb shortening (dwarfism, skeletal dysplasia) · <strong>&gt;0.235</strong> = AC disproportionately small relative to FL → asymmetry / late asymmetric FGR (brain sparing), warrants Doppler (umbilical and MCA) and serial biometry every 2 weeks.</p></div>
+<div style="margin:14px 0">
+<img alt="Screenshot" src="img/manual-calc-anemia.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+<img alt="Screenshot" src="img/manual-calc-biometria.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+</div>
+</section>
+<section id="pbf">
+<h2>🧬 Fetal Biophysical Profile (BPP)</h2>
+<p class="ref">Ref: Manning 1980 · Vintzileos 1983 · Clark 1989 · Queenan/Spong/Lockwood 7th ed. · MSPyBS Paraguay</p>
+<div class="step"><div class="step-num">1</div><p>Choose the <strong>modality</strong> according to what you assessed: <strong>Complete</strong> (Manning, 5 variables, 10 points + NST) · <strong>Ultrasound only</strong> (8 points, no NST) · <strong>Abbreviated</strong> (Clark: NST + amniotic fluid) · <strong>Vintzileos</strong> (graded 0/1/2 + Grannum placental grade, up to 12 points).</p></div>
+<div class="step"><div class="step-num">2</div><p>Enter the available variables for the chosen modality: <strong>fetal breathing movements (FBM), body/limb movements (FM), fetal tone, NST reactivity</strong>, and <strong>amniotic fluid volume</strong> — in the Vintzileos modality, also add the <strong>placental grade (Grannum)</strong>.</p></div>
+<div class="step"><div class="step-num">3</div><p>Enter the <strong>current gestational age</strong> — it is a key item: the suggested management depends on the combination <strong>score × amniotic fluid status × GA</strong>, not just the total score.</p></div>
+<div class="step"><div class="step-num">4</div><p>The app adds up the score and shows the <strong>corresponding management</strong>, also indicating whether the amniotic fluid is <strong>normal</strong> or <strong>reduced</strong>, because management changes with that status — especially for intermediate scores.</p></div>
+<div class="tip">📋 <strong>Summary of management by score (guidance — the result always gives the full detail):</strong><br/> 🔹 <strong>10/10 or 8/10 with normal fluid:</strong> expectant management, usual surveillance.<br/> 🔹 <strong>8/10 with oligohydramnios:</strong> depends on GA — ≥36–37 wk, deliver; preterm, daily Doppler.<br/> 🔹 <strong>6/10 with normal fluid:</strong> reassess in 12–24 h (or 2 h per MSPyBS protocol), or delivery is indicated if at term.<br/> 🔹 <strong>6/10 with oligohydramnios:</strong> delivery if viability is assured.<br/> 🔹 <strong>4/10 with normal fluid:</strong> GA-dependent management — if &lt;32 wk, repeat in 2 h along with corticosteroids, magnesium sulfate and ductus venosus Doppler; cesarean only if it persists or the Doppler decompensates.<br/> 🔹 <strong>4/10 with reduced fluid:</strong> immediate emergency cesarean, regardless of GA (double compromise: acute asphyxia on top of chronic insufficiency).<br/> 🔹 <strong>≤2/10 (any fluid):</strong> immediate emergency cesarean, regardless of GA or fluid.</div>
+<div class="tip">💡 Fixed note accompanying every BPP result: <strong>all markers are acute, except the placenta and amniotic fluid, which are chronic markers</strong> — useful for interpreting a low score in the right context.</div>
+<div class="warn">⚠️ If the score indicates delivery and the GA is preterm, the app reminds you of lung maturation with corticosteroids.</div>
+<div class="shot"><span class="cam">📷</span>Screenshot of the Fetal Biophysical Profile card is still missing.<br/><code>img/manual-calc-pbf.png</code></div>
+</section>
+<section id="monitoreo-fetal">
+<h2>💓 Fetal Monitoring (NST/CTG)</h2>
+<p class="ref">Ref: FIGO Consensus Guidelines (Ayres-de-Campos et al. 2015) · ACOG Practice Bulletin 229/106 · Caldeyro-Barcia R. et al. 1966 · Welt AM et al. 1984 · Dawes GS, Redman CWG et al. (Oxford)</p>
+<div class="step"><div class="step-num">1</div><p>Enter the <strong>baseline FHR (bpm)</strong> — the app flags <strong>tachycardia</strong> if &gt;160 bpm or <strong>bradycardia</strong> if &lt;110 bpm (same criterion as the "Heart rhythm" field in Anatomy — Chest and heart).</p></div>
+<div class="step"><div class="step-num">2</div><p>Select the <strong>variability</strong>: absent, minimal, moderate or saltatory.</p></div>
+<div class="step"><div class="step-num">3</div><p>Tick <strong>reactivity</strong> — the field shows the corresponding rule as an aid according to the entered GA: <strong>15×15</strong> (≥32 weeks) or <strong>10×10</strong> (&lt;32 weeks).</p></div>
+<div class="step"><div class="step-num">4</div><p>If you identify a <strong>special morphological pattern</strong>, choose it from the selector: classic sinusoidal, pseudo-sinusoidal, lambda waves, omega pattern, or W sign.</p></div>
+<div class="warn">⚠️ <strong>"Lambda waves" and "omega pattern"</strong> are informal visual analogies, frequently used in teaching/clinical practice — they describe the shape of the tracing, but <strong>they are not official nomenclature</strong> of FIGO, ACOG or NICHD, and the app states this in the result. The <strong>W sign</strong> (Welt 1984) is different: it does correspond to a published pattern with its own verified source (biphasic variable deceleration).</div>
+<div class="step"><div class="step-num">5</div><p>Classify <strong>decelerations (Dips I/II/III, Caldeyro-Barcia)</strong> if present.</p></div>
+<div class="step"><div class="step-num">6</div><p>Separately, tick whether you observe <strong>shoulders</strong> or <strong>overshoot</strong> — they are two different findings, each with its own field.</p></div>
+<div class="tip">💡 <strong>Shoulders and overshoot are NOT synonyms:</strong> <strong>shoulders</strong> are a <strong>reassuring</strong> finding (brief acceleration before/after a deceleration, intact autonomic baroreflex); <strong>overshoot</strong> is a <strong>NON-reassuring</strong> finding (exaggerated/rigid acceleration after a deceleration, associated with developing hypoxia/acidosis).</div>
+<div class="shot"><span class="cam">📷</span>Screenshot of the Fetal Monitoring (NST/CTG) card is still missing.<br/><code>img/manual-calc-monitoreo-fetal.png</code></div>
+</section>
+<!-- ════════════════════════════════════════ PESTAÑA: PACIENTES ════════════════════════════════════════ -->
+<div class="tab-divider" id="tab-pacientes">
+<h2>👤 Patients</h2>
+<p>Saved records, backup, and the data bridge with the CaVeSal® Clinical Record.</p>
+</div>
+<section id="pacientes">
+<h2>👤 Patient management and backup</h2>
+<div class="step"><div class="step-num">1</div><p>From the <strong>Pacientes</strong> (Patients) tab, tap "Nueva paciente" (New patient) to create a record, or search for an existing one by ID number.</p></div>
+<div class="step"><div class="step-num">2</div><p>The data you enter in the clinical modules are saved automatically in the active patient's record. If you ticked <strong>assisted reproduction (ART)</strong> in Current pregnancy, the app flags it as a risk finding (higher risk of placenta previa, preeclampsia and twins).</p></div>
+<div class="step"><div class="step-num">3</div><p>Each record automatically shows the <strong>obstetric formula</strong> (G/P/C/A: pregnancies, births, cesareans, miscarriages) calculated from the entered history, together with height/weight and the global risk classification.</p></div>
+<div class="step"><div class="step-num">4</div><p><strong>Visit history:</strong> within the patient's record, tap "+ Visita" (+ Visit) to record each prenatal visit with: date, GA (auto-calculated from the LMP), current weight, BP, laboratory (Hb, glucose, TSH), ultrasound (EFW + percentile, cervical length, fetal presentation), Doppler/sFlt-1-PlGF in free text, notes/plan, and next appointment date.</p></div>
+<div class="step"><div class="step-num">5</div><p>Each visit is kept in an editable chronological list — you can modify or delete any recorded visit, and from there you can also reopen that patient directly in the calculator ("⚡ Abrir en calculadora" — Open in calculator) to recalculate her risk with the updated data.</p></div>
+<div class="step"><div class="step-num">6</div><p>From <strong>"Mis pacientes"</strong> (My patients), tap <strong>"Backup local (.json)"</strong> to download a file with all your patients ("Descargar .json" card — Download), and save it to your own Google Drive ("Abrir Google Drive" card) — so you can sync between PC, phone or tablet manually, copying the file from one device to another.</p></div>
+<div class="step"><div class="step-num">7</div><p>To <strong>"Importar backup"</strong> (Import backup), choose the .json file and the mode: <strong>"Combinar"</strong> (Merge — adds the patients from the backup without deleting the ones you already have) or <strong>"Reemplazar todo"</strong> (Replace all — deletes the current data and replaces it with the backup).</p></div>
+<div class="tip">💡 And from here, with the "Analizar con CaVeSal® IA" card in the Result panel, you can send the current calculation for a second clinical reading with artificial intelligence — see the <a href="https://cavesal.app/manual-cavesal-ia-en.html">CaVeSal® IA tutorial</a>.</div>
+<div style="margin:14px 0">
+<img alt="Screenshot" src="img/manual-calc-11-pacientes.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+</div>
+</section>
+<section id="puente-hc">
+<h2>🔄 Sync with the CaVeSal® Clinical Record</h2>
+<p>If you also use the <strong>CaVeSal® Clinical Record</strong>, you can send a patient's clinical data directly from there to the Calculator, without re-entering anything by hand ("Enviar a Calculadora" button in the Clinical Record — full-version feature). This section explains what happens on the Calculator side when those data arrive.</p>
+<div class="step"><div class="step-num">1</div><p><strong>Automatic recognition by Clinical Record ID (<code>id_hc</code>):</strong> the Calculator identifies the patient by the "id_hc" field sent by the Clinical Record. If you already had her saved in "Mis pacientes" (because you sent her before), it <strong>updates that same record</strong> instead of creating a duplicate — you can send the same patient from the Clinical Record as many times as needed as the pregnancy progresses, without generating repeated records. If it does not recognize the id_hc (first time, or patient without an ID entered in the Clinical Record), it creates a new record.</p></div>
+<div class="step"><div class="step-num">2</div><p><strong>Profile data</strong> (height, pre-pregnancy weight, LMP, blood group and Rh, pregnancies/births/cesareans/miscarriages, name): if the field was still empty in the Calculator record, it is filled in automatically. If it already had <strong>a different value</strong> from the one arriving from the Clinical Record, the app does not overwrite it blindly — the <strong>"⚠️ Revisar datos que difieren"</strong> (Review differing data) dialog appears, listing each conflicting field so you can choose which value stays (the one you already had saved or the one coming from the Clinical Record).</p></div>
+<div class="step"><div class="step-num">3</div><p><strong>History, serologies and vaccines</strong> (chronic hypertension, pregestational diabetes, thrombophilia, heart disease with WHO class, HIV/Hepatitis/Syphilis history, Coombs, VDRL, toxoplasmosis, Chagas, GBS, Tdap/influenza/RSV/COVID — whatever you have entered in the Clinical Record): these data <strong>are not mixed with the editable fields</strong> of "Editar paciente" (Edit patient) — they arrive read-only and are shown separately in <strong>"Ver ficha"</strong> (View record), under the "🩺 Datos clínicos vinculados desde HC" block (Clinical data linked from the Clinical Record). Only those with a positive or entered value are shown — each item the patient does not have is not listed, so the record is not cluttered.</p></div>
+<div class="step"><div class="step-num">4</div><p><strong>Current visit data</strong> (BP, weight, fetal presentation, Hb, TSH, cervical length, Doppler, glucose, EFW, notes): these are <strong>always added as a new visit</strong> in the history — they never replace a saved visit. They appear in the record exactly like a manually entered visit, with the same fields described in point 4 of "Patient management" above.</p></div>
+<div class="warn">⚠️ <strong>Two fields that the Clinical Record already records but that do NOT yet travel to the Calculator:</strong> "Motivo de consulta" (Reason for visit) and "Edemas" (Edema) of each prenatal visit. It is not an error — the "Mis pacientes" record does not yet have a place for those two fields, so for now they stay only in the Clinical Record. If you need them on the Calculator side, it is a small change that can be added on request.</div>
+<div class="shot"><span class="cam">📷</span>Screenshots of the "⚠️ Revisar datos que difieren" dialog and the "🩺 Datos clínicos vinculados desde HC" block in "Ver ficha" are still missing.<br/><code>img/manual-calc-puente-hc.png</code></div>
+</section>
+<!-- ════════════════════════════════════════ PESTAÑA: SIMULADOR ════════════════════════════════════════ -->
+<div class="tab-divider" id="tab-simulador">
+<h2>🎓 Simulator</h2>
+<p>Fictional cases to train prenatal care decisions with the same criteria the calculator uses. Available in the full version; in the demo the tab appears with a padlock.</p>
+</div>
+<section id="simulador">
+<h2>🎓 Training cases</h2>
+<p>The app presents the patient with a data panel (GA, BP, laboratory or ultrasound results), you choose the management and the case moves forward. Each answer shows an explanation and the source with its link.</p>
+<div class="step"><div class="step-num">1</div><p>Open the <strong>🎓 Simulador</strong> (Simulator) tab and choose a case. The <strong>Con reloj</strong> (With clock) switch sets a time limit for each decision; if it runs out, it counts as unanswered.</p></div>
+<div class="step"><div class="step-num">2</div><p>Available cases (one source per topic):</p></div>
+<div class="tip">🔹 <strong>Gestational diabetes</strong> — IADPSG 2010.<br/> 🔹 <strong>Preeclampsia screening and prevention</strong> — FIGO 2019.<br/> 🔹 <strong>Gestational hypertension and preeclampsia</strong> — ACOG PB 222 (2020).<br/> 🔹 <strong>From screening to FGR (evolving case)</strong> — the same patient from week 12: trisomy screening (Fetal Medicine Barcelona cut-offs; Nicolaides 2005 and FIGO 2015 as alternatives in the text), aspirin (FIGO 2019), anomaly scan and uterine Doppler at 20 weeks, and growth scan at 32 weeks with the EFW percentile from the Figueras chart. From there the case randomly follows one of three paths: stage I FGR, stage II FGR or SGA, each with its follow-up, timing and mode of delivery according to the Fetal Medicine Barcelona protocol.</div>
+<div class="step"><div class="step-num">3</div><p>In evolving cases, a notice at the start of the scene indicates what happened. Since the path is drawn at random, repeating the case may give you another one.</p></div>
+<div class="step"><div class="step-num">4</div><p>At the end, the <strong>feedback</strong> shows the percentage of correct answers, the time, how the case evolved, each decision with the best answer and the sources. The <strong>Copiar resultado</strong> (Copy result) button copies a text summary.</p></div>
+<div class="warn">⚠️ The cases are fictional and are meant for training. They do not replace clinical judgment.</div>
+</section>
+<!-- ════════════════════════════════════════ PESTAÑA: ACERCA ════════════════════════════════════════ -->
+<div class="tab-divider" id="tab-acerca">
+<h2>ℹ️ About</h2>
+<p>CaVeSal® ecosystem, clinical author, bibliographic bases for the whole calculator, and legal notice. This tab had not been documented in the manual until now.</p>
+</div>
+<section id="invitar-paciente">
+<h2>📲 Invite your patient</h2>
+<span class="new">🆕 New section</span>
+<p>Two free apps from the CaVeSal® ecosystem, depending on each patient's stage, plus the complete ecosystem — with their QR code to share during the consultation.</p>
+<div class="step"><div class="step-num">1</div><p><strong>CaVeSal® Mamá</strong> (<a href="https://mama.cavesal.app/">mama.cavesal.app</a>): pregnancy, birth, breastfeeding and baby development — for pregnant or postpartum patients.</p></div>
+<div class="step"><div class="step-num">2</div><p><strong>CaVeSal® Mujer</strong> (<a href="https://mujer.cavesal.app/">mujer.cavesal.app</a>): gynecological health and the cycle outside pregnancy — for patients who are not pregnant.</p></div>
+<div class="step"><div class="step-num">3</div><p><strong>CaVeSal® Ecosystem</strong> (<a href="https://cavesal.app/">cavesal.app</a>): access to all the apps in the ecosystem, including the Clinical Record and those added over time.</p></div>
+<div class="tip">💡 These apps guide the patient and bring her closer to her physician — they do not replace the physician's judgment.</div>
+</section>
+<section id="autor-clinico">
+<h2>👨‍⚕️ Clinical author</h2>
+<span class="new">🆕 New section</span>
+<p><strong>Dr. Carlos Vera Salerno</strong> — Training in Maternal-Fetal Medicine. FMF/Nicolaides methodology and guidelines: ACOG, FIGO, NICE, IADPSG, ATA, WHO, EBCOG, Fetal Medicine Barcelona.</p>
+<div class="step"><div class="step-num">1</div><p>Medical degree, Physician and Surgeon (Paraguay), recognized as equivalent to the Spanish degree of Licenciado en Medicina. Specialist in Obstetrics and Gynecology.</p></div>
+<div class="step"><div class="step-num">2</div><p>Postgraduate studies in General and Obstetric-Gynecological Ultrasound, Gynecological and Reproductive Endocrinology, Higher Education Teaching and Public Health. Training in Artificial Intelligence and emerging digital tools applied to professional practice.</p></div>
+<div class="step"><div class="step-num">3</div><p>National Trainer in Sexual and Reproductive Health, Code Red and Prenatal Care. Member of the National Technical Committee on Immunization (Paraguay).</p></div>
+<div class="step"><div class="step-num">4</div><p>University lecturer at undergraduate and postgraduate level in Obstetrics and Gynecology, Ultrasound, and Gynecological and Reproductive Endocrinology.</p></div>
+<div class="step"><div class="step-num">5</div><p>Member of the FLASOG Scientific Committee (2024–2026). Member of scientific societies in Paraguay (FPGO, SOGON, SOGIA, SODIAP and SEGIRP). President of FPGO (2023–2026).</p></div>
+<div class="tip">✉️ Direct contact: <a href="mailto:drverasalerno@gmail.com">drverasalerno@gmail.com</a></div>
+</section>
+<section id="bases-clinicas">
+<h2>📚 Clinical bases</h2>
+<span class="new">🆕 New section</span>
+<p>Complete list, by clinical domain, of the sources supporting each Calculator module. It is the reference shown inside the app under "Acerca → Bases clínicas" (About → Clinical bases) — useful to see at a glance which guideline supports each calculation before citing it to a colleague or a patient.</p>
+<div class="step"><div class="step-num">1</div><p><strong>Chromosomal screening:</strong> Fetal Medicine Barcelona (risk cut-offs) · Nicolaides 2005 / FMF · Snijders 1998 · Sharifzadeh 2019 · Kagan · Cicero.</p></div>
+<div class="step"><div class="step-num">2</div><p><strong>Preeclampsia:</strong> FMF · ISSHP · Roche/BRAHMS (sFlt-1/PlGF) · Fetal Medicine Barcelona. <strong>Hypertensive disorders:</strong> ACOG PB No.222 (2020) · FIGO Guidelines (2019) · ISSHP (2021).</p></div>
+<div class="step"><div class="step-num">3</div><p><strong>Gestational diabetes:</strong> IADPSG 2010 · ADA 2026 · ALAD 2019 · WHO. <strong>Thyroid:</strong> ATA Guidelines 2017 · Endocrine Society · ACOG. <strong>Supplementation:</strong> WHO · ACOG · NICE · FIGO · Endocrine Society 2024 · EBCOG 2024 · Cochrane.</p></div>
+<div class="step"><div class="step-num">4</div><p><strong>Fetal biometry:</strong> Hadlock 1984 · Robinson &amp; Fleming 1975 (CRL/LMP) · Chitty &amp; Altman 2002 (humerus) · Goldstein 1987 (cerebellum) · Jeanty 1983/1984 · Mayden 1982 · Chitty 1994 · INTERGROWTH-21st · Figueras &amp; Gratacós 2008. <strong>Fetal growth/SGA/FGR:</strong> Figueras F. EJOGR 2008 · MFB Protocol Nov-2024 · ISUOG Delphi Consensus 2020.</p></div>
+<div class="step"><div class="step-num">5</div><p><strong>UA/MCA/CPR Doppler:</strong> Ciobanu A et al. (FMF) UOG 2019. <strong>Advanced hemodynamic Doppler:</strong> Baschat AA 2011 · TRUFFLE Study Group UOG 2020 · ISUOG FGR 2020 · Gratacós &amp; Torres, MFB protocol 2023. <strong>Ophthalmic Artery:</strong> Gyselaers 2020 · Verlohren 2012 · Kaitu'u-Lino 2018 · Fetal Medicine Barcelona.</p></div>
+<div class="step"><div class="step-num">6</div><p><strong>Fetal anatomy:</strong> ISUOG Practice Guidelines 2020/2023 (CNS, face, heart) · Paladini &amp; Volpe 2018 · Jeanty/Mayden (orbital diameters) · Corteville 1991/1992 (pelviectasis) · FMF/Nicolaides (megacystis/LUTO) · CDHSG/Jani 2007 (O/E LHR, CDH). <strong>Placenta accreta:</strong> FIGO/Jauniaux 2018 · ISUOG/Jauniaux 2016-2018 · ACOG/SMFM Obstetric Care Consensus No.7.</p></div>
+<div class="step"><div class="step-num">7</div><p><strong>Fetal anemia:</strong> Mari G. et al. NEJM 2000 (MCA/PSV Doppler) · Detti L et al. AJOG 2002. <strong>Monochorionic twins/FGR:</strong> Torres X 2017 · Gratacós E UOG 2007 · ISUOG 2020.</p></div>
+<div class="step"><div class="step-num">8</div><p><strong>Fetal Biophysical Profile:</strong> Manning 1980 · Vintzileos 1983 · Clark 1989 · Queenan/Spong/Lockwood 7th ed. · MSPyBS Paraguay. <strong>Fetal Monitoring (CTG):</strong> FIGO Consensus (Ayres-de-Campos 2015) · ACOG PB 229/106 · Caldeyro-Barcia 1966 · Welt 1984 · Dawes/Redman (Oxford).</p></div>
+<div class="step"><div class="step-num">9</div><p><strong>Amniotic fluid:</strong> SMFM Consult #46 (2018) · ACOG Clinical Consensus No.3 (2022) · ISUOG 2024. <strong>Lung maturation (&lt;34 wk):</strong> ACOG PB 127 · RCOG Green-top 7. <strong>MgSO₄ neuroprotection (&lt;32 wk):</strong> ACOG PB 455 · WHO 2015.</p></div>
+<div class="step"><div class="step-num">10</div><p><strong>Serologies:</strong> HIV — EMTCT Plus Paraguay 2024 · DHHS 2024 · PAHO · ACOG. Syphilis — CDC 2021 · PAHO Elimination of MTCT 2024 · EMTCT Plus 2024 · ACOG. Toxoplasmosis — SMFM Consult Series · Montoya &amp; Remington 2008 · PAHO 2024. CMV — Rawlinson 2017 · Leruez-Ville 2020. Chagas — PAHO 2023 · EMTCT Plus 2024 · Torrico 2018. Hepatitis B — EASL 2017 · ACOG · EMTCT Plus 2024. Hepatitis C — EASL 2020 · AASLD · ACOG. Rubella — CDC · PAHO · ACOG.</p></div>
+<div class="step"><div class="step-num">11</div><p><strong>Intrahepatic cholestasis (ICP):</strong> MINSAL Chile Perinatal Guide 2015 · RCOG Green-top No.43 (2022) · SMFM Consult Series No.53 · Williamson 2018 · Ovadia 2019 · ACOG · EASL.</p></div>
+<div class="step"><div class="step-num">12</div><p><strong>Fundal height:</strong> Algoritmo propio CaVeSal®, based on Gomes AG RBGO 2001 · CLAP-PAHO/WHO. <strong>Weight gain:</strong> IOM/NAS 2009 · ACOG. <strong>Mode of delivery:</strong> Robson · Grobman (NICHD) · ACOG.</p></div>
+<div class="tip">💡 This list gathers in one place all the references already cited in abbreviated form at the bottom of each module throughout this manual.</div>
+</section>
+<section id="aviso-legal">
+<h2>⚠️ Legal notice</h2>
+<span class="new">🆕 New section</span>
+<p>CaVeSal® is a <strong>clinical support</strong> tool for trained health professionals. It does not replace the treating physician's clinical judgment or individualized assessment. All clinical decisions are the sole responsibility of the health professional.</p>
+<p><strong>Intellectual property:</strong> CaVeSal® implements <strong>proprietary algorithms and calculation formulas</strong>, developed and integrated in an original way from the cited bibliographic references. The regression coefficients used are original, derived from our own analysis of the reference literature. It does not reproduce third-party copyrighted tables. References to scientific publications are solely for academic attribution and clinical validation.</p>
+<p>The mention of guidelines, scientific societies or institutions (FMF, ACOG, FIGO, WHO, ALAD, ADA, IADPSG, CLAP, IOM, FPGO, FLASOG, among others) is solely for bibliographic attribution. None of these institutions sponsors, endorses or certifies CaVeSal®.</p>
+<div class="tip">Related links: <a href="https://cavesal.app/terminos.html">Terms of Service</a> · <a href="https://cavesal.app/privacidad.html">Privacy Policy</a> · <a href="https://cavesal.app/precios.html">Prices</a>.</div>
+</section>
+<section style="text-align:center">
+<h2 style="justify-content:center">🔗 More CaVeSal® resources</h2>
+<p style="font-size:.86rem;margin-bottom:14px">Already have your key? Want to explore the rest of the suite?</p>
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center"><a href="https://cavesal.app/instrucciones-en.html" style="background:var(--teal-lt);color:var(--navy);padding:10px 16px;border-radius:10px;text-decoration:none;font-size:.85rem;font-weight:600">🔓 How to activate your key</a> <a href="https://cavesal.app/full/" style="background:var(--teal-lt);color:var(--navy);padding:10px 16px;border-radius:10px;text-decoration:none;font-size:.85rem;font-weight:600">📊 Go to the Calculator (full)</a> <a href="https://historia.cavesal.app" style="background:var(--teal-lt);color:var(--navy);padding:10px 16px;border-radius:10px;text-decoration:none;font-size:.85rem;font-weight:600">📋 Go to the Clinical Record</a> <a href="https://historia.cavesal.app/manual-historia-clinica-en.html" style="background:var(--teal-lt);color:var(--navy);padding:10px 16px;border-radius:10px;text-decoration:none;font-size:.85rem;font-weight:600">📋 Clinical Record tutorial</a> <a href="https://cavesal.app/manual-cavesal-ia-en.html" style="background:var(--teal-lt);color:var(--navy);padding:10px 16px;border-radius:10px;text-decoration:none;font-size:.85rem;font-weight:600">🧠 CaVeSal® IA tutorial</a> <a href="https://cavesal.app/precios.html" style="background:var(--teal-lt);color:var(--navy);padding:10px 16px;border-radius:10px;text-decoration:none;font-size:.85rem;font-weight:600">💰 See prices</a></div>
+</section>
+<p class="updated">Questions about a module? Write to us at <a href="mailto:drverasalerno@gmail.com">drverasalerno@gmail.com</a> · Last updated: October 2026</p>
+<p style="text-align:center"><a class="back-top" href="#top">↑ Back to contents</a></p>
+</main>
+</body>
+</html>

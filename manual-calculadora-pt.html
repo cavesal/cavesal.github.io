@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tutorial e Manual de Uso · Calculadora CaVeSal®</title>
+<meta content="Manual completo de uso da Calculadora Pré-natal CaVeSal®: rastreamento cromossômico FMF, morfologia fetal, pré-eclâmpsia, peso fetal, idade gestacional e via de parto." name="description"/>
+<meta content="CaVeSal" name="author"/>
+<meta content="website" property="og:type"/>
+<meta content="Tutorial e Manual de Uso · Calculadora CaVeSal®" property="og:title"/>
+<meta content="Manual completo de uso da Calculadora Pré-natal CaVeSal®: rastreamento cromossômico FMF, morfologia fetal, pré-eclâmpsia, peso fetal, idade gestacional e via de parto." property="og:description"/>
+<meta content="https://cavesal.app/manual-calculadora.html" property="og:url"/>
+<meta content="https://cavesal.app/og-cover-calculadora.jpg" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="CaVeSal® Calculadora Pré-natal" property="og:image:alt"/>
+<meta content="CaVeSal®" property="og:site_name"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Tutorial e Manual de Uso · Calculadora CaVeSal®" name="twitter:title"/>
+<meta content="Manual completo de uso da Calculadora Pré-natal CaVeSal®: rastreamento cromossômico FMF, morfologia fetal, pré-eclâmpsia, peso fetal, idade gestacional e via de parto." name="twitter:description"/>
+<meta content="https://cavesal.app/og-cover-calculadora.jpg" name="twitter:image"/>
+<style>
+  :root{
+    --navy:#0D1B2D;--teal:#0EA5B7;--teal-lt:#e6f7f9;--slate:#4a6274;--mist:#f2f7f9;--border:#d0e8ed;--gold:#c9a227;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--mist);color:var(--navy);line-height:1.6}
+  header{background:linear-gradient(135deg,#0D1B2D,#0EA5B7);color:#fff;padding:32px 20px;text-align:center}
+  header h1{font-size:1.4rem;font-weight:800}
+  header p{font-size:.9rem;opacity:.85;margin-top:6px}
+  main{max-width:760px;margin:0 auto;padding:28px 20px 60px}
+
+  nav.toc{background:#fff;border-radius:14px;padding:18px 20px;margin-bottom:22px;box-shadow:0 2px 12px rgba(14,165,183,.10)}
+  nav.toc h2{font-size:1rem;color:var(--teal);margin-bottom:10px}
+  nav.toc>ol{padding-left:18px;font-size:.88rem}
+  nav.toc>ol>li{margin-bottom:10px;font-weight:700}
+  nav.toc>ol>li>a{color:var(--navy);text-decoration:none}
+  nav.toc ol ol{padding-left:18px;font-weight:400;margin-top:4px}
+  nav.toc ol ol li{margin-bottom:3px;font-size:.84rem}
+  nav.toc a{color:var(--navy);text-decoration:none}
+  nav.toc ol ol a{color:var(--slate)}
+  nav.toc a:hover{color:var(--teal)}
+
+  .tab-divider{background:linear-gradient(135deg,#0D1B2D,#0EA5B7);color:#fff;border-radius:14px;padding:16px 20px;margin:26px 0 14px;scroll-margin-top:16px}
+  .tab-divider:first-of-type{margin-top:0}
+  .tab-divider h2{font-size:1.15rem;display:flex;align-items:center;gap:8px}
+  .tab-divider p{font-size:.8rem;opacity:.88;margin-top:4px}
+
+  section{background:#fff;border-radius:14px;padding:22px;margin-bottom:18px;box-shadow:0 2px 12px rgba(14,165,183,.10);scroll-margin-top:16px}
+  section h2{font-size:1.1rem;color:var(--teal);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+  section h3{font-size:.95rem;color:var(--navy);margin:14px 0 6px}
+  section .ref{font-size:.74rem;color:var(--slate);margin-bottom:14px;font-style:italic}
+  section p{font-size:.9rem;margin-bottom:10px}
+
+  .step{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start}
+  .step-num{background:var(--teal);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.76rem;font-weight:800;flex-shrink:0;margin-top:2px}
+  .step p{font-size:.88rem;margin:0}
+
+  .tip{background:var(--teal-lt);border-left:3px solid var(--teal);border-radius:8px;padding:12px 14px;font-size:.85rem;margin-top:10px}
+  .warn{background:#fff8e6;border-left:3px solid var(--gold);border-radius:8px;padding:12px 14px;font-size:.85rem;margin-top:10px}
+
+  .shot{border:2px dashed var(--border);border-radius:12px;padding:22px;text-align:center;color:var(--slate);font-size:.82rem;margin:14px 0;background:#fafdfe}
+  .shot .cam{font-size:1.6rem;display:block;margin-bottom:6px}
+  .shot code{background:#eef7f9;padding:2px 6px;border-radius:5px;font-size:.78rem;color:var(--navy)}
+
+  .new{background:#eafbf0;border-left:3px solid #0d8f4a;border-radius:8px;padding:10px 14px;font-size:.78rem;margin-bottom:10px;color:#0d6b38;font-weight:600;display:inline-block}
+
+  .updated{font-size:.78rem;color:var(--slate);text-align:center;margin-top:20px}
+  a{color:var(--teal)}
+  .back-top{display:inline-block;margin-top:14px;font-size:.78rem}
+</style>
+<link rel="alternate" hreflang="es" href="https://cavesal.app/manual-calculadora.html"/>
+<link rel="alternate" hreflang="en" href="https://cavesal.app/manual-calculadora-en.html"/>
+<link rel="alternate" hreflang="pt-BR" href="https://cavesal.app/manual-calculadora-pt.html"/>
+<link rel="alternate" hreflang="x-default" href="https://cavesal.app/manual-calculadora.html"/>
+<style>.lang-sw{display:flex;justify-content:center;gap:6px;margin-top:12px;flex-wrap:wrap}.lang-sw a{color:#fff;text-decoration:none;font-size:.78rem;font-weight:700;padding:4px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.55);opacity:.85}.lang-sw a[aria-current]{background:#fff;color:#0D1B2D;opacity:1}</style>
+</head>
+<body>
+<header>
+<h1>📊 Tutorial e Manual de Uso · Calculadora CaVeSal®</h1>
+<p>Aprenda a usar cada aba e cada módulo, na mesma ordem em que aparecem no app</p>
+  <nav class="lang-sw" aria-label="Idioma / Language"><a href="manual-calculadora.html" lang="es">ES</a><a href="manual-calculadora-en.html" lang="en">EN</a><a href="manual-calculadora-pt.html" lang="pt" aria-current="page">PT</a></nav>
+</header>
+<main>
+<nav class="toc" id="top">
+<h2>Conteúdo</h2>
+<ol>
+<li><a href="#intro">Antes de começar</a></li>
+<li><a href="#tab-ficha">📋 Ficha pré-natal</a>
+<ol>
+<li><a href="#datos-generales">Dados gerais</a></li>
+<li><a href="#antecedentes">Antecedentes obstétricos e pessoais</a></li>
+<li><a href="#habitos">Hábitos e contexto psicossocial</a></li>
+<li><a href="#embarazo-actual">Gestação atual</a></li>
+<li><a href="#vacunacion">Profilaxia e vacinação</a></li>
+<li><a href="#laboratorio">Laboratório</a></li>
+<li><a href="#metabolismo">Metabolismo · Diabetes · Ganho de peso</a></li>
+</ol>
+</li>
+<li><a href="#tab-resultado">📊 Resultado</a>
+<ol>
+<li><a href="#como-leer">Como ler os resultados</a></li>
+<li><a href="#riesgo-integral">Cálculo de risco pré-natal integral</a></li>
+</ol>
+</li>
+<li><a href="#tab-gestograma">🗓️ Gestograma · Parto</a>
+<ol>
+<li><a href="#eg-calendario">Idade gestacional e calendário (DUM / ECO precoce)</a></li>
+<li><a href="#altura-uterina">Altura uterina</a></li>
+<li><a href="#via-parto">Prognóstico da via de parto</a></li>
+</ol>
+</li>
+<li><a href="#tab-ecografia">🔊 Ultrassom</a>
+<ol>
+<li><a href="#cribado-fmf">Ultrassons · Rastreamento FMF (1T/2T, PE, líquido amniótico)</a></li>
+<li><a href="#morfologia">Ultrassom Morfológico (2T) — 7 sistemas</a></li>
+<li><a href="#acretismo">Acretismo placentário (PAS) — Classificação CaVeSal</a></li>
+<li><a href="#doppler">Doppler fetal 2T/3T (AU, ACM, RCP, ducto venoso, avançado, AO prognóstico)</a></li>
+<li><a href="#pfe">Peso Fetal Estimado (PFE) e crescimento</a></li>
+<li><a href="#anemia-fetal">Doppler ACM — Anemia Fetal e Biometria por parâmetro (IG)</a></li>
+<li><a href="#pbf">Perfil Biofísico Fetal (PBF)</a></li>
+<li><a href="#monitoreo-fetal">Monitoramento Fetal (NST/CTG)</a></li>
+</ol>
+</li>
+<li><a href="#tab-pacientes">👤 Pacientes</a>
+<ol>
+<li><a href="#pacientes">Gestão de pacientes e backup</a></li>
+<li><a href="#puente-hc">Sincronização com o Prontuário Clínico CaVeSal®</a></li>
+</ol>
+</li>
+<li><a href="#tab-simulador">🎓 Simulador</a>
+<ol>
+<li><a href="#simulador">Casos de treinamento</a></li>
+</ol>
+</li>
+<li><a href="#tab-acerca">ℹ️ Sobre</a>
+<ol>
+<li><a href="#invitar-paciente">Convide sua paciente</a></li>
+<li><a href="#autor-clinico">Autor clínico</a></li>
+<li><a href="#bases-clinicas">Bases clínicas</a></li>
+<li><a href="#aviso-legal">Aviso legal</a></li>
+</ol>
+</li>
+</ol>
+</nav>
+<section id="intro">
+<h2>ℹ️ Antes de começar</h2>
+<p>A Calculadora CaVeSal® tem <strong>6 abas</strong> no cabeçalho — 📋 Ficha prenatal, 📊 Resultado, 🗓️ Gestograma·Parto, 🔊 Ecografía, 👤 Pacientes e ℹ️ Acerca — e este manual está organizado <strong>nessa mesma ordem</strong>: cada parte abaixo corresponde a uma aba real do app, e cada subseção a um cartão (ou subaba) dentro dela. A interface do app está em espanhol; os rótulos aparecem entre aspas com a tradução entre parênteses.</p>
+<p>Dentro de cada aba, os cartões funcionam por <strong>seções recolhíveis</strong>: toque no cabeçalho de cada uma para abri-la, insira os dados disponíveis, e o resultado se atualiza automaticamente à medida que você digita — não é preciso nenhum botão "Calcular" para os cálculos individuais. O botão <strong>"⚡ Calcular"</strong> do cabeçalho (visível em todas as abas) é o que monta o relatório consolidado de risco pré-natal integral (aba 📊 Resultado), reunindo todos os achados de todas as abas.</p>
+<p>Todos os cálculos são feitos <strong>no seu próprio dispositivo</strong>, sem conexão à internet nem envio de dados a servidores externos.</p>
+<div class="warn">⚠️ É uma ferramenta de <strong>apoio à decisão clínica</strong>. Não substitui o julgamento do profissional responsável nem as diretrizes oficiais vigentes.</div>
+<div style="margin:14px 0">
+<img alt="Tela Sobre do CaVeSal" src="img/manual-calc-00-portada.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+<img alt="Formulário principal com dados gerais" src="img/manual-calc-00-formulario.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15)"/>
+</div>
+</section>
+<!-- ════════════════════════════════════════ PESTAÑA: FICHA PRENATAL ════════════════════════════════════════ -->
+<div class="tab-divider" id="tab-ficha">
+<h2>📋 Ficha pré-natal</h2>
+<p>O que se preenche ao abrir uma paciente: dados gerais, antecedentes, hábitos, gestação atual, profilaxia, laboratório e metabolismo. É a base que alimenta todo o restante da calculadora.</p>
+</div>
+<section id="datos-generales">
+<h2>📋 Dados gerais</h2>
+<div class="step"><div class="step-num">1</div><p>Insira <strong>idade materna, DUM, altura, peso pré-gestacional e atual</strong>. A DUM é sincronizada automaticamente com a aba 🗓️ Gestograma·Parto, o semáforo de vacinas e a via de parto — não é preciso repeti-la em outro lugar.</p></div>
+<div class="step"><div class="step-num">2</div><p>Se você inserir um <strong>ultrassom precoce</strong> em Gestograma·Parto, este cartão recebe a correção automaticamente. Critérios de correção: 1T (&lt;14 sem) ≥5 dias de diferença · 2T (14–28 sem) ≥7 dias · 3T (&gt;28 sem) a DUM não é corrigida.</p></div>
+<div class="step"><div class="step-num">3</div><p>Insira a <strong>PA sistólica e diastólica</strong>. Ao inserir algum valor, o app exibe automaticamente os campos ampliados de HAS: <strong>proteinúria</strong> (negativa / traços / ≥1+ fita reagente / RPC &gt;0.3 / ≥300mg/24h / ≥2g/24h faixa nefrótica) e <strong>sintomas de vasoespasmo</strong> (cefaleia intensa/frontal, zumbido, fosfenas/escotomas, epigastralgia/dor em HCD, dispneia/edema pulmonar).</p></div>
+<div class="tip">💡 ≥1 sintoma de vasoespasmo + PA ≥140/90 sugere pré-eclâmpsia com critérios de gravidade — o app integra isso automaticamente ao relatório de risco integral.</div>
+</section>
+<section id="antecedentes">
+<h2>🍼 Antecedentes obstétricos e pessoais</h2>
+<h3>Antecedentes obstétricos</h3>
+<div class="step"><div class="step-num">1</div><p>Insira <strong>gestações, partos, cesáreas, abortos</strong> e o <strong>intervalo intergestacional</strong> (meses) — com isso o app monta automaticamente a fórmula obstétrica (G/P/C/A), que depois aparecerá repetida na ficha de "Mis pacientes" (Minhas pacientes).</p></div>
+<div class="step"><div class="step-num">2</div><p>Marque os <strong>antecedentes obstétricos de risco</strong>: pré-eclâmpsia prévia, diabetes gestacional prévio, parto pré-termo prévio, RCIU prévio, macrossomia prévia (&gt;4000g), óbito fetal prévio, malformação fetal prévia, HPP prévia, isoimunização prévia, incompetência cervical prévia, depressão pós-parto prévia, cirurgia uterina prévia.</p></div>
+<h3>Antecedentes pessoais</h3>
+<div class="warn">⚠️ São antecedentes <strong>prévios apenas</strong> — não incluem a gestação atual (essa é preenchida no cartão "Embarazo actual" (Gestação atual), mais abaixo).</div>
+<div class="step"><div class="step-num">3</div><p><strong>Cardiovascular/metabólico:</strong> HAS crônica, diabetes pré-gestacional, doença renal crônica, obesidade pré-gestacional (IMC≥30), asma moderada/grave. Se você marcar <strong>Cardiopatía</strong> (Cardiopatia), aparece um subbloco para especificar o tipo (congênita CIA/CIV/Fallot/outra, valvar, miocardiopatia, arritmia) e a <strong>classificação OMS de risco cardiovascular na gestação</strong> (I a IV, sendo IV = gestação contraindicada).</p></div>
+<div class="step"><div class="step-num">4</div><p><strong>Tireoide:</strong> hipotireoidismo em tratamento, hipotireoidismo sem tratamento/Anti-TPO+, hipertireoidismo/Graves (Anti-TRAb+).</p></div>
+<div class="step"><div class="step-num">5</div><p><strong>Coagulopatias e trombose:</strong> trombofilia hereditária, SAF (critérios de Sydney 2006 / ACR-EULAR 2023), TVP prévia, TEP prévio, trombocitopenia/púrpura, Von Willebrand/portadora de hemofilia.</p></div>
+<div class="tip">🧪 <strong>SAF (EULAR 2019):</strong> se você marcar SAF, o Resultado mostra a conduta das recomendações EULAR 2019 (Tektonidou et al.): no SAF obstétrico, AAS + heparina em dose profilática durante a gestação e 6 semanas pós-parto; no SAF trombótico, AAS + heparina em dose terapêutica (trocar os antagonistas da vitamina K por heparina ao confirmar a gestação, idealmente antes da semana 6); e as opções diante de complicações recorrentes apesar do tratamento. Para a dose de AAS, o CaVeSal usa a pauta FIGO 2019 (~150 mg toda noite) e deixa registrada a da EULAR (75–100 mg/dia).</div>
+<div class="step"><div class="step-num">6</div><p><strong>Neurológico/imunológico:</strong> epilepsia, polimorfismo MTHFR documentado, doença autoimune (LES, AR, Sjögren, esclerodermia), saúde mental (depressão/ansiedade/transtorno bipolar).</p></div>
+<div class="step"><div class="step-num">7</div><p><strong>Oncológico:</strong> câncer prévio em remissão (com tipo: mama, colo do útero, tireoide, hematológico, melanoma, outro) e, separadamente, <strong>câncer ativo durante a gestação</strong> (com tipo e tratamento em curso).</p></div>
+<div class="step"><div class="step-num">8</div><p><strong>Infecciosas (antecedente):</strong> HIV em TARV, hepatite B crônica (HBsAg+), hepatite C (Anti-HCV+), sífilis (antecedente/em tratamento).</p></div>
+</section>
+<section id="habitos">
+<h2>🧠 Hábitos e contexto psicossocial</h2>
+<div class="step"><div class="step-num">1</div><p>Marque o que corresponder: tabagismo ativo, consumo de álcool, uso de drogas, violência doméstica, vulnerabilidade socioeconômica, dieta vegetariana/vegana. Cada item se integra ao relatório de risco integral com sua própria conduta sugerida (ex.: dieta vegetariana/vegana ajusta a suplementação recomendada).</p></div>
+</section>
+<section id="embarazo-actual">
+<h2>🤰 Gestação atual</h2>
+<div class="step"><div class="step-num">1</div><p>Marque os achados da gestação em curso: gestação múltipla, reprodução assistida (TRA), sangramento vaginal, Rh negativo, Coombs indireto/PAI positivo, EGB positivo (35–37 sem), placenta prévia, polidrâmnio, oligodrâmnio, ameaça de parto pré-termo, colo curto (&lt;25mm), movimentos fetais diminuídos, altura uterina discordante, ITU sintomática, vaginose/vaginite.</p></div>
+<div class="step"><div class="step-num">2</div><p>Se você marcou <strong>reprodução assistida (TRA)</strong>, o app a sinaliza como achado de risco (maior risco de placenta prévia, pré-eclâmpsia e gemelaridade) — isso se repete automaticamente também na ficha de "Mis pacientes".</p></div>
+<div class="step"><div class="step-num">3</div><p><strong>Patologia ativa da gestação</strong> (marcar apenas se a paciente já chega com diagnóstico estabelecido nesta gestação): pré-eclâmpsia em curso, hipertensão gestacional, diabetes gestacional já diagnosticado, RCIU confirmada por biometria, colestase intra-hepática (CIG), hiperêmese gravídica/vômitos incoercíveis, síndrome HELLP, DPP.</p></div>
+</section>
+<section id="vacunacion">
+<h2>💉 Profilaxia e vacinação</h2>
+<p class="ref">Ref: CDC · OMS · ACOG · FIGO 2024 · Comitê Nacional de Imunização</p>
+<div class="step"><div class="step-num">1</div><p>Marque as vacinas já aplicadas (dTpa, influenza, VSR, COVID-19, Hepatite B) com data e idade gestacional e, se for o caso, se iniciou <strong>ácido fólico</strong> (este último é agrupado junto com as vacinas no domínio "Profilaxia" do relatório).</p></div>
+<div class="step"><div class="step-num">2</div><p>O app indica o <strong>estado do esquema</strong> e o que está pendente segundo a IG atual, com a conduta específica de cada uma:</p></div>
+<div class="tip">🔹 <strong>Ácido fólico:</strong> se não estiver registrado, 0.4–0.8 mg/dia desde o período pré-concepcional até no mínimo a semana 12.<br/><br/> 🔹 <strong>Influenza:</strong> vacina inativada, segura em qualquer trimestre. Prioridade em cardiopatia, diabetes, asma, obesidade, imunossupressão, HIV. <strong>Nunca</strong> usar vacina de vírus vivo atenuado (LAIV) na gestação.<br/><br/> 🔹 <strong>COVID-19:</strong> vacinas de RNAm (Pfizer/Moderna) recomendadas pela OMS, CDC, ACOG e FIGO. Seguras em qualquer trimestre — as gestantes têm maior risco de COVID grave. Reforço se passaram &gt;6 meses desde a última dose.</div>
+<div style="margin:14px 0">
+<img alt="Captura de tela" src="img/manual-calc-10-vacunas.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+</div>
+</section>
+<section id="laboratorio">
+<h2>🧪 Laboratório</h2>
+<p class="ref">Ref: OMS · ACOG · ISSHP · Endocrine Society 2024 · CDC · ETMI Plus 2024/OPAS</p>
+<p>Módulo extenso, organizado em subáreas. Insira apenas os valores que tiver disponíveis — cada um é interpretado de forma independente.</p>
+<h3>🩸 Hemograma e coagulação</h3>
+<div class="step"><div class="step-num">1</div><p><strong>Hemoglobina:</strong> anemia se &lt;11 g/dL no 1T ou &lt;10.5 g/dL no 2T-3T (OMS). <strong>Plaquetas:</strong> normal 150–400 (×10³/mL), &lt;150 = trombocitopenia. <strong>TP/RNI</strong> (normal na gestação 0.8–1.2) e <strong>TTPa</strong> (normal 25–40 seg). Você também pode marcar <strong>proteinúria positiva</strong> e <strong>urocultura positiva</strong> como achados.</p></div>
+<h3>🫘 Perfil renal</h3>
+<div class="step"><div class="step-num">2</div><p><strong>Creatinina</strong> (normal na gestação &lt;0.8 mg/dL), <strong>ácido úrico</strong> (normal &lt;5.5 mg/dL — marcador precoce de PE se elevado junto com HAS), <strong>ureia</strong> (normal 10–40 mg/dL).</p></div>
+<h3>🫀 Perfil hepático</h3>
+<div class="step"><div class="step-num">3</div><p><strong>TGO/AST</strong> e <strong>TGP/ALT</strong> (normal &lt;40 UI/L, suspeita se &gt;70), <strong>LDH</strong> (&gt;600 UI/L = critério de HELLP), <strong>bilirrubina total</strong> (normal &lt;1.2, suspeita de colestase), <strong>fosfatase alcalina</strong> (normal até 3× LSN por origem placentária). O app combina automaticamente: <strong>TGO/LDH elevadas + trombocitopenia = critério de HELLP</strong>, com conduta de internação imediata, maturação pulmonar se &lt;34 sem e resolução individualizada.</p></div>
+<h3>🍔 Perfil lipídico</h3>
+<div class="step"><div class="step-num">4</div><p><strong>Colesterol total</strong> (aumenta fisiologicamente na gestação), <strong>triglicerídeos</strong> (&gt;400 mg/dL = risco de pancreatite), HDL, LDL.</p></div>
+<h3>🔬 Sorologia TORCH</h3>
+<div class="step"><div class="step-num">5</div><p><strong>Toxoplasmose</strong> (IgG/IgM/avidez IgG — chave: IgG+ no 1T = imune, não repetir; IgG− = suscetível, repetir a cada trimestre; IgM+ = solicitar teste de avidez), <strong>Rubéola</strong> (IgG/IgM), <strong>CMV</strong> (IgG/IgM/avidez IgG).</p></div>
+<h3>🧬 Vitamina D, Ferritina e Saturação de transferrina</h3>
+<div class="step"><div class="step-num">6</div><p><strong>Vitamina D sérica:</strong> solicitar em obesidade, pele escura, pouca exposição solar ou vegetarianas (deficiência &lt;20, insuficiência 20–29, ótimo ≥30 — Endocrine Society 2024). <strong>Ferritina:</strong> solicitar na suspeita de anemia ferropriva (deficiência &lt;15, baixa 15–30, normal &gt;30). <strong>Saturação de transferrina:</strong> normal 16–45%, &lt;16% = deficiência funcional de ferro.</p></div>
+<h3>🦋 Tireoide</h3>
+<div class="step"><div class="step-num">7</div><p>Insira o <strong>TSH</strong> junto com o <strong>trimestre do exame</strong> — o app aplica o valor de referência correspondente (1T: 0.1–2.5 µUI/mL · 2T: 0.2–3.0 µUI/mL · 3T: 0.3–3.5 µUI/mL), além de <strong>T4 livre</strong> (normal 0.8–1.8 ng/dL) e <strong>anti-TPO</strong> (&gt;35 UI/mL = positivo).</p></div>
+<h3>🦠 Estreptococo do grupo B (EGB) e IST/Sorologia infecciosa</h3>
+<div class="step"><div class="step-num">8</div><p><strong>EGB:</strong> rastreamento obrigatório às 35–37 semanas (cultura vaginal+perianal). Se positivo, o app indica <strong>profilaxia intraparto obrigatória</strong> (penicilina G, ou clindamicina conforme antibiograma em caso de alergia).</p></div>
+<div class="step"><div class="step-num">9</div><p><strong>Hepatite B</strong> (HBsAg/anti-HBs/HBeAg — HBsAg+ implica imunoprofilaxia neonatal obrigatória nas primeiras 12h, e se a carga viral for &gt;200.000 UI/mL acrescenta-se tenofovir a partir da semana 28), <strong>HIV</strong> (teste rápido/ELISA + Western Blot confirmatório — um teste rápido reagente não é diagnóstico definitivo, exige infectologia urgente sem suspender a TARV se já a recebe; com WB confirmado inicia-se TARV imediatamente com objetivo de carga viral indetectável no parto), <strong>Chagas</strong> (requer 2 técnicas reagentes de princípios diferentes para confirmar — ELISA + HAI/IFI; com apenas 1 técnica reagente é indeterminado e exige segunda técnica), e <strong>Hepatite C</strong> (anti-HCV, confirmar com RNA-HCV).</p></div>
+<div class="step"><div class="step-num">10</div><p><strong>Sífilis</strong> — a interpretação depende da combinação de resultados:</p></div>
+<div class="tip">🔹 <strong>Treponêmico reagente + VDRL reagente:</strong> sífilis ativa confirmada (o treponêmico já é o teste de referência, não requer confirmação adicional). Dose de penicilina G benzatina conforme estágio: primária/secundária/latente recente (&lt;1 ano) → dose única de 2.4 milhões UI IM; latente tardia ou duração desconhecida → 3 doses semanais. VDRL mensal pós-tratamento, controle neonatal (VDRL em sangue de cordão), notificação obrigatória.<br/><br/> 🔹 <strong>Treponêmico reagente + VDRL ainda não disponível:</strong> conduta urgente — solicitar VDRL quantitativo, mas <strong>não adiar o tratamento</strong>: iniciar penicilina G já (esquema de latente tardia/duração desconhecida) enquanto se obtém o resultado.<br/><br/> 🔹 <strong>Treponêmico reagente + VDRL não reagente:</strong> possível cicatriz sorológica (tratamento prévio), janela sorológica muito precoce ou falso positivo do teste rápido. Se não houver tratamento documentado, tratar como latente tardia; VDRL de controle em 4 semanas; notificar a infectologia.<br/><br/> 🔹 <strong>VDRL reagente sem treponêmico confirmatório:</strong> o VDRL (não treponêmico) pode dar falso positivo na gestação, LES ou infecções virais — requer confirmação com teste treponêmico antes de tratar.</div>
+<p class="ref">Ref: CDC STI Treatment Guidelines 2021 · OPAS Eliminação da TV 2024 · ETMI Plus 2024 · ACOG</p>
+<div class="tip">💡 Cada valor fora da faixa que você inserir se reflete automaticamente no relatório de <strong>risco integral</strong>, agrupado no domínio "LABORATORIO" com seu nível e conduta — por exemplo, EGB positivo, HIV reagente, suspeita de HELLP e proteinúria positiva aparecem listados como "HOY/URGENTE" (HOJE/URGENTE) no Plano de ação.</div>
+<div style="margin:14px 0">
+<img alt="Captura de tela" src="img/manual-calc-09-lab-a.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+<img alt="Captura de tela" src="img/manual-calc-09-lab-b.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+<img alt="Captura de tela" src="img/manual-calc-09-lab-sifilis.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+</div>
+</section>
+<section id="metabolismo">
+<h2>🍬 Metabolismo · Diabetes · Ganho de peso</h2>
+<p class="ref">Ref: IADPSG · ALAD · ADA · OMS · IOM/NAS 2009 · ACOG</p>
+<p>É um único cartão no app, com duas funções que compartilham os dados de altura/peso já inseridos em "Datos generales" (Dados gerais).</p>
+<h3>🩸 Diagnóstico de diabetes gestacional (DMG)</h3>
+<div class="step"><div class="step-num">1</div><p>Escolha o <strong>protocolo</strong> a usar: IADPSG/ALAD/ADA (1 etapa, 75g) ou 2 etapas — no seletor correspondente.</p></div>
+<div class="step"><div class="step-num">2</div><p>Insira os valores da <strong>curva glicêmica</strong> (jejum, 1h, 2h conforme o protocolo escolhido).</p></div>
+<div class="step"><div class="step-num">3</div><p>O app indica se os valores confirmam o diagnóstico de diabetes gestacional segundo os pontos de corte do protocolo selecionado.</p></div>
+<h3>⚖️ Ganho de peso gestacional</h3>
+<div class="step"><div class="step-num">4</div><p>Com o peso pré-gestacional, a altura e o peso atual já inseridos em "Datos generales", o app calcula o <strong>IMC pré-gestacional</strong> e classifica a paciente na sua categoria (baixo peso, normal, sobrepeso, obesidade).</p></div>
+<div class="step"><div class="step-num">5</div><p>Mostra a <strong>meta de ganho total</strong> para a gestação e a <strong>taxa semanal recomendada</strong> segundo essa categoria (IOM/NAS 2009), comparando-a com o ganho real até o momento.</p></div>
+<div style="margin:14px 0">
+<img alt="Captura de tela" src="img/manual-calc-03-dg.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+<img alt="Captura de tela" src="img/manual-calc-04-peso.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+</div>
+</section>
+<!-- ════════════════════════════════════════ PESTAÑA: RESULTADO ════════════════════════════════════════ -->
+<div class="tab-divider" id="tab-resultado">
+<h2>📊 Resultado</h2>
+<p>O painel de saída. É montado ao tocar em "⚡ Calcular" no cabeçalho (visível em qualquer aba) e reúne todos os achados de todas as outras abas em um único relatório.</p>
+</div>
+<section id="como-leer">
+<h2>🎨 Como ler os resultados</h2>
+<p>Todos os módulos da Calculadora usam a mesma linguagem visual, para que interpretar um resultado seja sempre igualmente rápido, não importa o que você esteja calculando:</p>
+<div class="step"><div class="step-num">1</div><p><strong>Código de cores por nível de risco/alerta:</strong> 🟢 verde = normal/baixo risco · 🟡 amarelo/laranja = moderado, requer acompanhamento mais próximo · 🔴 vermelho = alto risco, requer ação ou encaminhamento.</p></div>
+<div class="step"><div class="step-num">2</div><p>Cada resultado com achado relevante inclui, nesta ordem: o <strong>valor ou dado</strong> que disparou o alerta, a <strong>interpretação clínica</strong> em linguagem simples, a <strong>conduta sugerida</strong> (o que fazer, com que frequência, para quem encaminhar) e a <strong>fonte</strong> da recomendação (FMF, ACOG, NICE, OMS, CLAP, Medicina Fetal Barcelona, etc.).</p></div>
+<div class="step"><div class="step-num">3</div><p>Quando o "⚡ Calcular" monta o relatório global, agrupa automaticamente esses mesmos achados em um <strong>"Plan de acción"</strong> (Plano de ação), ordenado por urgência: primeiro o que requer atenção <strong>hoje/urgente</strong>, depois o <strong>acompanhamento</strong> de rotina, com a próxima data de consulta sugerida segundo o nível de risco global.</p></div>
+<div class="tip">💡 Se um dado está dentro da faixa normal, geralmente não gera um alerta destacado — só são listados os achados que merecem sua atenção, para não sobrecarregar o relatório com informação sem relevância clínica.</div>
+</section>
+<section id="riesgo-integral">
+<h2>⚡ Cálculo de risco pré-natal integral</h2>
+<p>É o botão "⚡ Calcular" do cabeçalho: percorre tudo o que você inseriu em <strong>📋 Ficha prenatal</strong>, <strong>🗓️ Gestograma·Parto</strong> e <strong>🔊 Ecografía</strong>, e monta aqui, em <strong>📊 Resultado</strong>, um relatório consolidado com todos os achados relevantes juntos.</p>
+<div class="step"><div class="step-num">1</div><p>O app percorre todos os dados inseridos e monta uma lista de <strong>achados por domínio clínico</strong> (Idade materna, Estado nutricional, Antecedente obstétrico, Pressão arterial, Ultrassom 1T, Rastreamento cromossômico, Morfologia fetal, etc.), cada um com:</p></div>
+<div class="tip">📋 <strong>Cada achado do relatório inclui:</strong><br/> 🔹 O <strong>dado ou valor</strong> que disparou o alerta (ex.: "IMC pré-gest. 32.1 — obesidade").<br/> 🔹 O <strong>nível de risco</strong>: baixo, moderado ou alto.<br/> 🔹 A <strong>conduta sugerida</strong> (ex.: dose de AAS, frequência das consultas, exames adicionais a solicitar).<br/> 🔹 A <strong>fonte</strong> da recomendação (FMF, ACOG, NICE, OMS, etc.).</div>
+<div class="tip">💊 <strong>Aspirina (AAS) para prevenir pré-eclâmpsia:</strong> a conduta mostra as duas pautas, cada uma com sua referência. Pauta preferida pelo CaVeSal: <strong>FIGO 2019</strong>, ~150 mg toda noite das 11–14+6 semanas até as 36 semanas, o parto ou o diagnóstico de PE. Alternativa: <strong>ACOG PB 222 (2020)</strong>, 81 mg/dia das 12–28 semanas (idealmente antes das 16) até o parto.</div>
+<div class="step"><div class="step-num">2</div><p>Se não houver achados de risco em algum domínio, ele simplesmente não aparece no relatório — só são listados os domínios em que há algo a sinalizar.</p></div>
+<div class="step"><div class="step-num">3</div><p>O relatório também monta automaticamente uma <strong>Suplementação recomendada segundo o perfil</strong> da paciente: ácido fólico/metilfolato (dose segundo população geral ou risco aumentado), ferro (dose segundo o grau de anemia), cálcio (se houver risco de PE, com a redução de risco associada), iodo e ômega-3/DHA — cada um com sua dose exata e referência.</p></div>
+<div class="step"><div class="step-num">4</div><p>Inclui ainda dois <strong>calendários de componente básico</strong>, marcando o que corresponde à IG atual (rotulado "AHORA" / "PERÍODO ACTUAL" — AGORA / PERÍODO ATUAL), o que já passou e o que falta:</p></div>
+<div class="tip">🔹 <strong>Calendário de ultrassons:</strong> ECO 1T precoce (sem 7–9), ECO marcadores cromossômicos (sem 11–14), ECO morfológica (sem 20–24), ECO crescimento e desenvolvimento (sem 28–32), ECO final (sem 35–38) — cada uma com o que deve avaliar.<br/><br/> 🔹 <strong>Calendário de exames laboratoriais:</strong> painel do 1T (primeira consulta: hemograma, coagulograma, tipagem/Rh, sorologias, TSH, glicemia, perfil lipídico, urocultura, etc.), painel do 2T (24–28 sem: hemograma, TOTG 75g, urocultura, VDRL, HIV, toxoplasmose se for o caso) e painel do 3T (35–37 sem: hemograma, coagulograma, perfil renal/hepático, VDRL, HIV, EGB).</div>
+<div class="warn">⚠️ Este relatório é um <strong>resumo orientador</strong>, não substitui a avaliação clínica individualizada de cada achado — cada conduta sugerida deve ser contextualizada com o quadro clínico completo da paciente.</div>
+<div style="margin:14px 0">
+<img alt="Captura de tela" src="img/manual-calc-ri-01.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+<img alt="Captura de tela" src="img/manual-calc-ri-02.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+<img alt="Captura de tela" src="img/manual-calc-ri-03.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+</div>
+</section>
+<!-- ════════════════════════════════════════ PESTAÑA: GESTOGRAMA · PARTO ════════════════════════════════════════ -->
+<div class="tab-divider" id="tab-gestograma">
+<h2>🗓️ Gestograma · Parto</h2>
+<p>Idade gestacional e calendário, altura uterina e prognóstico da via de parto — o que não é nem ficha nem ultrassom, mas o acompanhamento cronológico da gestação.</p>
+</div>
+<section id="eg-calendario">
+<h2>🗓️ Idade gestacional e calendário (DUM / ECO precoce)</h2>
+<p>Este módulo é a base de todos os outros — a idade gestacional (IG) que você calcula aqui é sincronizada automaticamente com o restante da calculadora.</p>
+<div class="step"><div class="step-num">1</div><p>Escolha o modo: <strong>"Por FUM"</strong> (data da última menstruação) ou <strong>"Por ECO precoz"</strong> (por ultrassom precoce) se você tiver um ultrassom precoce com a IG já determinada.</p></div>
+<div class="step"><div class="step-num">2</div><p><strong>Modo DUM:</strong> insira a data da última menstruação. O app calcula a IG na data de hoje (ou em qualquer outra data que você escolher em "Calcular para fecha" (Calcular para a data)).</p></div>
+<div class="step"><div class="step-num">3</div><p><strong>Modo ECO precoce:</strong> insira a data do ultrassom e a IG obtida nesse exame (formato semanas+dias, ex.: "8+3"). O app compara automaticamente essa IG com a DUM inserida e indica se é o caso de <strong>corrigir a DUM</strong>, segundo estes critérios:</p></div>
+<div class="tip">📌 <strong>Critérios de correção da DUM por ECO:</strong><br/> 🟢 <strong>1º trimestre (&lt;14 sem):</strong> corrige-se se a diferença for ≥5 dias.<br/> 🟡 <strong>2º trimestre (14–28 sem):</strong> corrige-se se a diferença for ≥7 dias.<br/> 🔴 <strong>3º trimestre (&gt;28 sem):</strong> a DUM não é corrigida — para IG duvidosa no 3T convém usar CC, CF ou cerebelo como parâmetro isolado (ver seção "Doppler ACM — Anemia Fetal e Biometria por parâmetro" na aba 🔊 Ecografía).</div>
+<div class="step"><div class="step-num">4</div><p>Com a IG calculada, o app mostra um <strong>calendário semana a semana</strong> (22 a 42 semanas) com a data correspondente a cada semana de gestação, marcando a faixa de termo (37–40 sem) e o pós-termo.</p></div>
+<div class="step"><div class="step-num">5</div><p>Também inclui um <strong>cálculo inverso</strong>: indique uma semana específica (ex.: "36") e o app diz qual data corresponde a essa semana, para esta paciente.</p></div>
+<div style="margin:14px 0">
+<img alt="Captura de tela" src="img/manual-calc-eg-calendario.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+</div>
+</section>
+<section id="altura-uterina">
+<h2>📏 Altura uterina</h2>
+<p class="ref">Ref: Gomes AG 2001 · CLAP-OPAS/OMS · fórmula de McDonald (sínfise-fundo)</p>
+<div class="step"><div class="step-num">1</div><p>Insira a <strong>altura uterina em cm</strong> (medida sínfise-fundo, técnica de McDonald) e a <strong>idade gestacional</strong> em semanas+dias.</p></div>
+<div class="step"><div class="step-num">2</div><p>O app mostra o <strong>percentil</strong> (com os valores de referência P10/P50/P90 para essa IG) e classifica o resultado: AU normal para a IG, AU alta para a IG (&gt;P90) ou AU baixa para a IG (&lt;P10) — válido na faixa de 20–36 semanas, em que AU(cm)≈IG±2.</p></div>
+<div class="step"><div class="step-num">3</div><p>Segundo a classificação, sugere o que descartar: <strong>AU alta</strong> → macrossomia fetal, polidrâmnio, gemelar não diagnosticado, miomas uterinos, diabetes gestacional (solicitar ultrassom). <strong>AU baixa</strong> → RCIU, oligodrâmnio, discordância de IG (ultrassom com PFE urgente, avaliar Doppler AU/ACM).</p></div>
+<div style="margin:14px 0">
+<img alt="Captura de tela" src="img/manual-calc-06-au.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+</div>
+</section>
+<section id="via-parto">
+<h2>🏥 Prognóstico da via de parto</h2>
+<p class="ref">Ref: Robson · Grobman (ACOG/NICHD) · Bishop</p>
+<div class="tip">📊 <strong>Tabela de percentis para o PFE:</strong> no topo deste cartão há um seletor <strong>Figueras 2008 / INTERGROWTH-21</strong>. Por padrão está em <strong>Figueras 2008 · MFB (recomendado para a América Latina)</strong>; toque em "INTERGROWTH-21" se preferir a referência internacional (OMS/FIGO). Este seletor <strong>não é exclusivo desta seção</strong> — determina qual tabela é usada para calcular o percentil em toda a calculadora, incluído o cartão "Peso Fetal Estimado (PFE)" (aba 🔊 Ecografía). Alterá-lo aqui também atualiza o percentil que você já tenha calculado ali.</div>
+<div class="step"><div class="step-num">1</div><p>Insira <strong>paridade e antecedentes</strong> (partos vaginais prévios, cesáreas prévias, abortos espontâneos), <strong>altura materna</strong> (referência: &lt;150cm risco de desproporção cefalopélvica, &lt;145cm pelve limítrofe) e <strong>estado fetal no 3T</strong> (apresentação, insinuação, IG atual).</p></div>
+<div class="step"><div class="step-num">2</div><p>O app classifica automaticamente a paciente no seu <strong>Grupo de Robson</strong> correspondente (ex.: Grupo 5: cesárea prévia + cefálica; Grupo 7: multípara pélvica), com a interpretação desse grupo.</p></div>
+<div class="step"><div class="step-num">3</div><p>Se houver <strong>cesárea prévia</strong>, habilita-se o <strong>Escore de Grobman</strong> (validado ACOG/NICHD, prediz a probabilidade de sucesso do parto vaginal após cesárea). Insira o <strong>tipo de cicatriz uterina</strong>, a <strong>indicação da cesárea anterior</strong> (recorrente ou não) e marque se houve parto vaginal prévio, trabalho de parto espontâneo prévio, perda gestacional recorrente, gestação de alto valor ou cirurgia uterina prévia.</p></div>
+<div class="step"><div class="step-num">4</div><p>Segundo esses dados, o app indica se é <strong>"Candidata a PVDC"</strong> (parto vaginal após cesárea) — listando os critérios favoráveis encontrados — ou se corresponde <strong>"Cesárea programada indicada"</strong>, com a justificativa específica (ex.: PFE ≥4500g, gestação de alto valor).</p></div>
+<div class="step"><div class="step-num">5</div><p>Se você inserir o <strong>exame cervical</strong> (dilatação, apagamento, altura da apresentação, consistência, posição), o app calcula o <strong>Escore de Bishop</strong> e o classifica (favorável/desfavorável), sugerindo maturação cervical se for o caso.</p></div>
+<div class="tip">💡 O módulo também integra automaticamente o <strong>PFE</strong> (percentil e classificação) quando estiver inserido — por exemplo, um PFE ≥4500g com percentil ≥97 é marcado como macrossomia grave, com a conduta específica (cesárea programada segundo ACOG/NICE, limiar diferente se a paciente for diabética).</div>
+<div class="warn">⚠️ Se a IG atual for pré-termo, o app sinaliza isso à parte e lembra de avaliar maturidade pulmonar/betametasona se for o caso, coordenando com a neonatologia.</div>
+<div style="margin:14px 0">
+<img alt="Captura de tela" src="img/manual-calc-08-viaparto.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+</div>
+</section>
+<!-- ════════════════════════════════════════ PESTAÑA: ECOGRAFÍA ════════════════════════════════════════ -->
+<div class="tab-divider" id="tab-ecografia">
+<h2>🔊 Ultrassom</h2>
+<p>Tudo o que é exame ultrassonográfico/Doppler propriamente dito, na mesma ordem cronológica em que os exames são feitos: rastreamento 1T/2T → morfologia estrutural 2T → Doppler fetal 2T/3T → peso fetal → anemia fetal → vitalidade fetal no 3T (PBF, monitoramento).</p>
+</div>
+<section id="cribado-fmf">
+<h2>🔊 Ultrassons · Rastreamento FMF (1T/2T, PE, líquido amniótico)</h2>
+<span class="new">🆕 Seção ampliada</span>
+<p class="ref">Ref: FMF/Nicolaides · Snijders 1998 · Sharifzadeh 2019 · Medicina Fetal Barcelona · Gyselaers 2020 · Verlohren 2012 · ISUOG 2024 · SMFM Consult #46 (2018) · ACOG Clinical Consensus No.3 (2022) · Roche/BRAHMS sFlt-1/PlGF</p>
+<p>É o primeiro cartão da aba, e o mais extenso: reúne tudo o que se avalia no ECO 1T e no ECO 2T de rastreamento — cromossômico, pré-eclâmpsia (Doppler materno) e líquido amniótico.</p>
+<h3>🧬 Rastreamento cromossômico 1T (FMF/Nicolaides)</h3>
+<div class="step"><div class="step-num">1</div><p>Escolha o <strong>tipo de rastreamento disponível</strong> para esta paciente: <strong>Solo ECO</strong> (só ultrassom: TN + marcadores, sem bioquímica) · <strong>Combinado</strong> (ECO + bioquímica: PAPP-A, β-hCG, PlGF 1T) · <strong>NIPT primario</strong> (NIPT primário) · <strong>Combinado + NIPT</strong>. Cada modo exibe seus próprios campos.</p></div>
+<div class="step"><div class="step-num">2</div><p><strong>Só ECO (11–13+6 sem):</strong> escolha a tabela de percentis de TN (Snijders/FMF 1998 ou Sharifzadeh 2019), insira <strong>TN</strong> e <strong>CCN</strong> no momento da medição (45–84mm) e marque os marcadores adicionais: <strong>osso nasal</strong> (ausente: LR+ ~6 para T21), <strong>ducto venoso</strong> (onda a invertida/ausente = marcador de aneuploidia + cardiopatia), <strong>regurgitação tricúspide</strong> (associada a T21 e cardiopatia congênita) e <strong>plexo coroide</strong> ("sinal da borboleta" — cisto(s) visível(is) é marcador menor, mais associado a T18 do que a T21 se isolado).</p></div>
+<div class="tip">🆕 <strong>Bexiga fetal 1T — megabexiga:</strong> junto ao plexo coroide há um campo novo para o <strong>diâmetro longitudinal máximo da bexiga fetal</strong> (11–13+6 sem). Normal &lt;7mm · 7–14.9mm suspeita de megabexiga (risco de aneuploidia ~20–25%, mais T13/T18 do que T21 — cariótipo/NIPT + controle seriado a cada 2–4 semanas, com resolução espontânea frequente se isolada e euploide) · ≥15mm alto risco — baixo risco de aneuploidia mas ~90% de risco de uropatia obstrutiva progressiva (válvulas de uretra posterior, mais frequente em meninos): encaminhar à Medicina Fetal/urologia fetal, considerar vesicocentese seriada ou shunt vesicoamniótico. É um campo diferente da megabexiga de 2T/3T, que tem seu próprio critério (ver "Ultrassom Morfológico" mais abaixo).</div>
+<div class="step"><div class="step-num">3</div><p><strong>Combinado:</strong> insira o risco numérico de T21/T18/T13 (1/X) fornecido pelo software de rastreamento e os valores MoM de <strong>PAPP-A</strong> (&lt;0.4 MoM ↑ risco de PE/RCIU/aneuploidia), <strong>β-hCG livre</strong> (&gt;2.5 MoM sugestivo de T21, &lt;0.4 MoM sugestivo de T18/T13) e <strong>PlGF 1T</strong> (&lt;0.5 MoM alto risco de PE, &lt;0.7 moderado).</p></div>
+<div class="tip">📊 <strong>Pontos de corte de risco do rastreamento combinado:</strong> acima dos campos de risco há um seletor com duas opções. A classificação, o rótulo de cada trissomia e o "Siguiente paso" (Próximo passo) mudam segundo a opção escolhida.<br/> • <strong>Medicina Fetal Barcelona (preferida, padrão):</strong> muito alto ≥1/10 → aconselhamento genético e teste invasivo com microarray (pode-se aceitar NIPT se a paciente preferir, salvo anomalia ultrassonográfica ou TN aumentada) · alto 1/11–1/250 → NIPT ou teste invasivo segundo escolha informada; com anomalia ultrassonográfica ou TN &gt;p99, biópsia de vilo corial + microarray · intermediário 1/251–1/1100 → oferecer NIPT · baixo &lt;1/1100 → entregar o resultado e explicar suas limitações.<br/> • <strong>Nicolaides 2005 / FMF (alternativa):</strong> estratégia em duas etapas. Alto ≥1/100 → teste invasivo · intermediário 1/101–1/1000 → segundo ultrassom 1T (osso nasal, regurgitação tricúspide ou ducto venoso) e biópsia de vilo corial se o risco ajustado chegar a 1/100 · baixo &lt;1/1000 → sem mais exames.<br/> • Outra variante publicada, não incluída no seletor: FIGO 2015 (&gt;1/100 DNA fetal livre ou teste invasivo · 1/101–1/2500 DNA fetal livre · &lt;1/2500 nenhum).<br/> A tabela de percentis de TN (Snijders 1998, padrão, ou Sharifzadeh 2019) é escolhida à parte e não muda com este seletor.</div>
+<div class="step"><div class="step-num">4</div><p><strong>NIPT:</strong> registre o resultado (normal, T21/T18/T13 positivo, Turner/45,X, Klinefelter/47,XXY, microdeleção, falha de amostra) — o app lembra que um NIPT positivo não é diagnóstico e requer confirmação invasiva.</p></div>
+<h3>🩺 Doppler de artérias uterinas e Artéria Oftálmica (rastreamento de PE) — 1T e 2T</h3>
+<p>Este é o Doppler <strong>materno</strong> para rastreamento de pré-eclâmpsia e comprometimento vascular sistêmico — diferente do Doppler fetal (AU, ACM), que tem seu próprio cartão mais abaixo.</p>
+<div class="step"><div class="step-num">5</div><p><strong>Artérias uterinas (IP):</strong> insira o IP direito e esquerdo, tanto no 1T como no 2T — o app calcula automaticamente o <strong>IP médio</strong> de ambas. Pontos de corte: 1T alerta a partir de IP ≥1.90 (moderado) e ≥2.35 (alto, &gt;p95) · 2T a partir de IP ≥1.44 (moderado, p90-95) e ≥1.80 (alto, &gt;p95).</p></div>
+<div class="step"><div class="step-num">6</div><p><strong>Artéria Oftálmica (AO):</strong> insira o <strong>PSV1</strong> e o <strong>PSV2</strong> — o app calcula a <strong>razão PSV2/PSV1</strong> automaticamente. ≥0.70 zona limítrofe · ≥0.78 alto risco de pré-eclâmpsia/comprometimento vascular (integrar com IP uterinas e PlGF). Usa-se igual no 1T (rastreamento) e no 2T/3T (prognóstico em PE/DHEG já instalada).</p></div>
+<div class="step"><div class="step-num">7</div><p><strong>Cervicometria 2T (mm):</strong> &lt;25mm colo curto · &lt;15mm muito curto.</p></div>
+<div class="step"><div class="step-num">8</div><p><strong>sFlt-1/PlGF (2T/3T):</strong> insira a razão e a IG em que o exame foi feito (importa para distinguir o corte 85 vs. 110). Interpretação (Roche/BRAHMS): ≤38 descarta PE na próxima semana · 38–85 intermediário se &lt;34 sem (38–110 se ≥34 sem) · &gt;85/110 suspeita de PE · &gt;655 PE iminente.</p></div>
+<div class="tip">💡 Os dois cartões de interpretação ao vivo — "🩺 Interpretación PE — 1T" e "🩺 Interpretación PE — 2T/3T" (Interpretação PE) — aparecem automaticamente abaixo de cada bloco à medida que você insere dados, integrando IP uterinas + AO + sFlt-1/PlGF em uma única leitura.</div>
+<h3>💧 Líquido amniótico</h3>
+<div class="step"><div class="step-num">9</div><p>Insira o <strong>maior bolsão</strong> (maior bolsão vertical, MBV/SDP) e/ou o <strong>ILA</strong> (índice de líquido amniótico), e escolha qual diretriz usar para classificar o ILA: <strong>ACOG/SMFM 2022</strong> (com zonas limítrofes) ou <strong>ISUOG 2024</strong> (pontos de corte absolutos clássicos) — as duas tabelas convivem no app porque não coincidem exatamente entre si.</p></div>
+<div class="tip">📊 <strong>Maior bolsão</strong> (igual em ambas as diretrizes): &lt;2cm oligodrâmnio · <strong>2–8cm normal</strong> · &gt;8cm polidrâmnio.<br/><br/> 📊 <strong>ILA — ISUOG 2024:</strong> &lt;5cm oligodrâmnio · <strong>5–24.9cm normal</strong> · ≥25cm polidrâmnio.<br/><br/> 📊 <strong>ILA — ACOG/SMFM 2022:</strong> &lt;5cm oligodrâmnio (&lt;3cm oligodrâmnio grave) · 5.1–8.0cm limítrofe inferior · <strong>8.1–18cm normal</strong> · 18.1–24.9cm limítrofe superior · 25–29.9cm poli leve · 30–34.9cm poli moderado · ≥35cm poli grave.</div>
+<div style="margin:14px 0">
+<img alt="Captura de tela" src="img/manual-calc-01-cribado.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+<img alt="Captura de tela" src="img/manual-calc-uterinas-ao.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+</div>
+</section>
+<section id="morfologia">
+<h2>🔬 Ultrassom Morfológico (2T) — 7 sistemas</h2>
+<span class="new">🆕 Seção nova</span>
+<p class="ref">Ref: ISUOG Practice Guidelines (2020/2023) — fetal CNS, face, heart · Paladini &amp; Volpe (2018) · Jeanty P et al. 1984 · Mayden KL et al. 1982 · Corteville JE et al. 1991/1992 · FMF/Nicolaides · CDHSG / Jani et al. 2007</p>
+<p>Checklist estruturado por sistema (18 a 24 semanas), imediatamente após o rastreamento FMF — é o mesmo controle do ECO 2T, por isso esta seção fica logo após a de cima, em vez de depois do Doppler/PFE.</p>
+<div class="step"><div class="step-num">1</div><p>Insira a <strong>IG deste exame</strong> (semanas+dias) — é compartilhada pelos 7 sistemas e pelo Acretismo placentário, e é usada pelos itens com corte dependente da IG (DTC, prega nucal, pielectasia renal, megabexiga).</p></div>
+<div class="tip">💡 Esta IG é inserida manualmente aqui — ainda não é preenchida automaticamente a partir da DUM corrigida de 🗓️ Gestograma·Parto. É uma melhoria menor pendente, não afeta o cálculo.</div>
+<h3>🧠 SNC</h3>
+<div class="step"><div class="step-num">2</div><p><strong>Cavum do septo pelúcido</strong> (ausente ⚠️) · <strong>Tálamos</strong> (simétricos/assimétricos ⚠️) · <strong>Forma craniana</strong> (ovalada normal / sinal do "limão" ⚠️ / sinal do "morango" ⚠️) · <strong>Continuidade óssea craniana</strong> (íntegra/defeito ⚠️).</p></div>
+<div class="step"><div class="step-num">3</div><p><strong>Átrio ventricular lateral</strong>: escolha o esquema de medição (A: 3 níveis clássico — normal &lt;10 · leve 10–12 · moderada 12.1–14.9 · grave ≥15mm; ou B: ISUOG 2 níveis — normal &lt;10 · leve 10–15 · grave &gt;15mm) e insira o valor em mm (medição interna-interna no nível do glomo do plexo coroide).</p></div>
+<div class="step"><div class="step-num">4</div><p><strong>DTC</strong> (mm, de referência — não dispara alerta automático, o corte real é por tabela de percentil p5–p95 por IG) · <strong>Sinal da banana</strong> (presente ⚠️) · <strong>Agenesia do vérmis cerebelar</strong> ⚠️ · <strong>Cisterna magna</strong> (normal 3.0–10.0mm, &lt;2–3mm obliterada, &gt;10mm megacisterna magna) · <strong>Prega nucal 2T</strong> (válida 15.0–20.6 sem, normal &lt;6.0mm, ≥6.0mm marcador maior de aneuploidia).</p></div>
+<div class="warn">⚠️ Correlacionar cisterna magna obliterada + sinal da banana com a Coluna (mais abaixo) como marcadores indiretos de espinha bífida aberta.</div>
+<h3>😶 Face</h3>
+<div class="step"><div class="step-num">5</div><p><strong>Órbitas</strong> (presentes e simétricas / alteradas ⚠️) · <strong>Nariz</strong> (forma normal / achatado ou ausente ⚠️) · <strong>Maxila</strong> (íntegra/defeito ⚠️) · <strong>Palato</strong> (íntegro/fenda ⚠️ — requer corte coronal retronasal, mais difícil de visualizar que o lábio) · <strong>Lábio superior</strong> (íntegro/defeito unilateral ⚠️/defeito bilateral ⚠️). Lábio e palato são avaliados juntos: a conduta e o aconselhamento genético variam segundo a combinação exata.</p></div>
+<div class="step"><div class="step-num">6</div><p><strong>Diâmetros orbitários:</strong> insira o <strong>DII</strong> (diâmetro interorbitário interno), o <strong>DIO</strong> (interorbitário externo/binocular) e, se tiver medido, o <strong>DO</strong> (diâmetro orbitário individual) — todos em mm. O app calcula a <strong>razão DII/DIO</strong> (regra dos terços) e classifica: &gt;0.40 suspeita de <strong>hipertelorismo</strong> · &lt;0.25 suspeita de <strong>hipotelorismo</strong>. O DII também é comparado qualitativamente com o DO como apoio adicional. Marque à parte se houver suspeita de <strong>microftalmia/anoftalmia</strong> (DO pequeno, cristalino rudimentar ou ausente) — é um campo independente da razão.</p></div>
+<div class="tip">💡 Tabelas de referência por IG (Jeanty/Romero/FMF, semanas 16–32) são mostradas como ajuda junto ao campo, mas não geram corte automático por percentil — a classificação hoje é apenas pela razão DII/DIO.</div>
+<h3>🦴 Coluna</h3>
+<div class="step"><div class="step-num">7</div><p><strong>Coluna</strong> (corte longitudinal + axial: íntegra/solução de continuidade ⚠️) · <strong>Pele sobre a coluna</strong> (íntegra/defeito ⚠️).</p></div>
+<h3>🫀 Tórax e coração (+ HDC)</h3>
+<div class="step"><div class="step-num">8</div><p><strong>Ritmo cardíaco:</strong> regular (normal) · taquicardia sustentada (&gt;160 bpm, &gt;10 min) ⚠️ · bradicardia sustentada (&lt;110 bpm) ⚠️ · extrassístole isolada · outra arritmia sustentada (com campo de texto livre para especificar o tipo) — mesmos pontos de corte de bpm usados no Monitoramento Fetal.</p></div>
+<div class="step"><div class="step-num">9</div><p><strong>Situs víscero-atrial</strong> (solitus/inversus ⚠️) · <strong>Corte de 4 câmaras</strong> · <strong>Simetria ventricular</strong> e <strong>simetria atrial + forame oval</strong> · <strong>Septo interventricular</strong> (defeito = CIV ⚠️) · <strong>Via de saída do VE e do VD</strong> · <strong>Corte de 3 vasos e traqueia</strong> (AP&gt;Ao&gt;VCS em calibre decrescente, confluência em "V" à esquerda da traqueia) · <strong>Arco aórtico</strong> (interrupção/coarctação ⚠️) · <strong>Pulmões</strong> (homogêneos e simétricos normal).</p></div>
+<div class="step"><div class="step-num">10</div><p><strong>Índice cardiotorácico:</strong> escolha o método (por área, recomendado — normal 0.25–0.33, cardiomegalia &gt;0.35; ou por perímetros/diâmetros — corte dependente da IG: &gt;0.50 às 12–15 sem · &gt;0.52 às 18–20 sem · &gt;0.59 às 25–30 sem) e insira o valor. <strong>Ângulo/eixo cardíaco:</strong> normal 45°±20° (25°–65°) para a esquerda; &gt;65° sugere cardiopatias conotruncais/HDC, &lt;25° ou eixo à direita sugere dextrocardia/situs inversus.</p></div>
+<div class="step"><div class="step-num">11</div><p><strong>Hérnia diafragmática congênita (HDC)</strong> — subcartão próprio dentro de Tórax e coração: <strong>bolha gástrica</strong> (infradiafragmática normal / supradiafragmática-intratorácica ⚠️), <strong>lado</strong> (esquerda/Bochdalek ~85% · direita ~10–15%) e <strong>O/E LHR</strong> (%) — &lt;25% grave · 25–44.9% moderado (TOTAL trial; 35–44.9% se houver herniação hepática) · ≥45% favorável.</p></div>
+<h3>🫃 Abdome</h3>
+<div class="step"><div class="step-num">12</div><p><strong>Estômago:</strong> presente/infradiafragmático/à esquerda (normal) · <strong>imagem de "dupla bolha" ⚠️</strong> (atresia duodenal/jejunal alta, ~30% de associação com T21) · alterado (outro, ver HDC). <strong>Parede abdominal/inserção do cordão:</strong> íntegra (normal) · onfalocele (com cobertura) ⚠️ · gastrosquise (sem cobertura) ⚠️.</p></div>
+<div class="step"><div class="step-num">13</div><p><strong>Pielectasia renal:</strong> diâmetro AP da pelve direita e esquerda (mm) — &lt;33 sem: normal &lt;4.0 · leve 4.0–10.0 · obstrutiva &gt;10.0mm; ≥33 sem: normal &lt;7.0 · leve 7.0–10.0 · obstrutiva &gt;10.0mm.</p></div>
+<div class="step"><div class="step-num">14</div><p><strong>Rins — visualização e posição:</strong> ambos visíveis em posição habitual (normal) · ausente unilateral ⚠️ · ausente bilateral ⚠️⚠️ · ectópico pélvico ⚠️. <strong>Rins — aspecto do parênquima:</strong> normal/homogêneo · multicístico/displásico ⚠️ (correlacionar com o líquido amniótico — agenesia bilateral ou displasia bilateral costumam cursar com oligo/anidrâmnio grave).</p></div>
+<div class="step"><div class="step-num">15</div><p><strong>Cordão umbilical (vasos):</strong> 3 vasos (normal) · artéria umbilical única ⚠️. <strong>Megabexiga 2T/3T</strong> (≥16 sem) — diâmetro longitudinal máximo (mm), critério estático: patológico se superar (IG em semanas + 12)mm. <strong>Ciclo de enchimento/esvaziamento (dinâmico):</strong> normal 25–45 min · não esvazia após 40–60 min ⚠️. <strong>Sinal do "buraco de fechadura" (keyhole, VUP):</strong> presente ⚠️.</p></div>
+<div class="warn">⚠️ A megabexiga de 2T/3T (este módulo) é diferente da megabexiga 1T (ver "Ultrassons · Rastreamento FMF" mais acima) — mesma estrutura anatômica, critérios e janelas temporais diferentes; ambos os campos convivem sem se substituir.</div>
+<h3>🦵 Extremidades</h3>
+<div class="step"><div class="step-num">16</div><p><strong>Fêmur curto para a IG</strong> e <strong>úmero curto para a IG</strong> (caixas de seleção). <strong>Mãos e pés — orientação</strong> (normal / alterada ⚠️, outro: contraturas, sindactilia, etc.). <strong>Dedos — número</strong> (5 por mão/pé normal / polidactilia suspeita ⚠️ — marcador menor associado à trissomia 13 e a síndromes genéticas como Meckel-Gruber ou Bardet-Biedl se acompanhada de outros achados; isolada, prognóstico habitualmente bom).</p></div>
+<div class="step"><div class="step-num">17</div><p><strong>3 segmentos por membro</strong> (para não deixar passar defeitos de redução — focomelia, amelia — quando só se olha fêmur/úmero isolado): membro superior → <strong>úmero</strong>, <strong>rádio/ulna</strong>, <strong>mão</strong> (cada um presente/ausente ⚠️); membro inferior → <strong>fêmur</strong>, <strong>tíbia/fíbula</strong>, <strong>pé</strong> (presente, orientação normal / ausente ⚠️ / presente com suspeita de <strong>pé torto congênito (talipes)</strong> ⚠️).</p></div>
+<div class="tip">💡 A razão fêmur/circunferência abdominal (CF/CA) <strong>não é duplicada aqui</strong> — é calculada na aba "Doppler ACM — Anemia Fetal e Biometria por parâmetro" (subaba "Asimetría LF/CA" (Assimetria CF/CA)), que já a integra ao Resultado, com o corte &lt;0.16–0.18 como marcador menor de aneuploidia.</div>
+<h3>🟤 Placenta, cordão, LA, colo</h3>
+<div class="step"><div class="step-num">18</div><p><strong>Placenta — localização:</strong> fúndica/corporal/lateral longe do OCI (normal) · inserção baixa (borda &lt;20mm do OCI) ⚠️ — diferente da caixa "Placenta previa" do 3T (Ficha prenatal → Embarazo actual), que confirma no 3T o que aqui é um achado do 2T. <strong>Cordão — local de inserção placentária:</strong> central/paracentral (normal) · marginal ("em raquete") ⚠️ · velamentosa ⚠️⚠️ (risco de vasa prévia — confirmar com Doppler colorido sobre o OCI; cesárea eletiva se confirmada; risco de RCIU). É um campo diferente do número de vasos do cordão (ver Abdome).</p></div>
+<div class="tip">💡 O líquido amniótico (ILA/bolsão) e a cervicometria <strong>já têm seus próprios campos completos</strong> em "Ultrassons · Rastreamento FMF" (mais acima) — não são duplicados neste cartão.</div>
+<div class="shot"><span class="cam">📷</span>Faltam capturas de tela dos 7 cartões de morfologia fetal.<br/><code>img/manual-calc-morfologia-*.png</code></div>
+</section>
+<section id="acretismo">
+<h2>🔴 Acretismo placentário (PAS) — Classificação CaVeSal</h2>
+<span class="new">🆕 Seção nova</span>
+<p class="ref">Ref: FIGO/Jauniaux 2018 · ISUOG/Jauniaux 2016–2018 · ACOG/SMFM Obstetric Care Consensus No.7 (2018/2021) · MSPyBS Paraguai</p>
+<p>Espectro do acretismo placentário (PAS: acreta/increta/percreta). Fator de risco principal: cesárea prévia + placenta prévia/inserção baixa anterior.</p>
+<div class="warn">⚠️ <strong>Regra de ouro:</strong> se houver sinais de acretismo, nunca fazer dequitação manual — deixar a placenta in situ e proceder à histerectomia em bloco, em centro de Nível III-IV, com cesárea programada às 34+0–35+6 semanas.</div>
+<div class="step"><div class="step-num">1</div><p><strong>Fatores de risco:</strong> número de cesáreas prévias (0/1/2/≥3), curetagens uterinas prévias, cirurgia uterina prévia (miomectomia, etc.), antecedente de síndrome de Asherman. A placenta prévia/inserção baixa e a idade materna &gt;35 ou antecedente de FIV <strong>não são duplicadas</strong> aqui — são tomadas dos campos de Morfologia (2.7) e Antecedentes, onde já estão inseridas.</p></div>
+<div class="step"><div class="step-num">2</div><p><strong>Sinais ultrassonográficos 2D</strong> (cada um Sim / Incerto / Não): perda da zona clara, afinamento miometrial (&lt;1mm), lacunas placentárias irregulares ("queijo suíço"), interrupção da interface/parede vesicouterina, abaulamento placentário (bulging) em direção à bexiga, massa exofítica focal (invasão transerosa).</p></div>
+<div class="step"><div class="step-num">3</div><p><strong>Sinais ao Doppler colorido</strong> (cada um Sim / Incerto / Não): hipervascularização uterovesical, hipervascularização subplacentária, vasos ponte/comunicantes (bridging vessels), vasos nutridores das lacunas, acometimento dos paramétrios.</p></div>
+<div class="step"><div class="step-num">4</div><p>Se você já tiver diagnóstico confirmado (cirúrgico ou histopatológico), pode inserir a <strong>Classificação FIGO</strong>: Grau 1 (Acreta) · Grau 2 (Increta) · Grau 3a (Percreta limitada à serosa uterina) · Grau 3b (Percreta com invasão vesical) · Grau 3c (Percreta com invasão de outros tecidos/órgãos pélvicos, ± bexiga).</p></div>
+<div class="warn">⚠️ <strong>A Probabilidade e a Extensão do resultado são calculadas com a "Classificação CaVeSal"</strong> — um esquema de pontuação próprio da equipe (não é um escore FIGO/ISUOG/ACOG publicado) que combina fatores de risco + sinais 2D + sinais Doppler. A Classificação FIGO (passo 4) é um dado à parte, de confirmação cirúrgica/histopatológica — não substitui nem se confunde com a Classificação CaVeSal.</div>
+<div class="shot"><span class="cam">📷</span>Falta a captura de tela do cartão de Acretismo placentário.<br/><code>img/manual-calc-acretismo.png</code></div>
+</section>
+<section id="doppler">
+<h2>🩸 Doppler fetal — 2T/3T (AU, ACM, RCP, ducto venoso, avançado)</h2>
+<p class="ref">Ref: Baschat AA &amp; Gembruch U. UOG 2003 · Arduini &amp; Rizzo 1990 · Mari NEJM 2000 · ISUOG 2020 · TRUFFLE Study</p>
+<h3>Doppler básico</h3>
+<div class="step"><div class="step-num">1</div><p>Insira a <strong>IG no exame</strong> (semanas+dias) e os valores disponíveis: <strong>Artéria Umbilical</strong> (IP, IR), <strong>Artéria Cerebral Média</strong> (IP, e PSV em cm/s para rastreamento de anemia) e <strong>Ducto Venoso</strong> (PIV).</p></div>
+<div class="step"><div class="step-num">2</div><p>O app calcula automaticamente a <strong>RCP = ACM/AU</strong>, com seu limiar P5 dinâmico segundo a IG (ex.: às 33 semanas, P5≈1.07) e a marca como alterada se ficar abaixo.</p></div>
+<div class="step"><div class="step-num">3</div><p>O resultado mostra <strong>cada parâmetro com seu percentil individual</strong> (IP AU, IP ACM, RCP, PIV DV), indicando quais estão alterados e o que significam (ex.: AU aumentada = resistência placentária; RCP alterada = redistribuição hemodinâmica).</p></div>
+<div class="tip">💡 Para rastreamento de anemia fetal por isoimunização (PSV da ACM), ver o módulo à parte "Doppler ACM — Anemia Fetal" mais abaixo.</div>
+<h3>Doppler hemodinâmico avançado</h3>
+<div class="warn">⚠️ Indicar <strong>apenas quando AU, ACM ou RCP estiverem alterados</strong> — são marcadores de estágio tardio na RCIU grave (comprometimento cardiovascular fetal).</div>
+<div class="step"><div class="step-num">4</div><p><strong>Regurgitação tricúspide (RT) 2T/3T:</strong> marcador de disfunção cardíaca direita. Indicar se DV alterado ou suspeita de cardiomiopatia fetal (não confundir com a RT do 1T, que é rastreamento cromossômico).</p></div>
+<div class="step"><div class="step-num">5</div><p><strong>Istmo Aórtico (AoI):</strong> insira o IP e o fluxo diastólico (normal/reduzido/ausente/reverso). Reflete a redistribuição cerebral e a pós-carga ventricular esquerda — fluxo retrógrado indica comprometimento neurológico grave. Indicar se ACM ou RCP alteradas na RCIU pré-termo.</p></div>
+<div class="step"><div class="step-num">6</div><p><strong>Veia Umbilical Pulsátil (VUP):</strong> a pulsatilidade venosa umbilical é sinal tardio de descompensação fetal — indica falência cardíaca com congestão venosa, associada a mortalidade perinatal elevada.</p></div>
+<div class="step"><div class="step-num">7</div><p>Se o Doppler avançado estiver alterado e a IG for <strong>&lt;34 semanas</strong>, o app lembra a <strong>maturação pulmonar</strong> (betametasona 12mg IM a cada 24h x2 doses, ref. ACOG PB 127/RCOG) e que a resolução é definida segundo a evolução clínica e biofísica, coordenando com a neonatologia.</p></div>
+<h3>Artéria Oftálmica — Prognóstico DHEG/PE (2T/3T)</h3>
+<div class="step"><div class="step-num">8</div><p>Em paciente com <strong>DHEG/pré-eclâmpsia já estabelecida</strong>, insira <strong>PSV1 e PSV2</strong> da artéria oftálmica — a razão PSV2/PSV1 avalia o grau de comprometimento vascular sistêmico: <strong>≥0.78</strong> comprometimento grave · <strong>0.70–0.77</strong> limítrofe · <strong>&lt;0.70</strong> favorável.</p></div>
+<div class="step"><div class="step-num">9</div><p>Uma razão ≥0.78 indica maior risco de RCIU grave e PE de início precoce, com mau prognóstico materno-fetal — o app recomenda <strong>encaminhar à Medicina Fetal com urgência</strong> e avaliar sFlt-1/PlGF, função renal/hepática e vitalidade fetal.</p></div>
+<div style="margin:14px 0">
+<img alt="Captura de tela" src="img/manual-calc-07-doppler.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+</div>
+</section>
+<section id="pfe">
+<h2>👶 Peso Fetal Estimado (PFE) e crescimento</h2>
+<p class="ref">Ref: Hadlock 1984 · INTERGROWTH-21 · Figueras 2008 · Protocolo MFB 2024</p>
+<div class="step"><div class="step-num">1</div><p>Escolha o <strong>modo de cálculo</strong>: peso e percentil direto, peso + idade gestacional, ou biometria Hadlock (circunferência abdominal + comprimento femoral).</p></div>
+<div class="step"><div class="step-num">2</div><p>Insira os valores segundo o modo escolhido. No modo <strong>"Peso + EG → percentil"</strong> você verá o aviso "Estimación de percentil por curvas INTERGROWTH-21st (método simplificado). Para resultado preciso usar software FMF" — é um esclarecimento sobre o método, não significa que esse modo ignore a tabela que você tenha selecionado (ver ponto 4).</p></div>
+<div class="step"><div class="step-num">3</div><p>O app calcula o <strong>percentil de peso fetal</strong> e o classifica: PIG, AIG, GIG ou RCIU segundo o percentil e — se você já inseriu o Doppler — combinando ambos os critérios (ver seção Doppler).</p></div>
+<div class="step"><div class="step-num">4</div><p>O percentil dos modos "Peso + EG" e "Biometría Hadlock" é calculado com a tabela que você tiver escolhido no seletor <strong>Figueras 2008 / INTERGROWTH-21</strong> — este seletor fica no cartão <strong>"Pronóstico de vía de parto"</strong> (Prognóstico da via de parto, aba 🗓️ Gestograma·Parto), mas se aplica a todo o módulo de PFE (ver essa seção para o detalhe).</p></div>
+<div class="tip">💡 Se você também inserir o Doppler no seu próprio módulo, o sistema combina peso e Doppler automaticamente para a classificação de RCIU/PIG, seguindo o protocolo da Medicina Fetal Barcelona.</div>
+<div style="margin:14px 0">
+<img alt="Captura de tela" src="img/manual-calc-05-pfe.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+</div>
+</section>
+<section id="anemia-fetal">
+<h2>🩸 Doppler ACM — Anemia Fetal e Biometria por parâmetro (IG)</h2>
+<p class="ref">Ref: Mari G. et al. NEJM 2000 · Algoritmo propio CaVeSal® · Limiar MoM ≥1.50 · Robinson &amp; Fleming 1975 · Hadlock 1984 · Chitty &amp; Altman 2002 · Goldstein 1987 · Campbell &amp; Thoms 1977</p>
+<p>No app é um único cartão com 5 subabas: o rastreamento de anemia fetal por PSV-ACM, mais as diferentes formas de estimar a IG por um parâmetro biométrico isolado (útil quando a IG pela DUM é duvidosa, ou na suspeita de RCIU/assimetria).</p>
+<h3>Anemia fetal (PSV-ACM)</h3>
+<div class="step"><div class="step-num">1</div><p>Insira a <strong>IG</strong> (semanas+dias) e o <strong>PSV da ACM em cm/s</strong>.</p></div>
+<div class="step"><div class="step-num">2</div><p>O app calcula o <strong>MoM</strong> (comparando com a mediana esperada para essa IG) e classifica: <strong>Normal</strong> (MoM &lt;1.29, sem evidência de anemia, controle segundo protocolo) · <strong>Anemia leve possível</strong> (MoM 1.29–1.49, vigilância, repetir em 1–2 semanas) · <strong>Anemia moderada-grave</strong> (MoM ≥1.50, indicação de cordocentese e transfusão intrauterina urgente).</p></div>
+<div class="warn">⚠️ Requisito técnico para uma medição válida: ângulo de insonação ≤15°, ACM medida no segmento proximal (perto do polígono de Willis), sem compressão cefálica pelo transdutor.</div>
+<h3>🔬 IG pelo CCN — 1T</h3>
+<div class="step"><div class="step-num">3</div><p>Insira o <strong>CCN em mm</strong> (faixa válida: 10–84mm, aprox. 6+3 a 13+6 semanas). O app calcula a IG com a fórmula IG(dias) = 8.052×√(CCN×1.037)+23.73, com margem de erro de ±5 dias — é a medida mais precisa para datar a gestação, e mostra a DUM corrigida e a DPP correspondente.</p></div>
+<h3>📏 IG por biometrias — 2T e 3T</h3>
+<div class="step"><div class="step-num">4</div><p>Insira os parâmetros disponíveis: <strong>DBP, CC, CA, CF</strong> (em mm) — cada um calcula sua própria IG estimada separadamente. Critério de uso: no <strong>2T</strong> usar DBP ou CF (margem ±1 semana); no <strong>3T</strong> preferir CC ou CF (menor variabilidade que o DBP); em <strong>IG duvidosa ou discordante no 3T</strong>, usar CC ou CF para a estimativa, sem correção formal da DUM. Se houver uma <strong>discordância significativa entre parâmetros (≥7 dias)</strong>, o app alerta e sugere avaliar assimetria fetal — considerando RCIU assimétrica se a CA for o parâmetro atrasado — e recomenda passar à subaba "Asimetría LF/CA".</p></div>
+<h3>🦴 IG pelo comprimento do úmero</h3>
+<div class="step"><div class="step-num">5</div><p>Insira o comprimento do úmero (mm) como parâmetro adicional de IG, útil como alternativa ou complemento ao fêmur, especialmente se houver suspeita de displasia esquelética.</p></div>
+<h3>🧠 IG pelo diâmetro transverso do cerebelo (DTC)</h3>
+<div class="step"><div class="step-num">6</div><p>Insira o <strong>DTC em mm</strong>. Entre as semanas 14–28, o DTC em mm equivale aproximadamente à IG em semanas (após a sem. 28 a correlação deixa de ser linear, e o app usa as tabelas de Goldstein). <strong>Vantagem-chave:</strong> o DTC é <strong>independente das restrições de crescimento</strong> — não é afetado na RCIU, por isso é o parâmetro mais confiável para estimar a IG em fetos com RCIU ou assimetria grave. Um DTC <strong>preservado</strong> em um feto com suspeita de RCIU <strong>confirma que a IG atribuída está correta</strong>; um DTC pequeno para a IG é marcador de patologia do SNC (hipoplasia cerebelar, síndrome de Dandy-Walker) e exige encaminhamento.</p></div>
+<h3>⚖️ Assimetria CF/CA</h3>
+<div class="step"><div class="step-num">7</div><p><strong>Conceito:</strong> na RCIU tardia e assimétrica, o feto redistribui o fluxo (brain sparing) — o crescimento abdominal é restringido antes do cefálico. A razão CF/CA detecta essa assimetria precocemente. Insira <strong>CF, CA</strong> (em mm) e, opcionalmente, <strong>CC</strong> (para checagem de microcefalia: CC &lt;p3 para a IG) e a IG atual.</p></div>
+<div class="step"><div class="step-num">8</div><p>Interpretação da <strong>razão CF/CA</strong>: normal 0.20–0.24 · <strong>&lt;0.16</strong> = CF desproporcionalmente curto em relação à CA → suspeita de encurtamento de membros (nanismo, displasia esquelética) · <strong>&gt;0.235</strong> = CA desproporcionalmente pequena em relação ao CF → assimetria / RCIU assimétrica tardia (brain sparing), exige Doppler (umbilical e ACM) e biometria seriada a cada 2 semanas.</p></div>
+<div style="margin:14px 0">
+<img alt="Captura de tela" src="img/manual-calc-anemia.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+<img alt="Captura de tela" src="img/manual-calc-biometria.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+</div>
+</section>
+<section id="pbf">
+<h2>🧬 Perfil Biofísico Fetal (PBF)</h2>
+<p class="ref">Ref: Manning 1980 · Vintzileos 1983 · Clark 1989 · Queenan/Spong/Lockwood 7ª ed. · MSPyBS Paraguai</p>
+<div class="step"><div class="step-num">1</div><p>Escolha a <strong>modalidade</strong> segundo o que você avaliou: <strong>Completo</strong> (Manning, 5 variáveis, 10 pontos + NST) · <strong>Ecográfico puro</strong> (só ultrassom, 8 pontos, sem NST) · <strong>Abreviado</strong> (Clark: NST + líquido amniótico) · <strong>Vintzileos</strong> (graduado 0/1/2 + grau placentário de Grannum, até 12 pontos).</p></div>
+<div class="step"><div class="step-num">2</div><p>Insira as variáveis disponíveis segundo a modalidade escolhida: <strong>movimentos respiratórios fetais (MRF), movimentos corporais/de membros (MCF), tônus fetal, reatividade do NST</strong> e <strong>volume de líquido amniótico</strong> — na modalidade Vintzileos, acrescente também o <strong>grau placentário (Grannum)</strong>.</p></div>
+<div class="step"><div class="step-num">3</div><p>Insira a <strong>idade gestacional atual</strong> — é um dado-chave: a conduta sugerida depende da combinação <strong>pontuação × estado do líquido amniótico × IG</strong>, não apenas da pontuação total.</p></div>
+<div class="step"><div class="step-num">4</div><p>O app soma a pontuação e mostra a <strong>conduta correspondente</strong>, indicando também se o líquido amniótico está <strong>normal</strong> ou <strong>diminuído</strong>, porque a conduta muda segundo esse estado — em especial nas pontuações intermediárias.</p></div>
+<div class="tip">📋 <strong>Resumo da conduta por pontuação (orientativo — o resultado sempre dá o detalhe completo):</strong><br/> 🔹 <strong>10/10 ou 8/10 com líquido normal:</strong> conduta expectante, vigilância habitual.<br/> 🔹 <strong>8/10 com oligodrâmnio:</strong> depende da IG — ≥36–37 sem, resolver; pré-termo, Doppler diário.<br/> 🔹 <strong>6/10 com líquido normal:</strong> reavaliar em 12–24h (ou 2h segundo protocolo MSPyBS), ou indica-se a resolução se estiver a termo.<br/> 🔹 <strong>6/10 com oligodrâmnio:</strong> interrupção se a viabilidade estiver assegurada.<br/> 🔹 <strong>4/10 com líquido normal:</strong> conduta dependente da IG — se &lt;32 sem, repetir em 2h junto com corticoides, sulfato de magnésio e Doppler de ducto venoso; cesárea apenas se persistir ou se o Doppler descompensar.<br/> 🔹 <strong>4/10 com líquido diminuído:</strong> cesárea de urgência imediata, independentemente da IG (duplo comprometimento: asfixia aguda sobre insuficiência crônica).<br/> 🔹 <strong>≤2/10 (qualquer líquido):</strong> cesárea de urgência imediata, independentemente da IG ou do líquido.</div>
+<div class="tip">💡 Nota fixa que acompanha cada resultado do PBF: <strong>todos os marcadores são agudos, exceto a placenta e o líquido amniótico, que são marcadores crônicos</strong> — útil para interpretar uma pontuação baixa no contexto correto.</div>
+<div class="warn">⚠️ Se a pontuação indicar resolução e a IG for pré-termo, o app lembra a maturação pulmonar com corticoides.</div>
+<div class="shot"><span class="cam">📷</span>Falta a captura de tela do cartão de Perfil Biofísico Fetal.<br/><code>img/manual-calc-pbf.png</code></div>
+</section>
+<section id="monitoreo-fetal">
+<h2>💓 Monitoramento Fetal (NST/CTG)</h2>
+<p class="ref">Ref: FIGO Consensus Guidelines (Ayres-de-Campos et al. 2015) · ACOG Practice Bulletin 229/106 · Caldeyro-Barcia R. et al. 1966 · Welt AM et al. 1984 · Dawes GS, Redman CWG et al. (Oxford)</p>
+<div class="step"><div class="step-num">1</div><p>Insira a <strong>FCF basal (bpm)</strong> — o app alerta <strong>taquicardia</strong> se for &gt;160 bpm ou <strong>bradicardia</strong> se for &lt;110 bpm (mesmo critério do campo "Ritmo cardíaco" da Morfologia — Tórax e coração).</p></div>
+<div class="step"><div class="step-num">2</div><p>Selecione a <strong>variabilidade</strong>: ausente, mínima, moderada ou saltatória.</p></div>
+<div class="step"><div class="step-num">3</div><p>Marque a <strong>reatividade</strong> — o campo mostra como ajuda a regra correspondente segundo a IG inserida: <strong>15×15</strong> (≥32 semanas) ou <strong>10×10</strong> (&lt;32 semanas).</p></div>
+<div class="step"><div class="step-num">4</div><p>Se você identificar um <strong>padrão morfológico especial</strong>, escolha-o no seletor: sinusoidal clássico, pseudossinusoidal, ondas lambda, padrão ômega ou Sinal W.</p></div>
+<div class="warn">⚠️ <strong>"Ondas lambda" e "padrão ômega"</strong> são analogias visuais informais, de uso docente/clínico frequente — descrevem a silhueta do traçado, mas <strong>não são nomenclatura oficial</strong> da FIGO, ACOG nem NICHD, e o app esclarece isso no resultado. O <strong>Sinal W</strong> (Welt 1984) é diferente: corresponde sim a um padrão publicado com fonte própria verificada (desaceleração variável bifásica).</div>
+<div class="step"><div class="step-num">5</div><p>Classifique as <strong>desacelerações (Dips I/II/III, Caldeyro-Barcia)</strong> se estiverem presentes.</p></div>
+<div class="step"><div class="step-num">6</div><p>Separadamente, marque se observar <strong>ombros (shoulders)</strong> ou <strong>overshoot</strong> — são dois achados diferentes, cada um com seu próprio campo.</p></div>
+<div class="tip">💡 <strong>Ombros e overshoot NÃO são sinônimos:</strong> os <strong>ombros</strong> são um achado <strong>tranquilizador</strong> (aceleração breve pré/pós-desaceleração, integridade barorreflexa autonômica); o <strong>overshoot</strong> é um achado <strong>NÃO tranquilizador</strong> (aceleração exagerada/rígida pós-desaceleração, associada a hipóxia em desenvolvimento/acidose).</div>
+<div class="shot"><span class="cam">📷</span>Falta a captura de tela do cartão de Monitoramento Fetal (NST/CTG).<br/><code>img/manual-calc-monitoreo-fetal.png</code></div>
+</section>
+<!-- ════════════════════════════════════════ PESTAÑA: PACIENTES ════════════════════════════════════════ -->
+<div class="tab-divider" id="tab-pacientes">
+<h2>👤 Pacientes</h2>
+<p>Fichas salvas, backup e a ponte de dados com o Prontuário Clínico CaVeSal®.</p>
+</div>
+<section id="pacientes">
+<h2>👤 Gestão de pacientes e backup</h2>
+<div class="step"><div class="step-num">1</div><p>Na aba <strong>Pacientes</strong>, toque em "Nueva paciente" (Nova paciente) para criar uma ficha, ou busque uma existente pelo documento.</p></div>
+<div class="step"><div class="step-num">2</div><p>Os dados que você inserir nos módulos clínicos são salvos automaticamente na ficha da paciente ativa. Se você marcou <strong>reprodução assistida (TRA)</strong> em Gestação atual, o app a sinaliza como achado de risco (maior risco de placenta prévia, pré-eclâmpsia e gemelaridade).</p></div>
+<div class="step"><div class="step-num">3</div><p>Cada ficha mostra automaticamente a <strong>fórmula obstétrica</strong> (G/P/C/A: gestações, partos, cesáreas, abortos) calculada a partir dos antecedentes inseridos, junto com altura/peso e a classificação de risco global.</p></div>
+<div class="step"><div class="step-num">4</div><p><strong>Histórico de consultas:</strong> dentro da ficha da paciente, toque em "+ Visita" para registrar cada consulta pré-natal com: data, IG (calculada automaticamente pela DUM), peso atual, PA, laboratório (Hb, glicemia, TSH), ultrassom (PFE + percentil, cervicometria, apresentação fetal), Doppler/sFlt-1-PlGF em texto livre, observações/plano e data da próxima consulta.</p></div>
+<div class="step"><div class="step-num">5</div><p>Cada consulta fica em uma lista cronológica editável — você pode modificar ou excluir qualquer consulta registrada, e dali também pode reabrir essa paciente diretamente na calculadora ("⚡ Abrir en calculadora" (Abrir na calculadora)) para recalcular seu risco com os dados atualizados.</p></div>
+<div class="step"><div class="step-num">6</div><p>Em <strong>"Mis pacientes"</strong>, toque em <strong>"Backup local (.json)"</strong> para baixar um arquivo com todas as suas pacientes (cartão "Descargar .json" (Baixar .json)), e salve-o no seu próprio Google Drive (cartão "Abrir Google Drive") — assim você pode sincronizar entre PC, celular ou tablet manualmente, copiando o arquivo de um dispositivo para outro.</p></div>
+<div class="step"><div class="step-num">7</div><p>Para <strong>"Importar backup"</strong>, escolha o arquivo .json e o modo: <strong>"Combinar"</strong> (adiciona as pacientes do backup sem apagar as que você já tem) ou <strong>"Reemplazar todo"</strong> (Substituir tudo: apaga os dados atuais e os substitui pelos do backup).</p></div>
+<div class="tip">💡 E daqui, com o cartão "Analizar con CaVeSal® IA" (Analisar com CaVeSal® IA) do painel de Resultado, você pode enviar o cálculo atual para uma segunda leitura clínica com inteligência artificial — ver o <a href="https://cavesal.app/manual-cavesal-ia-pt.html">tutorial do CaVeSal® IA</a>.</div>
+<div style="margin:14px 0">
+<img alt="Captura de tela" src="img/manual-calc-11-pacientes.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+</div>
+</section>
+<section id="puente-hc">
+<h2>🔄 Sincronização com o Prontuário Clínico CaVeSal®</h2>
+<p>Se você também usa o <strong>Prontuário Clínico CaVeSal®</strong>, pode enviar os dados clínicos de uma paciente diretamente de lá para a Calculadora, sem digitar nada de novo (botão "Enviar a Calculadora" no Prontuário — função da versão completa). Esta seção explica o que acontece do lado da Calculadora quando esses dados chegam.</p>
+<div class="step"><div class="step-num">1</div><p><strong>Reconhecimento automático pelo documento do Prontuário (<code>id_hc</code>):</strong> a Calculadora identifica a paciente pelo campo "id_hc" enviado pelo Prontuário Clínico. Se você já a tinha salva em "Mis pacientes" (porque a enviou antes), <strong>atualiza essa mesma ficha</strong> em vez de criar uma duplicada — você pode enviar a mesma paciente do Prontuário quantas vezes for necessário, à medida que a gestação avança, sem gerar fichas repetidas. Se não reconhecer o id_hc (primeira vez, ou paciente sem documento inserido no Prontuário), cria uma ficha nova.</p></div>
+<div class="step"><div class="step-num">2</div><p><strong>Dados de perfil</strong> (altura, peso pré-gestacional, DUM, tipagem e Rh, gestações/partos/cesáreas/abortos, nome): se o campo ainda estava vazio na ficha da Calculadora, é preenchido automaticamente. Se já tinha <strong>um valor diferente</strong> do que chega do Prontuário, o app não o sobrescreve às cegas — aparece a janela <strong>"⚠️ Revisar datos que difieren"</strong> (Revisar dados divergentes), listando cada campo em conflito para que você escolha qual valor fica (o que já estava salvo ou o que chega do Prontuário).</p></div>
+<div class="step"><div class="step-num">3</div><p><strong>Antecedentes, sorologias e vacinas</strong> (HAS crônica, diabetes pré-gestacional, trombofilia, cardiopatia com classe OMS, antecedente de HIV/Hepatite/Sífilis, Coombs, VDRL, toxoplasmose, Chagas, EGB, dTpa/influenza/VSR/COVID — o que você já tiver inserido no Prontuário): esses dados <strong>não se misturam com os campos editáveis</strong> de "Editar paciente" — chegam somente leitura e aparecem à parte em <strong>"Ver ficha"</strong>, no bloco "🩺 Datos clínicos vinculados desde HC" (Dados clínicos vinculados do Prontuário). Só são mostrados os que têm valor positivo ou inserido — não se lista cada antecedente que a paciente não tem, para não sobrecarregar a ficha.</p></div>
+<div class="step"><div class="step-num">4</div><p><strong>Dados da consulta atual</strong> (PA, peso, apresentação fetal, Hb, TSH, cervicometria, Doppler, glicemia, PFE, observações): estes <strong>sempre são adicionados como uma consulta nova</strong> no histórico — nunca substituem uma consulta já salva. Aparecem na ficha exatamente como uma consulta inserida manualmente, com os mesmos campos descritos no ponto 4 de "Gestão de pacientes" acima.</p></div>
+<div class="warn">⚠️ <strong>Dois campos que o Prontuário Clínico já registra mas que ainda NÃO são enviados à Calculadora:</strong> "Motivo de consulta" e "Edemas" de cada consulta pré-natal. Não é um erro — a ficha de "Mis pacientes" ainda não tem lugar para esses dois campos, então por enquanto ficam apenas no Prontuário Clínico. Se você precisar deles do lado da Calculadora, é uma alteração pequena que pode ser feita quando solicitar.</div>
+<div class="shot"><span class="cam">📷</span>Falta a captura de tela da janela "⚠️ Revisar datos que difieren" e do bloco "🩺 Datos clínicos vinculados desde HC" em "Ver ficha".<br/><code>img/manual-calc-puente-hc.png</code></div>
+</section>
+<!-- ════════════════════════════════════════ PESTAÑA: SIMULADOR ════════════════════════════════════════ -->
+<div class="tab-divider" id="tab-simulador">
+<h2>🎓 Simulador</h2>
+<p>Casos fictícios para treinar as decisões do pré-natal com os mesmos critérios usados pela calculadora. Disponível na versão completa; na demo a aba aparece com cadeado.</p>
+</div>
+<section id="simulador">
+<h2>🎓 Casos de treinamento</h2>
+<p>O app apresenta a paciente com um painel de dados (IG, PA, resultados de laboratório ou de ultrassom), você escolhe a conduta e o caso avança. Cada resposta mostra uma explicação e a fonte com o link.</p>
+<div class="step"><div class="step-num">1</div><p>Abra a aba <strong>🎓 Simulador</strong> e escolha um caso. A chave <strong>Con reloj</strong> (Com relógio) define um tempo limite para cada decisão; se acabar, conta como não respondida.</p></div>
+<div class="step"><div class="step-num">2</div><p>Casos disponíveis (uma fonte por tema):</p></div>
+<div class="tip">🔹 <strong>Diabetes gestacional</strong> — IADPSG 2010.<br/> 🔹 <strong>Rastreamento e prevenção da pré-eclâmpsia</strong> — FIGO 2019.<br/> 🔹 <strong>Hipertensão gestacional e pré-eclâmpsia</strong> — ACOG PB 222 (2020).<br/> 🔹 <strong>Do rastreamento à RCIU (caso com evolução)</strong> — a mesma paciente desde a semana 12: rastreamento de trissomias (pontos de corte da Medicina Fetal Barcelona; Nicolaides 2005 e FIGO 2015 como alternativas no texto), aspirina (FIGO 2019), ultrassom morfológico e Doppler uterino às 20 semanas, e controle de crescimento às 32 semanas com o percentil do PFE da tabela de Figueras. A partir daí o caso segue um de três caminhos ao acaso: RCIU estágio I, RCIU estágio II ou PIG, cada um com seu acompanhamento, momento e via de parto segundo o protocolo da Medicina Fetal Barcelona.</div>
+<div class="step"><div class="step-num">3</div><p>Nos casos com evolução, um aviso no início da cena indica o que aconteceu. Como o caminho é sorteado, ao repetir o caso pode sair outro.</p></div>
+<div class="step"><div class="step-num">4</div><p>Ao terminar, o <strong>feedback</strong> mostra a porcentagem de acertos, o tempo, como o caso evoluiu, cada decisão com a melhor resposta e as fontes. O botão <strong>Copiar resultado</strong> copia um resumo em texto.</p></div>
+<div class="warn">⚠️ Os casos são fictícios e servem para treinar. Não substituem o critério clínico.</div>
+</section>
+<!-- ════════════════════════════════════════ PESTAÑA: ACERCA ════════════════════════════════════════ -->
+<div class="tab-divider" id="tab-acerca">
+<h2>ℹ️ Sobre</h2>
+<p>Ecossistema CaVeSal®, autor clínico, bases bibliográficas de toda a calculadora e aviso legal. Esta aba não estava documentada no manual até agora.</p>
+</div>
+<section id="invitar-paciente">
+<h2>📲 Convide sua paciente</h2>
+<span class="new">🆕 Seção nova</span>
+<p>Dois apps gratuitos do ecossistema CaVeSal®, segundo o momento de cada paciente, mais o ecossistema completo — com seu QR para compartilhar durante a consulta.</p>
+<div class="step"><div class="step-num">1</div><p><strong>CaVeSal® Mamá</strong> (<a href="https://mama.cavesal.app/">mama.cavesal.app</a>): gestação, parto, amamentação e desenvolvimento do bebê — para a paciente gestante ou puérpera.</p></div>
+<div class="step"><div class="step-num">2</div><p><strong>CaVeSal® Mujer</strong> (<a href="https://mujer.cavesal.app/">mujer.cavesal.app</a>): saúde ginecológica e ciclo fora da gestação — para a paciente que não está gestante.</p></div>
+<div class="step"><div class="step-num">3</div><p><strong>Ecossistema CaVeSal®</strong> (<a href="https://cavesal.app/">cavesal.app</a>): acesso a todos os apps do ecossistema, incluindo o Prontuário Clínico e os que forem sendo adicionados.</p></div>
+<div class="tip">💡 Estes apps orientam a paciente e a aproximam do seu médico — não substituem o critério dele.</div>
+</section>
+<section id="autor-clinico">
+<h2>👨‍⚕️ Autor clínico</h2>
+<span class="new">🆕 Seção nova</span>
+<p><strong>Dr. Carlos Vera Salerno</strong> — Formação em Medicina Materno-Fetal. Metodologia FMF/Nicolaides e diretrizes: ACOG, FIGO, NICE, IADPSG, ATA, WHO, EBCOG, Medicina Fetal Barcelona.</p>
+<div class="step"><div class="step-num">1</div><p>Graduação em Medicina, Médico e Cirurgião (Paraguai), com homologação ao título espanhol de Licenciado en Medicina. Especialista em Ginecologia e Obstetrícia.</p></div>
+<div class="step"><div class="step-num">2</div><p>Pós-graduações em Ultrassonografia Geral e Gineco-Obstétrica, Endocrinologia Ginecológica e Reprodutiva, Didática no Ensino Superior e Saúde Pública. Formação em Inteligência Artificial e ferramentas digitais emergentes aplicadas à prática profissional.</p></div>
+<div class="step"><div class="step-num">3</div><p>Capacitador Nacional em Saúde Sexual e Reprodutiva, Código Vermelho e Atenção Pré-natal. Membro do Comitê Técnico Nacional de Imunização (Paraguai).</p></div>
+<div class="step"><div class="step-num">4</div><p>Docente universitário de graduação e pós-graduação em Ginecologia e Obstetrícia, Ultrassonografia, Endocrinologia Ginecológica e Reprodutiva.</p></div>
+<div class="step"><div class="step-num">5</div><p>Membro do Comitê Científico da FLASOG (2024–2026). Membro de sociedades científicas no Paraguai (FPGO, SOGON, SOGIA, SODIAP e SEGIRP). Presidente da FPGO (2023–2026).</p></div>
+<div class="tip">✉️ Contato direto: <a href="mailto:drverasalerno@gmail.com">drverasalerno@gmail.com</a></div>
+</section>
+<section id="bases-clinicas">
+<h2>📚 Bases clínicas</h2>
+<span class="new">🆕 Seção nova</span>
+<p>Lista completa, por domínio clínico, das fontes que embasam cada módulo da Calculadora. É a referência que aparece dentro do app em "Acerca → Bases clínicas" (Sobre → Bases clínicas) — útil para saber rapidamente qual diretriz respalda cada cálculo antes de citá-lo a um colega ou a uma paciente.</p>
+<div class="step"><div class="step-num">1</div><p><strong>Rastreamento cromossômico:</strong> Medicina Fetal Barcelona (pontos de corte de risco) · Nicolaides 2005 / FMF · Snijders 1998 · Sharifzadeh 2019 · Kagan · Cicero.</p></div>
+<div class="step"><div class="step-num">2</div><p><strong>Pré-eclâmpsia:</strong> FMF · ISSHP · Roche/BRAHMS (sFlt-1/PlGF) · Medicina Fetal Barcelona. <strong>Distúrbios hipertensivos:</strong> ACOG PB No.222 (2020) · FIGO Guidelines (2019) · ISSHP (2021).</p></div>
+<div class="step"><div class="step-num">3</div><p><strong>Diabetes gestacional:</strong> IADPSG 2010 · ADA 2026 · ALAD 2019 · OMS. <strong>Tireoide:</strong> ATA Guidelines 2017 · Endocrine Society · ACOG. <strong>Suplementação:</strong> OMS · ACOG · NICE · FIGO · Endocrine Society 2024 · EBCOG 2024 · Cochrane.</p></div>
+<div class="step"><div class="step-num">4</div><p><strong>Biometria fetal:</strong> Hadlock 1984 · Robinson &amp; Fleming 1975 (CCN/DUM) · Chitty &amp; Altman 2002 (úmero) · Goldstein 1987 (cerebelo) · Jeanty 1983/1984 · Mayden 1982 · Chitty 1994 · INTERGROWTH-21st · Figueras &amp; Gratacós 2008. <strong>Crescimento fetal/PIG/RCIU:</strong> Figueras F. EJOGR 2008 · Protocolo MFB nov-2024 · ISUOG Delphi Consensus 2020.</p></div>
+<div class="step"><div class="step-num">5</div><p><strong>Doppler AU/ACM/RCP:</strong> Ciobanu A et al. (FMF) UOG 2019. <strong>Doppler hemodinâmico avançado:</strong> Baschat AA 2011 · TRUFFLE Study Group UOG 2020 · ISUOG RCIU 2020 · Gratacós &amp; Torres, protocolo MFB 2023. <strong>Artéria Oftálmica:</strong> Gyselaers 2020 · Verlohren 2012 · Kaitu'u-Lino 2018 · Medicina Fetal Barcelona.</p></div>
+<div class="step"><div class="step-num">6</div><p><strong>Morfologia fetal:</strong> ISUOG Practice Guidelines 2020/2023 (SNC, face, coração) · Paladini &amp; Volpe 2018 · Jeanty/Mayden (diâmetros orbitários) · Corteville 1991/1992 (pielectasia) · FMF/Nicolaides (megabexiga/LUTO) · CDHSG/Jani 2007 (O/E LHR, HDC). <strong>Acretismo placentário:</strong> FIGO/Jauniaux 2018 · ISUOG/Jauniaux 2016-2018 · ACOG/SMFM Obstetric Care Consensus No.7.</p></div>
+<div class="step"><div class="step-num">7</div><p><strong>Anemia fetal:</strong> Mari G. et al. NEJM 2000 (Doppler ACM/PSV) · Detti L et al. AJOG 2002. <strong>Gemelar monocoriônica/RCIU:</strong> Torres X 2017 · Gratacós E UOG 2007 · ISUOG 2020.</p></div>
+<div class="step"><div class="step-num">8</div><p><strong>Perfil Biofísico Fetal:</strong> Manning 1980 · Vintzileos 1983 · Clark 1989 · Queenan/Spong/Lockwood 7ª ed. · MSPyBS Paraguai. <strong>Monitoramento Fetal (CTG):</strong> FIGO Consensus (Ayres-de-Campos 2015) · ACOG PB 229/106 · Caldeyro-Barcia 1966 · Welt 1984 · Dawes/Redman (Oxford).</p></div>
+<div class="step"><div class="step-num">9</div><p><strong>Líquido amniótico:</strong> SMFM Consult #46 (2018) · ACOG Clinical Consensus No.3 (2022) · ISUOG 2024. <strong>Maturação pulmonar (&lt;34 sem):</strong> ACOG PB 127 · RCOG Green-top 7. <strong>Neuroproteção com MgSO₄ (&lt;32 sem):</strong> ACOG PB 455 · OMS 2015.</p></div>
+<div class="step"><div class="step-num">10</div><p><strong>Sorologias:</strong> HIV — ETMI Plus Paraguai 2024 · DHHS 2024 · OPAS · ACOG. Sífilis — CDC 2021 · OPAS Eliminação da TV 2024 · ETMI Plus 2024 · ACOG. Toxoplasmose — SMFM Consult Series · Montoya &amp; Remington 2008 · OPAS 2024. CMV — Rawlinson 2017 · Leruez-Ville 2020. Chagas — OPAS 2023 · ETMI Plus 2024 · Torrico 2018. Hepatite B — EASL 2017 · ACOG · ETMI Plus 2024. Hepatite C — EASL 2020 · AASLD · ACOG. Rubéola — CDC · OPAS · ACOG.</p></div>
+<div class="step"><div class="step-num">11</div><p><strong>Colestase intra-hepática (CIG):</strong> Guía Perinatal MINSAL Chile 2015 · RCOG Green-top No.43 (2022) · SMFM Consult Series No.53 · Williamson 2018 · Ovadia 2019 · ACOG · EASL.</p></div>
+<div class="step"><div class="step-num">12</div><p><strong>Altura uterina:</strong> Algoritmo propio CaVeSal®, baseado em Gomes AG RBGO 2001 · CLAP-OPAS/OMS. <strong>Ganho de peso:</strong> IOM/NAS 2009 · ACOG. <strong>Via de parto:</strong> Robson · Grobman (NICHD) · ACOG.</p></div>
+<div class="tip">💡 Esta lista reúne, em um só lugar, todas as referências que já aparecem citadas de forma abreviada no rodapé de cada módulo ao longo deste manual.</div>
+</section>
+<section id="aviso-legal">
+<h2>⚠️ Aviso legal</h2>
+<span class="new">🆕 Seção nova</span>
+<p>O CaVeSal® é uma ferramenta de <strong>apoio clínico</strong> para profissionais de saúde capacitados. Não substitui o julgamento clínico do médico responsável nem a avaliação individualizada. Todas as decisões clínicas são de responsabilidade exclusiva do profissional de saúde.</p>
+<p><strong>Propriedade intelectual:</strong> o CaVeSal® implementa <strong>algoritmos e fórmulas de cálculo próprios</strong>, desenvolvidos e integrados de forma original a partir das referências bibliográficas citadas. Os coeficientes de regressão utilizados são originais, derivados de análise própria da literatura de referência. Não reproduz tabelas com copyright de terceiros. As referências a publicações científicas têm fins exclusivos de atribuição acadêmica e validação clínica.</p>
+<p>A menção a diretrizes, sociedades científicas ou instituições (FMF, ACOG, FIGO, OMS, ALAD, ADA, IADPSG, CLAP, IOM, FPGO, FLASOG, entre outras) tem fins exclusivamente de atribuição bibliográfica. Nenhuma dessas instituições patrocina, endossa ou certifica o CaVeSal®.</p>
+<div class="tip">Links relacionados: <a href="https://cavesal.app/terminos.html">Termos de Serviço</a> · <a href="https://cavesal.app/privacidad.html">Política de Privacidade</a> · <a href="https://cavesal.app/precios.html">Preços</a>.</div>
+</section>
+<section style="text-align:center">
+<h2 style="justify-content:center">🔗 Mais recursos CaVeSal®</h2>
+<p style="font-size:.86rem;margin-bottom:14px">Já tem sua chave? Quer conhecer o restante da suíte?</p>
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center"><a href="https://cavesal.app/instrucciones-pt.html" style="background:var(--teal-lt);color:var(--navy);padding:10px 16px;border-radius:10px;text-decoration:none;font-size:.85rem;font-weight:600">🔓 Como ativar sua chave</a> <a href="https://cavesal.app/full/" style="background:var(--teal-lt);color:var(--navy);padding:10px 16px;border-radius:10px;text-decoration:none;font-size:.85rem;font-weight:600">📊 Ir para a Calculadora (full)</a> <a href="https://historia.cavesal.app" style="background:var(--teal-lt);color:var(--navy);padding:10px 16px;border-radius:10px;text-decoration:none;font-size:.85rem;font-weight:600">📋 Ir para o Prontuário Clínico</a> <a href="https://historia.cavesal.app/manual-historia-clinica-pt.html" style="background:var(--teal-lt);color:var(--navy);padding:10px 16px;border-radius:10px;text-decoration:none;font-size:.85rem;font-weight:600">📋 Tutorial do Prontuário Clínico</a> <a href="https://cavesal.app/manual-cavesal-ia-pt.html" style="background:var(--teal-lt);color:var(--navy);padding:10px 16px;border-radius:10px;text-decoration:none;font-size:.85rem;font-weight:600">🧠 Tutorial do CaVeSal® IA</a> <a href="https://cavesal.app/precios.html" style="background:var(--teal-lt);color:var(--navy);padding:10px 16px;border-radius:10px;text-decoration:none;font-size:.85rem;font-weight:600">💰 Ver preços</a></div>
+</section>
+<p class="updated">Dúvidas sobre algum módulo? Escreva para <a href="mailto:drverasalerno@gmail.com">drverasalerno@gmail.com</a> · Última atualização: outubro de 2026</p>
+<p style="text-align:center"><a class="back-top" href="#top">↑ Voltar ao índice</a></p>
+</main>
+</body>
+</html>

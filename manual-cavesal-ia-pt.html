@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tutorial e Manual de Uso · CaVeSal® IA</title>
+<meta content="Manual completo de uso da CaVeSal® IA: como ativá-la, como usá-la a partir do Prontuário Clínico ou da Calculadora Pré-natal, modos de interação, cotas e planos." name="description"/>
+<meta content="CaVeSal" name="author"/>
+<meta content="website" property="og:type"/>
+<meta content="Tutorial e Manual de Uso · CaVeSal® IA" property="og:title"/>
+<meta content="Manual completo de uso da CaVeSal® IA: como ativá-la, como usá-la a partir do Prontuário Clínico ou da Calculadora Pré-natal, modos de interação, cotas e planos." property="og:description"/>
+<meta content="https://cavesal.app/manual-cavesal-ia.html" property="og:url"/>
+<meta content="https://cavesal.app/ogcover.jpg" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="CaVeSal® IA — Maternal Fetal Intelligence" property="og:image:alt"/>
+<meta content="CaVeSal®" property="og:site_name"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Tutorial e Manual de Uso · CaVeSal® IA" name="twitter:title"/>
+<meta content="Manual completo de uso da CaVeSal® IA: como ativá-la, como usá-la a partir do Prontuário Clínico ou da Calculadora Pré-natal, modos de interação, cotas e planos." name="twitter:description"/>
+<meta content="https://cavesal.app/ogcover.jpg" name="twitter:image"/>
+<style>
+  :root{
+    --navy:#0D1B2D;--teal:#0EA5B7;--teal-lt:#e6f7f9;--slate:#4a6274;--mist:#f2f7f9;--border:#d0e8ed;--gold:#c9a227;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--mist);color:var(--navy);line-height:1.6}
+  header{background:linear-gradient(135deg,#0D1B2D,#0EA5B7);color:#fff;padding:32px 20px;text-align:center}
+  header h1{font-size:1.4rem;font-weight:800}
+  header p{font-size:.9rem;opacity:.85;margin-top:6px}
+  main{max-width:760px;margin:0 auto;padding:28px 20px 60px}
+
+  nav.toc{background:#fff;border-radius:14px;padding:18px 20px;margin-bottom:22px;box-shadow:0 2px 12px rgba(14,165,183,.10)}
+  nav.toc h2{font-size:1rem;color:var(--teal);margin-bottom:10px}
+  nav.toc ol{padding-left:20px;font-size:.86rem}
+  nav.toc li{margin-bottom:4px}
+  nav.toc a{color:var(--navy);text-decoration:none}
+  nav.toc a:hover{color:var(--teal)}
+
+  section{background:#fff;border-radius:14px;padding:22px;margin-bottom:18px;box-shadow:0 2px 12px rgba(14,165,183,.10);scroll-margin-top:16px}
+  section h2{font-size:1.1rem;color:var(--teal);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+  section .ref{font-size:.74rem;color:var(--slate);margin-bottom:14px;font-style:italic}
+  section p{font-size:.9rem;margin-bottom:10px}
+
+  .step{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start}
+  .step-num{background:var(--teal);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.76rem;font-weight:800;flex-shrink:0;margin-top:2px}
+  .step p{font-size:.88rem;margin:0}
+
+  .tip{background:var(--teal-lt);border-left:3px solid var(--teal);border-radius:8px;padding:12px 14px;font-size:.85rem;margin-top:10px}
+  .warn{background:#fff8e6;border-left:3px solid var(--gold);border-radius:8px;padding:12px 14px;font-size:.85rem;margin-top:10px}
+  .locked{background:#f3f0ff;border-left:3px solid #7c5cff;border-radius:8px;padding:12px 14px;font-size:.85rem;margin-top:10px}
+
+  .shot{border:2px dashed var(--border);border-radius:12px;padding:22px;text-align:center;color:var(--slate);font-size:.82rem;margin:14px 0;background:#fafdfe}
+  .shot .cam{font-size:1.6rem;display:block;margin-bottom:6px}
+  .shot code{background:#eef7f9;padding:2px 6px;border-radius:5px;font-size:.78rem;color:var(--navy)}
+
+  table.demo-full{width:100%;border-collapse:collapse;font-size:.82rem;margin-top:10px}
+  table.demo-full th, table.demo-full td{border:1px solid var(--border);padding:7px 10px;text-align:left}
+  table.demo-full th{background:var(--teal-lt);color:var(--navy)}
+  table.demo-full td.lock{color:#7c5cff;font-weight:600}
+  table.demo-full td.free{color:#0d8f4a;font-weight:600}
+
+  .updated{font-size:.78rem;color:var(--slate);text-align:center;margin-top:20px}
+  a{color:var(--teal)}
+  .back-top{display:inline-block;margin-top:14px;font-size:.78rem}
+
+  .shots-row{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0}
+  .shots-row img{border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15)}
+  .shots-row.two img{max-width:calc(50% - 6px)}
+  .shots-row.three img{max-width:calc(33.333% - 8px)}
+  @media (max-width:520px){
+    .shots-row.two img,.shots-row.three img{max-width:100%}
+  }
+  .caption{font-size:.76rem;color:var(--slate);text-align:center;margin-top:4px}
+</style>
+<link rel="alternate" hreflang="es" href="https://cavesal.app/manual-cavesal-ia.html"/>
+<link rel="alternate" hreflang="en" href="https://cavesal.app/manual-cavesal-ia-en.html"/>
+<link rel="alternate" hreflang="pt-BR" href="https://cavesal.app/manual-cavesal-ia-pt.html"/>
+<link rel="alternate" hreflang="x-default" href="https://cavesal.app/manual-cavesal-ia.html"/>
+<style>.lang-sw{display:flex;justify-content:center;gap:6px;margin-top:12px;flex-wrap:wrap}.lang-sw a{color:#fff;text-decoration:none;font-size:.78rem;font-weight:700;padding:4px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.55);opacity:.85}.lang-sw a[aria-current]{background:#fff;color:#0D1B2D;opacity:1}</style>
+<style>@media(max-width:480px){table.demo-full{font-size:.76rem}table.demo-full th,table.demo-full td{padding:6px 4px}}</style>
+</head>
+<body>
+<header>
+<h1>🧠 Tutorial e Manual de Uso · CaVeSal® IA</h1>
+<p>Seu assistente clínico conectado à Calculadora e ao Prontuário Clínico</p>
+  <nav class="lang-sw" aria-label="Idioma / Language"><a href="manual-cavesal-ia.html" lang="es">ES</a><a href="manual-cavesal-ia-en.html" lang="en">EN</a><a href="manual-cavesal-ia-pt.html" lang="pt" aria-current="page">PT</a></nav>
+</header>
+<main>
+<nav class="toc" id="top">
+<h2>Conteúdo</h2>
+<ol>
+<li><a href="#que-es">O que é a CaVeSal® IA</a></li>
+<li><a href="#activacion">Como ativar sua conta</a></li>
+<li><a href="#acceso-hc">Acessar pelo Prontuário Clínico</a></li>
+<li><a href="#acceso-calc">Acessar pela Calculadora Pré-natal</a></li>
+<li><a href="#interfaz">A tela de chat: elementos da interface</a></li>
+<li><a href="#modos">Modos de interação: Consultar, Analisar, Pesquisar</a></li>
+<li><a href="#ejemplo">Exemplo real: um caso de risco elevado</a></li>
+<li><a href="#privacidad">Quais dados são enviados e o que acontece com eles</a></li>
+<li><a href="#planes">Planos, cotas e recarga</a></li>
+</ol>
+</nav>
+<section id="que-es">
+<h2>ℹ️ O que é a CaVeSal® IA</h2>
+<p>A <strong>CaVeSal® IA</strong> é sua assistente clínica de inteligência artificial, conectada transversalmente a todo o ecossistema CaVeSal® — hoje à Calculadora Pré-natal e ao Prontuário Clínico, e no futuro também ao CaVeSal® GYN, Emergência Obstétrica e Parto, e Neonatal. Não é um chatbot genérico: responde apoiando-se primeiro nos guias clínicos curados especificamente para a CaVeSal®, com respaldo em ACOG, FIGO, NICE, OMS, IADPSG e ATA, e só busca em fontes externas se você pedir explicitamente.</p>
+<div class="shots-row">
+<img alt="Logo CaVeSal® IA — Maternal Fetal Intelligence, com os 5 pilares: Integra, Compreende, Conecta, Protege, Potencializa" src="img/manual-ia-11-logo-cavesal-ia.jpg" style="max-width:100%"/>
+</div>
+<p class="caption">Os 5 pilares da CaVeSal® IA: <strong>Integra</strong> suas ferramentas clínicas, <strong>Compreende</strong> o caso, <strong>Conecta</strong> os dados entre apps, <strong>Protege</strong> as informações das suas pacientes, <strong>Potencializa</strong> sua prática.</p>
+<div class="shots-row" style="margin-top:16px">
+<img alt="Diagrama de conexão: CaVeSal® IA conectada à Calculadora Pré-natal, Prontuário Clínico, GYN, Emergência e Parto, e Neonatal" src="img/manual-ia-12-ecosistema-diagrama.jpg" style="max-width:100%"/>
+</div>
+<p class="caption">A CaVeSal® IA não é um app à parte: é a camada de inteligência que conecta todas as ferramentas do ecossistema.</p>
+<div class="tip">💡 <strong>Nunca diagnostica nem indica tratamento definitivo.</strong> Cada resposta clínica termina com o mesmo lembrete: <em>"A CaVeSal® IA é uma ferramenta de apoio. Não substitui o critério clínico do profissional responsável — a decisão final é sempre sua."</em></div></section>
+<section id="activacion">
+<h2>🔑 Como ativar sua conta</h2>
+<p>Diferente da Calculadora e do Prontuário Clínico (cadeado de ativação dentro do próprio app), a CaVeSal® IA é ativada uma única vez em <strong>ia.cavesal.app</strong>, com uma conta pessoal por e-mail — não por dispositivo.</p>
+<div class="step"><div class="step-num">1</div><p>Ao comprar seu plano (veja <a href="#planes">Planos, cotas e recarga</a>), você recebe por e-mail um <strong>código de ativação</strong>.</p></div>
+<div class="step"><div class="step-num">2</div><p>Entre em <strong>ia.cavesal.app</strong>, digite o código e seu e-mail, e escolha um <strong>PIN</strong> (o que quiser, para se identificar depois).</p></div>
+<div class="step"><div class="step-num">3</div><p>Daí em diante, você usa a CaVeSal® IA com seu e-mail e PIN em <strong>qualquer dispositivo</strong> — PC do consultório, celular, tablet — sem digitar o código de novo. O código é resgatado uma única vez.</p></div>
+<div class="step"><div class="step-num">4</div><p>Você escolhe o <strong>idioma das respostas</strong> (espanhol, inglês ou português) uma única vez, ao ativar sua conta.</p></div>
+<div class="tip">💡 Com sua conta da CaVeSal® IA ativada, o botão "Analizar con CaVeSal® IA" (Analisar com CaVeSal® IA) fica disponível tanto na Calculadora quanto no Prontuário Clínico, sem precisar ativar nada separadamente em cada app.</div>
+</section>
+<section id="acceso-hc">
+<h2>📋 Acessar pelo Prontuário Clínico</h2>
+<div class="step"><div class="step-num">1</div><p>Abra a ficha da paciente e toque em <strong>"Analizar con CaVeSal® IA"</strong> (Analisar com CaVeSal® IA) — fica entre os botões de exportação (PDF, Word, E-mail, WhatsApp, Imprimir, Enviar para a Calculadora), identificado com o ícone 🔒 e na cor violeta.</p></div>
+<div class="step"><div class="step-num">2</div><p>Abre-se a tela de chat com os dados <strong>daquela paciente específica</strong> já carregados como contexto — nunca de toda a sua base de pacientes.</p></div>
+<div class="warn">⚠️ Só são transferidos os <strong>dados estruturados e pré-carregáveis</strong> (idade, hemoglobina, DUM, antecedentes etc.). As observações em texto livre não são exportadas.</div>
+<div class="shots-row two">
+<img alt="Botão Analisar com CaVeSal® IA na ficha da paciente, no Prontuário Clínico" src="img/manual-ia-01-hc-boton.jpg"/>
+<img alt="Chat da CaVeSal® IA aberto, com a paciente identificada como Xx Nn e origem Enviado do Prontuário Clínico" src="img/manual-ia-02-chat-hc-inicio.jpg"/>
+</div>
+<p class="caption">A partir do Prontuário Clínico, a paciente é identificada pelo <strong>nome</strong> no chat.</p>
+</section>
+<section id="acceso-calc">
+<h2>📊 Acessar pela Calculadora Pré-natal</h2>
+<div class="step"><div class="step-num">1</div><p>Calcule o caso normalmente e vá até a aba <strong>"Resultado"</strong>.</p></div>
+<div class="step"><div class="step-num">2</div><p>No cartão <strong>"Analizar con CaVeSal® IA"</strong> (abaixo do Risco Global e dos dados de IG/DPP/IMC), toque em <strong>"Analizar 🔒"</strong> (Analisar) para enviar o caso para uma segunda leitura clínica.</p></div>
+<div class="step"><div class="step-num">3</div><p>Abre-se o chat com o cálculo atual já carregado como contexto — riscos calculados, achados por módulo (Doppler, biometria, DMG etc.) e idade gestacional.</p></div>
+<div class="shots-row two">
+<img alt="Cartão Analisar com CaVeSal® IA no painel de Resultado da Calculadora, com Risco Global Alto" src="img/manual-ia-09-calc-resultado-boton.jpg"/>
+<img alt="Chat da CaVeSal® IA aberto pela Calculadora, com a paciente identificada como 38 anos e origem Enviado da Calculadora Pré-natal" src="img/manual-ia-08-chat-calc-header.jpg"/>
+</div>
+<div class="tip">💡 A partir da Calculadora, a paciente é identificada apenas pela <strong>idade</strong> ("38 años" — 38 anos), nunca por nome ou documento — é uma decisão deliberada de design, coerente com o fato de a Calculadora também não guardar dados identificáveis.</div>
+</section>
+<section id="interfaz">
+<h2>💬 A tela de chat: elementos da interface</h2>
+<div class="step"><div class="step-num">1</div><p><strong>Seletor de idioma 🌐</strong>: muda o idioma das respostas (Español / English / Português) a qualquer momento da conversa.</p></div>
+<div class="step"><div class="step-num">2</div><p><strong>Contador de cota</strong> ("0 / 4 análisis guiados hoy" — análises guiadas hoje): mostra quanto da cota diária resta segundo seu plano — é zerado automaticamente todos os dias.</p></div>
+<div class="step"><div class="step-num">3</div><p><strong>"Recargar"</strong> (Recarregar): compre cota extra se ficou sem consultas ou análises por hoje (veja <a href="#planes">Planos, cotas e recarga</a>).</p></div>
+<div class="step"><div class="step-num">4</div><p><strong>"Salir"</strong> (Sair): encerra a sessão da CaVeSal® IA.</p></div>
+<div class="step"><div class="step-num">5</div><p><strong>Faixa de aviso</strong>: sempre visível acima da conversa — <em>"A CaVeSal® IA é uma ferramenta de apoio. Não substitui o critério clínico do profissional responsável — a decisão final é sempre sua."</em></p></div>
+<div class="step"><div class="step-num">6</div><p><strong>Indicador de modo e paciente</strong>: mostra em qual modo você está trabalhando ("Modo: Analizar paciente" — Modo: Analisar paciente) e o identificador da paciente ativa (nome ou idade, conforme a origem), com a etiqueta de onde veio o dado ("Enviado desde Historia Clínica" / "Enviado desde Calculadora Prenatal" — Enviado do Prontuário Clínico / da Calculadora Pré-natal).</p></div>
+<div class="step"><div class="step-num">7</div><p><strong>Conversa</strong>: suas mensagens aparecem à direita (balão turquesa), as respostas da CaVeSal® IA à esquerda (fundo branco), com formatação de texto enriquecido (negrito, listas) para facilitar a leitura rápida na consulta.</p></div>
+<div class="shots-row two">
+<img alt="Cabeçalho completo do chat: logo, seletor de idioma, cota, recarregar, sair, aviso, modo e paciente" src="img/manual-ia-08-chat-calc-header.jpg"/>
+<img alt="Mensagem do médico no chat, balão turquesa à direita" src="img/manual-ia-03-chat-hc-pregunta.jpg"/>
+</div>
+</section>
+<section id="modos">
+<h2>🧭 Modos de interação</h2>
+<div class="step"><div class="step-num">1</div><p><strong>Consultar (chatbot livre):</strong> faça perguntas pontuais durante a consulta, sem precisar enviar o caso completo de uma paciente — resposta concisa e direta.</p></div>
+<div class="step"><div class="step-num">2</div><p><strong>Analisar (agente guiado):</strong> o modo que você ativa com o botão da Calculadora ou do Prontuário Clínico. A CaVeSal® IA revisa o caso específico que você enviou e, se precisar de mais contexto, pede antes de responder em definitivo — nunca assume dados que não tem.</p></div>
+<div class="step"><div class="step-num">3</div><p><strong>Pesquisar (busca externa):</strong> só é ativado se você pedir explicitamente (ex.: "veja se há um guia atualizado"). A CaVeSal® IA deixa claro quando uma resposta vem de uma fonte externa, distinta dos guias curados.</p></div>
+<div class="tip">💡 <strong>Hierarquia de fontes:</strong> 1º os guias curados especificamente para a CaVeSal®, 2º os guias internacionais de referência (ACOG, FIGO, NICE, OMS, IADPSG, ATA), 3º busca externa — só sob pedido explícito.</div>
+<div class="shots-row two">
+<img alt="Resposta da CaVeSal IA analisando biomarcadores de pré-eclâmpsia com classificação de risco" src="img/manual-ia-06-chat-calc-pe.jpg"/>
+<img alt="Resposta citando os guias ACOG Practice Bulletin e RCOG Green-top Guideline com ano" src="img/manual-ia-07-chat-calc-guias.jpg"/>
+</div>
+<p class="caption">Cada resposta cita sua fonte (organização + número + ano), para que você mesmo possa verificá-la.</p>
+</section>
+<section id="ejemplo">
+<h2>🩺 Exemplo real: um caso de risco elevado</h2>
+<p>Esta troca mostra o modo Analisar em ação, sobre um caso enviado da Calculadora com <strong>Risco Global Alto</strong> (IP uterino + PAM do 2º trimestre elevados, sFlt-1/PlGF em faixa de suspeita).</p>
+<div class="step"><div class="step-num">1</div><p>O médico pergunta se convém interromper a gestação pelos parâmetros clínicos e laboratoriais maternos, ou aguardar as 37 semanas.</p></div>
+<div class="step"><div class="step-num">2</div><p>A CaVeSal® IA responde usando a <strong>idade gestacional real do caso</strong> (não uma resposta genérica): aponta que os biomarcadores sugerem um perfil materno de alto risco de pré-eclâmpsia tardia nas próximas 1–3 semanas, e esclarece de imediato que <strong>a decisão de interrupção não depende só do risco</strong> dependente dos biomarcadores, mas do quadro clínico completo — devolvendo a decisão final ao critério do médico responsável.</p></div>
+<div class="shots-row two">
+<img alt="Pergunta do médico: interromper a gestação pelos parâmetros clínicos e laboratoriais maternos ou aguardar as 37 semanas" src="img/manual-ia-08-chat-calc-header.jpg"/>
+<img alt="Resposta da CaVeSal IA usando a IG real do caso e remetendo a decisão final ao critério clínico" src="img/manual-ia-10-chat-calc-respuesta-eg.jpg"/>
+</div>
+<p class="caption">A resposta incorpora a idade gestacional e os achados já calculados pela Calculadora — não é preciso repeti-los.</p>
+<div class="tip">💡 Se sua pergunta ficar incompleta ou ambígua, a CaVeSal® IA pede que você a esclareça antes de responder em definitivo, em vez de adivinhar. Exemplo real (caso enviado do Prontuário Clínico): diante de "Cuando le hago su siguiente Ecografía" (Quando faço a próxima ecografia dela), o agente respondeu pedindo para precisar se a dúvida era sobre o que avaliar, quando realizá-la ou quais aspectos enfatizar no próximo exame.</div>
+<div class="shots-row two">
+<img alt="Pergunta ambígua do médico: quando faço a próxima ecografia dela" src="img/manual-ia-03-chat-hc-pregunta.jpg"/>
+<img alt="A CaVeSal IA pede para esclarecer a pergunta antes de responder" src="img/manual-ia-04-chat-hc-clarifica.jpg"/>
+</div>
+</section>
+<section id="privacidad">
+<h2>🔒 Quais dados são enviados e o que acontece com eles</h2>
+<div class="step"><div class="step-num">1</div><p>Só é compartilhado o que você decide enviar em cada clique — da Calculadora, o cálculo atual; do Prontuário Clínico, os dados estruturados da ficha aberta naquele momento.</p></div>
+<div class="step"><div class="step-num">2</div><p>As <strong>observações em texto livre</strong> do Prontuário Clínico nunca são exportadas.</p></div>
+<div class="step"><div class="step-num">3</div><p>A partir da Calculadora, a paciente é identificada só pela <strong>idade</strong> — nunca nome ou documento. A partir do Prontuário Clínico, o nome é enviado, porque é uma informação que você já tem cadastrada e controla no seu próprio dispositivo.</p></div>
+<div class="step"><div class="step-num">4</div><p>Os dados de cada consulta à CaVeSal® IA <strong>nunca ficam armazenados</strong>: cada interação é pontual e efêmera — é analisada e descartada, sem histórico salvo no servidor.</p></div>
+<div class="warn">⚠️ A CaVeSal® IA nunca diagnostica nem indica tratamento definitivo. Diante de um achado de gravidade extrema, destaca o dado com clareza e sugere avaliação médica imediata — não age por conta própria.</div>
+</section>
+<section id="planes">
+<h2>💳 Planos, cotas e recarga</h2>
+<table class="demo-full">
+<tr><th>Plano</th><th>Consultas/dia (chatbot)</th><th>Análises guiadas/dia</th><th>Preço</th></tr>
+<tr><td>Pro</td><td>20</td><td>4</td><td>USD 34,90/ano</td></tr>
+<tr><td>Premium</td><td>50</td><td>8</td><td>USD 59,90/ano</td></tr>
+<tr><td>Premium Plus</td><td>85</td><td>15</td><td>USD 99,90/ano</td></tr>
+</table>
+<p style="margin-top:12px">Pagamento único anual, sem renovação automática. Licença <strong>pessoal</strong> (por e-mail + o PIN que você escolhe) — não por dispositivo, então você a usa no PC do consultório e no celular com a mesma conta.</p>
+<div class="step"><div class="step-num">1</div><p>Sua cota é zerada automaticamente todos os dias.</p></div>
+<div class="step"><div class="step-num">2</div><p>A cota do dia acabou e você precisa continuar? Toque em <strong>"Recargar"</strong> (Recarregar) na tela de chat: <strong>USD 4,90 → +10 consultas + 2 análises guiadas</strong>. Esse saldo <strong>não vence</strong> e só é usado quando sua cota diária normal acaba.</p></div>
+<div class="tip">💡 A recarga exige já ter uma conta ativa da CaVeSal® IA (Pro, Premium ou Premium Plus) — não cria uma conta nova.</div>
+</section>
+<section style="text-align:center">
+<h2 style="justify-content:center">🔗 Mais recursos CaVeSal®</h2>
+<p style="font-size:.86rem;margin-bottom:14px">Quer conhecer o resto da suíte?</p>
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center"><a href="https://ia.cavesal.app" style="background:var(--teal-lt);color:var(--navy);padding:10px 16px;border-radius:10px;text-decoration:none;font-size:.85rem;font-weight:600">🧠 Ir para a CaVeSal® IA</a> <a href="https://cavesal.app/full/" style="background:var(--teal-lt);color:var(--navy);padding:10px 16px;border-radius:10px;text-decoration:none;font-size:.85rem;font-weight:600">📊 Ir para a Calculadora (full)</a> <a href="https://historia.cavesal.app" style="background:var(--teal-lt);color:var(--navy);padding:10px 16px;border-radius:10px;text-decoration:none;font-size:.85rem;font-weight:600">📋 Ir para o Prontuário Clínico (full)</a> <a href="https://cavesal.app/manual-calculadora-pt.html" style="background:var(--teal-lt);color:var(--navy);padding:10px 16px;border-radius:10px;text-decoration:none;font-size:.85rem;font-weight:600">📊 Tutorial da Calculadora</a> <a href="https://historia.cavesal.app/manual-historia-clinica-pt.html" style="background:var(--teal-lt);color:var(--navy);padding:10px 16px;border-radius:10px;text-decoration:none;font-size:.85rem;font-weight:600">📋 Tutorial do Prontuário Clínico</a> <a href="https://cavesal.app/precios.html" style="background:var(--teal-lt);color:var(--navy);padding:10px 16px;border-radius:10px;text-decoration:none;font-size:.85rem;font-weight:600">💰 Ver preços</a></div>
+</section>
+<p class="updated">Dúvidas sobre alguma função? Escreva para <a href="mailto:drverasalerno@gmail.com">drverasalerno@gmail.com</a> · Última atualização: setembro de 2026</p>
+<p style="text-align:center"><a class="back-top" href="#top">↑ Voltar ao índice</a></p>
+</main>
+</body>
+</html>
