@@ -11096,5 +11096,7 @@ function abrirContacto(){
   });
 })();
 </script>
+<script>/* Academy se abre aparte (no reemplaza la app) y lleva la clave para entrar directo */
+(function(){document.addEventListener("click",function(ev){var a=ev.target&&ev.target.closest?ev.target.closest('a[href^="/academy/"]'):null;if(!a)return;var k="";try{k=(localStorage.getItem("cavesal_full_unlocked")||"").trim();}catch(e){}if(k==="true"||k==="1")k="";var l=(document.documentElement.lang||"es").slice(0,2).toLowerCase();var h=[];if(k)h.push("k="+encodeURIComponent(k));if(l==="en"||l==="pt")h.push("lang="+l);a.href="/academy/?desde=calc"+(h.length?"#"+h.join("&"):"");a.target="_blank";a.rel="noopener";},true);})();</script>
 </body>
 </html>
