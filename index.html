@@ -25,6 +25,18 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="landing.css"/>
+<style>
+.hero-video{position:relative;max-width:880px;margin:24px auto 0;border-radius:22px;overflow:hidden;aspect-ratio:16/9;background:#0D1B2D;box-shadow:0 0 0 1px rgba(14,165,183,.25),var(--sh2)}
+.hero-video video{display:block;width:100%;height:100%;object-fit:cover}
+.hv-snd{position:absolute;right:14px;bottom:14px;display:inline-flex;align-items:center;gap:8px;padding:9px 15px 9px 12px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(13,27,45,.72);color:#fff;font:800 .82rem/1 var(--fb);cursor:pointer;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:background .2s}
+.hv-snd:hover{background:rgba(14,165,183,.9)}
+.hv-snd:focus-visible{outline:3px solid var(--teal-l);outline-offset:2px}
+.hv-snd svg{width:20px;height:20px;flex:none}
+.hv-snd .on{display:none}.hv-snd[aria-pressed="true"] .on{display:block}.hv-snd[aria-pressed="true"] .off{display:none}
+@media(max-width:600px){.hero-video{border-radius:16px;margin-top:18px}.hv-snd{right:8px;bottom:8px;width:40px;height:40px;padding:0;justify-content:center}.hv-snd span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}}
+.f-music{flex-basis:100%;color:rgba(255,255,255,.5)}
+.f-bot .f-music a{color:rgba(255,255,255,.7);text-decoration:underline}
+</style>
 </head>
 <body>
 <header class="topbar">
@@ -45,6 +57,15 @@
 <div class="tag">Maternal Fetal Intelligence</div>
 <h1>El ecosistema digital <span class="hl">que vela por tu salud</span></h1>
 <p class="sub">Mujer · Embarazo · Maternidad · Neonatología</p>
+<div class="hero-video">
+<video id="hv" autoplay muted loop playsinline preload="metadata" poster="img/landing/cavesal-ecosistema-poster.jpg" aria-label="Recorrido por las apps del ecosistema CaVeSal®"><source src="img/landing/cavesal-ecosistema.mp4" type="video/mp4"/></video>
+<button id="hv-snd" class="hv-snd" type="button" aria-pressed="false" aria-label="Activar música">
+<svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>
+<svg class="on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>
+<span>Activar música</span>
+</button>
+</div>
+<audio id="hv-audio" src="img/landing/cavesal-musica.m4a" loop preload="none"></audio>
 </div>
 </section>
 
@@ -185,9 +206,19 @@
 <div class="f-bot">
 <span>© 2026 CaVeSal® · Dr. Carlos Vera Salerno · Todos los derechos reservados</span>
 <a href="mailto:drverasalerno@gmail.com">drverasalerno@gmail.com</a>
+<span class="f-music">Música del video: «Canon in D Major» (J. Pachelbel), interpretación de Kevin MacLeod (<a href="https://incompetech.com" target="_blank" rel="noopener">incompetech.com</a>) · Licencia <a href="https://creativecommons.org/licenses/by/3.0/deed.es" target="_blank" rel="noopener">CC BY 3.0</a></span>
 </div>
 </div>
 </footer>
 <script src="landing.js" defer></script>
+<script>
+(function(){var v=document.getElementById("hv"),b=document.getElementById("hv-snd"),a=document.getElementById("hv-audio");if(!v||!b||!a)return;
+var l=b.querySelector("span");a.volume=.7;
+if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches){v.removeAttribute("autoplay");v.pause();}
+function set(on){b.setAttribute("aria-pressed",on?"true":"false");b.setAttribute("aria-label",on?"Silenciar música":"Activar música");l.textContent=on?"Silenciar":"Activar música";}
+b.addEventListener("click",function(){if(a.paused){var p=a.play();set(true);if(p&&p.catch)p.catch(function(){set(false);});}else{a.pause();set(false);}});
+document.addEventListener("visibilitychange",function(){if(document.hidden&&!a.paused){a.pause();set(false);}});
+})();
+</script>
 </body>
 </html>
