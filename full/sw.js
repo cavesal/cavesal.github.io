@@ -1,4 +1,4 @@
-const CACHE = "cavesal-full-v11";
+const CACHE = "cavesal-full-v12";
 
 self.addEventListener("install", e => {
   e.waitUntil(

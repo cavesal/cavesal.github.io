@@ -1142,7 +1142,7 @@ document.addEventListener('DOMContentLoaded', function(){
   </div>
   <div class="section-body">
     <div class="checks">
-      <label class="check-item" id="lbl_e_mult"><input type="checkbox" id="e_mult" onchange="toggleCheck('lbl_e_mult',this)"><span>Embarazo múltiple</span></label>
+      <label class="check-item" id="lbl_e_mult"><input type="checkbox" id="e_mult" onchange="toggleCheck('lbl_e_mult',this);if(typeof _vpSyncFetos==='function')_vpSyncFetos()"><span>Embarazo múltiple</span></label>
       <label class="check-item" id="lbl_e_tra"><input type="checkbox" id="e_tra" onchange="toggleCheck('lbl_e_tra',this)"><span>Reproducción asistida (TRA)</span></label>
       <label class="check-item" id="lbl_e_sang"><input type="checkbox" id="e_sang" onchange="toggleCheck('lbl_e_sang',this)"><span>Sangrado vaginal</span></label>
       <label class="check-item" id="lbl_e_rh"><input type="checkbox" id="e_rh" onchange="toggleCheck('lbl_e_rh',this)"><span>Rh negativa</span></label>
@@ -2080,6 +2080,24 @@ document.addEventListener('DOMContentLoaded', function(){
         <option value="insinuado">Insinuado</option>
         <option value="encajado">Encajado (III plano)</option>
       </select>
+    </div>
+  </div>
+  <div class="row2">
+    <div class="field"><label>Inicio del parto previsto</label>
+      <select id="vp_inicio" onchange="calcViaParto()">
+        <option value="">Espontáneo esperado (sin definir)</option>
+        <option value="espontaneo">Espontáneo esperado</option>
+        <option value="induccion">Inducción programada</option>
+        <option value="cesarea">Cesárea programada (antes del trabajo de parto)</option>
+      </select>
+      <div class="hint">Define los subgrupos 2a/2b y 4a/4b de Robson</div>
+    </div>
+    <div class="field"><label>Número de fetos</label>
+      <select id="vp_fetos" onchange="this.dataset.manual='1';calcViaParto()">
+        <option value="unico">Único</option>
+        <option value="multiple">Múltiple</option>
+      </select>
+      <div class="hint">Se toma de «Embarazo múltiple» de la Ficha</div>
     </div>
   </div>
 
@@ -3811,7 +3829,7 @@ Microcefalia: CC &lt;p3 para EG.</div>
       <strong style="color:var(--navy)">Arteria Oftálmica (AO) — PE y compromiso vascular:</strong> Gyselaers W et al. Ultrasound Obstet Gynecol 2020 · Verlohren S et al. Am J Obstet Gynecol 2012 · Kaituʻu-Lino TJ et al. Ultrasound Obstet Gynecol 2018 · Medicina Fetal Barcelona<br>
       <strong style="color:var(--navy)">Altura uterina:</strong> Algoritmo propio CaVeSal® · Análisis basado en Gomes AG. RBGO 2001 · CLAP-OPS/OMS<br>
       <strong style="color:var(--navy)">Ganancia ponderal:</strong> IOM/NAS 2009 · ACOG<br>
-      <strong style="color:var(--navy)">Vía de parto:</strong> Robson · Grobman (NICHD) · ACOG · Clasificación EG (término / pretérmino / postérmino): ACOG Practice Bulletin<br>
+      <strong style="color:var(--navy)">Vía de parto:</strong> Robson (OPS/OMS 2018, grupo probable) · FIGO 2025 (PVDC) · Grobman (NICHD) · ACOG · Clasificación EG (término / pretérmino / postérmino): ACOG Practice Bulletin<br>
       <strong style="color:var(--navy)">Seguimiento:</strong> ACOG · FIGO · NICE<br>
       <strong style="color:var(--navy)">Líquido amniótico (ILA / Bolsón mayor):</strong> SMFM Consult Series #46: Oligohydramnios (2018) · ACOG Clinical Consensus No. 3: Polyhydramnios (2022) · ISUOG Practice Guidelines: Ultrasound assessment of fetal biometry and growth (2024)<br>
       <strong style="color:var(--navy)">Trastornos hipertensivos del embarazo (HTA / Preeclampsia):</strong> ACOG Practice Bulletin No. 222: Gestational Hypertension and Preeclampsia (2020) · FIGO Guidelines on Preeclampsia Prevention and Management (2019) · ISSHP Classification, Diagnosis, and Management of the Hypertensive Disorders of Pregnancy (2021)
@@ -7108,6 +7126,54 @@ function calcPFE(){
 // ════════════════════════════════════════════════
 // VÍA DE PARTO
 // ════════════════════════════════════════════════
+// Robson — grupo probable (Calculadora Prenatal). Algoritmo propio CaVeSal® · Basado en: OPS/OMS 2018
+function _vpSyncFetos(){
+  const sel=document.getElementById('vp_fetos'), m=document.getElementById('e_mult');
+  if(!sel||!m||sel.dataset.manual==='1') return;
+  sel.value = m.checked ? 'multiple' : 'unico';
+  if(typeof calcViaParto==='function') calcViaParto();
+}
+function _vpRobson(d){
+  const {pv,ces,presentacion,egVP,inicio,multiple}=d;
+  if(!presentacion && !multiple) return null;
+  const nuli = pv===0 && ces===0;
+  const pre = egVP && egVP<37;
+  const P = {
+    '1':'Esperar inicio espontáneo; el grupo definitivo se asigna al ingreso.',
+    '3':'Esperar inicio espontáneo; el grupo definitivo se asigna al ingreso.',
+    '2a':'Inducción programada: confirmar indicación y Bishop.',
+    '4a':'Inducción programada: confirmar indicación y Bishop.',
+    '2b':'Cesárea programada: indicación documentada; sin indicación médica, no antes de 39 sem.',
+    '4b':'Cesárea programada: indicación documentada; sin indicación médica, no antes de 39 sem.',
+    '5.1':'Evaluar PVDC con el score de Grobman de esta tarjeta; misoprostol contraindicado.',
+    '5.2':'Dos cesáreas: consejería por obstetra senior. Tres o más: cesárea programada.',
+    '6':'Ofrecer versión cefálica externa (VCE) desde las 36 sem.',
+    '7':'Ofrecer versión cefálica externa (VCE) desde las 37 sem.',
+    '8':'Planificar según corionicidad y presentación del primer gemelo.',
+    '9':'VCE desde 37 sem; en trabajo de parto o con membranas rotas, cesárea.',
+    '10':'Plan de prematurez: maduración pulmonar según la conducta de la app; coordinar con neonatología.'
+  };
+  let g='', desc='', notas=[];
+  if(multiple){ g='8'; desc='Embarazo múltiple (incluye cesárea previa)'; }
+  else if(presentacion==='transversa'||presentacion==='oblicua'){ g='9'; desc='Feto único en situación transversa u oblicua (incluye cesárea previa)'; }
+  else if(presentacion==='pelvica'){
+    if(nuli){ g='6'; desc='Nulípara, feto único, pelviana'; }
+    else { g='7'; desc='Multípara, feto único, pelviana (incluye cesárea previa)'; }
+  } else if(presentacion==='cefalica'){
+    if(ces>0){ g = ces===1?'5.1':'5.2'; desc = (ces===1?'Una cesárea previa':'Dos o más cesáreas previas')+', feto único, cefálico, ≥37 sem'; }
+    else if(nuli){
+      if(inicio==='induccion'){ g='2a'; desc='Nulípara, feto único, cefálico, ≥37 sem, inducción'; }
+      else if(inicio==='cesarea'){ g='2b'; desc='Nulípara, feto único, cefálico, ≥37 sem, cesárea antes del trabajo de parto'; }
+      else { g='1'; desc='Nulípara, feto único, cefálico, ≥37 sem, trabajo de parto espontáneo'; if(!inicio) notas.push('Supone inicio espontáneo. Si se programa inducción pasa a 2a; si se programa cesárea, a 2b.'); }
+    } else {
+      if(inicio==='induccion'){ g='4a'; desc='Multípara sin cesárea previa, feto único, cefálico, ≥37 sem, inducción'; }
+      else if(inicio==='cesarea'){ g='4b'; desc='Multípara sin cesárea previa, feto único, cefálico, ≥37 sem, cesárea antes del trabajo de parto'; }
+      else { g='3'; desc='Multípara sin cesárea previa, feto único, cefálico, ≥37 sem, trabajo de parto espontáneo'; if(!inicio) notas.push('Supone inicio espontáneo. Si se programa inducción pasa a 4a; si se programa cesárea, a 4b.'); }
+    }
+    if(pre) notas.push('EG actual '+semDias(egVP)+' sem: si el nacimiento ocurre antes de las 37+0 sem pasa a <strong>Grupo 10</strong> — '+P['10']);
+  } else return null;
+  return {grupo:g, desc:'Grupo '+g+': '+desc, plan:P[g], notas};
+}
 function calcViaParto(){
   const pv = parseInt(document.getElementById('vp_pv').value)||0;
   const ces = parseInt(document.getElementById('vp_ces').value)||0;
@@ -7123,12 +7189,13 @@ function calcViaParto(){
   const indicCes = document.getElementById('vp_indic_ces').value;
   const pfe = window._pfe || null;
   _cavesalSetModuleResult('viaParto', []);
+  (function(){const f=document.getElementById('vp_fetos'),m=document.getElementById('e_mult');if(f&&m&&f.dataset.manual!=='1')f.value=m.checked?'multiple':'unico';})();
 
   // Show/hide cesárea previa block
   document.getElementById('bloque_cesarea_previa').style.display = ces>0?'block':'none';
   document.getElementById('bloque_grobman').style.display = (ces===1&&cicatriz==='segmentaria')?'block':'none';
 
-  if(!presentacion && !ces && !talla && !pfe){
+  if(!presentacion && !ces && !talla && !pfe && !((document.getElementById('vp_fetos')||{}).value==='multiple')){
     document.getElementById('vp_result').style.display='none'; return;
   }
 
@@ -7138,23 +7205,12 @@ function calcViaParto(){
   });
   const bishopTotal = bpVals.every(v=>v!==null) ? bpVals.reduce((a,b)=>a+b,0) : null;
 
-  // Robson group
-  let robsonGrupo = null, robsonDesc = '';
-  const nuliPara = pv===0 && ces===0;
-  const multiPara = pv>0;
-  const cesAreaSola = ces>0 && pv===0;
-
-  if(presentacion==='cefalica'){
-    if(nuliPara){ robsonGrupo=1; robsonDesc='Grupo 1: Nulípara, cefálica, ≥37 sem, trabajo de parto espontáneo'; }
-    else if(multiPara && ces===0){ robsonGrupo=3; robsonDesc='Grupo 3: Multípara, cefálica, ≥37 sem, sin cesárea previa'; }
-    else if(cesAreaSola){ robsonGrupo=5; robsonDesc='Grupo 5: Cesárea previa, cefálica, ≥37 sem'; }
-    else if(pv>0 && ces>0){ robsonGrupo=5; robsonDesc='Grupo 5: Cesárea previa, cefálica (con parto vaginal previo también)'; }
-  } else if(presentacion==='pelvica'){
-    if(nuliPara){ robsonGrupo=6; robsonDesc='Grupo 6: Nulípara, pélvica'; }
-    else{ robsonGrupo=7; robsonDesc='Grupo 7: Multípara, pélvica (incluyendo cesárea previa)'; }
-  } else if(presentacion==='transversa'||presentacion==='oblicua'){
-    robsonGrupo=9; robsonDesc='Grupo 9: Situación transversa u oblicua';
-  }
+  // Robson group (grupo probable, 6 variables) — Algoritmo propio CaVeSal® · Basado en OPS/OMS 2018
+  const rb = _vpRobson({pv, ces, presentacion, egVP,
+    inicio: (document.getElementById('vp_inicio')||{}).value||'',
+    multiple: ((document.getElementById('vp_fetos')||{}).value||'unico')==='multiple'});
+  const robsonGrupo = rb ? rb.grupo : null;
+  const robsonDesc = rb ? rb.desc : '';
 
   // DCP risk
   const tallaBaja145 = talla!==null && talla<145;
@@ -7261,7 +7317,10 @@ function calcViaParto(){
   if(pgr||abortEsp>=2) alertas.push('⚠️ Pérdida gestacional recurrente (≥2 abortos espontáneos): estudio etiológico completo. No impacta directamente la vía de parto pero sí el valor y vigilancia del embarazo.');
 
   // Robson
-  const robsonHTML = robsonGrupo ? `<span class="robson-badge">Robson Grupo ${robsonGrupo}</span><br><small style="font-size:.72rem;color:var(--slate)">${robsonDesc}</small>` : '';
+  const robsonHTML = rb ? `<span class="robson-badge">Robson · Grupo probable ${rb.grupo}</span><br><small style="font-size:.72rem;color:var(--slate)">${rb.desc}</small>`
+    + `<div style="font-size:.75rem;color:var(--navy);margin-top:4px;line-height:1.45"><strong>Planificación:</strong> ${rb.plan}</div>`
+    + (rb.notas.length ? rb.notas.map(n=>`<div style="font-size:.72rem;color:var(--slate);margin-top:3px;line-height:1.45">${n}</div>`).join('') : '')
+    + `<div style="font-size:.66rem;color:var(--slate);margin-top:4px">Grupo probable: el definitivo se asigna al ingreso para el parto (OMS). Algoritmo propio CaVeSal® · Basado en: OPS/OMS — Clasificación de Robson, manual de aplicación (2018) · FIGO 2025 (PVDC)</div>` : '';
 
   const colorMap={vaginal:'var(--green)',cesarea:'var(--red)',pvdc:'var(--amber)',evaluar:'var(--teal)'};
   const emojiMap={vaginal:'✅',cesarea:'⛔',pvdc:'⚡',evaluar:'ℹ️'};
@@ -7298,7 +7357,7 @@ function calcViaParto(){
   document.getElementById('vp_result').style.display='block';
   if(tipo && tipo!=='evaluar'){
     const _vpNivel = tipo==='cesarea'?'alto':tipo==='pvdc'?'moderado':'bajo';
-    _cavesalSetModuleResult('viaParto', [{nivel:_vpNivel, hallazgo:titulo, conducta:items.join('; ')+(alertas.length?' · '+_cavesalStripHtml(alertas.join(' ')):''), fuente:'ACOG · Robson · Grobman 2007'}]);
+    _cavesalSetModuleResult('viaParto', [{nivel:_vpNivel, hallazgo:titulo, conducta:(rb?'Robson grupo probable '+rb.grupo+': '+rb.plan+'; ':'')+items.join('; ')+(alertas.length?' · '+_cavesalStripHtml(alertas.join(' ')):''), fuente:'ACOG · OPS/OMS Robson 2018 · Grobman 2007'}]);
   }
 }
 
@@ -8557,6 +8616,7 @@ function limpiarFormulario(){
   ['vp_cicatriz','vp_indic_ces','vp_presentacion','vp_encaje'].forEach(function(id){
     var el=document.getElementById(id);if(el)el.value='';
   });
+  (function(){var f=document.getElementById('vp_fetos');if(f){f.value='unico';delete f.dataset.manual;}var i=document.getElementById('vp_inicio');if(i)i.value='';})();
   ['vp_pgr','vp_alto_valor','vp_cx_uterina','gr_pv_prev','gr_pv_post_ces','gr_trab_espon','gr_ind_no_rec'].forEach(function(id){
     var el=document.getElementById(id);if(el)el.checked=false;
   });
