@@ -89,7 +89,7 @@ h3{font-size:1.25rem;font-weight:700}
 /* Árbol del ecosistema */
 .tree{max-width:var(--w);margin:0 auto;padding:0 20px 8px}
 .tree-root{display:flex;justify-content:center}
-.tree-root img{width:180px;height:180px;border-radius:50%;box-shadow:0 0 0 6px #fff,0 0 0 8px rgba(14,165,183,.35),var(--sh2)}
+.tree-root>img{width:180px;height:180px;border-radius:50%;box-shadow:0 0 0 6px #fff,0 0 0 8px rgba(14,165,183,.35),var(--sh2)}
 .tree-stem{width:2px;height:36px;background:var(--teal);margin:0 auto}
 .tree-branches{--gap:28px;position:relative;display:grid;grid-template-columns:2fr 1fr;gap:var(--gap);padding-top:30px}
 .tree-branches::before{content:"";position:absolute;top:0;height:2px;background:var(--teal);left:calc((100% - var(--gap))/3);right:calc((100% - var(--gap))/6)}
@@ -127,7 +127,7 @@ a.tile:hover .logo-sq{transform:translateY(-2px);box-shadow:var(--sh2);border-co
 @media(max-width:520px){
   .tiles{grid-template-columns:repeat(3,1fr);gap:10px}
   .fem .tiles{grid-template-columns:repeat(2,1fr)}
-  .tree-root img{width:140px;height:140px}
+  .tree-root>img{width:140px;height:140px}
   .branch{padding:18px 14px}
 }
 
@@ -334,3 +334,37 @@ footer .col a:hover{color:var(--teal-l)}
 @media(max-width:760px){.invite-steps{grid-template-columns:1fr}}
 .price-line{flex-wrap:wrap;row-gap:2px}
 .price-line strong{white-space:nowrap}
+
+/* Mascota CaVeSal® IA */
+.mz-anim{display:block;flex-shrink:0;background:url(img/landing/mascota-ia-anim.webp) 0 0/800% 100% no-repeat;aspect-ratio:120/256;animation:mzOrb 1.6s steps(8) infinite}
+@keyframes mzOrb{to{background-position:114.2857% 0}}
+.mz-bubble{position:relative;background:#fff;border:1.5px solid rgba(14,165,183,.45);border-radius:16px;padding:10px 14px;font-size:.86rem;line-height:1.4;color:var(--navy);box-shadow:var(--sh);text-align:left}
+.mz-bubble::before{content:"";position:absolute;left:-8px;bottom:22px;width:14px;height:14px;background:#fff;border-left:1.5px solid rgba(14,165,183,.45);border-bottom:1.5px solid rgba(14,165,183,.45);transform:rotate(45deg)}
+.mz-bubble b{color:var(--teal-d)}
+.tree-root{position:relative}
+.mz-hero{position:absolute;left:calc(50% + 104px);bottom:-14px;display:flex;align-items:flex-end;gap:6px;width:min(330px,calc(50% - 104px));pointer-events:none}
+.mz-hero img{width:88px;height:auto;animation:mzIn .9s ease-out both,mzBob 3.2s ease-in-out 1s infinite}
+.mz-hero .mz-bubble{margin-bottom:62px;animation:mzPop .5s ease-out 1s both}
+@keyframes mzIn{from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:none}}
+@keyframes mzBob{50%{transform:translateY(-6px)}}
+@keyframes mzPop{from{opacity:0;transform:scale(.85) translateY(6px)}to{opacity:1;transform:none}}
+.ia-wrap{position:relative;width:100%}
+.ia-wrap .mz-anim{position:absolute;right:-8px;bottom:-6px;width:34%;filter:drop-shadow(0 2px 3px rgba(13,27,45,.25));pointer-events:none}
+.mz-fem{display:flex;align-items:flex-end;gap:8px;margin:-4px 0 16px}
+.mz-fem .mz-anim{width:50px}
+.mz-fem .mz-bubble{border-color:rgba(163,35,143,.35);margin-bottom:10px}
+.mz-fem .mz-bubble::before{border-color:rgba(163,35,143,.35)}
+.mz-fem .mz-bubble b{color:var(--mujer)}
+.mz-pro{display:flex;align-items:flex-end;gap:8px;margin:2px 0 14px}
+.mz-pro .mz-anim{width:46px}
+.mz-pro .mz-bubble{margin-bottom:8px}
+@media(max-width:900px){
+  .tree-root{flex-direction:column;align-items:center;gap:6px}
+  .mz-hero{position:static;width:auto;max-width:340px;padding:0 4px}
+  .mz-hero img{width:64px}
+  .mz-hero .mz-bubble{margin-bottom:40px}
+}
+@media(prefers-reduced-motion:reduce){
+  .mz-anim{animation:none;background-position:57.14% 0}
+  .mz-hero img,.mz-hero .mz-bubble{animation:none}
+}
