@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Panel de pedidos · CaVeSal®</title>
 <meta name="robots" content="noindex, nofollow">
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="CaVeSal®"/>
+<meta property="og:title" content="Panel de pedidos · CaVeSal®"/>
+<meta property="og:description" content="Panel privado de autor — CaVeSal® Maternal Fetal Intelligence."/>
+<meta property="og:url" content="https://cavesal.app/claves.html"/>
+<meta property="og:image" content="https://cavesal.app/img/landing/og-cavesal.jpg"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="CaVeSal® — El ecosistema digital que vela por tu salud"/>
 <style>
   :root{
     --navy:#0D1B2D;--teal:#0EA5B7;--teal-lt:#e6f7f9;--slate:#4a6274;--mist:#f2f7f9;--border:#d0e8ed;
@@ -29,6 +38,17 @@
   .error-box{background:var(--red-lt);border-left:3px solid var(--red);border-radius:8px;padding:10px 12px;font-size:.82rem;color:var(--red);margin-top:10px}
   #login_screen{max-width:380px;margin:40px auto 0}
   #panel_screen{display:none}
+  .pwd-wrap{position:relative}
+  .pwd-wrap input{padding-right:40px}
+  .pwd-toggle{position:absolute;right:4px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1.05rem;padding:6px 8px;line-height:1;color:var(--slate)}
+  .link-btn{background:none;border:none;color:var(--teal);font-size:.8rem;font-weight:700;cursor:pointer;padding:0;margin-top:10px;text-decoration:underline}
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(13,27,45,.55);z-index:50;align-items:center;justify-content:center;padding:20px}
+  .modal-overlay.open{display:flex}
+  .modal-box{background:#fff;border-radius:14px;padding:22px;max-width:360px;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+  .modal-box h3{font-size:1rem;color:var(--navy);margin-bottom:10px}
+  .modal-box p{font-size:.84rem;color:var(--slate);line-height:1.6;margin-bottom:8px}
+  .modal-box ol{font-size:.84rem;color:var(--slate);line-height:1.7;margin:0 0 14px 18px}
+  .modal-box .btn{width:100%}
   .toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
   .toolbar h2{font-size:1rem;color:var(--navy)}
   .pedido{border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:12px}
@@ -63,9 +83,27 @@
     <label for="login_email">Email de autor</label>
     <input type="email" id="login_email" placeholder="drverasalerno@gmail.com">
     <label for="login_pin">PIN</label>
-    <input type="password" id="login_pin" placeholder="••••••">
+    <div class="pwd-wrap">
+      <input type="password" id="login_pin" placeholder="••••••">
+      <button type="button" class="pwd-toggle" id="btn_toggle_pin" onclick="togglePin()" aria-label="Mostrar/ocultar PIN" title="Mostrar/ocultar PIN">👁️</button>
+    </div>
     <div id="login_error"></div>
     <button class="btn btn-primary" id="btn_login" onclick="hacerLogin()">Entrar</button>
+    <button type="button" class="link-btn" onclick="document.getElementById('modal_recuperar_pin').classList.add('open')">¿Olvidaste tu PIN?</button>
+  </div>
+
+  <div class="modal-overlay" id="modal_recuperar_pin">
+    <div class="modal-box">
+      <h3>🔑 Recuperar PIN</h3>
+      <p>Este panel usa el PIN de autor que guardaste en tu propio proyecto de Apps Script — no hay backend de recuperación automática.</p>
+      <ol>
+        <li>Abrí tu proyecto de Apps Script (script.google.com).</li>
+        <li>Menú ⚙️ Configuración del proyecto → Propiedades del script.</li>
+        <li>Buscá la propiedad <code>AUTOR_PIN</code> — ahí está tu PIN actual (y <code>AUTOR_EMAIL</code> para el email).</li>
+        <li>Si querés cambiarlo, editá el valor de <code>AUTOR_PIN</code> ahí mismo y guardá.</li>
+      </ol>
+      <button class="btn btn-primary" onclick="document.getElementById('modal_recuperar_pin').classList.remove('open')">Entendido</button>
+    </div>
   </div>
 
   <div id="panel_screen">
@@ -148,6 +186,14 @@ async function llamarAPI(params, maxIntentos){
       throw e;
     }
   }
+}
+
+function togglePin(){
+  const input = document.getElementById('login_pin');
+  const btn = document.getElementById('btn_toggle_pin');
+  const oculto = input.type === 'password';
+  input.type = oculto ? 'text' : 'password';
+  btn.textContent = oculto ? '🙈' : '👁️';
 }
 
 async function hacerLogin(){
