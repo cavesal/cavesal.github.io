@@ -51,7 +51,12 @@
 </div>
 <div class="mz-fem mz-top"><span class="mz-anim" role="img" aria-label="Mascota de CaVeSal®"></span><p class="mz-bubble">¡Hola! Qué lindo que estés por acá. <b>Mamá</b> y <b>Mujer</b> son gratis y te acompañan junto al profesional de salud que te cuida. Elegí la tuya y empezamos.</p></div>
 </div>
-<div class="ph"><img src="img/landing/mujer-hero.jpg" alt="Madre sonriendo con su bebé en brazos" width="768" height="512" fetchpriority="high"/></div>
+<div class="ph vid"><video id="hv" autoplay muted loop playsinline preload="metadata" poster="img/landing/mujer-video-poster.jpg" aria-label="Recorrido por CaVeSal® Mamá y CaVeSal® Mujer"><source src="img/landing/mujer-video.mp4" type="video/mp4"/></video>
+<button class="hv-snd" type="button" data-music-btn aria-pressed="false" aria-label="Activar música">
+<svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>
+<svg class="on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>
+<span>Activar música</span>
+</button></div>
 </div>
 </section>
 
@@ -257,9 +262,11 @@
 <div class="f-bot">
 <span>© 2026 CaVeSal® · Dr. Carlos Vera Salerno · Todos los derechos reservados</span>
 <a href="mailto:drverasalerno@gmail.com">drverasalerno@gmail.com</a>
+<span class="f-music">Música: «Claro de luna» (C. Debussy), interpretación de Laurens Goedhart (<a href="https://commons.wikimedia.org/wiki/File:Clair_de_lune_(Claude_Debussy)_Suite_bergamasque.ogg" target="_blank" rel="noopener">Wikimedia Commons</a>) · Dominio público</span>
 </div>
 </div>
 </footer>
 <script src="landing.js" defer></script>
+<script>(function(){var v=document.getElementById("hv");if(v&&window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches){v.removeAttribute("autoplay");v.pause();}})();</script>
 </body>
 </html>
