@@ -358,6 +358,13 @@ footer .col a:hover{color:var(--teal-l)}
 .mz-pro{display:flex;align-items:flex-end;gap:8px;margin:2px 0 14px}
 .mz-pro .mz-anim{width:46px}
 .mz-pro .mz-bubble{margin-bottom:8px}
+.mz-top{margin:22px 0 0;max-width:470px}
+.mz-plus{margin:16px 0 0}
+.mz-plus .mz-bubble{margin-bottom:10px}
+.mz-mama .mz-bubble{border-color:rgba(190,24,93,.35)}
+.mz-mama .mz-bubble::before{border-color:rgba(190,24,93,.35)}
+.mz-fem.mz-mama .mz-bubble b{color:var(--mama)}
+.mz-plus .mz-bubble::before{bottom:auto;top:40%}
 @media(max-width:900px){
   .tree-root{flex-direction:column;align-items:center;gap:6px}
   .mz-hero{position:static;width:auto;max-width:340px;padding:0 4px}
