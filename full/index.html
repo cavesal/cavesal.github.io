@@ -7305,12 +7305,14 @@ function calcViaParto(){
 
   // Bishop
   if(bishopTotal!==null){
-    const bishopFavor = bishopTotal>=6;
-    const bishopDesc = bishopTotal>=8?'Muy favorable (>8): inducción con alta tasa de éxito':
-      bishopTotal>=6?'Favorable (6–7): inducción razonable':
-      bishopTotal>=4?'Desfavorable (4–5): maduración cervical recomendada (misoprostol/dinoprostona/balón)':
-      'Muy desfavorable (<4): maduración cervical necesaria. Valorar cesárea electiva';
-    alertas.push(`📋 <strong>Bishop ${bishopTotal}/13:</strong> ${bishopDesc}`);
+    const bishopFavor = bishopTotal>8;
+    const bishopDesc = bishopTotal>8?'Favorable (más de 8): probabilidad de parto vaginal similar al trabajo de parto espontáneo; inducción con oxitocina, con o sin amniotomía':
+      bishopTotal>=7?'Intermedio (7–8): NICE indica amniotomía y oxitocina (más de 6); ACOG todavía no lo considera favorable (más de 8). Decidir según paridad y contexto':
+      'Desfavorable (6 o menos): maduración cervical antes de la oxitocina (misoprostol, dinoprostona o balón)';
+    alertas.push(`📋 <strong>Bishop ${bishopTotal}/13:</strong> ${bishopDesc}. <span style="font-size:.85em;opacity:.8">Fuentes: ACOG PB 107 · NICE NG207 · StatPearls</span>`);
+  } else if(bpVals[0]!==null && bpVals[1]!==null && bpVals[2]!==null){
+    const bs = bpVals[0]+bpVals[1]+bpVals[2];
+    alertas.push(`📋 <strong>Bishop simplificado ${bs}/9</strong> (dilatación, borramiento, estación): ${bs>5?'favorable (más de 5)':'desfavorable (5 o menos): maduración cervical antes de la oxitocina'}. Completá consistencia y posición para el Bishop completo. <span style="font-size:.85em;opacity:.8">Fuente: StatPearls</span>`);
   }
 
   // PGR
