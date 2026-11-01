@@ -3710,39 +3710,36 @@ Microcefalia: CC &lt;p3 para EG.</div>
   <div style="font-size:.65rem;color:#4a6274;margin-top:4px">v2.0 · Dr. Carlos Vera Salerno</div>
 </div>
 
-<!-- Tutoriales -->
-<div style="display:flex;flex-direction:column;gap:10px;padding:16px 16px 4px">
-  <a href="https://cavesal.app/manual-calculadora.html" target="_blank" rel="noopener"
-     style="display:flex;align-items:center;gap:10px;background:var(--teal);color:#fff;text-decoration:none;border-radius:10px;padding:12px 16px;font-weight:600;font-size:.9rem">
-    <span style="font-size:1.2rem">📊</span>
-    <div>
-      <div>Tutorial · Calculadora CaVeSal®</div>
-      <div style="font-size:.75rem;font-weight:400;opacity:.9">Guía completa de uso paso a paso</div>
-    </div>
-    <span style="margin-left:auto;font-size:1rem">↗</span>
-  </a>
-  <a href="https://historia.cavesal.app/manual-historia-clinica.html" target="_blank" rel="noopener"
-     style="display:flex;align-items:center;gap:10px;background:var(--teal-light,#e0f2f1);color:var(--teal);text-decoration:none;border-radius:10px;padding:12px 16px;font-weight:600;font-size:.9rem;border:1.5px solid var(--teal)">
-    <span style="font-size:1.2rem">📋</span>
-    <div>
-      <div>Tutorial · Historia Clínica CaVeSal®</div>
-      <div style="font-size:.75rem;font-weight:400;opacity:.8">Guía completa de uso paso a paso</div>
-    </div>
-    <span style="margin-left:auto;font-size:1rem">↗</span>
-  </a>
-</div>
-
-<!-- ════ CaVeSal® Academy ════ -->
-<div style="padding:6px 16px 12px">
-  <a href="/academy/" style="display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#0B3C5D,#1a7f8a);color:#fff;text-decoration:none;border-radius:14px;padding:14px 16px;box-shadow:0 3px 12px rgba(11,60,93,.25)">
-    <img src="/academy/img/academy-logo.jpg" alt="CaVeSal® Academy" width="76" height="56" style="width:76px;height:56px;object-fit:contain;background:#fff;border-radius:10px;padding:3px;flex-shrink:0">
-    <div style="min-width:0">
-      <div style="font-size:1rem;font-weight:800">CaVeSal® Academy</div>
-      <div style="font-size:.76rem;opacity:.92;line-height:1.45;margin-top:2px">Todas las guías CaVeSal® en un solo lugar: Historia Clínica, Emergencias, biblioteca y buscador de artículos y guías oficiales. En español, inglés y portugués.</div>
-      <div style="font-size:.7rem;font-weight:700;color:#4DD9E0;margin-top:5px">Incluida en tu versión Full</div>
-    </div>
-    <span style="margin-left:auto;font-size:1.1rem">↗</span>
-  </a>
+<style>
+.cvs-eco{font-family:inherit;color:#0d1b2d;margin:12px 16px}
+.cvs-eco *{box-sizing:border-box}
+.cvs-card{background:#fff;border:1px solid #d7e6ea;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 2px 10px rgba(13,27,45,.06)}
+.cvs-card h2{font-size:1.05rem;margin:0 0 4px;color:#0b3c5d}
+.cvs-card .cvs-sub{font-size:.8rem;color:#4a6274;margin:0 0 12px;line-height:1.45}
+.cvs-robot{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#e8f7f9,#f5f0ff);border-color:#b9dfe6}
+.cvs-robot img.cvs-mz{width:120px;height:auto;flex-shrink:0;filter:drop-shadow(0 4px 6px rgba(13,27,45,.2))}
+.cvs-bub{position:relative;background:#fff;border:1.5px solid rgba(14,165,183,.45);border-radius:16px;padding:12px 14px;font-size:.9rem;line-height:1.45;margin:0 0 12px}
+.cvs-bub::before{content:"";position:absolute;left:-8px;top:40%;width:14px;height:14px;background:#fff;border-left:1.5px solid rgba(14,165,183,.45);border-bottom:1.5px solid rgba(14,165,183,.45);transform:rotate(45deg)}
+.cvs-bub b{color:#0e7c8a}
+.cvs-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.cvs-cta{display:inline-flex;align-items:center;gap:6px;background:#0b3c5d;color:#fff!important;text-decoration:none;border-radius:999px;padding:10px 18px;font-weight:700;font-size:.9rem}
+.cvs-qr{display:flex;align-items:center;gap:8px;font-size:.72rem;color:#4a6274;text-decoration:none}
+.cvs-qr img{width:64px;height:64px;border-radius:8px;border:1px solid #d7e6ea;background:#fff}
+.cvs-apps{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.cvs-app{display:flex;align-items:center;gap:12px;border:1px solid #d7e6ea;border-radius:14px;padding:10px 12px;text-decoration:none;color:inherit;background:#fbfdfe}
+.cvs-app:hover{border-color:#0e7c8a}
+.cvs-ico{width:52px;height:52px;border-radius:12px;overflow:hidden;flex-shrink:0;background:#fff;border:1px solid #e3eef1}.cvs-ico img{width:100%;height:100%;object-fit:cover;transform:scale(1.45)}
+.cvs-app strong{display:block;font-size:.88rem;color:#0b3c5d}
+.cvs-app span{display:block;font-size:.74rem;color:#4a6274;line-height:1.35}
+.cvs-app em{font-style:normal;margin-left:auto;color:#0e7c8a;font-weight:700}
+.cvs-links{display:flex;flex-direction:column;gap:8px}
+.cvs-link{display:flex;align-items:center;gap:10px;border:1px solid #d7e6ea;border-radius:12px;padding:10px 14px;text-decoration:none;color:#0b3c5d;font-weight:600;font-size:.86rem;background:#fbfdfe}
+.cvs-link em{font-style:normal;margin-left:auto;color:#0e7c8a}
+.cvs-link.act{background:#0e7c8a;color:#fff;border-color:#0e7c8a}.cvs-link.act em{color:#fff}
+@media (max-width:520px){.cvs-robot{flex-direction:column;text-align:left}.cvs-robot img.cvs-mz{width:110px}.cvs-bub::before{left:40%;top:-8px;transform:rotate(135deg)}}
+</style><div class="cvs-eco">
+<section class="cvs-card cvs-robot"><img class="cvs-mz" src="https://cavesal.app/img/landing/mascota-ia.webp" alt="Robotita de CaVeSal® IA" width="408" height="640" loading="lazy"><div><p class="cvs-bub">¡Hola, colega! Soy <b>CaVeSal® IA</b>. Conocé todo el ecosistema en <b>cavesal.app</b>: usá nuestras apps profesionales e invitá a tus pacientes a descargar gratis <b>CaVeSal® Mamá</b> y <b>CaVeSal® Mujer</b>.</p><div class="cvs-row"><a class="cvs-cta" href="https://cavesal.app/" target="_blank" rel="noopener">Ir a cavesal.app ↗</a><a class="cvs-qr" href="https://cavesal.app/" target="_blank" rel="noopener"><img src="https://cavesal.app/cavesal-emergencias/img/qr-ecosistema.png" alt="QR cavesal.app" width="64" height="64" loading="lazy">QR maestro<br>cavesal.app</a></div></div></section>
+<section class="cvs-card"><h2>Ecosistema profesional</h2><p class="cvs-sub">Cada app abre directo. Las claves se activan por app.</p><div class="cvs-apps"><a class="cvs-app" href="https://cavesal.app/cavesal-emergencias/full/" target="_blank" rel="noopener"><div class="cvs-ico"><img src="https://cavesal.app/img/landing/logo-emergencias.jpg" alt="" width="52" height="52" loading="lazy"></div><div><strong>Emergencias Obstétricas CaVeSal®</strong><span>Códigos Rojo, THAE, Amarillo y Azul</span></div><em>↗</em></a><a class="cvs-app" href="https://historia.cavesal.app/" target="_blank" rel="noopener"><div class="cvs-ico"><img src="https://cavesal.app/img/landing/logo-historia-clinica.jpg" alt="" width="52" height="52" loading="lazy"></div><div><strong>Historia Clínica CaVeSal®</strong><span>Historia prenatal conectada con la calculadora</span></div><em>↗</em></a><a class="cvs-app" href="https://ia.cavesal.app/" target="_blank" rel="noopener"><div class="cvs-ico"><img src="https://cavesal.app/img/landing/logo-ia.jpg" alt="" width="52" height="52" loading="lazy"></div><div><strong>CaVeSal® IA</strong><span>Analizá tus casos con las guías</span></div><em>↗</em></a><a class="cvs-app" href="https://cavesal.app/academy/" target="_blank" rel="noopener"><div class="cvs-ico"><img src="https://cavesal.app/img/landing/logo-academy.jpg" alt="" width="52" height="52" loading="lazy"></div><div><strong>CaVeSal® Academy</strong><span>Todas las guías en un solo lugar, en 3 idiomas</span></div><em>↗</em></a></div></section>
 </div>
 
 <!-- ════ INVITÁ A TU PACIENTE — Ecosistema CaVeSal® ════ -->
@@ -3774,9 +3771,11 @@ Microcefalia: CC &lt;p3 para EG.</div>
       </a>
     </div>
     <div style="font-size:.62rem;color:var(--slate);text-align:center;margin-top:6px">Gratis para siempre · Planes Premium opcionales · Sin tarjeta de crédito para empezar</div>
-    <div style="font-size:.62rem;color:var(--slate);text-align:center;margin-top:4px">Estas Aplicaciones orientan a la paciente y la acercan a su médico — no reemplazan su criterio.</div>
+    <div style="font-size:.62rem;color:var(--slate);text-align:center;margin-top:4px">Estas Aplicaciones orientan a la paciente y la acercan al profesional de salud que la cuida — no reemplazan su criterio.</div>
   </div>
 </div>
+
+<div class="cvs-eco"><section class="cvs-card"><h2>Tutoriales y activación</h2><p class="cvs-sub">Guías paso a paso de cada app y cómo activar tu clave.</p><div class="cvs-links"><a class="cvs-link act" href="https://cavesal.app/instrucciones.html" target="_blank" rel="noopener" style="background:#0b3c5d;border-color:#0b3c5d">Cómo activar tu clave<em>↗</em></a><a class="cvs-link" href="https://cavesal.app/cavesal-emergencias/manual.html" target="_blank" rel="noopener">Tutorial · Emergencias Obstétricas CaVeSal®<em>↗</em></a><a class="cvs-link act" href="https://cavesal.app/manual-calculadora.html" target="_blank" rel="noopener">Tutorial · Calculadora CaVeSal®<em>↗</em></a><a class="cvs-link" href="https://historia.cavesal.app/manual-historia-clinica.html" target="_blank" rel="noopener">Tutorial · Historia Clínica CaVeSal®<em>↗</em></a><a class="cvs-link" href="https://cavesal.app/manual-cavesal-ia.html" target="_blank" rel="noopener">Tutorial · CaVeSal® IA<em>↗</em></a><a class="cvs-link" href="https://cavesal.app/academy/manual.html" target="_blank" rel="noopener">Tutorial · CaVeSal® Academy<em>↗</em></a></div></section></div>
 
 <div class="section-card" style="margin-bottom:10px">
   <div class="section-head open" onclick="toggleSection(this)"><span class="icon">👨‍⚕️</span><h2>Autor clínico</h2><span class="chevron">▼</span></div>
