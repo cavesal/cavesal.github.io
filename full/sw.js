@@ -1,8 +1,8 @@
-const CACHE = "cavesal-full-v15";
+const CACHE = "cavesal-full-v16";
 
 self.addEventListener("install", e => {
   e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(["./"])).then(() => self.skipWaiting())
+    caches.open(CACHE).then(c => c.addAll(["./","../cvs-export.js?v=1"])).then(() => self.skipWaiting())
   );
 });
 

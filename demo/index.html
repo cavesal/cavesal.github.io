@@ -2446,9 +2446,9 @@ function calcular(){
   </div>`;
 
   html+=`<div style="margin:12px 0;padding:14px;border-radius:14px;background:linear-gradient(135deg,#f5f0ff,#faf7ff);border:1.5px solid #c9b3f5;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
-    <div class="ia-mz"><span class="ia-mz-anim" role="img" aria-label="Robotita de CaVeSal® IA"></span><div class="ia-mz-body"><div class="ia-mz-title">Analizar con CaVeSal® IA</div><p class="ia-mz-bub">¿Querés ir más a fondo? La calculadora ya te dio el resultado; enviame el caso y lo analizo con las guías FMF, ACOG, FIGO, NICE y OMS. Vos decidís; yo te ayudo a pensar cada caso.</p><div class="ia-mz-priv">No se envían nombre ni documento.</div></div></div>
-    <button onclick="analizarConCavesalIA()" style="background:#7c3aed;color:#fff;border:none;border-radius:10px;padding:9px 16px;font-size:.82rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px">
-      <span>Analizar</span>
+    <div class="ia-mz"><span class="ia-mz-anim" role="img" aria-label="Robotita de CaVeSal® IA"></span><div class="ia-mz-body"><div class="ia-mz-title">Analizar con CaVeSal® IA</div><p class="ia-mz-bub">¿Querés ir más a fondo? La calculadora ya te dio el resultado; enviame el caso y lo analizo con las guías FMF, ACOG, FIGO, NICE y OMS. Vos decidís; yo te ayudo a pensar cada caso.</p><div class="ia-mz-priv">Disponible en la versión completa.</div></div></div>
+    <button onclick="abrirContacto()" style="background:#7c3aed;color:#fff;border:none;border-radius:10px;padding:9px 16px;font-size:.82rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px">
+      <span>Analizar 🔒</span>
     </button>
   </div>`;
 
@@ -2680,6 +2680,7 @@ function calcular(){
     clPI1, clAO2, clPG, clPI2, clSF,
   };
 
+  html+=(window.cvsExportBar?window.cvsExportBar():'');
   document.getElementById('results').innerHTML=html;
   document.getElementById('results').style.display='block';
   showTab('resultado');
@@ -5987,5 +5988,6 @@ function abrirContacto(){
   });
 })();
 </script>
+<script src="../cvs-export.js?v=1" data-mode="demo"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
-const CACHE = "cavesal-demo-v7";
-const ASSETS = ["./"];
+const CACHE = "cavesal-demo-v8";
+const ASSETS = ["./","../cvs-export.js?v=1"];
 
 self.addEventListener("install", e => {
   e.waitUntil(
