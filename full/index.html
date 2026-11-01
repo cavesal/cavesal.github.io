@@ -499,6 +499,18 @@ main{padding:14px;max-width:680px;margin:0 auto}
 .upgrade-box{background:#fff;border-radius:20px 20px 0 0;padding:22px 18px 30px;width:100%;max-width:520px;position:relative}
 .btn-upgrade-primary{display:block;width:100%;padding:14px;background:linear-gradient(135deg,#0D1B2D,#0EA5B7);color:#fff;border:none;border-radius:12px;font-size:.92rem;font-weight:800;cursor:pointer;text-align:center;text-decoration:none;margin-bottom:8px}
 
+
+/* Robotita CaVeSal IA en el puente */
+.ia-mz{display:flex;align-items:flex-end;gap:10px;flex:1 1 300px;min-width:0}
+.ia-mz-anim{display:block;flex-shrink:0;width:52px;aspect-ratio:120/256;background:url(../img/landing/mascota-ia-anim.webp) 0 0/800% 100% no-repeat;animation:iaMzOrb 1.6s steps(8) infinite,iaMzBob 3.2s ease-in-out infinite;filter:drop-shadow(0 2px 3px rgba(13,27,45,.22))}
+@keyframes iaMzOrb{to{background-position:114.2857% 0}}
+@keyframes iaMzBob{50%{transform:translateY(-4px)}}
+.ia-mz-body{min-width:0;flex:1}
+.ia-mz-title{font-size:.9rem;font-weight:700;color:#5b21b6;margin-bottom:4px}
+.ia-mz-bub{position:relative;background:#fff;border:1.5px solid #c9b3f5;border-radius:14px;padding:9px 12px;font-size:.8rem;line-height:1.4;color:#1e293b;margin:0 0 12px 6px}
+.ia-mz-bub::before{content:"";position:absolute;left:-8px;bottom:12px;width:13px;height:13px;background:#fff;border-left:1.5px solid #c9b3f5;border-bottom:1.5px solid #c9b3f5;transform:rotate(45deg)}
+.ia-mz-priv{font-size:.7rem;color:#64748b;margin-left:6px}
+@media (prefers-reduced-motion:reduce){.ia-mz-anim{animation:none;background-position:57.14% 0}}
 </style>
 <style>
   #cavesal-legal-overlay{
@@ -5748,15 +5760,9 @@ function calcular(){
   </div>`;
 
   html+=`<div style="margin:12px 0;padding:14px;border-radius:14px;background:linear-gradient(135deg,#f5f0ff,#faf7ff);border:1.5px solid #c9b3f5;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
-    <div style="display:flex;align-items:center;gap:10px">
-      <span style="font-size:1.5rem">🧠</span>
-      <div>
-        <div style="font-size:.85rem;font-weight:700;color:#5b21b6">Analizar con CaVeSal® IA</div>
-        <div style="font-size:.72rem;color:var(--slate)">Enviá este caso a CaVeSal® IA para una segunda lectura clínica</div>
-      </div>
-    </div>
-    <button onclick="analizarConCavesalIA()" style="background:#7c3aed;color:#fff;border:none;border-radius:10px;padding:9px 16px;font-size:.82rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px" title="CaVeSal® IA requiere un plan activo (Pro / Premium / Premium Plus). Si no tenés uno, podés activarlo al ingresar.">
-      <span>Analizar</span><span style="font-size:.85rem">🔒</span>
+    <div class="ia-mz"><span class="ia-mz-anim" role="img" aria-label="Robotita de CaVeSal® IA"></span><div class="ia-mz-body"><div class="ia-mz-title">Analizar con CaVeSal® IA</div><p class="ia-mz-bub">¿Querés ir más a fondo? La calculadora ya te dio el resultado; enviame el caso y lo analizo con las guías FMF, ACOG, FIGO, NICE y OMS. Vos decidís; yo te ayudo a pensar cada caso.</p><div class="ia-mz-priv">No se envían nombre ni documento.</div></div></div>
+    <button onclick="analizarConCavesalIA()" style="background:#7c3aed;color:#fff;border:none;border-radius:10px;padding:9px 16px;font-size:.82rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px">
+      <span>Analizar</span>
     </button>
   </div>`;
 
