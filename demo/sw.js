@@ -1,4 +1,4 @@
-const CACHE = "cavesal-demo-v6";
+const CACHE = "cavesal-demo-v7";
 const ASSETS = ["./"];
 
 self.addEventListener("install", e => {
