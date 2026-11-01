@@ -194,6 +194,8 @@ main{padding:14px;max-width:680px;margin:0 auto}
 .btn-calc{width:100%;padding:14px;background:linear-gradient(135deg,#0D1B2D,#0EA5B7);color:#fff;border:none;border-radius:var(--radius);font-size:.95rem;font-weight:700;cursor:pointer;letter-spacing:.5px;box-shadow:0 4px 16px rgba(13,115,119,.35);transition:opacity .2s;margin-bottom:18px}
 .btn-calc-header{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:6px;padding:9px 14px;background:#fff;color:#0D1B2D;border:none;border-radius:12px;font-size:.8rem;font-weight:800;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.18);transition:transform .15s}
 .btn-calc-header:active{transform:scale(.97)}
+.btn-limpiar-header{display:flex;align-items:center;justify-content:center;gap:6px;margin:6px auto 0;padding:5px 12px;background:transparent;color:rgba(255,255,255,.88);border:1px solid rgba(255,255,255,.4);border-radius:999px;font-size:.72rem;font-weight:600;cursor:pointer;font-family:inherit}
+.btn-limpiar-header:active{transform:scale(.97)}
 .eco-invite-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:4px 2px 2px}
 .eco-invite-card{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;border:1.5px solid var(--border);border-radius:12px;padding:12px 8px;background:var(--mist);text-decoration:none}
 .eco-invite-card img{width:84px;height:84px;border-radius:8px;background:#fff}
@@ -913,6 +915,7 @@ document.addEventListener('DOMContentLoaded', function(){
     <button class="tab" onclick="showTab('acerca')">ℹ️ Acerca</button>
   </div>
   <button class="btn-calc-header" onclick="calcular()">⚡ Calcular</button>
+  <button class="btn-limpiar-header" onclick="if(confirm('¿Limpiar todos los campos? Se borran los datos cargados en pantalla. Las fichas de pacientes no se tocan.'))limpiarFormulario()">🔄 Limpiar todos los campos</button>
 </header>
 
 <main>
