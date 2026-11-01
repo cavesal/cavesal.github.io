@@ -2003,10 +2003,10 @@ function calcular(){
 
   if(!_hayDatos){
     const _res=document.getElementById('results');
-    if(_res) _res.innerHTML='<div style="padding:20px;text-align:center;color:var(--slate,#64748b);font-size:.95rem">'
-      +'<strong>Sin datos ingresados.</strong><br>'
-      +'Ingresá los datos de la paciente o usá un ejemplo desde el botón "Datos de ejemplo".'
-      +'</div>';
+    if(_res) _res.innerHTML=window.cvsResultadoVacio?window.cvsResultadoVacio():('<div style="padding:20px;text-align:center;color:var(--slate,#64748b);font-size:.95rem">'
+      +'<strong>No tenés datos cargados.</strong><br>'
+      +'Cargá los datos en Ficha prenatal y apretá Calcular.'
+      +'</div>');
     const _rp=document.getElementById('results-panel');
     if(_rp) _rp.style.display='block';
     showTab('resultado');
@@ -2438,7 +2438,7 @@ function calcular(){
   <div class="result-header ${maxNivel}">
     <div class="r-icon">${iconMap[maxNivel]}</div>
     <div><div class="r-label">RIESGO GLOBAL</div><div class="r-nivel">${maxNivel.charAt(0).toUpperCase()+maxNivel.slice(1)}</div></div>
-  </div>
+  </div>${window.cvsLeyenda?window.cvsLeyenda():''}
   <div class="stats-row">
     <div class="stat-box"><div class="s-label">EG</div><div class="s-val">${egStr}</div></div>
     <div class="stat-box"><div class="s-label">FPP</div><div class="s-val" style="font-size:.8rem">${fpp}</div></div>
@@ -5988,6 +5988,6 @@ function abrirContacto(){
   });
 })();
 </script>
-<script src="../cvs-export.js?v=2" data-mode="demo"></script>
+<script src="../cvs-export.js?v=3" data-mode="demo"></script>
 </body>
 </html>

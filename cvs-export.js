@@ -33,6 +33,15 @@
     "#cvx-modal .ac{display:flex;gap:8px;margin-top:14px}" +
     "#cvx-modal .ac button{flex:1}" +
     "#cvx-print{display:none}" +
+    ".cvx-vac-h{display:flex;align-items:center;gap:12px;border-radius:14px;padding:14px 16px;background:#64748b;color:#fff;margin-bottom:10px}" +
+    ".cvx-vac-h i{width:14px;height:14px;border-radius:50%;background:#fff;flex-shrink:0}" +
+    ".cvx-vac-h small{display:block;font-size:.66rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;opacity:.9}" +
+    ".cvx-vac-h strong{display:block;font-size:1.1rem}" +
+    ".cvx-ley{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:.74rem;color:#475569;margin:0 0 12px}" +
+    ".cvx-ley span{display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid #e2e8f0;border-radius:999px;padding:3px 9px;font-weight:700;color:#1e293b}" +
+    ".cvx-ley span i{width:9px;height:9px;border-radius:50%}" +
+    ".cvx-vac-t{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:14px;text-align:center;font-size:.86rem;color:#334155;line-height:1.5}" +
+    ".cvx-vac-t .cvx-b{display:inline-flex;margin-top:10px;padding:9px 16px}" +
     "@media print{body.cvx-printing>*:not(#cvx-print){display:none!important}body.cvx-printing #cvx-print{display:block!important}body.cvx-printing{background:#fff!important}#cvx-print,#cvx-print *{-webkit-print-color-adjust:exact;print-color-adjust:exact}}";
 
   function injectCSS() { var s = document.createElement("style"); s.textContent = css; document.head.appendChild(s); }
@@ -51,6 +60,40 @@
       '<div class="cvx-row"><button type="button" class="cvx-b main' + (DEMO ? " cvx-lock" : "") + '" onclick="cvsExportar(\'pdf\')">Exportar PDF' + L + "</button>" +
       '<button type="button" class="cvx-b' + (DEMO ? " cvx-lock" : "") + '" onclick="cvsExportar(\'word\')">Exportar Word' + L + "</button></div></div>";
   };
+
+  /* ---------- leyenda y Resultado vacío ---------- */
+  window.cvsLeyenda = function () {
+    return '<div class="cvx-ley">Riesgo global según gravedad: <span><i style="background:var(--green,#16a34a)"></i>Bajo</span><span><i style="background:var(--amber,#f59e0b)"></i>Moderado</span><span><i style="background:var(--red,#dc2626)"></i>Alto</span></div>';
+  };
+  window.cvsIAVacio = function () {
+    if (DEMO) { if (typeof window.abrirContacto === "function") window.abrirContacto(); return; }
+    alert("Primero cargá los datos en Ficha prenatal y apretá Calcular. Después la robotita analiza el caso.");
+  };
+  window.cvsResultadoVacio = function () {
+    var L = DEMO ? " 🔒" : "";
+    return '<div class="cvx-vac-h"><i></i><div><small>Resultado</small><strong>No tenés datos cargados</strong></div></div>' +
+      window.cvsLeyenda() +
+      '<div style="margin:0 0 12px;padding:14px;border-radius:14px;background:linear-gradient(135deg,#f5f0ff,#faf7ff);border:1.5px solid #c9b3f5;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">' +
+      '<div class="ia-mz"><span class="ia-mz-anim" role="img" aria-label="Robotita de CaVeSal® IA"></span><div class="ia-mz-body"><div class="ia-mz-title">Analizar con CaVeSal® IA</div><p class="ia-mz-bub">Cuando calcules, enviame el caso y lo analizo con las guías FMF, ACOG, FIGO, NICE y OMS. Vos decidís; yo te ayudo a pensar cada caso.</p><div class="ia-mz-priv">' + (DEMO ? "Disponible en la versión completa." : "No se envían nombre ni documento.") + '</div></div></div>' +
+      '<button onclick="cvsIAVacio()" style="background:#7c3aed;color:#fff;border:none;border-radius:10px;padding:9px 16px;font-size:.82rem;font-weight:700;cursor:pointer;opacity:' + (DEMO ? ".7" : "1") + '">Analizar' + L + '</button></div>' +
+      '<div class="cvx-vac-t">Cargá los datos en <b>Ficha prenatal</b> y apretá <b>Calcular</b>. Acá vas a ver el riesgo global, los hallazgos y la conducta a seguir.<br><button type="button" class="cvx-b main" onclick="showTab(\'formulario\')">Ir a Ficha prenatal</button></div>' +
+      '<div class="cvx-bar" data-cvx="1"><h4>Exportar resultado</h4><p>' + (DEMO ? "Exportar el resultado a PDF o Word está en la versión completa." : "Cuando tengas un resultado vas a poder exportarlo a PDF o Word.") + '</p>' +
+      '<div class="cvx-row"><button type="button" class="cvx-b main' + (DEMO ? " cvx-lock" : "") + '" onclick="cvsExportar(\'pdf\')">Exportar PDF' + L + '</button>' +
+      '<button type="button" class="cvx-b' + (DEMO ? " cvx-lock" : "") + '" onclick="cvsExportar(\'word\')">Exportar Word' + L + '</button></div></div>';
+  };
+  function ponerVacio() {
+    var r = $("results"); if (!r) return;
+    r.innerHTML = window.cvsResultadoVacio(); r.style.display = "block";
+  }
+  function engancharVacio() {
+    var r = $("results");
+    if (r && !r.innerHTML.trim()) ponerVacio();
+    var oL = window.limpiarFormulario;
+    if (typeof oL === "function" && !oL.__cvx) {
+      var w = function () { var x = oL.apply(this, arguments); ponerVacio(); return x; };
+      w.__cvx = true; window.limpiarFormulario = w;
+    }
+  }
 
   var PEND = null;
   function modal() {
@@ -117,7 +160,7 @@
 
   window.cvsExportar = function (tipo) {
     if (DEMO) { if (typeof window.abrirContacto === "function") window.abrirContacto(); return; }
-    if (!$("results") || !$("results").innerHTML.trim()) { alert("Primero presioná Calcular para tener un resultado."); return; }
+    if (!$("results") || !$("results").querySelector(".result-header")) { alert("No tenés datos cargados. Cargá los datos en Ficha prenatal y apretá Calcular."); return; }
     var m = modal();
     PEND = function (pac) { if (tipo === "pdf") pdf(pac); else word(pac); };
     m.classList.add("open");
@@ -245,6 +288,6 @@
     }
   }
 
-  function init() { injectCSS(); engancharPacientes(); }
+  function init() { injectCSS(); engancharPacientes(); engancharVacio(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
 })();
