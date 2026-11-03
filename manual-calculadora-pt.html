@@ -146,9 +146,11 @@
 </nav>
 <section id="intro">
 <h2>ℹ️ Antes de começar</h2>
-<p>A Calculadora CaVeSal® tem <strong>6 abas</strong> no cabeçalho — 📋 Ficha prenatal, 📊 Resultado, 🗓️ Gestograma·Parto, 🔊 Ecografía, 👤 Pacientes e ℹ️ Acerca — e este manual está organizado <strong>nessa mesma ordem</strong>: cada parte abaixo corresponde a uma aba real do app, e cada subseção a um cartão (ou subaba) dentro dela. A interface do app está em espanhol; os rótulos aparecem entre aspas com a tradução entre parênteses.</p>
+<p>A Calculadora CaVeSal® tem <strong>7 abas</strong> no cabeçalho — 📋 Ficha prenatal, 📊 Resultado, 🗓️ Gestograma·Parto, 🔊 Ecografía, 👤 Pacientes, 🎓 Simulador e ℹ️ Acerca — e este manual está organizado <strong>nessa mesma ordem</strong>: cada parte abaixo corresponde a uma aba real do app, e cada subseção a um cartão (ou subaba) dentro dela. A interface do app está em espanhol; os rótulos aparecem entre aspas com a tradução entre parênteses. Na demo, Pacientes e Simulador aparecem com cadeado 🔒.</p>
 <p>Dentro de cada aba, os cartões funcionam por <strong>seções recolhíveis</strong>: toque no cabeçalho de cada uma para abri-la, insira os dados disponíveis, e o resultado se atualiza automaticamente à medida que você digita — não é preciso nenhum botão "Calcular" para os cálculos individuais. O botão <strong>"⚡ Calcular"</strong> do cabeçalho (visível em todas as abas) é o que monta o relatório consolidado de risco pré-natal integral (aba 📊 Resultado), reunindo todos os achados de todas as abas.</p>
 <p>Todos os cálculos são feitos <strong>no seu próprio dispositivo</strong>, sem conexão à internet nem envio de dados a servidores externos.</p>
+  <div class="tip">💡 Abaixo do <strong>⚡ Calcular</strong> está o botão pequeno <strong>🔄 Limpiar todos los campos</strong> (Limpar todos os campos): pede confirmação, apaga tudo o que foi preenchido e deixa o Resultado vazio, pronto para outra paciente. Faz o mesmo que «Nueva consulta» (Nova consulta) da Ficha prenatal. As fichas salvas em Pacientes não são apagadas.</div>
+  <div class="tip">🔄 <strong>Atualizações:</strong> com internet, o app instalado sempre abre a versão mais nova; sem conexão continua funcionando com a última versão salva.</div>
 <div class="warn">⚠️ É uma ferramenta de <strong>apoio à decisão clínica</strong>. Não substitui o julgamento do profissional responsável nem as diretrizes oficiais vigentes.</div>
 <div style="margin:14px 0">
 <img alt="Tela Sobre do CaVeSal" src="img/manual-calc-00-portada.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
@@ -252,8 +254,17 @@
 <!-- ════════════════════════════════════════ PESTAÑA: RESULTADO ════════════════════════════════════════ -->
 <div class="tab-divider" id="tab-resultado">
 <h2>📊 Resultado</h2>
-<p>O painel de saída. É montado ao tocar em "⚡ Calcular" no cabeçalho (visível em qualquer aba) e reúne todos os achados de todas as outras abas em um único relatório.</p>
+<p>O painel de saída. É montado ao tocar em "⚡ Calcular" no cabeçalho (visível em qualquer aba) e reúne todos os achados de todas as outras abas em um único relatório, com a conduta a seguir.</p>
 </div>
+<section id="resultado-vacio">
+  <h2>📊 Antes e depois de calcular</h2>
+  <div class="step"><div class="step-num">1</div><p><strong>Sem dados:</strong> o Resultado diz «No tenés datos cargados» (Você não tem dados preenchidos) e indica preencher os dados na Ficha prenatal e apertar Calcular. Nenhuma cor é mostrada, para não dar um resultado que não corresponde.</p></div>
+  <div class="step"><div class="step-num">2</div><p><strong>Risco global por gravidade:</strong> a legenda 🟢 Bajo (Baixo) · 🟡 Moderado · 🔴 Alto aparece sempre. Ao calcular, o quadro cinza muda para a cor correspondente e abaixo aparecem os achados e o plano de ação.</p></div>
+  <div class="step"><div class="step-num">3</div><p><strong>Analizar con CaVeSal® IA (Analisar com CaVeSal® IA):</strong> a robozinha aparece desde o início, convidando a enviar o caso quando você calcular. Nome e documento não são enviados.</p></div>
+  <div class="step"><div class="step-num">4</div><p><strong>Exportar resultado:</strong> botões PDF e Word. Se você ainda não calculou, avisam que não há dados. Na demo aparecem com cadeado 🔒.</p></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:14px 0"><img src="img/manual-calc-12-resultado-vacio.jpg" alt="Resultado sem dados, com a legenda Baixo, Moderado e Alto" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15)"><img src="img/manual-calc-13-resultado.jpg" alt="Resultado calculado com o risco global" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15)"></div>
+</section>
+
 <section id="como-leer">
 <h2>🎨 Como ler os resultados</h2>
 <p>Todos os módulos da Calculadora usam a mesma linguagem visual, para que interpretar um resultado seja sempre igualmente rápido, não importa o que você esteja calculando:</p>
@@ -501,9 +512,10 @@
 <div class="step"><div class="step-num">5</div><p>Cada consulta fica em uma lista cronológica editável — você pode modificar ou excluir qualquer consulta registrada, e dali também pode reabrir essa paciente diretamente na calculadora ("⚡ Abrir en calculadora" (Abrir na calculadora)) para recalcular seu risco com os dados atualizados.</p></div>
 <div class="step"><div class="step-num">6</div><p>Em <strong>"Mis pacientes"</strong>, toque em <strong>"Backup local (.json)"</strong> para baixar um arquivo com todas as suas pacientes (cartão "Descargar .json" (Baixar .json)), e salve-o no seu próprio Google Drive (cartão "Abrir Google Drive") — assim você pode sincronizar entre PC, celular ou tablet manualmente, copiando o arquivo de um dispositivo para outro.</p></div>
 <div class="step"><div class="step-num">7</div><p>Para <strong>"Importar backup"</strong>, escolha o arquivo .json e o modo: <strong>"Combinar"</strong> (adiciona as pacientes do backup sem apagar as que você já tem) ou <strong>"Reemplazar todo"</strong> (Substituir tudo: apaga os dados atuais e os substitui pelos do backup).</p></div>
+  <div class="step"><div class="step-num">8</div><p><strong>PDF e Word da paciente:</strong> cada cartão de «Mis pacientes» (Minhas pacientes) tem os botões <strong>📄 PDF</strong> e <strong>📝 Word</strong>, ao lado de «⚡ Calcular»; também estão dentro de «Ver ficha». Exportam um resumo com os dados da paciente, suas consultas e o último resultado calculado. Na demo, a aba aparece como <strong>Pacientes 🔒</strong> e não permite preencher dados.</p></div>
 <div class="tip">💡 E daqui, com o cartão "Analizar con CaVeSal® IA" (Analisar com CaVeSal® IA) do painel de Resultado, você pode enviar o cálculo atual para uma segunda leitura clínica com inteligência artificial — ver o <a href="https://cavesal.app/manual-cavesal-ia-pt.html">tutorial do CaVeSal® IA</a>.</div>
 <div style="margin:14px 0">
-<img alt="Captura de tela" src="img/manual-calc-11-pacientes.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+<img alt="Captura de tela" src="img/manual-calc-11-pacientes.jpg" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
 </div>
 </section>
 <section id="puente-hc">

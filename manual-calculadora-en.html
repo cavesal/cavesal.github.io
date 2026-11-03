@@ -146,9 +146,11 @@
 </nav>
 <section id="intro">
 <h2>ℹ️ Before you start</h2>
-<p>The CaVeSal® Calculator has <strong>6 tabs</strong> in the header — 📋 Ficha prenatal (Prenatal record), 📊 Resultado (Result), 🗓️ Gestograma·Parto (Gestogram·Delivery), 🔊 Ecografía (Ultrasound), 👤 Pacientes (Patients) and ℹ️ Acerca (About) — and this manual is organized <strong>in that same order</strong>: each part below corresponds to a real tab in the app, and each subsection to a card (or sub-tab) inside it. The app interface is in Spanish; button and field names are shown as they appear, with their translation.</p>
+<p>The CaVeSal® Calculator has <strong>7 tabs</strong> in the header — 📋 Ficha prenatal (Prenatal record), 📊 Resultado (Result), 🗓️ Gestograma·Parto (Gestogram·Delivery), 🔊 Ecografía (Ultrasound), 👤 Pacientes (Patients), 🎓 Simulador (Simulator) and ℹ️ Acerca (About) — and this manual is organized <strong>in that same order</strong>: each part below corresponds to a real tab in the app, and each subsection to a card (or sub-tab) inside it. The app interface is in Spanish; button and field names are shown as they appear, with their translation. In the demo, Patients and Simulator appear with a lock 🔒.</p>
 <p>Within each tab, cards work as <strong>collapsible sections</strong>: tap the header of each one to open it, enter the available data, and the result updates automatically as you type — no "Calculate" button is needed for individual calculations. The <strong>"⚡ Calcular"</strong> (Calculate) button in the header (visible on every tab) builds the consolidated comprehensive prenatal risk report (📊 Result tab), gathering all findings from every tab.</p>
 <p>All calculations are done <strong>on your own device</strong>, without an internet connection or sending data to external servers.</p>
+  <div class="tip">💡 Below <strong>⚡ Calcular</strong> (Calculate) is the small button <strong>🔄 Limpiar todos los campos</strong> (Clear all fields): it asks for confirmation, erases everything entered and leaves the Result empty, ready for another patient. It does the same as "Nueva consulta" (New consultation) in the Prenatal record. Records saved in Patients are not deleted.</div>
+  <div class="tip">🔄 <strong>Updates:</strong> with internet, the installed app always opens the newest version; offline it keeps working with the last saved version.</div>
 <div class="warn">⚠️ It is a <strong>clinical decision-support</strong> tool. It does not replace the treating professional's judgment or current official guidelines.</div>
 <div style="margin:14px 0">
 <img alt="CaVeSal About screen" src="img/manual-calc-00-portada.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
@@ -252,8 +254,17 @@
 <!-- ════════════════════════════════════════ PESTAÑA: RESULTADO ════════════════════════════════════════ -->
 <div class="tab-divider" id="tab-resultado">
 <h2>📊 Result</h2>
-<p>The output panel. It is built when you tap "⚡ Calcular" (Calculate) in the header (visible from any tab) and gathers all the findings from every other tab into a single report.</p>
+<p>The output panel. It is built when you tap "⚡ Calcular" (Calculate) in the header (visible from any tab) and gathers all the findings from every other tab into a single report, with the management to follow.</p>
 </div>
+<section id="resultado-vacio">
+  <h2>📊 Before and after calculating</h2>
+  <div class="step"><div class="step-num">1</div><p><strong>No data:</strong> the Result says "No tenés datos cargados" (No data entered) and tells you to enter data in the Prenatal record and press Calcular. No color is shown, so it never gives a result that does not apply.</p></div>
+  <div class="step"><div class="step-num">2</div><p><strong>Global risk by severity:</strong> the legend 🟢 Bajo (Low) · 🟡 Moderado (Moderate) · 🔴 Alto (High) is always visible. When you calculate, the gray box turns to the matching color and the findings and action plan appear below.</p></div>
+  <div class="step"><div class="step-num">3</div><p><strong>Analizar con CaVeSal® IA (Analyze with CaVeSal® IA):</strong> the little robot appears from the start, inviting you to send the case once you calculate. Name and ID are not sent.</p></div>
+  <div class="step"><div class="step-num">4</div><p><strong>Exportar resultado (Export result):</strong> PDF and Word buttons. If you have not calculated yet, they tell you there is no data. In the demo they appear with a lock 🔒.</p></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:14px 0"><img src="img/manual-calc-12-resultado-vacio.jpg" alt="Result with no data, showing the Low, Moderate and High legend" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15)"><img src="img/manual-calc-13-resultado.jpg" alt="Calculated Result with global risk" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15)"></div>
+</section>
+
 <section id="como-leer">
 <h2>🎨 How to read the results</h2>
 <p>All Calculator modules use the same visual language, so interpreting a result is always equally quick, whatever you are calculating:</p>
@@ -501,9 +512,10 @@
 <div class="step"><div class="step-num">5</div><p>Each visit is kept in an editable chronological list — you can modify or delete any recorded visit, and from there you can also reopen that patient directly in the calculator ("⚡ Abrir en calculadora" — Open in calculator) to recalculate her risk with the updated data.</p></div>
 <div class="step"><div class="step-num">6</div><p>From <strong>"Mis pacientes"</strong> (My patients), tap <strong>"Backup local (.json)"</strong> to download a file with all your patients ("Descargar .json" card — Download), and save it to your own Google Drive ("Abrir Google Drive" card) — so you can sync between PC, phone or tablet manually, copying the file from one device to another.</p></div>
 <div class="step"><div class="step-num">7</div><p>To <strong>"Importar backup"</strong> (Import backup), choose the .json file and the mode: <strong>"Combinar"</strong> (Merge — adds the patients from the backup without deleting the ones you already have) or <strong>"Reemplazar todo"</strong> (Replace all — deletes the current data and replaces it with the backup).</p></div>
+  <div class="step"><div class="step-num">8</div><p><strong>Patient PDF and Word:</strong> each card in "Mis pacientes" (My patients) has the <strong>📄 PDF</strong> and <strong>📝 Word</strong> buttons next to "⚡ Calcular"; they are also inside "Ver ficha" (View record). They export a summary with the patient's data, her visits and the last calculated result. In the demo, the tab appears as <strong>Pacientes 🔒</strong> and does not allow data entry.</p></div>
 <div class="tip">💡 And from here, with the "Analizar con CaVeSal® IA" card in the Result panel, you can send the current calculation for a second clinical reading with artificial intelligence — see the <a href="https://cavesal.app/manual-cavesal-ia-en.html">CaVeSal® IA tutorial</a>.</div>
 <div style="margin:14px 0">
-<img alt="Screenshot" src="img/manual-calc-11-pacientes.png" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
+<img alt="Screenshot" src="img/manual-calc-11-pacientes.jpg" style="max-width:100%;border-radius:12px;box-shadow:0 2px 10px rgba(14,165,183,.15);margin-bottom:10px"/>
 </div>
 </section>
 <section id="puente-hc">
