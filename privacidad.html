@@ -51,6 +51,7 @@
   <p>A diferencia de las tres Apps anteriores, <strong>CaVeSal® IA sí procesa información en un servidor</strong>, porque necesita generar una respuesta a tu consulta usando un modelo de lenguaje. El funcionamiento es el siguiente:</p>
   <ul>
     <li>Cuando usás el botón "Analizar con CaVeSal® IA" (desde Historia Clínica o desde Calculadora Prenatal) o escribís directamente en el chat, se envía a nuestro servidor (un Cloudflare Worker) un resumen clínico del caso puntual que elegiste compartir en ese momento — por ejemplo, los hallazgos y cálculos ya realizados — más tu pregunta. Nunca se envía automáticamente el resto de tu base de pacientes.</li>
+    <li>Desde Historia Clínica, ese resumen incluye el nombre de la paciente — nunca su número de documento ni otros datos de identificación. Desde la Calculadora Prenatal, la paciente se identifica únicamente por su edad, nunca por nombre ni documento.</li>
     <li>Ese servidor arma la consulta y llama a la API de un proveedor de inteligencia artificial (Anthropic, modelo Claude) para generar la respuesta clínica.</li>
     <li><strong>El contenido clínico de tu consulta no se almacena de forma permanente</strong>: se procesa para generar esa respuesta puntual y no queda guardado en nuestra base de datos una vez respondida.</li>
     <li>Lo único que CaVeSal® IA guarda de forma persistente es tu <strong>cuenta</strong> (email y PIN, el PIN siempre en formato hasheado, nunca en texto plano) y el <strong>conteo de consultas usadas</strong> de tu plan — esto es necesario para identificarte y aplicar el cupo diario de tu plan, y no incluye datos clínicos de pacientes.</li>
@@ -97,7 +98,7 @@
   <p>Ante cualquier duda sobre esta política de privacidad o sobre el manejo de datos dentro de cualquier App del Ecosistema, podés escribir a <a href="mailto:drverasalerno@gmail.com">drverasalerno@gmail.com</a>.</p>
 </section>
 
-<p class="updated">Versión: v1.2 · Última actualización: octubre de 2026 — unificada para todo el Ecosistema CaVeSal®</p>
+<p class="updated">Versión: v1.3 · Última actualización: noviembre de 2026 — unificada para todo el Ecosistema CaVeSal®</p>
 
 </main>
 </body>
