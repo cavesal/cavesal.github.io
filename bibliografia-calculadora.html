@@ -12,11 +12,11 @@
   header h1{font-size:1.5rem;font-weight:800}
   header p{font-size:.9rem;opacity:.85;margin-top:6px}
   main{max-width:820px;margin:0 auto;padding:28px 20px 60px}
-  #locked-msg{display:none;background:#fff;border-radius:16px;padding:40px 24px;text-align:center;box-shadow:0 2px 16px rgba(14,165,183,.12)}
+  #locked-msg{display:none !important;background:#fff;border-radius:16px;padding:40px 24px;text-align:center;box-shadow:0 2px 16px rgba(14,165,183,.12)}
   #locked-msg h2{color:var(--teal);margin-bottom:12px}
   #locked-msg p{color:var(--slate);margin-bottom:18px}
   .buy-link{display:inline-block;background:linear-gradient(135deg,#0D1B2D,#0EA5B7);color:#fff;padding:12px 26px;border-radius:10px;text-decoration:none;font-weight:700}
-  #content{display:none}
+  #content{display:block}
   .intro{background:#fff;border-radius:14px;padding:20px;margin-bottom:20px;font-size:.9rem;color:var(--slate);box-shadow:0 2px 10px rgba(14,165,183,.08)}
   .chapter-block{background:#fff;border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:0 2px 10px rgba(14,165,183,.08)}
   .chapter-title{color:var(--teal);font-size:1.1rem;margin-bottom:10px}
@@ -42,13 +42,9 @@
   <p>CaVeSal® Calculadora Prenatal — Referencias de respaldo de cada módulo, por área clínica</p>
 </header>
 <main>
-<div id="locked-msg">
-  <h2>🔒 Contenido exclusivo de la versión completa</h2>
-  <p>Esta bibliografía completa está disponible solo para usuarios con la Calculadora activada.</p>
-  <a class="buy-link" href="https://cavesal.app/instrucciones.html">Ver cómo activarla →</a>
-</div>
 <div id="content">
 <div class="intro">
+  <b>De estas fuentes se alimenta la Calculadora CaVeSal®</b>, en su versión completa y en la Demo. La Demo usa las mismas bases; solo tiene algunas funciones bloqueadas.<br><br>
   Listado completo de las fuentes académicas y guías internacionales que respaldan los cálculos y
   umbrales de la <a href="https://cavesal.app/full/">Calculadora CaVeSal®</a>. Cada módulo de la app
   cita su fuente en forma abreviada junto al resultado (ej. "FMF/Nicolaides", "Hadlock 1984"); acá
@@ -526,12 +522,5 @@
 
 </div>
 </main>
-<script>
-(function(){
-  var unlocked = false;
-  try { unlocked = !!localStorage.getItem('cavesal_full_unlocked'); } catch(e) {}
-  document.getElementById(unlocked ? 'content' : 'locked-msg').style.display = 'block';
-})();
-</script>
 </body>
 </html>
