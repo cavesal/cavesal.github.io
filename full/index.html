@@ -3855,7 +3855,7 @@ Microcefalia: CC &lt;p3 para EG.</div>
       <strong style="color:var(--navy)">Diabetes gestacional:</strong> IADPSG 2010 · ADA 2026 · ALAD 2019 · OMS<br>
       <strong style="color:var(--navy)">Tiroides (TSH · T4 libre · Anti-TPO):</strong> ATA Guidelines 2017 · Endocrine Society · ACOG<br>
       <strong style="color:var(--navy)">Suplementación:</strong> OMS · ACOG · NICE · FIGO · Endocrine Society 2024 · EBCOG 2024 · Cochrane<br>
-      <strong style="color:var(--navy)">Biometría fetal:</strong> Hadlock 1984 · Robinson &amp; Fleming 1975 (CRL/FUM) · Chitty &amp; Altman 2002 (húmero y fémur) · Snijders &amp; Nicolaides 1994 (cerebelo) · Chitty 1994 · INTERGROWTH-21st · Figueras &amp; Gratacós 2008<br>
+      <strong style="color:var(--navy)">Biometría fetal:</strong> Hadlock 1984 · Robinson &amp; Fleming 1975 (CRL/FUM) · Chitty &amp; Altman 2002 (húmero y fémur) · Snijders &amp; Nicolaides 1994 (cerebelo) · Chitty 1994 (CC por EG) · INTERGROWTH-21st · Figueras &amp; Gratacós 2008<br>
       <strong style="color:var(--navy)">Crecimiento fetal / PEG / RCIU:</strong> Algoritmo propio CaVeSal® · Basado en: Figueras F et al. EJOGRB 2008;136:20-24 (ajuste por sexo) · Stirnemann J, Salomon LJ, Papageorghiou AT. UOG 2020;56:946-948 (INTERGROWTH-21st, PFE de Hadlock) · Hadlock FP et al. AJOG 1985;151:333-337 · Protocolo MFB Nov 2024 · ISUOG Delphi Consensus 2020<br>
       <strong style="color:var(--navy)">Doppler AU, ACM e ICP:</strong> Algoritmo propio CaVeSal® · Basado en: Ciobanu A et al. (FMF) UOG 2019;53:465-472 (AU, ACM e ICP)<br>
       <strong style="color:var(--navy)">Doppler hemodinámico avanzado (DV, TR, AoI, VUP):</strong> Baschat AA. Obstet Gynecol 2011 · TRUFFLE Study Group. UOG 2020 · ISUOG Practice Guidelines RCIU 2020 · Gratacós E &amp; Torres X. MFB Protocol 2023<br>
@@ -8062,18 +8062,12 @@ function calcCerebelo(){
 }
 
 // ── ASIMETRÍA LF/CA ──
-// CC percentiles aproximados por EG (p3, p50, p97) — Chitty 1994
-const CC_PERC = {
-  20:[148,177,206], 22:[163,195,227], 24:[178,213,248], 26:[193,231,269],
-  28:[208,248,289], 30:[221,264,307], 32:[234,279,325], 34:[245,293,341],
-  36:[255,305,356], 38:[263,315,368], 40:[270,323,377]
-};
-
-function getP3CC(eg){
-  const keys = Object.keys(CC_PERC).map(Number).sort((a,b)=>a-b);
-  const nearKey = keys.reduce((prev,curr)=>Math.abs(curr-eg)<Math.abs(prev-eg)?curr:prev);
-  return CC_PERC[nearKey] ? CC_PERC[nearKey][0] : null;
-}
+// CC por EG — Algoritmo propio CaVeSal® · Basado en: Chitty LS, Altman DG, Henderson A, Campbell S. BJOG 1994;101:35-43
+// CC derivada (π·(DBP+DOF)/2, opción recomendada por BMUS): media = −109,7 + 15,16·EG − 0,002388·EG³ ; DE = 3,913 + 0,2329·EG
+// (mm, EG en semanas decimales, rango 12–42). Distribución normal: P3 = media − 1,881·DE.
+function ccRefEG(eg){ if(!eg||eg<12||eg>42) return null; var m=-109.7+15.16*eg-0.002388*eg*eg*eg, sd=3.913+0.2329*eg; return {m:m,sd:sd,p3:m-1.881*sd,p5:m-1.645*sd}; }
+function getP3CC(eg){ var r=ccRefEG(eg); return r?r.p3:null; }
+function ccZ(cc,eg){ var r=ccRefEG(eg); return r?(cc-r.m)/r.sd:null; }
 
 function calcAsimetria(){
   const lf = parseFloat(document.getElementById('asim_lf').value)||null;
@@ -8115,16 +8109,24 @@ function calcAsimetria(){
   // Microcefalia check
   const micro = document.getElementById('asim_microcefalia');
   if(cc && eg){
-    const p3 = getP3CC(Math.round(eg));
-    if(p3 && cc < p3){
-      micro.className = 'bio-alerta show alto';
-      micro.innerHTML = `⚠️ <strong>CC ${cc} mm &lt;p3 para EG ${semDias(eg)} sem — MICROCEFALIA:</strong> Derivar urgente a Medicina Fetal. Neurosonografía fetal. Descartar infección congénita (TORCH), cromosomopatía, causa genética.`;
-    } else if(p3 && cc < p3*1.03){
+    const r = ccRefEG(eg);
+    const _ccSrc = '<div style="font-size:.66rem;color:var(--slate);margin-top:4px">Algoritmo propio CaVeSal® · Basado en: Chitty LS et al. BJOG 1994 (CC derivada)</div>';
+    if(!r){
       micro.className = 'bio-alerta show moder';
-      micro.innerHTML = `⚡ CC en límite inferior (cercana a p3 para EG). Control ecográfico en 3–4 sem. Neurosonografía si persiste.`;
+      micro.innerHTML = `CC: EG fuera del rango de referencia (12–42 sem).`;
     } else {
-      micro.className = 'bio-alerta show ok';
-      micro.innerHTML = `✅ CC normal para EG.`;
+      const z = (cc-r.m)/r.sd, pc = (cc<r.p3 && _zPc(z)==='3') ? '&lt;3' : _zPc(z);
+      const ref = `P${pc} · Z ${z.toFixed(2)} · P3 ${r.p3.toFixed(0)} mm · P50 ${r.m.toFixed(0)} mm a las ${semDias(eg)} sem`;
+      if(cc < r.p3){
+        micro.className = 'bio-alerta show alto';
+        micro.innerHTML = `⚠️ <strong>CC ${cc} mm &lt;P3 para la EG — MICROCEFALIA:</strong> (${ref}). Derivar urgente a Medicina Fetal. Neurosonografía fetal. Descartar infección congénita (TORCH), cromosomopatía, causa genética.`+_ccSrc;
+      } else if(cc < r.p5){
+        micro.className = 'bio-alerta show moder';
+        micro.innerHTML = `⚡ <strong>CC ${cc} mm entre P3 y P5</strong> (${ref}). Control ecográfico en 3–4 sem. Neurosonografía si persiste.`+_ccSrc;
+      } else {
+        micro.className = 'bio-alerta show ok';
+        micro.innerHTML = `✅ CC ${cc} mm normal para la EG (${ref}).`+_ccSrc;
+      }
     }
   } else {
     micro.className = 'bio-alerta';
