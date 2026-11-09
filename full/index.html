@@ -1517,7 +1517,7 @@ document.addEventListener('DOMContentLoaded', function(){
     <div class="row2">
       <div class="field"><label>Vitamina D sérica (ng/mL)</label>
         <input type="number" id="lab_vitd" placeholder="—" step="0.1">
-        <div class="hint">Solicitar en: obesidad, piel oscura, poca exposición solar, vegetariana. Rango de laboratorio: Déficit &lt;20 · Insuf. 20–29 · Suficiente ≥30 ng/mL (Endocrine Society 2011, Holick). OMS 2020 y Endocrine Society 2024: no medir de rutina.</div>
+        <div class="hint">Rango de laboratorio: Déficit &lt;20 · Insuf. 20–29 · Suficiente ≥30 ng/mL (Endocrine Society 2011, Holick). IOM 2011: &lt;12 riesgo de deficiencia · ≥20 suficiente. OMS 2020 y Endocrine Society 2024: no medir de rutina, tampoco por obesidad o piel oscura.</div>
       </div>
       <div class="field"><label>Ferritina sérica (µg/L)</label>
         <input type="number" id="lab_ferrit" placeholder="—">
@@ -1530,7 +1530,7 @@ document.addEventListener('DOMContentLoaded', function(){
     </div>
 
     <p class="sub-title">Tiroides</p>
-    <div class="note-box"><strong>TSH en embarazo (ATA 2017):</strong> usar el rango de embarazo del laboratorio. Si no lo informa: límite superior 4.0 µUI/mL. Levotiroxina si TSH &gt;4.0 con anti-TPO+ o TSH ≥10; considerar si TSH 2.5–4.0 con anti-TPO+, o 4–10 con anti-TPO−. En 1T una TSH baja puede ser fisiológica (hCG).</div>
+    <div class="note-box"><strong>TSH en embarazo (ATA 2017):</strong> usar el rango de embarazo del laboratorio. Si no lo informa: límite superior 4.0 µUI/mL. Levotiroxina si TSH &gt;4.0 con anti-TPO+ o TSH ≥10; considerar si TSH 2.5–4.0 con anti-TPO+, o 4–10 con anti-TPO−. Anti-TPO− con TSH normal: no tratar. En 1T una TSH baja puede ser fisiológica (hCG).<br><strong>Zona gris (Sugerencia CaVeSal®):</strong> TSH &gt;2.5 en 1T o &gt;3.0 en 2T–3T (cortes ATA 2011/Endocrine Society 2012) y ≤4.0: pedir anti-TPO (ATA 2017 rec. 28); si es positivo, considerar levotiroxina. Los ensayos CATS (2012) y Casey (2017) no mostraron beneficio en el neurodesarrollo.<br><strong>Preconcepción:</strong> hipotiroidea tratada, TSH entre el límite inferior y 2.5. FIV/ICSI con hipotiroidismo subclínico: levotiroxina con objetivo TSH &lt;2.5 (ATA 2017).</div>
     <div class="row2">
       <div class="field"><label>TSH (µUI/mL)</label>
         <input type="number" id="tsh" placeholder="—" step="0.01">
@@ -1866,8 +1866,8 @@ document.addEventListener('DOMContentLoaded', function(){
         <tr class="suple-moder"><td>Déficit documentado (&lt;20 ng/mL)</td><td><strong>2000–4000 UI/día</strong></td></tr>
         <tr class="suple-alto"><td>Déficit severo</td><td><strong>Hasta 4000 UI/día</strong> (límite seguro en gestación)</td></tr>
       </table>
-      <div class="suple-highlight">💡 <strong>Endocrine Society 2024:</strong> Suplementación empírica recomendada. Dosis en ensayos: 600–5000 UI/día · media ponderada ~2500 UI/día. Objetivo: 25-OH-VitD &gt;30 ng/mL.</div>
-      <div class="bio-ref">📚 Endocrine Society 2024 · Cochrane. Nivel sérico objetivo: &gt;30 ng/mL. Nivel tóxico: &gt;100 ng/mL. No combinar con calcio si Vit D normal + calcio suplementado (riesgo hipercalcemia).</div>
+      <div class="suple-highlight">💡 <strong>Endocrine Society 2024:</strong> suplementación empírica sin dosar; dosis en ensayos 600–5000 UI/día, media ponderada ~2500 UI/día. No fija un nivel objetivo. <strong>OMS 2020:</strong> no suplementar de rutina. <strong>FLASOG 2026:</strong> 1000–2000 UI/día, máximo 4000. Decisión a criterio del médico.</div>
+      <div class="bio-ref">📚 Endocrine Society 2024 · OMS 2020 · FLASOG 2026. Nivel tóxico: &gt;100 ng/mL. No combinar con calcio si Vit D normal + calcio suplementado (riesgo hipercalcemia).</div>
     </div>
   </div>
 
@@ -3854,9 +3854,9 @@ Microcefalia: CC &lt;p3 para EG.</div>
       <strong style="color:var(--navy)">Cribado cromosómico:</strong> Medicina Fetal Barcelona (cortes de riesgo, preferida) · Nicolaides 2005 / FMF (alternativa) · Snijders 1998 · Nicolaides 1998 (mediana TN) · Kagan · Cicero 2001 y 2004<br>
       <strong style="color:var(--navy)">Preeclampsia:</strong> FMF · ISSHP · Roche/BRAHMS (sFlt-1/PlGF) · Medicina Fetal Barcelona<br>
       <strong style="color:var(--navy)">Diabetes gestacional:</strong> IADPSG 2010 · ADA 2026 · ALAD 2019 · OMS<br>
-      <strong style="color:var(--navy)">Tiroides (TSH · T4 libre · Anti-TPO):</strong> Alexander EK et al. ATA 2017 (Thyroid 2017;27:315-389) · ACOG<br>
+      <strong style="color:var(--navy)">Tiroides (TSH · T4 libre · Anti-TPO):</strong> Alexander EK et al. ATA 2017 (Thyroid 2017;27:315-389) · Lazarus JH et al. NEJM 2012;366:493-501 (CATS) · Casey BM et al. NEJM 2017;376:815-825 · ACOG<br>
       <strong style="color:var(--navy)">Rangos de laboratorio en el embarazo:</strong> Tabla propia CaVeSal® · Basado en: OMS 2024 (Hb por trimestre) · FIGO 2025 (anemia) · ACOG Practice Bulletin 233 (2021) y OMS 2020 (ferritina) · SOAP 2021 (plaquetas y neuroaxial) · Abbassi-Ghanavati M et al. Obstet Gynecol 2009;114:1326-1331 · Wiles K et al. 2019 (creatinina) · ACOG 2020 (preeclampsia) · Holick MF et al. Endocrine Society 2011 (rangos de vitamina D) · OMS 2020 y Endocrine Society 2024 (vitamina D)<br>
-      <strong style="color:var(--navy)">Suplementación:</strong> OMS · ACOG · NICE · FIGO · Endocrine Society 2024 · EBCOG 2024 · Cochrane<br>
+      <strong style="color:var(--navy)">Suplementación:</strong> OMS · ACOG · NICE · FIGO · Endocrine Society 2024 (Demay MB et al.) · Holick MF et al. 2011 · IOM 2011 (Ross AC et al. JCEM 2011;96:53-58) · Bouillon R. Nat Rev Endocrinol 2017;13:466-479 · FLASOG 2026 · EBCOG 2024 · Cochrane<br>
       <strong style="color:var(--navy)">Biometría fetal:</strong> Hadlock 1984 · Robinson &amp; Fleming 1975 (CRL/FUM) · Chitty &amp; Altman 2002 (húmero y fémur) · Snijders &amp; Nicolaides 1994 (cerebelo) · Chitty 1994 (CC por EG; microcefalia &lt;−2/−3 DE: ISUOG · OMS 2016 · CDC Staples 2016) · INTERGROWTH-21st · Figueras &amp; Gratacós 2008<br>
       <strong style="color:var(--navy)">Crecimiento fetal / PEG / RCIU:</strong> Algoritmo propio CaVeSal® · Basado en: Figueras F et al. EJOGRB 2008;136:20-24 (ajuste por sexo) · Stirnemann J, Salomon LJ, Papageorghiou AT. UOG 2020;56:946-948 (INTERGROWTH-21st, PFE de Hadlock) · Hadlock FP et al. AJOG 1985;151:333-337 · Protocolo MFB Nov 2024 · ISUOG Delphi Consensus 2020<br>
       <strong style="color:var(--navy)">Doppler AU, ACM e ICP:</strong> Algoritmo propio CaVeSal® · Basado en: Ciobanu A et al. (FMF) UOG 2019;53:465-472 (AU, ACM e ICP)<br>
@@ -4687,8 +4687,8 @@ function calcular(){
   }
   if(chk('p_renal')) add('ANTECEDENTE PERSONAL','alto','Enfermedad renal','Creatinina basal, proteinuria 24h, clearance. Función renal mensual. AAS según PI uterinas.','KDIGO / ACOG');
   if(chk('p_ai')) add('ANTECEDENTE PERSONAL','moderado','Enfermedad autoinmune','Anti-SSA/SSB (riesgo BAV fetal). Anticuerpos antifosfolípidos. HBPM+AAS si SAF.','ACR / ACOG');
-  if(chk('p_hipotiro')) add('ANTECEDENTE PERSONAL','moderado','Hipotiroidismo en tratamiento','Objetivo TSH: <2.5 µUI/mL en 1T / <3.0 en 2T-3T. Ajustar dosis levotiroxina al inicio del embarazo (+25-30%). Control TSH c/4 sem hasta estabilizar, luego c/6-8 sem.','ATA / ACOG');
-  if(chk('p_hipotiro_notrat')) add('ANTECEDENTE PERSONAL','alto','Hipotiroidismo sin tratamiento / Anti-TPO+','Iniciar levotiroxina urgente. TSH >2.5 en 1T asociada a déficit neurodesarrollo fetal, aborto y PE. Anti-TPO+ sin hipotiroidismo: mayor riesgo de hipotiroidismo gestacional — monitoreo estrecho.','ATA / ACOG');
+  if(chk('p_hipotiro')) add('ANTECEDENTE PERSONAL','moderado','Hipotiroidismo en tratamiento','Objetivo TSH: mitad inferior del rango del laboratorio; &lt;2.5 µUI/mL es un objetivo razonable (ATA 2017). Ajustar dosis levotiroxina al inicio del embarazo (+25-30%). Control TSH c/4 sem hasta estabilizar, luego c/6-8 sem.','ATA / ACOG');
+  if(chk('p_hipotiro_notrat')) add('ANTECEDENTE PERSONAL','alto','Hipotiroidismo sin tratamiento / Anti-TPO+','Iniciar levotiroxina si hay hipotiroidismo (TSH sobre rango con anti-TPO+, o ≥10). TSH elevada asociada a aborto y PE; la asociación con déficit del neurodesarrollo es observacional (ensayos CATS 2012 y Casey 2017 sin beneficio del tratamiento). Anti-TPO+ sin hipotiroidismo: mayor riesgo de hipotiroidismo gestacional — monitoreo estrecho.','ATA / ACOG');
   if(chk('p_hipertiro')) add('ANTECEDENTE PERSONAL','alto','Hipertiroidismo / Enfermedad de Graves','PTU en 1T (metimazol en 2T-3T). Nunca yodo radiactivo en embarazo. Anti-TRAb+: vigilar hipertiroidismo fetal/neonatal por ECO (biometría, FC, bocio). Endocrinología + obstetricia.','ATA / ACOG / FMF');
   if(chk('p_epi')) add('ANTECEDENTE PERSONAL','alto','Epilepsia','AF 5 mg/día preconcepcional. Monoterapia al mínimo efectivo. Evitar valproato. Neurología+obstetricia.','ACOG / AAN');
   if(chk('p_mthfr')) add('ANTECEDENTE PERSONAL','moderado','Polimorfismo MTHFR (C677T / A1298C)','Usar 5-metiltetrahidrofolato (5-MTHF/Metilfolato) 400–800 µg/día en lugar de ácido fólico sintético. Combinado con Vitamina B12 (metilcobalamina). Evitar ácido fólico no metabolizado. Riesgo: hiperhomocisteinemia, DTN, pérdida gestacional recurrente.','ACOG / revisiones MTHFR 2022–2024');
@@ -4762,6 +4762,7 @@ function calcular(){
     const _t4=val('t4l');
     if(tsh>=10) add('LABORATORIO','alto',`${tshLabel} — hipotiroidismo (TSH ≥10)`,'Iniciar/ajustar levotiroxina independientemente de anti-TPO. Control TSH c/4 sem hasta rango.','ATA 2017 / ACOG');
     else if(tsh>tshRef.max) add('LABORATORIO','moderado',`${tshLabel} — TSH sobre límite superior`,'Solicitar T4L y anti-TPO si no están. Levotiroxina recomendada si anti-TPO+; considerar si anti-TPO− (TSH 4–10). Usar el rango de embarazo del laboratorio si lo informa. Control c/4 sem.','ATA 2017 / ACOG');
+    else if(tsh>(tshTrim==1?2.5:3.0)) add('LABORATORIO','moderado',`${tshLabel} — zona gris (>${tshTrim==1?'2.5 en 1T':'3.0 en 2T–3T'})`,'Sugerencia CaVeSal®: pedir anti-TPO (ATA 2017 rec. 28: TSH >2.5); si anti-TPO+, considerar levotiroxina. CATS 2012 y Casey 2017 no mostraron beneficio en el neurodesarrollo.','Sugerencia CaVeSal® · Basado en: ATA 2011/Endocrine Society 2012 (2.5/3.0) · ATA 2017');
     else if(tsh<tshRef.min){
       if(_t4!==null && _t4>1.8) add('LABORATORIO','alto',`${tshLabel} — TSH suprimida + T4L alta`,'Diferenciar tirotoxicosis gestacional transitoria (hCG, 1T, hiperémesis) de enfermedad de Graves: anti-TRAb, T3. Endocrinología. Graves: PTU en 1T, metimazol en 2T–3T. Nunca yodo radiactivo.','ATA 2017 / ACOG');
       else add('LABORATORIO','moderado',`${tshLabel} — TSH bajo límite`,(tshTrim==1?'En 1T puede ser fisiológica por hCG. ':'')+'Confirmar con T4L (y T3). Si T4L normal: control c/4 sem; no tratar. Descartar Graves si clínica o anti-TRAb+.','ATA 2017 / ACOG');
@@ -5192,7 +5193,7 @@ function calcular(){
   if(vitd!==null){
     // Rangos de laboratorio: Holick MF et al. Endocrine Society 2011 (<20 déficit · 20–29 insuficiencia · ≥30 suficiente)
     if(vitd<20) add('LABORATORIO','moderado',`Vitamina D ${vitd} ng/mL (déficit, <20)`,'Déficit documentado: suplementar (OMS 2020: la suplementación se reserva para déficit documentado o sospechado). Control en 8–12 semanas.','Endocrine Society 2011 (rangos) / OMS 2020');
-    else if(vitd<30) add('LABORATORIO','bajo',`Vitamina D ${vitd} ng/mL (insuficiencia, 20–29)`,'Asegurar dieta y exposición solar; valorar suplementación según riesgo. OMS 2020 y Endocrine Society 2024 no recomiendan medir de rutina en el embarazo.','Endocrine Society 2011 (rangos) / OMS 2020 / Endocrine Society 2024');
+    else if(vitd<30) add('LABORATORIO','bajo',`Vitamina D ${vitd} ng/mL (insuficiencia, 20–29)`,'Zona gris: suplementar a criterio del médico (1000–2000 UI/día). Asegurar dieta y exposición solar. OMS 2020 y Endocrine Society 2024 no recomiendan medir de rutina en el embarazo.','Endocrine Society 2011 (rangos) / OMS 2020 / Endocrine Society 2024');
   }
 
   // ── FERRITINA / SAT TRANSFERRINA ──
@@ -5776,7 +5777,7 @@ function calcular(){
   else if(_hayDatos) suple.push({pill:'Hierro',text:'30–60 mg/día profiláctico si ferritina <30 ng/mL o dieta insuficiente. (Sin datos de Hb registrados — evaluar en consulta.)'});
   if(_hayDatos) suple.push({pill:'Yodo',text:'150–200 µg/día — Sal yodada + suplemento prenatal. Esencial para neurodesarrollo fetal.'});
   if(tieneOmega) suple.push({pill:'Omega-3 DHA',text:'1000 mg/día DHA+EPA — Reduce riesgo PE precoz y pretérmino (Cochrane). Iniciar antes sem 20.'});
-  if(chk('p_dm')||chk('p_epi')||(imcP&&imcP>=30)) suple.push({pill:'Vitamina D',text:'1000–2000 UI/día — DM, epilepsia, obesidad o baja exposición solar.'});
+  if(chk('p_dm')||chk('p_epi')||(imcP&&imcP>=30)) suple.push({pill:'Vitamina D',text:'1000–2000 UI/día a criterio del médico (FLASOG 2026) — DM, epilepsia, obesidad o baja exposición solar.'});
 
   // DERIVACIÓN
   const derivar=findings.filter(f=>f.nivel==='alto').length>=2||
@@ -8918,7 +8919,7 @@ function getCalendarioLab(egSem){
       'Perfil lipídico (colesterol, triglicéridos, HDL, LDL)',
       'Urocultivo + orina simple',
       'Secreción vaginal',
-      'Vitamina D sérica ⚠️ No rutina — solicitar en: obesidad, piel oscura, poca exposición solar, vegetariana (Endocrine Society 2024)',
+      'Vitamina D sérica ⚠️ No rutina (Endocrine Society 2024, OMS 2020, Neuquén/USPSTF) — a criterio clínico',
     ]
   });
   // 2T
@@ -9113,15 +9114,15 @@ function getSupleRecomendaciones(findings, hb, vitd, egSem){
   let vitdDosis, vitdNota, vitdAlerta;
   if(vitd !== null){
     if(vitd >= 30){ vitdDosis = 'No requiere suplementación adicional'; vitdNota = `Nivel sérico ${vitd} ng/mL — óptimo (≥30 ng/mL). Mantener dieta y exposición solar`; vitdAlerta = 'bajo'; }
-    else if(vitd >= 20){ vitdDosis = '1000–2000 UI/día'; vitdNota = `Nivel sérico ${vitd} ng/mL — insuficiencia (20–29 ng/mL). Control en 8–12 sem. Asociada a ↓PE, ↓DG, ↓pretérmino`; vitdAlerta = 'moder'; }
+    else if(vitd >= 20){ vitdDosis = '1000–2000 UI/día a criterio del médico'; vitdNota = `Nivel sérico ${vitd} ng/mL — insuficiencia (20–29 ng/mL), zona gris. Control en 8–12 sem. Asociada a ↓PE, ↓DG, ↓pretérmino`; vitdAlerta = 'moder'; }
     else { vitdDosis = '2000–4000 UI/día'; vitdNota = `Nivel sérico ${vitd} ng/mL — déficit (<20 ng/mL, rango Endocrine Society 2011). Asociada a ↓PE, ↓DG, ↓pretérmino`; vitdAlerta = 'alto'; }
   } else {
-    vitdDosis = '1000–2000 UI/día (empírica en grupos de riesgo)';
-    vitdNota = 'Sin nivel sérico disponible. Empírica en: obesidad, piel oscura, poca exposición solar, invierno — Endocrine Society 2024. Asociada a ↓PE, ↓DG, ↓pretérmino';
+    vitdDosis = 'A criterio del médico';
+    vitdNota = 'Sin nivel sérico (no se mide de rutina). Endocrine Society 2024: suplementación empírica a todas las embarazadas (ensayos 600–5000 UI/día, media ~2500). OMS 2020: no suplementar de rutina. FLASOG 2026: 1000–2000 UI/día, máx 4000.';
     vitdAlerta = 'moder';
   }
   recs.push({icon:'☀️', supl:'Vitamina D', dosis:vitdDosis, nota:vitdNota, alerta:vitdAlerta,
-    pie:'Rangos de laboratorio: <20 déficit · 20–29 insuficiencia · ≥30 suficiente (Endocrine Society 2011). OMS 2020: no suplementar ni medir de rutina; suplementar si déficit documentado o sospechado. Endocrine Society 2024: no medir de rutina en el embarazo.'});
+    pie:'Rangos de laboratorio: <20 déficit · 20–29 insuficiencia · ≥30 suficiente (Endocrine Society 2011); IOM 2011: <12 riesgo de deficiencia · ≥20 suficiente. OMS 2020: no suplementar de rutina. Endocrine Society 2024: suplementación empírica sin dosar. Ninguna recomienda medir de rutina.'});
 
   // ── OMEGA-3 ──
   let omDosis, omNota, omAlerta;
