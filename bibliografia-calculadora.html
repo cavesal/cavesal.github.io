@@ -35,11 +35,12 @@
   .back-top{display:inline-block;margin-top:10px;font-size:.78rem;color:var(--teal);text-decoration:none}
   a{color:var(--teal)}
 </style>
-</head>
+<link rel="alternate" hreflang="es" href="https://cavesal.app/bibliografia-calculadora.html"><link rel="alternate" hreflang="en" href="https://cavesal.app/bibliografia-calculadora-en.html"><link rel="alternate" hreflang="pt" href="https://cavesal.app/bibliografia-calculadora-pt.html"><style>.langs{display:flex;gap:4px;justify-content:center;margin-top:10px}.langs a{color:#fff;border:1px solid rgba(255,255,255,.45);border-radius:999px;padding:3px 10px;font-size:.75rem;font-weight:700;text-decoration:none}.langs a[aria-current=page]{background:rgba(255,255,255,.28)}</style></head>
 <body>
 <header id="top">
   <h1>📖 Bibliografía completa</h1>
   <p>CaVeSal® Calculadora Prenatal — Referencias de respaldo de cada módulo, por área clínica</p>
+  <div class="langs" role="group" aria-label="Idioma / Language"><a class="lang-pill" href="bibliografia-calculadora.html" hreflang="es" aria-current="page">ES</a><a class="lang-pill" href="bibliografia-calculadora-en.html" hreflang="en">EN</a><a class="lang-pill" href="bibliografia-calculadora-pt.html" hreflang="pt">PT</a></div>
 </header>
 <main>
 <div id="content">
@@ -522,5 +523,6 @@
 
 </div>
 </main>
+<script>document.querySelectorAll(".lang-pill").forEach(function(a){a.addEventListener("click",function(){if(location.hash)a.href=a.getAttribute("href").split("#")[0]+location.hash;});});</script>
 </body>
 </html>
