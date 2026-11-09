@@ -1371,7 +1371,7 @@ document.addEventListener('DOMContentLoaded', function(){
     </div>
 
     <p class="sub-title">Metabolismo de glucosa</p>
-    <div class="note-box"><strong>Criterios IADPSG para DG (SOG 75g):</strong> Ayunas ≥92 · 1h ≥180 · 2h ≥153 mg/dL — cualquier valor = DG. Realizar <strong>sem 24–28</strong> (o precoz si factores de riesgo). HbA1c ≥6.5% = DM en embarazo.</div>
+    <div class="note-box"><strong>Criterios IADPSG/OMS 2013 (SOG 75g):</strong> Ayunas ≥92 · 1h ≥180 · 2h ≥153 mg/dL — cualquier valor = DG (vigentes en ADA 2026 y en la norma MSPBS). Realizar <strong>sem 24–28</strong> (o precoz si factores de riesgo). HbA1c ≥6.5% = DM en embarazo.<br><strong>Antes de las 15 semanas:</strong> ayunas 92–125 = DG para MSPBS/IADPSG/OMS 2013; la ADA 2026 solo considera de alto riesgo 110–125 (o HbA1c 5,9–6,4%) y repite la evaluación a las 24–28 sem si 92–109 (TOBOGM). A criterio del médico.<br><strong>MSPBS:</strong> 2h 140–152 = alto riesgo de desarrollar diabetes.</div>
     <div class="row3">
       <div class="field"><label>SOG/TTOG ayunas (mg/dL)</label>
         <input type="number" id="lab_sog_0" placeholder="—">
@@ -1389,11 +1389,11 @@ document.addEventListener('DOMContentLoaded', function(){
     <div class="row2">
       <div class="field"><label>Glucemia ayunas (mg/dL)</label>
         <input type="number" id="glucemia" placeholder="—">
-        <div class="hint">Normal embarazo: &lt;92 (IADPSG) · &lt;100 (OMS)</div>
+        <div class="hint">&lt;92 normal (IADPSG/OMS 2013) · &lt;15 sem: ver lectura ADA 2026</div>
       </div>
       <div class="field"><label>HbA1c (%)</label>
         <input type="number" id="lab_hba1c" placeholder="—" step="0.1">
-        <div class="hint">≥6.5% en 1ª visita = DM en embarazo</div>
+        <div class="hint">≥6.5% = DM en embarazo · 5,9–6,4% &lt;15 sem = alto riesgo (ADA 2026)</div>
       </div>
     </div>
 
@@ -1716,22 +1716,28 @@ document.addEventListener('DOMContentLoaded', function(){
     <div style="margin-bottom:10px;padding:8px;background:var(--mist);border-radius:10px;">
       <div style="font-size:.72rem;color:var(--slate);margin-bottom:6px;font-weight:600;">📋 Protocolo:</div>
       <div style="display:flex;gap:8px;margin-bottom:4px;">
-        <button id="dmg_btn_iadpsg" onclick="setDmgRef('iadpsg')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.66rem;font-weight:700;cursor:pointer;background:var(--teal);color:#fff;">IADPSG/ALAD/ADA 1 paso (75g)</button>
+        <button id="dmg_btn_iadpsg" onclick="setDmgRef('iadpsg')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.66rem;font-weight:700;cursor:pointer;background:var(--teal);color:#fff;">IADPSG/OMS/ADA 1 paso (75g)</button>
         <button id="dmg_btn_ada2p" onclick="setDmgRef('ada2p')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.66rem;font-weight:700;cursor:pointer;background:var(--mist);color:var(--slate);">ADA 2 pasos (100g)</button>
+        <button id="dmg_btn_alad" onclick="setDmgRef('alad')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.66rem;font-weight:700;cursor:pointer;background:var(--mist);color:var(--slate);">ALAD 2016 (75g)</button>
       </div>
-      <div style="font-size:.63rem;color:var(--slate);font-style:italic;">1 valor alterado = DMG (1 paso) · ≥2 valores = DMG (2 pasos)</div>
+      <div id="dmg_proto_hint" style="font-size:.63rem;color:var(--slate);">1 valor alterado = DMG (1 paso) · ≥2 valores = DMG (2 pasos) · ALAD: ayunas 100–125 ×2 o 2h ≥140</div>
     </div>
 
     <div id="dmg_paso1_ada" style="display:none">
       <div class="field"><label>Paso 1 — Glucosa 50g sin ayuno (mg/dL)</label>
         <input type="number" id="dmg_50g" placeholder="umbral ≥130" step="0.1" oninput="calcDMG()">
+        <div class="hint">CaVeSal usa ≥130. ADA/ACOG aceptan 130, 135 o 140. ACOG acepta 1 valor alterado en la de 100 g y también los umbrales NDDG.</div>
       </div>
     </div>
 
     <div class="row2">
       <div class="field"><label>Glucemia ayunas (mg/dL)</label>
         <input type="number" id="dmg_ayuno" placeholder="ej. 88" step="0.1" oninput="calcDMG()">
-        <div class="hint">IADPSG ≥92 · ADA 2p ≥95 · ≥126=DM</div>
+        <div class="hint">IADPSG ≥92 · ADA 2p ≥95 · ALAD 100–125 ×2 · ≥126=DM</div>
+      </div>
+      <div class="field" id="dmg_ayuno2_field" style="display:none"><label>2ª glucemia ayunas (mg/dL)</label>
+        <input type="number" id="dmg_ayuno2" placeholder="repetida" step="0.1" oninput="calcDMG()">
+        <div class="hint">ALAD: confirmar 100–125</div>
       </div>
       <div class="field"><label>1 hora (mg/dL)</label>
         <input type="number" id="dmg_1h" placeholder="ej. 155" step="0.1" oninput="calcDMG()">
@@ -1741,7 +1747,7 @@ document.addEventListener('DOMContentLoaded', function(){
     <div class="row2">
       <div class="field"><label>2 horas (mg/dL)</label>
         <input type="number" id="dmg_2h" placeholder="ej. 140" step="0.1" oninput="calcDMG()">
-        <div class="hint">IADPSG ≥153 · ADA2p ≥155</div>
+        <div class="hint">IADPSG ≥153 · ADA2p ≥155 · ALAD ≥140 · MSPBS 140–152 alto riesgo</div>
       </div>
       <div class="field" id="dmg_3h_field" style="display:none">
         <label>3 horas (mg/dL)</label>
@@ -1751,7 +1757,7 @@ document.addEventListener('DOMContentLoaded', function(){
     </div>
     <div class="field"><label>HbA1c (%)</label>
       <input type="number" id="dmg_hba1c" placeholder="ej. 5.4" step="0.1" oninput="calcDMG()">
-      <div class="hint">No es criterio DMG · ≥6.5%=DM · 5.7-6.4%=prediabetes</div>
+      <div class="hint">No es criterio DMG · ≥6.5%=DM · 5,9–6,4% &lt;15 sem=alto riesgo (ADA 2026)</div>
     </div>
     <div id="dmg_result" style="display:none;margin-top:8px"></div>
 
@@ -3853,7 +3859,7 @@ Microcefalia: CC &lt;p3 para EG.</div>
     <div style="font-size:.76rem;color:var(--slate);line-height:1.8">
       <strong style="color:var(--navy)">Cribado cromosómico:</strong> Medicina Fetal Barcelona (cortes de riesgo, preferida) · Nicolaides 2005 / FMF (alternativa) · Snijders 1998 · Nicolaides 1998 (mediana TN) · Kagan · Cicero 2001 y 2004<br>
       <strong style="color:var(--navy)">Preeclampsia:</strong> FMF · ISSHP · Roche/BRAHMS (sFlt-1/PlGF) · Medicina Fetal Barcelona<br>
-      <strong style="color:var(--navy)">Diabetes gestacional:</strong> IADPSG 2010 · ADA 2026 · ALAD 2019 · OMS<br>
+      <strong style="color:var(--navy)">Diabetes gestacional:</strong> IADPSG 2010 · OMS 2013 · ADA 2026 (Secciones 2 y 15) · ALAD 2016 (Salzberg S et al.) · MSPBS Paraguay (Manual Nacional y Flujograma) · Simmons D et al. NEJM 2023 (TOBOGM)<br>
       <strong style="color:var(--navy)">Tiroides (TSH · T4 libre · Anti-TPO):</strong> Alexander EK et al. ATA 2017 (Thyroid 2017;27:315-389) · Lazarus JH et al. NEJM 2012;366:493-501 (CATS) · Casey BM et al. NEJM 2017;376:815-825 · ACOG<br>
       <strong style="color:var(--navy)">Rangos de laboratorio en el embarazo:</strong> Tabla propia CaVeSal® · Basado en: OMS 2024 (Hb por trimestre) · FIGO 2025 (anemia) · ACOG Practice Bulletin 233 (2021) y OMS 2020 (ferritina) · SOAP 2021 (plaquetas y neuroaxial) · Abbassi-Ghanavati M et al. Obstet Gynecol 2009;114:1326-1331 · Wiles K et al. 2019 (creatinina) · ACOG 2020 (preeclampsia) · Holick MF et al. Endocrine Society 2011 (rangos de vitamina D) · OMS 2020 y Endocrine Society 2024 (vitamina D)<br>
       <strong style="color:var(--navy)">Suplementación:</strong> OMS · ACOG · NICE · FIGO · Endocrine Society 2024 (Demay MB et al.) · Holick MF et al. 2011 · IOM 2011 (Ross AC et al. JCEM 2011;96:53-58) · Bouillon R. Nat Rev Endocrinol 2017;13:466-479 · FLASOG 2026 · EBCOG 2024 · Cochrane<br>
@@ -4650,7 +4656,7 @@ function calcular(){
 
   // ANTECEDENTES OBS
   if(chk('obs_pe')) add('ANTECEDENTE OBSTÉTRICO','alto','Preeclampsia previa','AAS ~150 mg cada noche desde 11–14+6 sem hasta 36 sem, el parto o el diagnóstico de PE (FIGO 2019, pauta preferida por CaVeSal). Alternativa: 81 mg/día desde 12–28 sem (idealmente antes de 16) hasta el parto (ACOG PB 222, 2020). Doppler uterinas 1T y 2T. PlGF/sFlt-1 si sospecha. Vigilancia PA semanal.','FIGO 2019 / FMF / NICE / ACOG');
-  if(chk('obs_dg')) add('ANTECEDENTE OBSTÉTRICO','moderado','Diabetes gestacional previa','SOG precoz (<20 sem) + estándar sem 24–28. Autocontrol glucémico. Valorar metformina preventiva.','ADA / ACOG');
+  if(chk('obs_dg')) add('ANTECEDENTE OBSTÉTRICO','moderado','Diabetes gestacional previa','SOG precoz (<20 sem) + estándar sem 24–28. Autocontrol glucémico. La metformina no previene la DG (ADA 2026).','ADA 2026 / ACOG');
   if(chk('obs_pt')) add('ANTECEDENTE OBSTÉTRICO','alto','Parto pretérmino previo','Cervicometría seriada desde sem 16. Progesterona vaginal 200 mg si cérvix <25 mm. Cerclaje si <15 mm.','FMF / ACOG');
   if(chk('obs_rciu')) add('ANTECEDENTE OBSTÉTRICO','alto','RCIU previo','Biometría mensual desde sem 24. Doppler uterinas 1T. AAS si PI alterado. Vigilancia placentaria.','FMF / ACOG');
   if(chk('obs_mf')) add('ANTECEDENTE OBSTÉTRICO','alto','Muerte fetal previa','Estudio etiológico. Vigilancia fetal estricta (NST desde sem 32). Valorar inducción programada.','ACOG');
@@ -4747,7 +4753,9 @@ function calcular(){
   }
   if(gluc!==null){
     if(gluc>=126) add('LABORATORIO','alto',`Glucemia ayunas ${gluc} mg/dL (DM en embarazo)`,'DM en embarazo (≥126 mg/dL). Autocontrol. Metformina/insulina. Biometría seriada.','ADA / IADPSG');
-    else if(gluc>=92) add('LABORATORIO','moderado',`Glucemia ayunas ${gluc} mg/dL (criterio DG)`,'Criterio IADPSG (≥92 mg/dL). Dieta, autocontrol. Valorar insulina. Biometría desde sem 28.','IADPSG / ADA');
+    else if(gluc>=92){const _dt=_dgTemprana(gluc,eg?eg.sem:null);
+      if(_dt) add('LABORATORIO',_dt.nivel,`Glucemia ayunas ${gluc} mg/dL (${_dt.titulo})`,_dt.texto,_dt.fuente);
+      else add('LABORATORIO','moderado',`Glucemia ayunas ${gluc} mg/dL (criterio DG)`,'Criterio IADPSG/OMS 2013 (≥92 mg/dL). Dieta, autocontrol. Valorar insulina. Biometría desde sem 28.','IADPSG / OMS 2013 / ADA 2026');}
   }
   if(creat!==null){
     // Algoritmo propio CaVeSal® · Basado en: Wiles K et al. 2019 (rango gestacional) · ACOG 2020 (gravedad PE)
@@ -5063,12 +5071,22 @@ function calcular(){
         hba1c=val('lab_hba1c')||val('dmg_hba1c'),
         sog50=val('dmg_50g');
   const usandoADA2p=(typeof dmgRef!=='undefined'&&dmgRef==='ada2p');
+  const usandoALAD=(typeof dmgRef!=='undefined'&&dmgRef==='alad');
+  const _semDG=eg?eg.sem:null;
   let dgConfirmado=false;
-  // IADPSG / ADA 1 paso
-  if(!usandoADA2p){
-    if(sog0!==null&&sog0>=92){dgConfirmado=true; add('LABORATORIO','alto',`SOG ayunas ${sog0} mg/dL (≥92 — criterio IADPSG)`,'⚠️ EMBARAZO DE ALTO RIESGO — Diagnóstico de DM Gestacional (IADPSG/ADA). Conducta: derivar a clínico/internista y endocrinólogo. Nutricionista: dieta con 40–45% carbohidratos. Autocontrol glucémico: ayunas <95 mg/dL, 1h postprandial <140, 2h <120. Insulina si no se alcanzan objetivos en 1–2 semanas. Biometría seriada desde sem 28. Próxima visita en 2 semanas.','IADPSG 2010 / ADA 2026 / ALAD 2019');}
+  if(usandoALAD){
+    // Algoritmo propio CaVeSal® · Basado en: Salzberg S et al. ALAD 2016 (Rev ALAD 2016;6:155-69)
+    const sogR=val('dmg_ayuno2');
+    if(sog0!==null&&sog0>=100&&sog0<126&&sogR!==null&&sogR>=100&&sogR<126){dgConfirmado=true; add('LABORATORIO','alto',`Ayunas ${sog0} y ${sogR} mg/dL (100–125 ×2 — criterio ALAD)`,'⚠️ EMBARAZO DE ALTO RIESGO — DM Gestacional (ALAD 2016). Derivar endocrinólogo + nutricionista. Autocontrol glucémico: ayunas <95, 1h pp <140, 2h pp <120. Insulina si no se alcanzan objetivos en 1–2 semanas. Biometría seriada desde sem 28.','ALAD 2016 / ADA 2026');}
+    else if(sog0!==null&&sog0>=100&&sog0<126) add('LABORATORIO','moderado',`Ayunas ${sog0} mg/dL (100–125 — ALAD)`,'ALAD exige una segunda glucemia en ayunas 100–125 para confirmar. Repetir.','ALAD 2016');
+    if(sog2!==null&&sog2>=140){dgConfirmado=true; add('LABORATORIO','alto',`SOG 2h ${sog2} mg/dL (≥140 — criterio ALAD)`,'⚠️ EMBARAZO DE ALTO RIESGO — DM Gestacional (ALAD 2016). Derivar endocrinólogo + nutricionista. Autocontrol glucémico. Biometría seriada desde sem 28.','ALAD 2016');}
+  } else if(!usandoADA2p){
+    const _dt0=(sog0!==null&&sog0>=92&&sog0<126&&sog1===null&&sog2===null)?_dgTemprana(sog0,_semDG):null;
+    if(_dt0){ if(_dt0.nivel==='alto') dgConfirmado=true; add('LABORATORIO',_dt0.nivel,`Glucemia ayunas ${sog0} mg/dL (${_dt0.titulo})`,_dt0.texto,_dt0.fuente); }
+    else if(sog0!==null&&sog0>=92){dgConfirmado=true; add('LABORATORIO','alto',`SOG ayunas ${sog0} mg/dL (≥92 — criterio IADPSG)`,'⚠️ EMBARAZO DE ALTO RIESGO — Diagnóstico de DM Gestacional (IADPSG/ADA). Conducta: derivar a clínico/internista y endocrinólogo. Nutricionista: dieta con 40–45% carbohidratos. Autocontrol glucémico: ayunas <95 mg/dL, 1h postprandial <140, 2h <120. Insulina si no se alcanzan objetivos en 1–2 semanas. Biometría seriada desde sem 28. Próxima visita en 2 semanas.','IADPSG 2010 / OMS 2013 / ADA 2026');}
     if(sog1!==null&&sog1>=180){dgConfirmado=true; add('LABORATORIO','alto',`SOG 1h ${sog1} mg/dL (≥180 — criterio IADPSG)`,'⚠️ EMBARAZO DE ALTO RIESGO — DM Gestacional confirmada. Manejo nutricional inmediato. Endocrinólogo + nutricionista. Insulina si glucemia no controlada en 1–2 semanas. Biometría seriada.','IADPSG 2010 / ADA 2026');}
     if(sog2!==null&&sog2>=153){dgConfirmado=true; add('LABORATORIO','alto',`SOG 2h ${sog2} mg/dL (≥153 — criterio IADPSG)`,'⚠️ EMBARAZO DE ALTO RIESGO — DM Gestacional confirmada. Dieta, autocontrol glucémico. Derivar endocrinólogo y nutricionista. Biometría seriada desde sem 28.','IADPSG 2010 / ADA 2026');}
+    else if(sog2!==null&&sog2>=140&&!dgConfirmado) add('LABORATORIO','moderado',`SOG 2h ${sog2} mg/dL (140–152 — alto riesgo de desarrollar diabetes)`,'No es DG por IADPSG/OMS 2013. La norma MSPBS la clasifica como alto riesgo de desarrollar diabetes: plan nutricional, actividad física y seguimiento glucémico a criterio del médico. Reclasificar en el posparto.','MSPBS — Flujograma de hiperglucemia en el embarazo');
   } else {
     // ADA 2 pasos
     let alteradosADA=0;
@@ -5077,11 +5095,14 @@ function calcular(){
     if(sog2!==null&&sog2>=155) alteradosADA++;
     if(sog3!==null&&sog3>=140) alteradosADA++;
     if(alteradosADA>=2){dgConfirmado=true; add('LABORATORIO','alto',`DM Gestacional (ADA 2 pasos — ${alteradosADA} valores alterados)`,'⚠️ EMBARAZO DE ALTO RIESGO — DM Gestacional (crit. ADA). Derivar endocrinólogo + nutricionista. Autocontrol glucémico. Insulina si objetivos no alcanzados. Biometría seriada desde sem 28.','ADA 2026 / ACOG');}
-    else if(alteradosADA===1&&!dgConfirmado) add('LABORATORIO','moderado',`SOG 100g: 1 valor alterado (ADA)`,'Ûn valor alterado no alcanza diagnóstico (requiere ≥2). Repetir SOG en 4 semanas si factores de riesgo persisten. Intervención en estilo de vida.','ADA 2026');
+    else if(alteradosADA===1&&!dgConfirmado) add('LABORATORIO','moderado',`SOG 100g: 1 valor alterado (ADA)`,'Un valor alterado no alcanza diagnóstico (requiere ≥2). Repetir SOG en 4 semanas si factores de riesgo persisten. Intervención en estilo de vida.','ADA 2026');
   }
   // HbA1c
   if(hba1c!==null&&hba1c>=6.5) add('LABORATORIO','alto',`HbA1c ${hba1c}% (≥6.5% — DM PREGESTACIONAL)`,'⚠️ EMBARAZO DE ALTO RIESGO — DM pregestacional no diagnosticada (NO es DMG). Derivar URGENTE a endocrinólogo. Objetivo HbA1c <6.5% durante el embarazo. Autocontrol estricto: ayunas <95 mg/dL, 2h postprandial <120. Ecocardiografía fetal + ECO morfológica. Biometría mensual.','ADA 2026 / ACOG');
-  else if(hba1c!==null&&hba1c>=5.7&&!dgConfirmado) add('LABORATORIO','moderado',`HbA1c ${hba1c}% (prediabetes — mayor riesgo DG)`,'Prediabetes: mayor riesgo de desarrollar DM Gestacional. Intervención en estilo de vida (dieta, actividad física). Realizar SOG 75g entre semanas 24–28. Control nutricional con nutricionista.','ADA 2026');
+  else if(hba1c!==null&&hba1c>=5.9&&!dgConfirmado){
+    if(_semDG===null||_semDG<15) add('LABORATORIO','moderado',`HbA1c ${hba1c}% (5,9–6,4% — alteración temprana del metabolismo de la glucosa)`,'ADA 2026 (rec. 2.31b): antes de las 15 semanas, HbA1c 5,9–6,4% indica alto riesgo de resultados adversos y de DG. Plan nutricional y actividad física; el tratamiento temprano se decide en forma compartida, a criterio del médico. SOG 75 g a las 24–28 sem si no se diagnosticó antes.','ADA 2026');
+    else add('LABORATORIO','moderado',`HbA1c ${hba1c}% (5,9–6,4% — no diagnóstica)`,'La HbA1c no es criterio de DG después de las 15 semanas. Realizar SOG 75 g a las 24–28 sem.','ADA 2026');
+  }
 
   // ── ÁCIDO ÚRICO ──
   const au=val('lab_au');
@@ -6881,14 +6902,32 @@ function calcAU(){
   _cavesalSetModuleResult('alturaUterina', [{nivel:cls==='alto'?'alto':cls==='moder'?'moderado':'bajo', hallazgo:interp+' ('+au+' cm, percentil '+perc+', EG '+semDias(eg)+')', conducta:conducta, fuente:'Gomes 2001 / CLAP-OPS'}]);
 }
 
-// ════ DMG — Diabetes Mellitus Gestacional (IADPSG/ALAD/ADA) ════
+// ════ Glucemia en ayunas temprana (<15 sem) 92–125: dos lecturas ════
+// Algoritmo propio CaVeSal® · Basado en: IADPSG 2010 · OMS 2013 · MSPBS Paraguay · ADA 2026 (rec. 2.31b, 15.x) · Simmons D et al. NEJM 2023 (TOBOGM)
+function _dgTemprana(v,sem){
+  if(v===null||v<92||v>=126) return null;
+  if(sem!==null&&sem!==undefined&&sem>=15) return null;
+  var ctx=(sem===null||sem===undefined)?'EG no informada':('EG '+sem+' sem');
+  if(v>=110) return {nivel:'alto',titulo:'110–125 antes de las 15 sem — '+ctx,
+    texto:'⚠️ ALTO RIESGO — MSPBS/IADPSG/OMS 2013: diabetes gestacional. ADA 2026: alteración temprana del metabolismo de la glucosa, alto riesgo; tratamiento temprano por decisión compartida (TOBOGM: beneficio en esta franja). Derivar endocrinólogo y nutricionista. A criterio del médico.',
+    fuente:'MSPBS · IADPSG 2010 · OMS 2013 · ADA 2026 · TOBOGM 2023'};
+  return {nivel:'moderado',titulo:'92–109 antes de las 15 sem — dos lecturas, '+ctx,
+    texto:'MSPBS/IADPSG/OMS 2013: diabetes gestacional. ADA 2026: no diagnóstica; repetir la evaluación con SOG 75 g a las 24–28 sem (TOBOGM: tratar esta franja no mostró beneficio y podría aumentar los recién nacidos PEG). Plan nutricional y actividad física. A criterio del médico.',
+    fuente:'MSPBS · IADPSG 2010 · OMS 2013 · ADA 2026 · TOBOGM 2023'};
+}
+function _dmgSem(){
+  var f=(document.getElementById('fum')||{}).value; if(!f) return null;
+  var d=Math.floor((new Date()-new Date(f))/86400000); if(d<0||d>294) return null; return Math.floor(d/7);
+}
+// ════ DMG — Diabetes Mellitus Gestacional (IADPSG/OMS/ADA · ADA 2 pasos · ALAD 2016) ════
 var dmgRef='iadpsg';
 function setDmgRef(r){
   dmgRef=r;
   var f3=document.getElementById('dmg_3h_field'),fp1=document.getElementById('dmg_paso1_ada');
   if(f3)f3.style.display=r==='ada2p'?'block':'none';
   if(fp1)fp1.style.display=r==='ada2p'?'block':'none';
-  ['iadpsg','ada2p'].forEach(function(id){
+  var fa2=document.getElementById('dmg_ayuno2_field'); if(fa2)fa2.style.display=r==='alad'?'block':'none';
+  ['iadpsg','ada2p','alad'].forEach(function(id){
     var b=document.getElementById('dmg_btn_'+id);
     if(b){b.style.background=id===r?'var(--teal)':'var(--mist)';b.style.color=id===r?'#fff':'var(--slate)';}
   });
@@ -6903,26 +6942,44 @@ function calcDMG(){
   var h2=parseFloat((document.getElementById('dmg_2h')||{}).value)||null;
   var h3=parseFloat((document.getElementById('dmg_3h')||{}).value)||null;
   var hba1c=parseFloat((document.getElementById('dmg_hba1c')||{}).value)||null;
+  var ayuno2=parseFloat((document.getElementById('dmg_ayuno2')||{}).value)||null;
   if(!ayuno&&!h1&&!h2&&!h3&&!hba1c){res.style.display='none';return;}
-  var alterados=0,criterios=[],cls='verde',dx='';
+  var alterados=0,criterios=[],cls='verde',dx='',sem=_dmgSem(),temprana=null,riesgo2h=false;
   if(hba1c){
     if(hba1c>=6.5){cls='alto';criterios.push('HbA1c ≥6.5% → DM PREEXISTENTE');}
-    else if(hba1c>=5.7){if(cls==='verde')cls='moder';criterios.push('HbA1c 5.7-6.4% → prediabetes');}
+    else if(hba1c>=5.9){if(cls==='verde')cls='moder';criterios.push((sem===null||sem<15)?'HbA1c 5,9–6,4% <15 sem → alteración temprana del metabolismo de la glucosa (ADA 2026)':'HbA1c 5,9–6,4% → no diagnóstica después de 15 sem; SOG 75 g a las 24–28 sem');}
   }
   if(dmgRef==='iadpsg'){
     if(ayuno!==null){
       if(ayuno>=126){cls='alto';criterios.push('Ayuno ≥126 → DM en embarazo (no DMG)');}
+      else if(ayuno>=92&&h1===null&&h2===null&&(temprana=_dgTemprana(ayuno,sem))){criterios.push('Ayuno '+ayuno+' — '+temprana.titulo);}
       else if(ayuno>=92){alterados++;criterios.push('Ayuno '+ayuno+' ≥92 ✓');}
       else criterios.push('Ayuno '+ayuno+' — normal');
     }
     if(h1!==null){if(h1>=180){alterados++;criterios.push('1h '+h1+' ≥180 ✓');}else criterios.push('1h '+h1+' — normal');}
-    if(h2!==null){if(h2>=153){alterados++;criterios.push('2h '+h2+' ≥153 ✓');}else criterios.push('2h '+h2+' — normal');}
-    if(alterados>=1&&cls!=='alto'){cls='alto';dx='DIABETES GESTACIONAL (IADPSG/ADA/ALAD)';}
+    if(h2!==null){if(h2>=153){alterados++;criterios.push('2h '+h2+' ≥153 ✓');}else if(h2>=140){riesgo2h=true;criterios.push('2h '+h2+' — 140–152: alto riesgo de desarrollar diabetes (MSPBS)');}else criterios.push('2h '+h2+' — normal');}
+    if(alterados>=1&&cls!=='alto'){cls='alto';dx='DIABETES GESTACIONAL (IADPSG/OMS 2013/ADA)';}
+    else if(temprana&&cls!=='alto'){cls=temprana.nivel==='alto'?'alto':'moder';dx=temprana.nivel==='alto'?'ALTO RIESGO — GLUCEMIA TEMPRANA 110–125':'GLUCEMIA TEMPRANA 92–109 — DOS LECTURAS';}
+    else if(riesgo2h&&alterados===0&&cls!=='alto'){cls='moder';dx='Alto riesgo de desarrollar diabetes (MSPBS)';}
+    else if(alterados===0&&cls==='verde')dx='Sin criterios de DMG';
+  } else if(dmgRef==='alad'){
+    // Algoritmo propio CaVeSal® · Basado en: Salzberg S et al. ALAD 2016
+    if(ayuno!==null){
+      if(ayuno>=126){cls='alto';criterios.push('Ayuno ≥126 → DM en embarazo (no DMG)');}
+      else if(ayuno>=100){
+        if(ayuno2!==null&&ayuno2>=100&&ayuno2<126){alterados++;criterios.push('Ayuno '+ayuno+' y '+ayuno2+' (100–125 ×2) ✓');}
+        else if(ayuno2!==null){criterios.push('Ayuno '+ayuno+' con 2ª glucemia '+ayuno2+' — no confirma');}
+        else{if(cls==='verde')cls='moder';criterios.push('Ayuno '+ayuno+' (100–125) → repetir para confirmar');}
+      } else criterios.push('Ayuno '+ayuno+' — normal (ALAD &lt;100)');
+    }
+    if(h2!==null){if(h2>=140){alterados++;criterios.push('2h '+h2+' ≥140 ✓');}else criterios.push('2h '+h2+' — normal');}
+    if(alterados>=1&&cls!=='alto'){cls='alto';dx='DIABETES GESTACIONAL (ALAD 2016)';}
+    else if(alterados===0&&cls==='moder'&&!dx)dx='Ayuno alterado — repetir (ALAD)';
     else if(alterados===0&&cls==='verde')dx='Sin criterios de DMG';
   } else {
     var p1=parseFloat((document.getElementById('dmg_50g')||{}).value)||null;
     if(p1!==null){
-      if(p1>=130)criterios.push('Paso 1 (50g): '+p1+' ≥130 → PTOG 100g');
+      if(p1>=130)criterios.push('Paso 1 (50g): '+p1+' ≥130 → PTOG 100g (ADA/ACOG aceptan 130, 135 o 140)');
       else{criterios.push('Paso 1 (50g): '+p1+' <130 → NORMAL');cls='verde';dx='Paso 1 normal';}
     }
     if(ayuno!==null){if(ayuno>=95){alterados++;criterios.push('Ayuno '+ayuno+' ≥95 ✓');}else criterios.push('Ayuno '+ayuno+' — normal');}
@@ -6952,21 +7009,26 @@ function calcDMG(){
     guiaDG+='<div style="color:#5a1a1a">• Biometría fetal mensual</div>';
     guiaDG+='<div style="color:#5a1a1a">• Autocontrol estricto: ayunas &lt;95 mg/dL · 2h postprandial &lt;120</div>';
     guiaDG+='</div>';
-  } else if(cls==='moder'&&criterios.some(function(c){return c.indexOf('prediabetes')>=0;})){
+  } else if(temprana){
     guiaDG='<div style="background:#fff8e1;border-left:3px solid #f0ad4e;border-radius:8px;padding:10px;margin-top:8px;font-size:.78rem;line-height:1.6">';
-    guiaDG+='<div style="font-weight:800;color:#7a5f00;margin-bottom:4px">⚠️ Prediabetes — Mayor riesgo de DG</div>';
+    guiaDG+='<div style="font-weight:800;color:#7a5f00;margin-bottom:4px">Dos lecturas — a criterio del médico</div>';
+    guiaDG+='<div style="color:#5a4000">'+temprana.texto+'</div>';
+    guiaDG+='</div>';
+  } else if(cls==='moder'&&(riesgo2h||criterios.some(function(c){return c.indexOf('5,9–6,4')>=0;}))){
+    guiaDG='<div style="background:#fff8e1;border-left:3px solid #f0ad4e;border-radius:8px;padding:10px;margin-top:8px;font-size:.78rem;line-height:1.6">';
+    guiaDG+='<div style="font-weight:800;color:#7a5f00;margin-bottom:4px">⚠️ Mayor riesgo — sin diagnóstico de DG</div>';
     guiaDG+='<div style="color:#5a4000">• Intervención en estilo de vida: dieta y actividad física</div>';
-    guiaDG+='<div style="color:#5a4000">• Realizar SOG 75g entre semanas 24–28</div>';
     guiaDG+='<div style="color:#5a4000">• Control nutricional con <strong>nutricionista</strong></div>';
+    guiaDG+='<div style="color:#5a4000">• Seguimiento glucémico y reclasificación posparto (SOG 75 g a las 4–12 semanas)</div>';
     guiaDG+='</div>';
   }
   var html='<div class="alerta-box '+cls+'" style="margin-bottom:6px">';
   if(dx)html+='<div style="font-size:.84rem;font-weight:800;margin-bottom:6px">🩸 '+dx+'</div>';
   criterios.forEach(function(c){html+='<div style="font-size:.76rem;margin-bottom:3px">• '+c+'</div>';});
-  html+='</div>'+guiaDG+'<div style="font-size:.64rem;color:var(--slate);margin-top:6px">Ref: IADPSG 2010 · ADA 2026 · ALAD 2019 · HbA1c NO es criterio DMG</div>';
+  html+='</div>'+guiaDG+'<div style="font-size:.64rem;color:var(--slate);margin-top:6px">Ref: IADPSG 2010 · OMS 2013 · ADA 2026 · ALAD 2016 · MSPBS · TOBOGM 2023 · HbA1c NO es criterio DMG</div>';
   res.innerHTML=html;res.style.display='block';
   if(dx||criterios.length){
-    _cavesalSetModuleResult('dmg', [{nivel:cls==='alto'?'alto':cls==='moder'?'moderado':'bajo', hallazgo:(dx||'Sin criterios de DMG')+(criterios.length?' — '+criterios.join('; '):''), conducta:_cavesalStripHtml(guiaDG), fuente:'IADPSG 2010 · ADA 2026 · ALAD 2019'}]);
+    _cavesalSetModuleResult('dmg', [{nivel:cls==='alto'?'alto':cls==='moder'?'moderado':'bajo', hallazgo:(dx||'Sin criterios de DMG')+(criterios.length?' — '+criterios.join('; '):''), conducta:_cavesalStripHtml(guiaDG), fuente:'IADPSG 2010 · OMS 2013 · ADA 2026 · ALAD 2016 · MSPBS'}]);
   }
 }
 
@@ -8709,7 +8771,7 @@ function limpiarFormulario(){
   var cpanel=document.getElementById('cromo-panel-live');
   if(cpanel){cpanel.innerHTML='';cpanel.style.display='none';}
   // Reset Metabolismo
-  ['dmg_ayuno','dmg_1h','dmg_2h','dmg_3h','dmg_hba1c','dmg_50g',
+  ['dmg_ayuno','dmg_ayuno2','dmg_1h','dmg_2h','dmg_3h','dmg_hba1c','dmg_50g',
    'gan_peso_pre','gan_talla','gan_peso_actual','gan_eg','gan_eg_dias',
    'au_cm','au_eg','au_eg_dias'].forEach(function(id){
     var el=document.getElementById(id);if(el)el.value='';
@@ -10216,7 +10278,7 @@ function abrirContacto(){
             {
               tipo: "numero", q: "En la primera consulta, ¿desde qué glucemia en ayunas se diagnostica diabetes gestacional (si es menor de 126 mg/dL)?",
               resp: 92, tol: 0, dec: 0, unidad: "mg/dL",
-              fbOk: "En la primera consulta, una glucemia en ayunas de 92 mg/dL o más, pero menor de 126 mg/dL, se clasifica como diabetes gestacional.",
+              fbOk: "En la primera consulta, una glucemia en ayunas de 92 mg/dL o más, pero menor de 126 mg/dL, se clasifica como diabetes gestacional según IADPSG/OMS 2013 y la norma MSPBS. La ADA 2026 solo considera de alto riesgo 110–125 antes de las 15 semanas.",
               fbMal: "El umbral es 92 mg/dL. Entre 92 y 125 mg/dL en la primera consulta se clasifica como diabetes gestacional; 126 mg/dL o más indica diabetes manifiesta.",
               ref: "IADPSG 2010 · Tabla 2, primera consulta prenatal", url: IADPSG
             },
