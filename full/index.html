@@ -2442,7 +2442,13 @@ document.addEventListener('DOMContentLoaded', function(){
 
     <!-- ECO 1T -->
     <p class="sub-title">ECO 1T (11–13+6 sem) — Doppler y marcadores PE</p>
-    <div class="note-box"><strong>Cortes FMF:</strong> PI uterinas ≥2.35 = &gt;p95 (alto riesgo PE); 1.90–2.34 = p90–95 (moderado). Doppler AO: ≥0.78 alto · 0.70–0.77 limítrofe.</div>
+    <div class="note-box"><strong>IP medio de uterinas:</strong> percentil por EG (Gómez 2008); alterado &gt;P95. Sin EG se usa el P95 de 2.35 para 11–13+6 sem (Martin 2001). <strong>Arteria oftálmica:</strong> dato complementario del riesgo combinado; sin corte único validado en el 1T.</div>
+    <div class="row2"><div class="field"><label>EG al Doppler uterino (sem + días)</label>
+        <div style="display:flex;gap:6px;align-items:center">
+          <input type="number" id="uta1_eg" placeholder="ss" min="11" max="42" step="1" style="width:60px" oninput="calcUtMedio1T()">
+          <span style="font-size:.8rem;color:var(--slate)">+</span>
+          <input type="number" id="uta1_eg_dias" placeholder="dd" min="0" max="6" step="1" style="width:54px" oninput="calcUtMedio1T()">
+        </div></div></div>
     <div class="row2">
       <div class="field">
         <label>Art. Uterina Derecha — IP</label>
@@ -2456,8 +2462,8 @@ document.addEventListener('DOMContentLoaded', function(){
     <div class="row2" style="margin-top:-4px">
       <div class="field">
         <label>IP medio uterinas 1T <span style="font-weight:400;color:var(--slate)">(calculado)</span></label>
-        <input type="number" id="pi1t" placeholder="—" step="0.01" oninput="actualizarPaneles()" style="background:var(--mist)">
-        <div class="hint">Calculado automáticamente · o ingresar directo · Alto ≥2.35</div>
+        <input type="number" id="pi1t" placeholder="—" step="0.01" oninput="utInfo();actualizarPaneles()" style="background:var(--mist)">
+        <div class="hint" id="uta1_info">Calculado automáticamente · o ingresar directo · alterado &gt;P95 para la EG</div>
       </div>
       <div class="field">
         <label>Doppler AO — PSV1 y PSV2</label>
@@ -2468,7 +2474,7 @@ document.addEventListener('DOMContentLoaded', function(){
         </div>
         <label style="font-size:.72rem;color:var(--slate)">Ratio PSV2/PSV1 <span style="font-weight:400">(calculado)</span></label>
         <input type="number" id="ao" placeholder="—" step="0.01" oninput="actualizarPaneles()" style="background:var(--mist)">
-        <div class="hint">≥0.78 alto · 0.70–0.77 límite</div>
+        <div class="hint">Dato complementario (Gana 2022) · sin corte único en el 1T</div>
         <div id="ao_pronostico" style="display:none;margin-top:6px;padding:7px 10px;border-radius:8px;font-size:.72rem;line-height:1.5"></div>
       </div>
     </div>
@@ -2600,7 +2606,13 @@ document.addEventListener('DOMContentLoaded', function(){
 
     <!-- ECO 2T -->
     <p class="sub-title" style="margin-top:16px">ECO 2T (19–22 sem) — Morfológica · PE · Cervicometría</p>
-    <div class="note-box"><strong>PI uterinas 2T:</strong> ≥1.8 = &gt;p95 (alto) · ≥1.44 = p90–95 (moderado) | <strong>sFlt-1/PlGF:</strong> ≤38 descarta PE (1 sem) · 38–85 interm. (&lt;34s) / 38–110 (≥34s) · &gt;85/110 sospecha · &gt;655 inminente</div>
+    <div class="note-box"><strong>IP medio de uterinas 2T:</strong> percentil por EG (Gómez 2008); alterado &gt;P95 | <strong>sFlt-1/PlGF:</strong> ≤38 descarta PE (1 sem) · 38–85 interm. (&lt;34s) / 38–110 (≥34s) · &gt;85/110 sospecha · &gt;655 inminente</div>
+    <div class="row2"><div class="field"><label>EG al Doppler uterino 2T (sem + días)</label>
+        <div style="display:flex;gap:6px;align-items:center">
+          <input type="number" id="uta2_eg" placeholder="ss" min="11" max="42" step="1" style="width:60px" oninput="calcUtMedio2T()">
+          <span style="font-size:.8rem;color:var(--slate)">+</span>
+          <input type="number" id="uta2_eg_dias" placeholder="dd" min="0" max="6" step="1" style="width:54px" oninput="calcUtMedio2T()">
+        </div></div></div>
     <div class="row2">
       <div class="field">
         <label>Art. Uterina Derecha — IP</label>
@@ -2612,7 +2624,7 @@ document.addEventListener('DOMContentLoaded', function(){
       </div>
     </div>
     <div class="row2" style="margin-top:-4px">
-      <div class="field"><label>IP medio uterinas 2T <span style="font-weight:400;color:var(--slate)">(calculado)</span></label><input type="number" id="pi2t" placeholder="—" step="0.01" oninput="actualizarPaneles()" style="background:var(--mist)"><div class="hint">Calculado automáticamente · o ingresar directo · Alto ≥1.8</div></div>
+      <div class="field"><label>IP medio uterinas 2T <span style="font-weight:400;color:var(--slate)">(calculado)</span></label><input type="number" id="pi2t" placeholder="—" step="0.01" oninput="utInfo();actualizarPaneles()" style="background:var(--mist)"><div class="hint" id="uta2_info">Alterado &gt;P95 para la EG · ingresá la EG</div><div class="hint">Calculado automáticamente · o ingresar directo · Alto ≥1.8</div></div>
       <div class="field"><label>Cervicometría (mm)</label><input type="number" id="cervix" placeholder="—" oninput="actualizarPaneles()"><div class="hint">&lt;25 mm corto · &lt;15 mm muy corto</div></div>
     </div>
     <div class="row2">
@@ -2750,7 +2762,7 @@ document.addEventListener('DOMContentLoaded', function(){
     <div class="row2">
       <div class="field"><label>Diámetro transverso de cerebelo — DTC (mm)</label>
         <input type="number" id="mf_dtc" placeholder="ej. 22.0" step="0.1">
-        <div class="hint">14–24 sem: DTC(mm) ≈ EG(semanas). 20–24 sem: 20.0–25.5 mm (p50) · Dato de referencia — no dispara alerta automática (el corte real es por tabla de percentil p5–p95 por EG, no por mm de diferencia)</div>
+        <div class="hint">14–21 sem: DTC(mm) ≈ EG(semanas). Dato de referencia — el percentil por EG está en Ecografía › Cerebelo</div>
       </div>
       <div class="field"><label>Signo de la banana</label>
         <select id="mf_banana"><option value="">—</option><option value="ausente">Ausente (normal)</option><option value="presente">Presente ⚠️</option></select>
@@ -3239,7 +3251,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     <!-- ARTERIA OFTÁLMICA 2T/3T — pronóstico HIE/PE -->
     <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin:14px 0 4px">👁️ Arteria Oftálmica — Pronóstico HIE/PE</div>
-    <div class="note-box" style="margin-bottom:8px">En paciente con HIE/PE establecida, el ratio PSV2/PSV1 evalúa el <strong>grado de compromiso vascular sistémico</strong>. Ratio ≥0.78: compromiso grave. 0.70–0.77: limítrofe. &lt;0.70: favorable.</div>
+    <div class="note-box" style="margin-bottom:8px">En paciente con trastorno hipertensivo establecido, el cociente PSV2/PSV1 orienta sobre la severidad. <strong>≥0.78:</strong> sugiere compromiso grave (de Oliveira 2013; Diniz 2008). &lt;0.78 no descarta gravedad.</div>
     <div class="row2">
       <div class="field">
         <label>AO — PSV1 (cm/s)</label>
@@ -3338,7 +3350,7 @@ document.addEventListener('DOMContentLoaded', function(){
     <span class="icon">🩸</span><h2>Doppler ACM — Anemia Fetal</h2><span class="chevron">▼</span>
   </div>
   <div class="section-body" style="padding:14px">
-    <div style="font-size:.74rem;color:var(--slate);margin-bottom:10px;line-height:1.5">PSV ACM para anemia fetal (isoinmunización Rh/Kell).<br><em>Algoritmo propio CaVeSal® · Análisis basado en literatura de referencia (anemia fetal, Doppler ACM) · Umbral: MoM ≥1.50</em></div>
+    <div style="font-size:.74rem;color:var(--slate);margin-bottom:10px;line-height:1.5">PSV ACM para anemia fetal (isoinmunización Rh/Kell).<br><em>Algoritmo propio CaVeSal® · Basado en: Mari G et al. NEJM 2000;342:9-14 · cortes 1.29 y 1.50 MoM</em></div>
     <div class="row2">
       <div class="field"><label>EG (sem + días)</label>
         <div style="display:flex;gap:6px;align-items:center">
@@ -3433,14 +3445,21 @@ document.addEventListener('DOMContentLoaded', function(){
         <div class="field">
           <label>LF simultáneo (mm) — opcional</label>
           <input type="number" id="bio_humero_lf" placeholder="—" step="0.1" oninput="calcHumero()">
-          <div class="hint">Para calcular ratio H/LF (normal: 0.87–1.01)</div>
+          <div class="hint">Opcional: percentil del fémur y ratio H/LF (dato)</div>
         </div>
+        <div class="field"><label>EG por FUM o ecografía precoz (sem + días) — opcional</label>
+        <div style="display:flex;gap:6px;align-items:center">
+          <input type="number" id="bio_hum_fum" placeholder="ss" min="11" max="42" step="1" style="width:60px" oninput="calcHumero()">
+          <span style="font-size:.8rem;color:var(--slate)">+</span>
+          <input type="number" id="bio_hum_fum_dias" placeholder="dd" min="0" max="6" step="1" style="width:54px" oninput="calcHumero()">
+        </div></div>
+        <div class="hint" style="margin-top:-4px">Para el percentil del húmero y del fémur y la alerta de hueso corto.</div>
         <div class="bio-result" id="bio_humero_result">
           <div class="bio-eg-main" id="bio_humero_eg">—</div>
           <div class="bio-eg-sub" id="bio_humero_ratio">—</div>
         </div>
         <div class="bio-alerta" id="bio_humero_alerta"></div>
-        <div class="bio-ref">📚 Jeanty P (1983) · Fórmula: EG (sem) = 10.9 + 0.998 × HL − 0.00385 × HL². Ratio H/LF &lt;0.85: sospecha acortamiento rizomélico (acondroplasia). Comparar con percentiles de LF.</div>
+        <div class="bio-ref">📚 Algoritmo propio CaVeSal® · Basado en: Chitty LS, Altman DG. BJOG 2002;109:919-929 (ecuaciones publicadas de media y DE). Hueso largo &lt;P3 para la EG: evaluar displasia esquelética. El ratio H/LF esperado cambia con la EG y se muestra solo como dato.</div>
       </div>
     </div>
   </div>
@@ -3453,17 +3472,24 @@ document.addEventListener('DOMContentLoaded', function(){
         <span class="bio-trim">2T / 3T</span>
       </div>
       <div class="bio-body">
-        <div class="note-box"><strong>Ventaja clave:</strong> El DTC es <strong>independiente de las restricciones de crecimiento</strong> — no se afecta en RCIU. Es el parámetro más confiable para estimar EG en fetos con RCIU o asimetría grave. DTC (mm) ≈ EG (semanas) entre sem 14–28.</div>
+        <div class="note-box"><strong>Ventaja clave:</strong> El DTC es <strong>independiente de las restricciones de crecimiento</strong> — no se afecta en RCIU. Es el parámetro más confiable para estimar EG en fetos con RCIU o asimetría grave. Hasta las 20–21 sem el DTC (mm) ≈ EG (semanas).</div>
         <div class="field">
           <label>DTC — Diámetro transverso del cerebelo (mm)</label>
           <input type="number" id="bio_dtc_val" placeholder="ej. 28" step="0.1" oninput="calcCerebelo()">
         </div>
+        <div class="field"><label>EG por FUM o ecografía precoz (sem + días) — opcional</label>
+        <div style="display:flex;gap:6px;align-items:center">
+          <input type="number" id="bio_dtc_fum" placeholder="ss" min="11" max="42" step="1" style="width:60px" oninput="calcCerebelo()">
+          <span style="font-size:.8rem;color:var(--slate)">+</span>
+          <input type="number" id="bio_dtc_fum_dias" placeholder="dd" min="0" max="6" step="1" style="width:54px" oninput="calcCerebelo()">
+        </div></div>
+        <div class="hint" style="margin-top:-4px">Para el percentil del DTC y la alerta de DTC pequeño.</div>
         <div class="bio-result" id="bio_dtc_result">
           <div class="bio-eg-main" id="bio_dtc_eg">—</div>
           <div class="bio-eg-sub" id="bio_dtc_sub">—</div>
         </div>
         <div class="bio-alerta" id="bio_dtc_alerta"></div>
-        <div class="bio-ref">📚 Goldstein I et al. (1987) · Entre sem 14–28: DTC (mm) ≈ EG (sem). Después de sem 28 la correlación no es lineal — usar tablas de Goldstein. DTC pequeño para EG: marcador de patología del SNC (hipoplasia cerebelosa, síndrome de Dandy-Walker). DTC conservado en RCIU: confirma que la EG asignada es correcta.</div>
+        <div class="bio-ref">📚 Algoritmo propio CaVeSal® · Basado en: Snijders RJM, Nicolaides KH. UOG 1994;4:34-48 (ecuación publicada de media y DE del DTC por EG). Hasta las 20–21 sem el DTC en mm se aproxima a la EG en semanas; después crece más rápido. DTC &lt;P5 para la EG: sospecha de hipoplasia cerebelosa. El DTC se preserva en el RCIU.</div>
       </div>
     </div>
   </div>
@@ -3827,7 +3853,7 @@ Microcefalia: CC &lt;p3 para EG.</div>
       <strong style="color:var(--navy)">Diabetes gestacional:</strong> IADPSG 2010 · ADA 2026 · ALAD 2019 · OMS<br>
       <strong style="color:var(--navy)">Tiroides (TSH · T4 libre · Anti-TPO):</strong> ATA Guidelines 2017 · Endocrine Society · ACOG<br>
       <strong style="color:var(--navy)">Suplementación:</strong> OMS · ACOG · NICE · FIGO · Endocrine Society 2024 · EBCOG 2024 · Cochrane<br>
-      <strong style="color:var(--navy)">Biometría fetal:</strong> Hadlock 1984 · Robinson &amp; Fleming 1975 (CRL/FUM) · Chitty &amp; Altman 2002 (húmero) · Goldstein 1987 (cerebelo) · Jeanty 1983 · Chitty 1994 · INTERGROWTH-21st · Figueras &amp; Gratacós 2008<br>
+      <strong style="color:var(--navy)">Biometría fetal:</strong> Hadlock 1984 · Robinson &amp; Fleming 1975 (CRL/FUM) · Chitty &amp; Altman 2002 (húmero y fémur) · Snijders &amp; Nicolaides 1994 (cerebelo) · Chitty 1994 · INTERGROWTH-21st · Figueras &amp; Gratacós 2008<br>
       <strong style="color:var(--navy)">Crecimiento fetal / PEG / RCIU:</strong> Figueras F. EJOGR 2008 · Protocolo MFB Nov 2024 · ISUOG Delphi Consensus 2020<br>
       <strong style="color:var(--navy)">Doppler AU, ACM e ICP:</strong> Ciobanu A et al. (FMF) UOG 2019;53:465-472<br>
       <strong style="color:var(--navy)">Doppler hemodinámico avanzado (DV, TR, AoI, VUP):</strong> Baschat AA. Obstet Gynecol 2011 · TRUFFLE Study Group. UOG 2020 · ISUOG Practice Guidelines RCIU 2020 · Gratacós E &amp; Torres X. MFB Protocol 2023<br>
@@ -3842,11 +3868,15 @@ Microcefalia: CC &lt;p3 para EG.</div>
       <strong style="color:var(--navy)">Serología — Hepatitis C:</strong> EASL Recommendations 2020 · AASLD · ACOG<br>
       <strong style="color:var(--navy)">Serología — Rubéola:</strong> CDC · OPS/PAHO · ACOG<br>
       <strong style="color:var(--navy)">Colestasis intrahepática del embarazo (CIE):</strong> Guía Perinatal MINSAL Chile 2015 (cap. 11) · RCOG Green-top Guideline No. 43 (2022) · SFMFM Consult Series No. 53 · Williamson C et al. <em>Lancet</em> 2018;391:1683–96 · Ovadia C et al. <em>Lancet</em> 2019;393:899–909 · ACOG · EASL · <em>Clasificación regional: ictérica (bili &gt;1.2 + enzimas↑) → 36 sem · anictérica → 38 sem</em><br>
-      <strong style="color:var(--navy)">ACM PSV — algoritmo propio (anemia fetal):</strong> Basado en análisis de literatura · Mari G et al. NEJM 2000;342:9-14 · Detti L et al. AJOG 2002<br>
+      <strong style="color:var(--navy)">ACM PSV — anemia fetal:</strong> Algoritmo propio CaVeSal® · Basado en: Mari G et al. NEJM 2000;342:9-14<br>
+      <strong style="color:var(--navy)">IP medio de arterias uterinas por EG:</strong> Algoritmo propio CaVeSal® · Basado en: Gómez O et al. UOG 2008;32:128-132 · Martin AM et al. UOG 2001;18:583-586<br>
+      <strong style="color:var(--navy)">Arteria oftálmica:</strong> Gana N et al. UOG 2022;59:731-736 · de Oliveira CA et al. J Ultrasound Med 2013;32:609-616 · Diniz ALD et al. Int J Gynaecol Obstet 2008;100:216-220<br>
+      <strong style="color:var(--navy)">Cerebelo (DTC):</strong> Algoritmo propio CaVeSal® · Basado en: Snijders RJM, Nicolaides KH. UOG 1994;4:34-48<br>
+      <strong style="color:var(--navy)">Húmero y fémur por EG:</strong> Algoritmo propio CaVeSal® · Basado en: Chitty LS, Altman DG. BJOG 2002;109:919-929<br>
       <strong style="color:var(--navy)">Índice cerebroplacentario (ICP) — percentil por EG:</strong> Baschat AA &amp; Gembruch U. UOG 2003;21:124-127<br>
       <strong style="color:var(--navy)">Anemia fetal:</strong> Mari G et al. NEJM 2000 (Doppler ACM/PSV)<br>
       <strong style="color:var(--navy)">Gemelar monocorial / RCIUs:</strong> Torres X et al. Fetal Diagn Ther 2017 · Gratacós E. UOG 2007;30:28-34 · ISUOG 2020<br>
-      <strong style="color:var(--navy)">Arteria Oftálmica (AO) — PE y compromiso vascular:</strong> Gyselaers W et al. Ultrasound Obstet Gynecol 2020 · Verlohren S et al. Am J Obstet Gynecol 2012 · Kaituʻu-Lino TJ et al. Ultrasound Obstet Gynecol 2018 · Medicina Fetal Barcelona<br>
+      <strong style="color:var(--navy)">Arteria Oftálmica (AO) — PE y compromiso vascular:</strong> Gana N et al. UOG 2022;59:731-736 (1T, complementario) · de Oliveira CA et al. J Ultrasound Med 2013;32:609-616 · Diniz ALD et al. Int J Gynaecol Obstet 2008;100:216-220 (2T/3T, severidad)<br>
       <strong style="color:var(--navy)">Altura uterina:</strong> Algoritmo propio CaVeSal® · Análisis basado en Gomes AG. RBGO 2001 · CLAP-OPS/OMS<br>
       <strong style="color:var(--navy)">Ganancia ponderal:</strong> IOM/NAS 2009 · ACOG<br>
       <strong style="color:var(--navy)">Vía de parto:</strong> Robson (OPS/OMS 2018, grupo probable) · FIGO 2025 (PVDC) · Grobman (NICHD) · ACOG · Clasificación EG (término / pretérmino / postérmino): ACOG Practice Bulletin<br>
@@ -4056,9 +4086,32 @@ function siguientePasoTri(cl,trisomia,tipoPrueba,nipt,den){
 // ════════════════════════════════════════════════
 // CLASIFICACIÓN PE
 // ════════════════════════════════════════════════
-function clPI1T(v){if(v===null)return null;if(v>=2.35)return'alto';if(v>=1.90)return'moder';return'normal'}
-function clPI2T(v){if(v===null)return null;if(v>=1.80)return'alto';if(v>=1.44)return'moder';return'normal'}
-function clAO(v){if(v===null)return null;if(v>=0.78)return'alto';if(v>=0.70)return'limite';return'normal'}
+// ── IP medio de arterias uterinas por EG ──
+// Algoritmo propio CaVeSal® · Basado en: Gómez O et al. UOG 2008;32:128-132 (ecuaciones publicadas de media y DE, EG en días)
+function utRef(egSem){
+  if(!egSem||egSem<11||egSem>=42) return null;
+  var d=egSem*7, m=1.39-0.012*d+0.0000198*d*d, sd=0.272-0.000259*d;
+  return {m:m, sd:sd, p95:Math.exp(m+1.645*sd)};
+}
+function _zPc(z){var t=1/(1+0.2316419*Math.abs(z)),d=0.3989423*Math.exp(-z*z/2);var q=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));var pc=(z>0?1-q:q)*100;return pc<1?'<1':pc>99?'>99':String(Math.round(pc));}
+function utPercentil(pi,egSem){var r=utRef(egSem);if(!r||!pi)return null;return _zPc((Math.log(pi)-r.m)/r.sd);}
+function egUt1T(){return leerEGDecimal('uta1_eg','uta1_eg_dias');}
+function egUt2T(){return leerEGDecimal('uta2_eg','uta2_eg_dias');}
+function clPI1T(v){if(v===null)return null;var r=utRef(egUt1T());if(r)return v>r.p95?'alto':'normal';return v>=2.35?'alto':'normal';}
+function clPI2T(v){if(v===null)return null;var r=utRef(egUt2T());if(!r)return'sinEG';return v>r.p95?'alto':'normal';}
+function utTxt(v,eg){var r=utRef(eg);if(!r)return '';return 'P'+utPercentil(v,eg)+' · P95 a las '+semDias(eg)+' sem: '+r.p95.toFixed(2);}
+function utInfo(){
+  var v1=parseFloat((document.getElementById('pi1t')||{}).value)||null, e1=egUt1T(), h1=document.getElementById('uta1_info');
+  if(h1){ if(v1&&utRef(e1)) h1.innerHTML=utTxt(v1,e1)+(clPI1T(v1)==='alto'?' · <b style="color:var(--red)">ALTERADO</b>':' · normal');
+    else if(v1) h1.innerHTML='Sin EG: P95 de 2.35 para 11–13+6 sem (Martin 2001)'+(v1>=2.35?' · <b style="color:var(--red)">ALTERADO</b>':' · normal');
+    else h1.innerHTML='Calculado automáticamente · o ingresar directo · alterado &gt;P95 para la EG'; }
+  var v2=parseFloat((document.getElementById('pi2t')||{}).value)||null, e2=egUt2T(), h2=document.getElementById('uta2_info');
+  if(h2){ if(v2&&utRef(e2)) h2.innerHTML=utTxt(v2,e2)+(clPI2T(v2)==='alto'?' · <b style="color:var(--red)">ALTERADO</b>':' · normal');
+    else if(v2) h2.innerHTML='<b style="color:var(--amber)">Ingresá la EG para clasificar</b>';
+    else h2.innerHTML='Alterado &gt;P95 para la EG · ingresá la EG'; }
+}
+// Arteria oftálmica 1T: dato complementario (Gana N et al. UOG 2022;59:731-736) — sin corte único validado
+function clAO(v){if(v===null)return null;return'info';}
 
 // ── IP MEDIO UTERINAS — cálculo automático D e I ──
 function calcUtMedio1T(){
@@ -4069,6 +4122,7 @@ function calcUtMedio1T(){
   else if(d!==null) c.value=d;
   else if(i!==null) c.value=i;
   else c.value='';
+  utInfo();
   actualizarPaneles();
 }
 function calcUtMedio2T(){
@@ -4079,6 +4133,7 @@ function calcUtMedio2T(){
   else if(d!==null) c.value=d;
   else if(i!==null) c.value=i;
   else c.value='';
+  utInfo();
   actualizarPaneles();
 }
 
@@ -4094,21 +4149,10 @@ function calcAORatio(){
     cAO.value=ratio;
     if(divP){
       var txt='',bg='',col='';
-      if(ratio>=0.78){
-        txt='<strong>⚠️ Ratio AO ≥0.78 — ALTO RIESGO PE/RCIU:</strong> Predictor independiente. AAS obligatorio. Integrar con PI uterinas y PlGF.<br>';
-        txt+='<strong>En HIE/preeclampsia severa establecida:</strong> Ratio ≥0.78 indica compromiso vascular sistémico grave — mayor riesgo RCIU severo, PE precoz y mal pronóstico materno-fetal. Derivar Medicina Fetal urgente.';
-        bg='#fff0f0';col='#8b0000';
-      } else if(ratio>=0.70){
-        txt='<strong>⚡ Ratio AO 0.70–0.77 — Limítrofe:</strong> Vigilar con PI uterinas y PlGF. Repetir en 2T.<br>';
-        txt+='<strong>En HIE severa:</strong> Zona gris — monitoreo estrecho de PA, proteinuria y bienestar fetal.';
-        bg='#fffbe6';col='#7a5200';
-      } else {
-        txt='<strong>✓ Ratio AO '+ratio+' — Normal (&lt;0.70):</strong> Resistencia oftalmámica dentro de rango normal.<br>';
-        txt+='<strong>En HIE/PE severa establecida:</strong> Ratio normal sugiere menor compromiso vascular sistémico. Pronóstico relativo más favorable.';
-        bg='#f0fff4';col='#1a5c2a';
-      }
+      txt='<strong>Cociente PSV2/PSV1: '+ratio+'</strong> — dato complementario. En el cribado del 1T se integra al riesgo combinado de preeclampsia; no existe un corte único validado y no indica aspirina por sí solo.';
+      bg='#f4f6f9';col='#3c4a5c';
       divP.style.cssText='display:block;margin-top:6px;padding:7px 10px;border-radius:8px;font-size:.72rem;line-height:1.5;background:'+bg+';color:'+col+';border:1px solid '+col+'33';
-      divP.innerHTML=txt+'<div style="font-size:.68rem;margin-top:4px;opacity:.75">📚 Ref: Gyselaers W et al. UOG 2020 · Verlohren S et al. 2012 · Medicina Fetal Barcelona · Kaituʻu-Lino TJ et al. UOG 2018</div>';
+      divP.innerHTML=txt+'<div style="font-size:.68rem;margin-top:4px;opacity:.75">📚 Basado en: Gana N et al. UOG 2022;59:731-736</div>';
     }
   } else {
     cAO.value='';
@@ -4130,17 +4174,14 @@ function calcAORatio2T(){
     if(divP){
       var txt='',bg='',col='';
       if(ratio>=0.78){
-        txt='<strong>⚠️ Ratio AO ≥0.78 — Compromiso vascular sistémico GRAVE:</strong> Mayor riesgo RCIU severo y PE de inicio precoz. Mal pronóstico materno-fetal. <strong>Derivar a Medicina Fetal urgente.</strong> Evaluar sFlt-1/PlGF, función renal/hepática y bienestar fetal.';
+        txt='<strong>⚠️ Cociente PSV2/PSV1 '+ratio+' (≥0.78):</strong> sugiere compromiso vascular grave (preeclampsia con criterios de severidad). Integrar con la PA, el laboratorio, sFlt-1/PlGF y el bienestar fetal.';
         bg='#fff0f0';col='#8b0000';
-      } else if(ratio>=0.70){
-        txt='<strong>⚡ Ratio AO 0.70–0.77 — Zona gris:</strong> Compromiso vascular intermedio. Monitoreo estrecho de PA, proteinuria y bienestar fetal. Repetir Doppler AO en 48–72 h. Evaluar sFlt-1/PlGF.';
-        bg='#fffbe6';col='#7a5200';
       } else {
-        txt='<strong>✓ Ratio AO '+ratio+' — Normal (&lt;0.70):</strong> Sin compromiso vascular sistémico significativo. Pronóstico relativo más favorable. Continuar vigilancia habitual según EG y cuadro clínico.';
+        txt='<strong>Cociente PSV2/PSV1 '+ratio+' (&lt;0.78):</strong> por debajo del corte de severidad. No descarta gravedad: decide la evaluación clínica y de laboratorio.';
         bg='#f0fff4';col='#1a5c2a';
       }
       divP.style.cssText='display:block;padding:8px 10px;border-radius:8px;font-size:.72rem;line-height:1.6;background:'+bg+';color:'+col+';border:1px solid '+col+'33';
-      divP.innerHTML=txt+'<div style="font-size:.68rem;margin-top:5px;opacity:.75">📚 Ref: Gyselaers W et al. UOG 2020 · Verlohren S et al. 2012 · Kaituʻu-Lino TJ et al. UOG 2018 · Medicina Fetal Barcelona</div>';
+      divP.innerHTML=txt+'<div style="font-size:.68rem;margin-top:5px;opacity:.75">📚 Algoritmo propio CaVeSal® · Basado en: de Oliveira CA et al. J Ultrasound Med 2013;32:609-616 · Diniz ALD et al. Int J Gynaecol Obstet 2008;100:216-220</div>';
     }
   } else {
     if(cRatio) cRatio.value='';
@@ -4163,6 +4204,8 @@ function labelPE(cl){
     moder:'<span style="color:var(--amber);font-weight:700">MODERADO</span>',
     normal:'<span style="color:var(--green);font-weight:700">NORMAL</span>',
     limite:'<span style="color:var(--amber);font-weight:700">LIMÍTROFE</span>',
+    info:'<span style="color:var(--slate);font-weight:700">INFORMATIVO</span>',
+    sinEG:'<span style="color:var(--amber);font-weight:700">INGRESÁ LA EG</span>',
     inminente:'<span style="color:var(--red);font-weight:800">⚠️ INMINENTE</span>',
     sospecha:'<span style="color:var(--red);font-weight:700">SOSPECHA PE</span>',
     interm:'<span style="color:var(--amber);font-weight:700">ZONA GRIS</span>',
@@ -4314,8 +4357,8 @@ function actualizarPE2T(){
   else if(clsf==='sospecha') interp=`<strong>Alta sospecha PE:</strong> sFlt-1/PlGF sobre umbral. Proteinuria 24h, función hepática y renal. Hospitalización si compromiso materno o fetal.`;
   else if(clsf==='interm') interp=`<strong>Zona intermedia sFlt-1/PlGF:</strong> Repetir en 1–2 semanas. Vigilar PA diaria, proteinuria. Si progresión: hospitalizar.`;
   else if(clsf==='descarta') interp=`sFlt-1/PlGF ≤38 descarta desarrollo de PE en la próxima semana (VPN &gt;99%). Control habitual.`;
-  if(clpi2==='alto'&&clsf!=='inminente'&&clsf!=='sospecha') interp=(interp?interp+' ':'')+`PI uterinas 2T elevado (≥1.8): vigilancia crecimiento fetal, Doppler control 28–32 sem.`;
-  else if(clpi2==='moder') interp=(interp?interp+' ':'')+`PI uterinas 2T moderado (≥1.44): biometría seriada, Doppler 3T.`;
+  if(clpi2==='alto'&&clsf!=='inminente'&&clsf!=='sospecha') interp=(interp?interp+' ':'')+`IP medio de uterinas 2T &gt;P95 para la EG: vigilancia del crecimiento fetal, Doppler de control a las 28–32 sem.`;
+  else if(clpi2==='sinEG') interp=(interp?interp+' ':'')+`Ingresá la EG del Doppler uterino 2T para clasificar el IP medio.`;
 
   cont.innerHTML=html+`<div class="pe-interpret">${interp||'Biomarcadores PE 2T dentro de límites.'}</div>`;
 }
@@ -5164,14 +5207,9 @@ function calcular(){
 
   // PI uterinas 1T
   if(pi1t!==null){
-    if(pi1t>=2.35) add('ECOGRAFÍA 1T','alto',`PI uterinas 1T ${pi1t} (>p95 FMF)`,'Alto riesgo PE. AAS indicado. AAS ~150 mg cada noche desde 11–14+6 sem hasta 36 sem, el parto o el diagnóstico de PE (FIGO 2019, pauta preferida por CaVeSal). Alternativa: 81 mg/día desde 12–28 sem (idealmente antes de 16) hasta el parto (ACOG PB 222, 2020). PlGF si disponible. Reevaluar PI uterinas en 2T.','FIGO 2019 / FMF / Nicolaides / ACOG');
-    else if(pi1t>=1.90) add('ECOGRAFÍA 1T','moderado',`PI uterinas 1T ${pi1t} (p90–95 FMF)`,'Riesgo moderado PE. Valorar AAS según riesgo combinado FMF. Reevaluar en 2T.','FMF');
+    if(clPI1T(pi1t)==='alto') add('ECOGRAFÍA 1T','alto',`IP medio de uterinas 1T ${pi1t} (>P95${utRef(egUt1T())?' · '+utTxt(pi1t,egUt1T()):' · corte 2.35'})`,'Alto riesgo PE. AAS indicado. AAS ~150 mg cada noche desde 11–14+6 sem hasta 36 sem, el parto o el diagnóstico de PE (FIGO 2019, pauta preferida por CaVeSal). Alternativa: 81 mg/día desde 12–28 sem (idealmente antes de 16) hasta el parto (ACOG PB 222, 2020). PlGF si disponible. Reevaluar PI uterinas en 2T.','Gómez 2008 / Martin 2001 / FIGO 2019 / ACOG');
   }
-  // Doppler AO
-  if(ao!==null){
-    if(ao>=0.78) add('ECOGRAFÍA 1T','alto',`Doppler AO ratio ${ao} (≥0.78 – alto riesgo PE/RCIU)`,'Cribado 1T: predictor independiente PE precoz (Medicina Fetal Barcelona). Iniciar AAS ~150 mg cada noche desde 11–14+6 sem hasta 36 sem, el parto o el diagnóstico de PE (FIGO 2019, pauta preferida por CaVeSal). Alternativa: 81 mg/día desde 12–28 sem (idealmente antes de 16) hasta el parto (ACOG PB 222, 2020). Integrar con PI uterinas, PAPP-A y PlGF para riesgo combinado FMF. Repetir Doppler AO en 2T.','FIGO 2019 / Medicina Fetal BCN / Gyselaers 2020 / ACOG');
-    else if(ao>=0.70) add('ECOGRAFÍA 1T','moderado',`Doppler AO ratio ${ao} (0.70–0.77 – limítrofe)`,'Cribado 1T: zona limítrofe. Vigilar junto con PI uterinas y PlGF. Repetir Doppler AO en 2T. AAS según riesgo combinado.','Medicina Fetal BCN / Gyselaers 2020');
-  }
+  // Doppler AO 1T: dato complementario del riesgo combinado (Gana 2022) — sin alerta por corte único
   // PAPP-A como marcador PE/RCIU
   if(pappa!==null){
     if(pappa<0.3) add('ECOGRAFÍA 1T','alto',`PAPP-A ${pappa} MoM (<0.3 – muy bajo)`,'Alto riesgo PE, RCIU y aneuploidía. Integrar con cribado combinado. AAS obligatorio si PI uterinas alterado.','FMF / Nicolaides');
@@ -5574,8 +5612,7 @@ function calcular(){
 
   // ECO 2T
   if(pi2t!==null){
-    if(pi2t>=1.8) add('ECOGRAFÍA 2T','alto',`PI uterinas 2T ${pi2t} (>p95 FMF)`,'Alto riesgo PE tardía y RCIU. Vigilancia crecimiento fetal y PA. Doppler control 28–32 sem.','FMF');
-    else if(pi2t>=1.44) add('ECOGRAFÍA 2T','moderado',`PI uterinas 2T ${pi2t} (p90–95 FMF)`,'Riesgo moderado. Biometría seriada. Doppler 3T.','FMF');
+    if(clPI2T(pi2t)==='alto') add('ECOGRAFÍA 2T','alto',`IP medio de uterinas 2T ${pi2t} (>P95 · ${utTxt(pi2t,egUt2T())})`,'Alto riesgo de PE tardía y RCIU. Vigilancia del crecimiento fetal y de la PA. Doppler de control a las 28–32 sem.','Gómez 2008');
   }
   // ── LÍQUIDO AMNIÓTICO ──
   // Algoritmo propio CaVeSal® · Análisis basado en literatura de referencia
@@ -5704,7 +5741,7 @@ function calcular(){
   const suple=[];
   const tieneDTN=chk('p_epi')||(imcP&&imcP>=30)||chk('p_dm')||chk('obs_malform');
   const tieneAnemia=hb!==null&&hb<11;
-  const tienePE=chk('obs_pe')||chk('p_hta')||chk('p_renal')||(pi1t&&pi1t>=1.9)||(ao&&ao>=0.70);
+  const tienePE=chk('obs_pe')||chk('p_hta')||chk('p_renal')||(pi1t!==null&&clPI1T(pi1t)==='alto');
   const tienePreterm=chk('obs_pt')||chk('e_apt');
   const tieneOmega=tienePE||tienePreterm||chk('obs_rciu');
   if(_hayDatos) suple.push({pill:'Ácido fólico',text:tieneDTN?'5 mg/día (dosis alta: epilepsia, obesidad, DM o antecedente DTN). Iniciar preconcepcional.':'0.4–0.8 mg/día — Desde preconcepcional hasta sem 12 mínimo.'});
@@ -5797,10 +5834,10 @@ function calcular(){
     }
     if(hayPE){
       html+=`<div class="sum-panel pe-sum"><h4>🩺 Biomarcadores PE</h4><div class="sum-mini">`;
-      if(pi1t!==null) html+=`<div class="sum-mini-row"><span class="sm-label">PI ut. 1T</span><span class="sm-val" style="color:${clPI1==='alto'?'var(--red)':clPI1==='moder'?'var(--amber)':'var(--green)'}">${pi1t} ${clPI1==='alto'?'⚠️ ALTO':clPI1==='moder'?'MODER.':'Normal'}</span></div>`;
-      if(ao!==null) html+=`<div class="sum-mini-row"><span class="sm-label">AO ratio</span><span class="sm-val" style="color:${clAO2==='alto'?'var(--red)':clAO2==='limite'?'var(--amber)':'var(--green)'}">${ao} ${clAO2==='alto'?'⚠️ ALTO':clAO2==='limite'?'LÍMITE':'Normal'}</span></div>`;
+      if(pi1t!==null) html+=`<div class="sum-mini-row"><span class="sm-label">PI ut. 1T</span><span class="sm-val" style="color:${clPI1==='alto'?'var(--red)':'var(--green)'}">${pi1t} ${clPI1==='alto'?'⚠️ &gt;P95':'Normal'}</span></div>`;
+      if(ao!==null) html+=`<div class="sum-mini-row"><span class="sm-label">AO ratio</span><span class="sm-val" style="color:var(--slate)">${ao} Informativo</span></div>`;
       if(pigf1t!==null) html+=`<div class="sum-mini-row"><span class="sm-label">PlGF 1T</span><span class="sm-val" style="color:${clPG==='alto'?'var(--red)':clPG==='moder'?'var(--amber)':'var(--green)'}">${pigf1t} MoM</span></div>`;
-      if(pi2t!==null) html+=`<div class="sum-mini-row"><span class="sm-label">PI ut. 2T</span><span class="sm-val" style="color:${clPI2==='alto'?'var(--red)':clPI2==='moder'?'var(--amber)':'var(--green)'}">${pi2t} ${clPI2==='alto'?'⚠️ ALTO':clPI2==='moder'?'MODER.':'Normal'}</span></div>`;
+      if(pi2t!==null) html+=`<div class="sum-mini-row"><span class="sm-label">PI ut. 2T</span><span class="sm-val" style="color:${clPI2==='alto'?'var(--red)':clPI2==='sinEG'?'var(--amber)':'var(--green)'}">${pi2t} ${clPI2==='alto'?'⚠️ &gt;P95':clPI2==='sinEG'?'sin EG':'Normal'}</span></div>`;
       if(sflt!==null) html+=`<div class="sum-mini-row"><span class="sm-label">sFlt-1/PlGF</span><span class="sm-val" style="color:${clSF==='inminente'||clSF==='sospecha'?'var(--red)':clSF==='interm'?'var(--amber)':'var(--green)'}">${sflt} ${clSF==='inminente'?'⚠️ INMIN.':clSF==='sospecha'?'SOSPECHA':clSF==='interm'?'ZONA GRIS':'DESCARTA'}</span></div>`;
       html+='</div></div>';
     }
@@ -6387,13 +6424,11 @@ function egCC(v){var c=v/10;return 8.96+0.540*c+0.0003*c*c*c;}
 function egCA(v){var c=v/10;return 8.14+0.753*c+0.0036*c*c;}
 
 // ════ DOPPLER ACM — ANEMIA FETAL (Mari 2000) ════
-// PSV ACM mediana (cm/s) — fórmula de regresión polinomial propia
-// Algoritmo derivado de análisis de la literatura de referencia en anemia fetal
-// (Mari G et al. NEJM 2000, Detti L et al., FMF guidelines)
-// Coeficientes calculados por regresión de mínimos cuadrados — CaVeSal®
+// Mediana de la PSV de la ACM por EG (cm/s)
+// Algoritmo propio CaVeSal® · Basado en: Mari G et al. NEJM 2000;342:9-14 (ecuación publicada: mediana = e^(2.31 + 0.046 × EG))
 function acmMediana(eg){
   if(!eg||eg<18||eg>40) return null;
-  return Math.round((-0.001157*eg*eg*eg + 0.138201*eg*eg - 2.824729*eg + 36.000628)*10)/10;
+  return Math.round(Math.exp(2.31+0.046*eg)*10)/10;
 }
 function calcACM(){
   var psv=parseFloat((document.getElementById('acm_psv')||{}).value)||null;
@@ -6406,8 +6441,9 @@ function calcACM(){
   var mom=Math.round(psv/med*100)/100;
   var nivel,cls,rec;
   if(mom<1.29){nivel='Normal';cls='verde';rec='Sin evidencia de anemia. Control según protocolo.';}
-  else if(mom<1.50){nivel='Anemia leve posible';cls='moder';rec='MoM 1.29-1.49: vigilancia. Repetir 1-2 sem.';}
-  else{nivel='Anemia moderada-severa';cls='alto';rec='MoM ≥1.50: cordocentesis y TIU urgente.';}
+  else if(mom<1.50){nivel='Anemia leve posible';cls='moder';rec='MoM 1.29-1.49: vigilancia. Repetir en 1-2 sem.';}
+  else{nivel='Sospecha de anemia moderada-grave';cls='alto';rec='MoM ≥1.50: derivar a Medicina Fetal para cordocentesis con transfusión intrauterina preparada.';}
+  if(eg>=35) rec+=' Desde las 35 sem aumentan los falsos positivos de la PSV de la ACM.';
   var html='<div class="alerta-box '+cls+'" style="margin-bottom:8px">'
     +'<div style="font-size:.82rem;font-weight:800;margin-bottom:4px">🩸 '+nivel+'</div>'
     +'<div style="font-size:.75rem;display:flex;gap:12px;flex-wrap:wrap;margin-bottom:6px">'
@@ -6417,7 +6453,7 @@ function calcACM(){
     +'</div>'
     +'<div style="font-size:.74rem;line-height:1.5">'+rec+'</div>'
     +'</div>'
-    +'<div style="font-size:.65rem;color:var(--slate)">Umbral MoM ≥1.50 · Mari NEJM 2000</div>';
+    +'<div style="font-size:.65rem;color:var(--slate)">Algoritmo propio CaVeSal® · Basado en: Mari G et al. NEJM 2000;342:9-14 · cortes 1.29 y 1.50 MoM</div>';
   result.innerHTML=html;
   result.style.display='block';
 }
@@ -6643,7 +6679,8 @@ function calcDopplerPercentil(){
     if(med2){
       var mom2=Math.round(psv/med2*100)/100;
       var cls4=mom2>=1.50?'alto':mom2>=1.29?'moder':'verde';
-      var interp4=cls4==='alto'?'MoM ≥1.50 — ANEMIA. Cordocentesis urgente':cls4==='moder'?'MoM 1.29-1.49 — vigilancia':'Normal';
+      var interp4=cls4==='alto'?'MoM ≥1.50 — sospecha de anemia moderada-grave: derivar a Medicina Fetal (cordocentesis con transfusión preparada)':cls4==='moder'?'MoM 1.29-1.49 — vigilancia':'Normal';
+      if(eg>=35&&cls4!=='verde') interp4+=' · desde las 35 sem aumentan los falsos positivos';
       html+='<div class="alerta-box '+cls4+'" style="margin-bottom:6px"><strong>ACM PSV: '+psv+' cm/s · MoM: '+mom2+'</strong><br><small>'+interp4+'</small></div>';
       if(cls4!=='verde')findings.push('ACM PSV elevada');
       _doppFindings.push({nivel:cls4==='alto'?'alto':cls4==='moder'?'moderado':'bajo',hallazgo:'ACM-PSV '+psv+' cm/s · MoM '+mom2,conducta:cls4==='verde'?_doppConductaNormal:interp4,fuente:'Mari NEJM 2000'});
@@ -7978,76 +8015,85 @@ function calcBiom(){
   }
 }
 
-// ── HÚMERO → EG ──
+// ── HÚMERO → EG y percentiles ──
+// Algoritmo propio CaVeSal® · Basado en: Chitty LS, Altman DG. BJOG 2002;109:919-929 (ecuaciones publicadas de media y DE, mm, EG en semanas)
+function humRef(w){return {m:11.459*w-2.2362*w*Math.log(w)-63.704, sd:0.040292*w+1.3464};}
+function femRef(w){return {m:3.4162*w-0.0004791*w*w*w-32.425, sd:0.058328*w+1.0605};}
+function egPorHueso(fn,len){
+  var lo=12, hi=42; if(len<fn(lo).m||len>fn(hi).m) return null;
+  for(var k=0;k<60;k++){var mid=(lo+hi)/2; if(fn(mid).m<len) lo=mid; else hi=mid;}
+  return (lo+hi)/2;
+}
 function calcHumero(){
   const hl = parseFloat(document.getElementById('bio_humero_val').value)||null;
   const lf = parseFloat(document.getElementById('bio_humero_lf').value)||null;
+  const egF = leerEGDecimal('bio_hum_fum','bio_hum_fum_dias');
   const res = document.getElementById('bio_humero_result');
   const alerta = document.getElementById('bio_humero_alerta');
   if(!hl){res.classList.remove('show');alerta.className='bio-alerta';return;}
-  // Chitty & Altman (2002) / ISUOG — HL en mm — ajuste polinomial tabla p50
-  // EG(sem) = 11.7026 + 0.2421*HL + 0.001633*HL²  (rango 12–75 mm)
-  const eg = 11.7026 + 0.2421*hl + 0.001633*hl*hl;
-  document.getElementById('bio_humero_eg').textContent = `EG estimada: ${semDias(eg)} semanas`;
-  
-  let ratioText = '';
-  if(lf){
-    const ratio = hl/lf;
-    ratioText = `Ratio H/LF: ${ratio.toFixed(2)} (normal 0.87–1.01)`;
-    if(ratio < 0.85){
-      alerta.className = 'bio-alerta show alto';
-      alerta.innerHTML = `⚠️ <strong>Ratio H/LF ${ratio.toFixed(2)} &lt;0.85 — Acortamiento rizomélico:</strong> Sospecha de displasia esquelética (acondroplasia, hipocondroplasia). Derivar a Medicina Fetal para evaluación morfológica detallada.`;
-    } else if(ratio > 1.05){
-      alerta.className = 'bio-alerta show moder';
-      alerta.innerHTML = `⚡ Ratio H/LF ${ratio.toFixed(2)} &gt;1.05 — Fémur corto relativo. Evaluar en contexto clínico.`;
-    } else {
-      alerta.className = 'bio-alerta show ok';
-      alerta.innerHTML = `✅ Ratio H/LF ${ratio.toFixed(2)} — dentro de rango normal.`;
-    }
+  const eg = egPorHueso(humRef, hl);
+  document.getElementById('bio_humero_eg').textContent = eg ? `EG estimada por húmero: ${semDias(eg)} semanas` : 'Húmero fuera del rango de referencia (12–42 sem)';
+  let sub = [];
+  if(lf){ const egl=egPorHueso(femRef, lf); if(egl) sub.push(`EG por fémur: ${semDias(egl)} sem`); sub.push(`Ratio H/LF ${(hl/lf).toFixed(2)} (dato)`); }
+  let msgs = [], nivel = 'ok';
+  if(egF && egF>=12 && egF<=42){
+    const rh=humRef(egF), zh=(hl-rh.m)/rh.sd, pch=_zPc(zh);
+    sub.push(`Húmero P${pch} a las ${semDias(egF)} sem (P3: ${(rh.m-1.881*rh.sd).toFixed(1)} mm)`);
+    let corto=[];
+    if(zh < -1.881) corto.push('húmero');
+    if(lf){ const rf=femRef(egF), zf=(lf-rf.m)/rf.sd; sub.push(`Fémur P${_zPc(zf)} (P3: ${(rf.m-1.881*rf.sd).toFixed(1)} mm)`); if(zf < -1.881) corto.push('fémur');
+      sub.push(`Ratio H/LF esperado a esa EG: ${(rh.m/rf.m).toFixed(2)}`); }
+    if(corto.length){
+      nivel='alto';
+      msgs.push(`⚠️ <strong>${corto.length===2?'Húmero y fémur':corto[0]==='húmero'?'Húmero':'Fémur'} &lt;P3 para la EG:</strong> hueso largo corto. Confirmar la datación, medir los demás huesos largos y buscar signos de displasia esquelética. Derivar a Medicina Fetal.`);
+    } else msgs.push('✅ Huesos largos medidos entre el P3 y el P97 para la EG.');
+  } else {
+    msgs.push('Ingresá la EG por FUM o ecografía precoz para el percentil y la alerta de hueso corto.');
+    nivel='info';
   }
-  document.getElementById('bio_humero_ratio').textContent = ratioText;
+  alerta.className = 'bio-alerta show '+(nivel==='alto'?'alto':nivel==='ok'?'ok':'moder');
+  alerta.innerHTML = msgs.join('<br>');
+  document.getElementById('bio_humero_ratio').innerHTML = sub.join(' · ') || '—';
   res.classList.add('show');
 }
 
-// ── CEREBELO → EG ──
+// ── CEREBELO (DTC) → EG y percentil ──
+// Algoritmo propio CaVeSal® · Basado en: Snijders RJM, Nicolaides KH. UOG 1994;4:34-48
+// log10(DTC + 5) = 0.8129735 + 0.0367114·EG − 0.0003590·EG² ; DE = 0.02504 (EG en semanas)
+function tcdRef(w){return {m:0.8129735+0.0367114*w-0.0003590*w*w, sd:0.02504};}
+function egPorTCD(t){
+  var lo=14, hi=40, y=Math.log10(t+5); if(y<tcdRef(lo).m||y>tcdRef(hi).m) return null;
+  for(var k=0;k<60;k++){var mid=(lo+hi)/2; if(tcdRef(mid).m<y) lo=mid; else hi=mid;}
+  return (lo+hi)/2;
+}
 function calcCerebelo(){
   const dtc = parseFloat(document.getElementById('bio_dtc_val').value)||null;
+  const egF = leerEGDecimal('bio_dtc_fum','bio_dtc_fum_dias');
   const res = document.getElementById('bio_dtc_result');
   const alerta = document.getElementById('bio_dtc_alerta');
   if(!dtc){res.classList.remove('show');alerta.className='bio-alerta';return;}
-  
-  // DTC(mm) ≈ EG(sem) entre 14-28 sem (Goldstein 1987)
-  // After 28 sem: non-linear — use lookup table approximation
-  let eg, nota;
-  if(dtc <= 28){
-    eg = dtc; // linear zone: DTC mm ≈ EG weeks
-    nota = 'Zona lineal (14–28 sem): DTC mm ≈ EG semanas';
-  } else {
-    // Polynomial approximation for >28 sem
-    // Fórmula lineal propia CaVeSal® — DTC(mm) → EG(sem) para zona >28mm
-    // Algoritmo derivado de análisis de literatura de referencia en biometría cerebelosa
-    let eg1 = null;
-    if(dtc >= 29 && dtc <= 58){
-      eg1 = 0.5 * dtc + 14;
+  const eg = egPorTCD(dtc);
+  document.getElementById('bio_dtc_eg').textContent = eg ? `EG estimada: ${semDias(eg)} semanas` : 'DTC fuera del rango de referencia (14–40 sem)';
+  let sub = 'Snijders y Nicolaides 1994';
+  if(egF && egF>=14 && egF<=40){
+    const r=tcdRef(egF), z=(Math.log10(dtc+5)-r.m)/r.sd;
+    const p5=Math.pow(10,r.m-1.645*r.sd)-5, p95=Math.pow(10,r.m+1.645*r.sd)-5;
+    sub = `DTC P${_zPc(z)} a las ${semDias(egF)} sem (P5 ${p5.toFixed(1)} · P95 ${p95.toFixed(1)} mm)`;
+    if(z < -1.645){
+      alerta.className = 'bio-alerta show alto';
+      alerta.innerHTML = `⚠️ <strong>DTC &lt;P5 para la EG:</strong> sospecha de hipoplasia cerebelosa. Confirmar la datación y derivar a Medicina Fetal (neurosonografía; descartar Dandy-Walker y otras malformaciones del SNC).`;
+    } else if(z > 1.645){
+      alerta.className = 'bio-alerta show moder';
+      alerta.innerHTML = `⚡ DTC &gt;P95 para la EG: revisar la datación.`;
+    } else {
+      alerta.className = 'bio-alerta show ok';
+      alerta.innerHTML = `✅ DTC entre P5 y P95 para la EG. En el RCIU el DTC se preserva y apoya la datación.`;
     }
-    eg = eg1 || dtc; // fallback
-    nota = 'Zona no lineal (>28 sem): estimación por tabla de Goldstein';
-  }
-  
-  document.getElementById('bio_dtc_eg').textContent = `EG estimada: ${semDias(eg)} semanas`;
-  document.getElementById('bio_dtc_sub').textContent = nota;
-  
-  // Alert if DTC small for gestational age
-  if(dtc < eg * 0.85){
-    alerta.className = 'bio-alerta show alto';
-    alerta.innerHTML = `⚠️ <strong>DTC pequeño para EG:</strong> Sospecha de hipoplasia cerebelosa. Derivar a Medicina Fetal. Descartar síndrome de Dandy-Walker, malformaciones del SNC.`;
-  } else if(dtc < eg * 0.92){
-    alerta.className = 'bio-alerta show moder';
-    alerta.innerHTML = `⚡ DTC en límite inferior para la EG. Vigilar evolución. Repetir en 3–4 semanas.`;
   } else {
-    alerta.className = 'bio-alerta show ok';
-    alerta.innerHTML = `✅ DTC conservado — en RCIU confirma que la EG asignada es correcta (el cerebelo no se afecta en redistribución hemodinámica).`;
+    alerta.className = 'bio-alerta show moder';
+    alerta.innerHTML = 'Ingresá la EG por FUM o ecografía precoz para el percentil y la alerta de DTC pequeño.';
   }
+  document.getElementById('bio_dtc_sub').textContent = sub;
   res.classList.add('show');
 }
 
@@ -8540,6 +8586,7 @@ function limpiarFormulario(){
   (document.getElementById('pi1t')||{}).value='';
   (document.getElementById('uta_d')||{}).value='';
   (document.getElementById('uta_i')||{}).value='';
+  ['uta1_eg','uta1_eg_dias','uta2_eg','uta2_eg_dias'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});
   (document.getElementById('ao')||{}).value='';
   (document.getElementById('ao_psv1')||{}).value='';
   (document.getElementById('ao_psv2')||{}).value='';
@@ -8643,7 +8690,7 @@ function limpiarFormulario(){
   var htaExtra=document.getElementById('hta-campos-extra');if(htaExtra)htaExtra.style.display='none';
   // ═══ Reset Biometría avanzada ═══
   ['bio_crl','bio_crl_eg','bio_cerebelo','bio_dtc_eg',
-   'bio_humero','bio_humero_eg','bio_humero_lf',
+   'bio_humero','bio_humero_eg','bio_humero_lf','bio_humero_val','bio_hum_fum','bio_hum_fum_dias','bio_dtc_fum','bio_dtc_fum_dias',
    'eg_cc_asim','eg_lf_asim'].forEach(function(id){
     var el=document.getElementById(id);if(el)el.value='';
   });
@@ -8717,11 +8764,12 @@ function cargarEjemplo(tipo){ window._pfe=null;
       'gesta','partos','cesareas','abortos',
       'hb','glucemia','creatinina','lab_au','plaquetas','lab_tgo',
       'lab_ldh','lab_bili','lab_alt','lab_ast','tsh',
-      'pi1t','uta_d','uta_i','ao','ao_psv1','ao_psv2','pigf1t','pappa','nt_mm','nt_crl','dopp_ao_psv1','dopp_ao_psv2',
+      'pi1t','uta_d','uta_i','uta1_eg','uta1_eg_dias','ao','ao_psv1','ao_psv2','pigf1t','pappa','nt_mm','nt_crl','dopp_ao_psv1','dopp_ao_psv2',
       'dopp_eg_sem','dopp_eg_dias','dopp_au_pi','dopp_acm_pi','dopp_acm_psv','dopp_dv','dopp_aoi',
-      'pi2t','uta2_d','uta2_i','sflt','sflt_eg','sflt_eg_dias','cervix','sflt_pigf',
+      'pi2t','uta2_d','uta2_i','uta2_eg','uta2_eg_dias','sflt','sflt_eg','sflt_eg_dias','cervix','sflt_pigf',
       'bio_cc_biom','bio_ca_biom','bio_lf_biom','bio_dbp',
       'asim_cc','asim_ca','asim_lf','asim_eg','asim_eg_dias',
+      'bio_dtc_val','bio_dtc_fum','bio_dtc_fum_dias','bio_humero_val','bio_humero_lf','bio_hum_fum','bio_hum_fum_dias',
       'lab_au','plaquetas','lab_tgo','dext_eco_eg','dext_eco_fecha'];
     _allFields.forEach(function(f){
       var el=document.getElementById(f); if(el) el.value='';
