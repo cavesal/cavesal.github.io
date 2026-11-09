@@ -1348,11 +1348,11 @@ document.addEventListener('DOMContentLoaded', function(){
     <div class="row2">
       <div class="field"><label>Hemoglobina (g/dL)</label>
         <input type="number" id="hb" placeholder="—" step="0.1">
-        <div class="hint">Anemia: &lt;11 g/dL (1T) · &lt;10.5 g/dL (2T-3T) — OMS</div>
+        <div class="hint">Anemia: &lt;11 g/dL (1T) · &lt;10.5 (2T) · &lt;11 (3T) — OMS 2024 · Grave &lt;7</div>
       </div>
       <div class="field"><label>Plaquetas (×10³/µL)</label>
         <input type="number" id="plaquetas" placeholder="—">
-        <div class="hint">Normal: 150–400 · &lt;150 = trombocitopenia</div>
+        <div class="hint">Normal: 150–400 · &lt;150 = trombocitopenia · Neuroaxial: ≥70 (SOAP 2021)</div>
       </div>
     </div>
     <div class="row2">
@@ -1398,19 +1398,19 @@ document.addEventListener('DOMContentLoaded', function(){
     </div>
 
     <p class="sub-title">Perfil renal</p>
-    <div class="note-box">Ácido úrico: marcador precoz PE. Normal embarazo: &lt;5.5 mg/dL. Creatinina normal embarazo: &lt;0.8 mg/dL.</div>
+    <div class="note-box">Creatinina en embarazo: &gt;0.87 mg/dL = fuera de rango gestacional · &gt;1.1 mg/dL = criterio de gravedad de PE (ACOG 2020). Ácido úrico: dato complementario, no es criterio diagnóstico de PE (ISSHP).</div>
     <div class="row3">
       <div class="field"><label>Creatinina (mg/dL)</label>
         <input type="number" id="creatinina" placeholder="—" step="0.01">
-        <div class="hint">Normal embarazo: &lt;0.8</div>
+        <div class="hint">Normal embarazo: ≤0.87 · &gt;1.1 gravedad PE</div>
       </div>
       <div class="field"><label>Ácido úrico (mg/dL)</label>
         <input type="number" id="lab_au" placeholder="—" step="0.1">
-        <div class="hint">&gt;5.5 + HTA: sospecha PE</div>
+        <div class="hint">Límite superior embarazo: 1T 4.2 · 2T 4.9 · 3T 6.3 (Abbassi-Ghanavati 2009)</div>
       </div>
       <div class="field"><label>Urea (mg/dL)</label>
         <input type="number" id="lab_urea" placeholder="—">
-        <div class="hint">Normal: 10–40 mg/dL</div>
+        <div class="hint">En embarazo es más baja: BUN 3–13 mg/dL ≈ urea 6–28 mg/dL (Abbassi-Ghanavati 2009)</div>
       </div>
     </div>
 
@@ -1447,10 +1447,11 @@ document.addEventListener('DOMContentLoaded', function(){
           <strong>Opcional</strong> — no disponible en muchos centros de la región. Sin AUDT: diagnosticar por clínica + laboratorio accesible (prurito + bilirrubina + TGO/TGP + FA/GGT).<br>
           <table style="width:100%;font-size:.72rem;border-collapse:collapse;margin-top:4px">
             <tr style="background:rgba(0,128,128,.1)"><th style="padding:2px 5px;text-align:left">Forma</th><th style="padding:2px 5px">AUDT</th><th style="padding:2px 5px">Criterio regional</th><th style="padding:2px 5px">Interrupción</th><th style="padding:2px 5px">Riesgo</th></tr>
-            <tr><td style="padding:2px 5px">Normal</td><td style="padding:2px 5px;text-align:center">&lt;10 µmol/L</td><td style="padding:2px 5px">—</td><td style="padding:2px 5px;text-align:center">—</td><td style="padding:2px 5px">Sin riesgo</td></tr>
-            <tr style="background:rgba(255,193,7,.12)"><td style="padding:2px 5px">Anictérica</td><td style="padding:2px 5px;text-align:center">10–39</td><td style="padding:2px 5px">Prurito + enzimas↑ · Bili normal</td><td style="padding:2px 5px;text-align:center">38 sem</td><td style="padding:2px 5px">Óbito fetal bajo · meconio</td></tr>
-            <tr style="background:rgba(255,152,0,.15)"><td style="padding:2px 5px">Ictérica</td><td style="padding:2px 5px;text-align:center">&ge;40</td><td style="padding:2px 5px">Prurito + enzimas↑ + Bili &gt;1.2</td><td style="padding:2px 5px;text-align:center">36 sem</td><td style="padding:2px 5px">↑↑ óbito fetal · meconio</td></tr>
-            <tr style="background:rgba(244,67,54,.12)"><td style="padding:2px 5px">Severa</td><td style="padding:2px 5px;text-align:center">&ge;100</td><td style="padding:2px 5px">Cualquier forma + síntomas graves</td><td style="padding:2px 5px;text-align:center">34–36 sem</td><td style="padding:2px 5px">Máx. riesgo óbito</td></tr>
+            <tr><td style="padding:2px 5px">Normal</td><td style="padding:2px 5px;text-align:center">&lt;19 µmol/L</td><td style="padding:2px 5px">—</td><td style="padding:2px 5px;text-align:center">—</td><td style="padding:2px 5px">No confirma CIE</td></tr>
+            <tr style="background:rgba(255,193,7,.12)"><td style="padding:2px 5px">Anictérica</td><td style="padding:2px 5px;text-align:center">19–39</td><td style="padding:2px 5px">Prurito + enzimas↑ · Bili normal</td><td style="padding:2px 5px;text-align:center">38 sem</td><td style="padding:2px 5px">Óbito fetal bajo · meconio</td></tr>
+            <tr style="background:rgba(255,152,0,.15)"><td style="padding:2px 5px">Ictérica</td><td style="padding:2px 5px;text-align:center">—</td><td style="padding:2px 5px">Prurito + enzimas↑ + Bili &gt;1.2</td><td style="padding:2px 5px;text-align:center">36 sem</td><td style="padding:2px 5px">↑↑ óbito fetal · meconio</td></tr>
+            <tr style="background:rgba(255,152,0,.10)"><td style="padding:2px 5px">Moderada</td><td style="padding:2px 5px;text-align:center">40–99</td><td style="padding:2px 5px">Sin ictericia</td><td style="padding:2px 5px;text-align:center">38–39 sem</td><td style="padding:2px 5px">Similar a basal hasta 38–39 sem</td></tr>
+            <tr style="background:rgba(244,67,54,.12)"><td style="padding:2px 5px">Severa</td><td style="padding:2px 5px;text-align:center">&ge;100</td><td style="padding:2px 5px">Cualquier forma</td><td style="padding:2px 5px;text-align:center">35–36 sem</td><td style="padding:2px 5px">Máx. riesgo óbito</td></tr>
           </table>
         </div>
       </div>
@@ -1477,14 +1478,15 @@ document.addEventListener('DOMContentLoaded', function(){
           </tr>
         </thead>
         <tbody>
-          <tr><td style="padding:3px 5px">Normal</td><td style="padding:3px 5px;text-align:center">&lt;10 µmol/L</td><td style="padding:3px 5px">Sin síntomas</td><td style="padding:3px 5px;text-align:center">—</td><td style="padding:3px 5px">Sin riesgo</td></tr>
-          <tr style="background:rgba(255,193,7,.14)"><td style="padding:3px 5px"><strong>Anictérica</strong></td><td style="padding:3px 5px;text-align:center">10–39</td><td style="padding:3px 5px">Prurito + enzimas↑ · Bili normal</td><td style="padding:3px 5px;text-align:center"><strong>38 sem</strong></td><td style="padding:3px 5px">Óbito · meconio</td></tr>
-          <tr style="background:rgba(255,152,0,.18)"><td style="padding:3px 5px"><strong>Ictérica</strong></td><td style="padding:3px 5px;text-align:center">40–99</td><td style="padding:3px 5px">Prurito + enzimas↑ + Bili &gt;1.2</td><td style="padding:3px 5px;text-align:center"><strong>36 sem</strong></td><td style="padding:3px 5px">↑↑ óbito · meconio</td></tr>
-          <tr style="background:rgba(244,67,54,.13)"><td style="padding:3px 5px"><strong>Severa</strong></td><td style="padding:3px 5px;text-align:center">&ge;100</td><td style="padding:3px 5px">Cualquier forma + síntomas graves</td><td style="padding:3px 5px;text-align:center"><strong>34–36 sem</strong></td><td style="padding:3px 5px">Máx. óbito súbito</td></tr>
+          <tr><td style="padding:3px 5px">Normal</td><td style="padding:3px 5px;text-align:center">&lt;19 µmol/L</td><td style="padding:3px 5px">Sin síntomas</td><td style="padding:3px 5px;text-align:center">—</td><td style="padding:3px 5px">No confirma CIE</td></tr>
+          <tr style="background:rgba(255,193,7,.14)"><td style="padding:3px 5px"><strong>Anictérica</strong></td><td style="padding:3px 5px;text-align:center">19–39</td><td style="padding:3px 5px">Prurito + enzimas↑ · Bili normal</td><td style="padding:3px 5px;text-align:center"><strong>38 sem</strong></td><td style="padding:3px 5px">Óbito · meconio</td></tr>
+          <tr style="background:rgba(255,152,0,.18)"><td style="padding:3px 5px"><strong>Ictérica</strong></td><td style="padding:3px 5px;text-align:center">—</td><td style="padding:3px 5px">Prurito + enzimas↑ + Bili &gt;1.2</td><td style="padding:3px 5px;text-align:center"><strong>36 sem</strong></td><td style="padding:3px 5px">↑↑ óbito · meconio</td></tr>
+          <tr style="background:rgba(255,152,0,.10)"><td style="padding:3px 5px"><strong>Moderada</strong></td><td style="padding:3px 5px;text-align:center">40–99</td><td style="padding:3px 5px">Sin ictericia</td><td style="padding:3px 5px;text-align:center"><strong>38–39 sem</strong></td><td style="padding:3px 5px">Similar a basal hasta 38–39 sem</td></tr>
+          <tr style="background:rgba(244,67,54,.13)"><td style="padding:3px 5px"><strong>Severa</strong></td><td style="padding:3px 5px;text-align:center">&ge;100</td><td style="padding:3px 5px">Cualquier forma</td><td style="padding:3px 5px;text-align:center"><strong>35–36 sem</strong></td><td style="padding:3px 5px">Máx. óbito súbito</td></tr>
         </tbody>
       </table>
       <div style="font-size:.69rem;color:var(--slate);margin-top:4px">
-        *AUDT = ácidos biliares séricos totales — <strong>opcional</strong>, no disponible en muchos centros de la región.<br>
+        *AUDT = ácidos biliares séricos totales — <strong>opcional</strong>, no disponible en muchos centros de la región. Diagnóstico ≥19 µmol/L y momento del parto por ácidos biliares: RCOG GTG 43 (2022). Ictérica/anictérica: criterio regional (MINSAL Chile 2015).<br>
         ⚠️ Todos los casos: UDCA 10–15 mg/kg/día · Interrumpir ante compromiso del bienestar fetal independientemente de la EG.<br>
         <em>Guía Perinatal MINSAL Chile 2015 · RCOG GTG 43 (2022) · SFMFM · Williamson C et al. Lancet 2018 · ACOG</em>
       </div>
@@ -1515,11 +1517,11 @@ document.addEventListener('DOMContentLoaded', function(){
     <div class="row2">
       <div class="field"><label>Vitamina D sérica (ng/mL)</label>
         <input type="number" id="lab_vitd" placeholder="—" step="0.1">
-        <div class="hint">Solicitar en: obesidad, piel oscura, poca exposición solar, vegetariana. Déficit: &lt;20 · Insuf.: 20–29 · Óptimo: ≥30 (Endocrine Society 2024)</div>
+        <div class="hint">Solicitar en: obesidad, piel oscura, poca exposición solar, vegetariana. Rango de laboratorio: Déficit &lt;20 · Insuf. 20–29 · Suficiente ≥30 ng/mL (Endocrine Society 2011, Holick). OMS 2020 y Endocrine Society 2024: no medir de rutina.</div>
       </div>
       <div class="field"><label>Ferritina sérica (µg/L)</label>
         <input type="number" id="lab_ferrit" placeholder="—">
-        <div class="hint">Solicitar en sospecha anemia ferropénica. Déficit: &lt;15 · Bajo: 15–30 · Normal: &gt;30</div>
+        <div class="hint">Solicitar en sospecha anemia ferropénica. Déficit de hierro: &lt;30 (ACOG 2021) · Depleción grave: &lt;15 (OMS 2020)</div>
       </div>
     </div>
     <div class="field"><label>Saturación de transferrina (%)</label>
@@ -1528,24 +1530,23 @@ document.addEventListener('DOMContentLoaded', function(){
     </div>
 
     <p class="sub-title">Tiroides</p>
-    <div class="note-box"><strong>Valores de referencia TSH en embarazo:</strong>
-      1T: 0.1–2.5 µUI/mL · 2T: 0.2–3.0 µUI/mL · 3T: 0.3–3.5 µUI/mL</div>
+    <div class="note-box"><strong>TSH en embarazo (ATA 2017):</strong> usar el rango de embarazo del laboratorio. Si no lo informa: límite superior 4.0 µUI/mL. Levotiroxina si TSH &gt;4.0 con anti-TPO+ o TSH ≥10; considerar si TSH 2.5–4.0 con anti-TPO+, o 4–10 con anti-TPO−. En 1T una TSH baja puede ser fisiológica (hCG).</div>
     <div class="row2">
       <div class="field"><label>TSH (µUI/mL)</label>
         <input type="number" id="tsh" placeholder="—" step="0.01">
       </div>
       <div class="field"><label>Trimestre del análisis</label>
         <select id="tsh_trim">
-          <option value="1">1T (ref: 0.1–2.5)</option>
-          <option value="2">2T (ref: 0.2–3.0)</option>
-          <option value="3">3T (ref: 0.3–3.5)</option>
+          <option value="1">1T (ref: 0.1–4.0)</option>
+          <option value="2">2T (ref: 0.2–4.0)</option>
+          <option value="3">3T (ref: 0.3–4.0)</option>
         </select>
       </div>
     </div>
     <div class="row2">
       <div class="field"><label>T4 libre (ng/dL)</label>
         <input type="number" id="t4l" placeholder="—" step="0.01">
-        <div class="hint">Normal: 0.8–1.8 ng/dL</div>
+        <div class="hint">Usar rango del laboratorio (varía por método y trimestre) · Ref. no gestante ≈0.8–1.8</div>
       </div>
       <div class="field"><label>Anti-TPO (UI/mL)</label>
         <input type="number" id="antitpo" placeholder="—">
@@ -3853,7 +3854,8 @@ Microcefalia: CC &lt;p3 para EG.</div>
       <strong style="color:var(--navy)">Cribado cromosómico:</strong> Medicina Fetal Barcelona (cortes de riesgo, preferida) · Nicolaides 2005 / FMF (alternativa) · Snijders 1998 · Nicolaides 1998 (mediana TN) · Kagan · Cicero 2001 y 2004<br>
       <strong style="color:var(--navy)">Preeclampsia:</strong> FMF · ISSHP · Roche/BRAHMS (sFlt-1/PlGF) · Medicina Fetal Barcelona<br>
       <strong style="color:var(--navy)">Diabetes gestacional:</strong> IADPSG 2010 · ADA 2026 · ALAD 2019 · OMS<br>
-      <strong style="color:var(--navy)">Tiroides (TSH · T4 libre · Anti-TPO):</strong> ATA Guidelines 2017 · Endocrine Society · ACOG<br>
+      <strong style="color:var(--navy)">Tiroides (TSH · T4 libre · Anti-TPO):</strong> Alexander EK et al. ATA 2017 (Thyroid 2017;27:315-389) · ACOG<br>
+      <strong style="color:var(--navy)">Rangos de laboratorio en el embarazo:</strong> Tabla propia CaVeSal® · Basado en: OMS 2024 (Hb por trimestre) · FIGO 2025 (anemia) · ACOG Practice Bulletin 233 (2021) y OMS 2020 (ferritina) · SOAP 2021 (plaquetas y neuroaxial) · Abbassi-Ghanavati M et al. Obstet Gynecol 2009;114:1326-1331 · Wiles K et al. 2019 (creatinina) · ACOG 2020 (preeclampsia) · Holick MF et al. Endocrine Society 2011 (rangos de vitamina D) · OMS 2020 y Endocrine Society 2024 (vitamina D)<br>
       <strong style="color:var(--navy)">Suplementación:</strong> OMS · ACOG · NICE · FIGO · Endocrine Society 2024 · EBCOG 2024 · Cochrane<br>
       <strong style="color:var(--navy)">Biometría fetal:</strong> Hadlock 1984 · Robinson &amp; Fleming 1975 (CRL/FUM) · Chitty &amp; Altman 2002 (húmero y fémur) · Snijders &amp; Nicolaides 1994 (cerebelo) · Chitty 1994 (CC por EG; microcefalia &lt;−2/−3 DE: ISUOG · OMS 2016 · CDC Staples 2016) · INTERGROWTH-21st · Figueras &amp; Gratacós 2008<br>
       <strong style="color:var(--navy)">Crecimiento fetal / PEG / RCIU:</strong> Algoritmo propio CaVeSal® · Basado en: Figueras F et al. EJOGRB 2008;136:20-24 (ajuste por sexo) · Stirnemann J, Salomon LJ, Papageorghiou AT. UOG 2020;56:946-948 (INTERGROWTH-21st, PFE de Hadlock) · Hadlock FP et al. AJOG 1985;151:333-337 · Protocolo MFB Nov 2024 · ISUOG Delphi Consensus 2020<br>
@@ -3869,7 +3871,7 @@ Microcefalia: CC &lt;p3 para EG.</div>
       <strong style="color:var(--navy)">Serología — Hepatitis B:</strong> EASL Clinical Practice Guidelines 2017 · ACOG · ETMI Plus 2024<br>
       <strong style="color:var(--navy)">Serología — Hepatitis C:</strong> EASL Recommendations 2020 · AASLD · ACOG<br>
       <strong style="color:var(--navy)">Serología — Rubéola:</strong> CDC · OPS/PAHO · ACOG<br>
-      <strong style="color:var(--navy)">Colestasis intrahepática del embarazo (CIE):</strong> Guía Perinatal MINSAL Chile 2015 (cap. 11) · RCOG Green-top Guideline No. 43 (2022) · SFMFM Consult Series No. 53 · Williamson C et al. <em>Lancet</em> 2018;391:1683–96 · Ovadia C et al. <em>Lancet</em> 2019;393:899–909 · ACOG · EASL · <em>Clasificación regional: ictérica (bili &gt;1.2 + enzimas↑) → 36 sem · anictérica → 38 sem</em><br>
+      <strong style="color:var(--navy)">Colestasis intrahepática del embarazo (CIE):</strong> Guía Perinatal MINSAL Chile 2015 (cap. 11) · RCOG Green-top Guideline No. 43 (2022; diagnóstico ≥19 µmol/L y momento del parto por ácidos biliares) · SFMFM Consult Series No. 53 · Williamson C et al. <em>Lancet</em> 2018;391:1683–96 · Ovadia C et al. <em>Lancet</em> 2019;393:899–909 · ACOG · EASL · <em>Clasificación regional: ictérica (bili &gt;1.2 + enzimas↑) → 36 sem · anictérica → 38 sem</em><br>
       <strong style="color:var(--navy)">ACM PSV — anemia fetal:</strong> Algoritmo propio CaVeSal® · Basado en: Mari G et al. NEJM 2000;342:9-14<br>
       <strong style="color:var(--navy)">IP medio de arterias uterinas por EG:</strong> Algoritmo propio CaVeSal® · Basado en: Gómez O et al. UOG 2008;32:128-132 · Martin AM et al. UOG 2001;18:583-586<br>
       <strong style="color:var(--navy)">Arteria oftálmica:</strong> Gana N et al. UOG 2022;59:731-736 · de Oliveira CA et al. J Ultrasound Med 2013;32:609-616 · Diniz ALD et al. Int J Gynaecol Obstet 2008;100:216-220<br>
@@ -4724,7 +4726,7 @@ function calcular(){
   if(chk('e_hta_gest')) add('EMBARAZO ACTUAL — PATOLOGÍA ACTIVA','alto','Hipertensión gestacional','PA ≥140/90 sin proteinuria ni datos de gravedad. Monitoreo domiciliario. Laboratorio c/sem. Descartar progresión a PE (proteinuria, síntomas, plaquetas). Control fetal c/2 sem.','ACOG / ISSHP');
   if(chk('e_dg')) add('EMBARAZO ACTUAL — PATOLOGÍA ACTIVA','alto','⚠️ DIABETES GESTACIONAL (DG) — EMBARAZO DE ALTO RIESGO','Autocontrol glucémico (ayunas <95 mg/dL · 1h pp <140 · 2h pp <120). Plan nutricional con nutricionista. Biometría fetal c/4 sem. Si metas no alcanzadas en 2 sem: iniciar insulina. Control endocrinológico. SOG 6–12 sem postparto.','ADA 2024 / ACOG / IADPSG');
   if(chk('e_rciu')) add('EMBARAZO ACTUAL — PATOLOGÍA ACTIVA','alto','RCIU confirmada','Doppler umbilical, ACM y ductus venoso. Biometría c/2 sem. NST/PBF según EG. Betametasona si <34 sem. Valorar hospitalización según Doppler y EG. Derivar Medicina Fetal.','FMF / ACOG / ISUOG');
-  if(chk('e_col')) add('EMBARAZO ACTUAL — PATOLOGÍA ACTIVA','alto','Colestasis intrahepática del embarazo (CIE)','AUDT sérico (normal <10 µmol/L; grave ≥40 µmol/L). Ácido ursodeoxicólico 10–15 mg/kg/día. NST semanal desde 32 sem. Valorar finalización sem 36–37 si AUDT ≥40. ↓ Riesgo muerte fetal súbita.','ACOG / RCOG / EASL');
+  if(chk('e_col')) add('EMBARAZO ACTUAL — PATOLOGÍA ACTIVA','alto','Colestasis intrahepática del embarazo (CIE)','Ácidos biliares séricos (diagnóstico ≥19 µmol/L; 40–99 moderada; ≥100 severa — RCOG 2022). Ácido ursodeoxicólico 10–15 mg/kg/día. NST semanal desde 32 sem. Finalización: anictérica 38 sem · ictérica 36 sem · ácidos biliares 40–99 → 38–39 sem · ≥100 → 35–36 sem.','ACOG / RCOG / EASL');
   if(chk('e_hg')) add('EMBARAZO ACTUAL — PATOLOGÍA ACTIVA','moderado','Hiperémesis gravidarum / vómitos incoercibles','Hidratación IV si deshidratada. Tiamina 100 mg IV antes de dextrosá. Antieméticos (ondansetrón, metoclopramida, prometazina). Control electrolítico. Descartar hipercalcemia, mola, gemelar, DM. Control TSH (hipertiroidismo gestacional transitorio).','ACOG / RCOG');
   if(chk('e_hellp')) add('EMBARAZO ACTUAL — PATOLOGÍA ACTIVA','alto','⚠️ SÍNDROME HELLP','URGENCIA OBSTÉTRICA. Hemolísis + ↑ enzimas hepáticas + ↓ plaquetas. Sulfato Mg. Control PA. Corticoides. Hemoderivados si plaq <50.000. Finalizar embarazo preferentemente sép 34 sem o antes según gravedad. Derivar UCIO.','ACOG / ISSHP');
   if(chk('e_dppni')) add('EMBARAZO ACTUAL — PATOLOGÍA ACTIVA','alto','⚠️ DPPNI (Desprendimiento prematuro de placenta)','EMERGENCIA OBSTÉTRICA. Evaluar estado fetal (FCF, NST). Sangre disponible. Si FCF patológica o hemorragia severa: cesaréa de emergencia. Betametasona si <34 sem y estabilidad hemodinámica. Control coagulación (CID).','ACOG / RCOG');
@@ -4732,38 +4734,52 @@ function calcular(){
   // LABORATORIO
   const hb=val('hb'),plaq=val('plaquetas'),gluc=val('glucemia'),creat=val('creatinina'),tsh=val('tsh');
   if(hb!==null){
-    if(hb<7) add('LABORATORIO','alto',`Hb ${hb} g/dL (anemia grave)`,'Hierro IV urgente. Valorar transfusión si sintomática. Buscar causa. Control c/2 sem.','OMS / ACOG');
-    else if(hb<9) add('LABORATORIO','moderado',`Hb ${hb} g/dL (anemia moderada)`,'Hierro oral 120–200 mg/día + AF. Valorar hierro IV. Control Hb c/4 sem.','OMS / ACOG');
-    else if(hb<11) add('LABORATORIO','bajo',`Hb ${hb} g/dL (anemia leve)`,'Hierro oral 60–120 mg/día. Control Hb c/4 sem.','OMS');
+    // Algoritmo propio CaVeSal® · Basado en: OMS 2024 (umbrales de Hb por trimestre)
+    const hc=_hbCortes(eg?eg.sem:null);
+    if(hb<7) add('LABORATORIO','alto',`Hb ${hb} g/dL (anemia grave${hc.lbl})`,'Hierro IV urgente. Valorar transfusión si sintomática. Buscar causa. Control c/2 sem.','OMS 2024 / ACOG');
+    else if(hb<hc.mod) add('LABORATORIO','moderado',`Hb ${hb} g/dL (anemia moderada${hc.lbl})`,'Hierro oral 120–200 mg/día + AF. Valorar hierro IV. Control Hb c/4 sem.','OMS 2024 / ACOG');
+    else if(hb<hc.anemia) add('LABORATORIO','bajo',`Hb ${hb} g/dL (anemia leve${hc.lbl})`,'Hierro oral 60–120 mg/día. Control Hb c/4 sem.','OMS 2024');
   }
   if(plaq!==null){
     if(plaq<50) add('LABORATORIO','alto',`Plaquetas ${plaq}×10³/µL (trombocitopenia grave)`,'Descartar PE/HELLP/PTI. Hematología urgente.','ACOG');
-    else if(plaq<100) add('LABORATORIO','moderado',`Plaquetas ${plaq}×10³/µL (moderada)`,'Descartar HELLP. Control c/1–2 sem. Anestesiología informada (epidural: >80).','ACOG');
+    else if(plaq<100) add('LABORATORIO','moderado',`Plaquetas ${plaq}×10³/µL (moderada)`,'Descartar HELLP. Control c/1–2 sem. Anestesiología informada (neuroaxial: ≥70 sin otra coagulopatía — SOAP 2021).','ACOG / SOAP 2021');
     else if(plaq<150) add('LABORATORIO','bajo',`Plaquetas ${plaq}×10³/µL (leve, PTG probable)`,'Control seriado. Resolución habitual postparto.','ACOG');
   }
   if(gluc!==null){
     if(gluc>=126) add('LABORATORIO','alto',`Glucemia ayunas ${gluc} mg/dL (DM en embarazo)`,'DM en embarazo (≥126 mg/dL). Autocontrol. Metformina/insulina. Biometría seriada.','ADA / IADPSG');
     else if(gluc>=92) add('LABORATORIO','moderado',`Glucemia ayunas ${gluc} mg/dL (criterio DG)`,'Criterio IADPSG (≥92 mg/dL). Dieta, autocontrol. Valorar insulina. Biometría desde sem 28.','IADPSG / ADA');
   }
-  if(creat!==null&&creat>=0.8) add('LABORATORIO','moderado',`Creatinina ${creat} mg/dL (↑ en gestación)`,'Normal embarazo <0.8. Solicitar clearance, proteinuria 24h. Nefrología si progresivo.','ACOG');
+  if(creat!==null){
+    // Algoritmo propio CaVeSal® · Basado en: Wiles K et al. 2019 (rango gestacional) · ACOG 2020 (gravedad PE)
+    if(creat>1.1) add('LABORATORIO','alto',`Creatinina ${creat} mg/dL (>1.1 — criterio de gravedad)`,'Creatinina >1.1 mg/dL (o duplicación) = criterio de gravedad de preeclampsia si hay HTA. Evaluar PA, proteinuria, plaquetas y enzimas. Nefrología.','ACOG 2020 / ISSHP');
+    else if(creat>0.87) add('LABORATORIO','moderado',`Creatinina ${creat} mg/dL (sobre rango gestacional)`,'Normal en embarazo ≤0.87 mg/dL. Solicitar proteinuria (índice proteína/creatinina), control de PA y repetir. Nefrología si progresa.','Wiles 2019 / ACOG');
+  }
   if(tsh!==null){
     const tshTrim=parseInt(document.getElementById('tsh_trim').value)||1;
     const tshRef=getTSHRef(tshTrim);
     const tshLabel=`TSH ${tsh} µUI/mL (ref ${tshTrim}T: ${tshRef.min}–${tshRef.max})`;
-    if(tsh>tshRef.max+1.5) add('LABORATORIO','alto',`${tshLabel} — hipotiroidismo`,'Iniciar/ajustar levotiroxina urgente. Riesgo neurodesarrollo fetal. Control c/2–4 sem hasta TSH en rango.','ATA / ACOG');
-    else if(tsh>tshRef.max) add('LABORATORIO','moderado',`${tshLabel} — TSH sobre umbral trimestral`,'Ajustar levotiroxina. Objetivo 1T <2.5 / 2T <3.0 / 3T <3.5. Control c/4–6 sem.','ATA / ACOG');
-    else if(tsh<0.1) add('LABORATORIO','alto',`${tshLabel} — hipertiroidismo`,'Descartar Graves. PTU en 1T (luego metimazol en 2T-3T). Nunca yodo radiactivo. Endocrinología. Vigilar tiroides fetal si Anti-TRAb+.','ATA / ACOG');
-    else if(tsh<tshRef.min) add('LABORATORIO','moderado',`${tshLabel} — TSH bajo límite`,'Confirmar con T4L. Si hipertiroidismo subclínico: control c/4 sem. Descartar Graves.','ATA / ACOG');
+    // Algoritmo propio CaVeSal® · Basado en: Alexander EK et al. ATA 2017
+    const _t4=val('t4l');
+    if(tsh>=10) add('LABORATORIO','alto',`${tshLabel} — hipotiroidismo (TSH ≥10)`,'Iniciar/ajustar levotiroxina independientemente de anti-TPO. Control TSH c/4 sem hasta rango.','ATA 2017 / ACOG');
+    else if(tsh>tshRef.max) add('LABORATORIO','moderado',`${tshLabel} — TSH sobre límite superior`,'Solicitar T4L y anti-TPO si no están. Levotiroxina recomendada si anti-TPO+; considerar si anti-TPO− (TSH 4–10). Usar el rango de embarazo del laboratorio si lo informa. Control c/4 sem.','ATA 2017 / ACOG');
+    else if(tsh<tshRef.min){
+      if(_t4!==null && _t4>1.8) add('LABORATORIO','alto',`${tshLabel} — TSH suprimida + T4L alta`,'Diferenciar tirotoxicosis gestacional transitoria (hCG, 1T, hiperémesis) de enfermedad de Graves: anti-TRAb, T3. Endocrinología. Graves: PTU en 1T, metimazol en 2T–3T. Nunca yodo radiactivo.','ATA 2017 / ACOG');
+      else add('LABORATORIO','moderado',`${tshLabel} — TSH bajo límite`,(tshTrim==1?'En 1T puede ser fisiológica por hCG. ':'')+'Confirmar con T4L (y T3). Si T4L normal: control c/4 sem; no tratar. Descartar Graves si clínica o anti-TRAb+.','ATA 2017 / ACOG');
+    }
   }
   // ── T4 LIBRE ──
   // Algoritmo propio CaVeSal® · Análisis basado en literatura de referencia
   const t4l=val('t4l');
   if(t4l!==null){
-    if(t4l<0.8) add('LABORATORIO','alto',`T4 libre ${t4l} ng/dL (↓ — hipotiroidismo clínico)`,
-      'T4 libre baja: hipotiroidismo clínico confirmado independientemente del TSH. ' +
-      'Iniciar/ajustar levotiroxina urgente. Riesgo: aborto, parto pretérmino, alteración neurodesarrollo fetal. ' +
-      'Objetivo: T4L en rango normal trimestral. Control c/4 sem hasta estabilización.',
-      'ATA 2017 / ACOG / Endocrine Society');
+    const _tshRefMax=getTSHRef(parseInt((document.getElementById('tsh_trim')||{}).value)||1).max;
+    if(t4l<0.8 && tsh!==null && tsh>_tshRefMax) add('LABORATORIO','alto',`T4 libre ${t4l} ng/dL (↓) + TSH elevada — hipotiroidismo manifiesto`,
+      'TSH elevada con T4L baja: hipotiroidismo manifiesto. Iniciar/ajustar levotiroxina. ' +
+      'Riesgo: aborto, parto pretérmino, alteración del neurodesarrollo fetal. Control TSH c/4 sem.',
+      'ATA 2017 / ACOG');
+    else if(t4l<0.8) add('LABORATORIO','moderado',`T4 libre ${t4l} ng/dL (↓) con TSH normal o sin TSH`,
+      'Interpretar con TSH y el rango del laboratorio (la T4L varía por método y trimestre). ' +
+      'Con TSH normal = hipotiroxinemia aislada: no se trata de rutina (ATA 2017). Repetir y solicitar TSH si falta.',
+      'ATA 2017');
     else if(t4l>1.8) add('LABORATORIO','moderado',`T4 libre ${t4l} ng/dL (↑ — hipertiroidismo)`,
       'T4 libre elevada: confirmar con TSH. Si TSH suprimido + T4L alta: hipertiroidismo clínico. ' +
       'Descartar Enfermedad de Graves (Anti-TRAb). ' +
@@ -4778,9 +4794,9 @@ function calcular(){
     // Umbral positivo: >34 UI/mL (mayoría de laboratorios)
     var antitpo_tsh = tsh||0;
     if(antitpo_tsh>2.5){
-      add('LABORATORIO','alto',`Anti-TPO ${antitpo} UI/mL (↑) + TSH elevado`,
-        'Anti-TPO positivo con TSH sobre umbral trimestral: hipotiroidismo autoinmune. ' +
-        'Iniciar levotiroxina. Riesgo aumentado: aborto espontáneo, parto pretérmino, PE, DPPNI. ' +
+      add('LABORATORIO',antitpo_tsh>4.0?'alto':'moderado',`Anti-TPO ${antitpo} UI/mL (↑) + TSH ${antitpo_tsh>4.0?'>4.0':'2.5–4.0'}`,
+        (antitpo_tsh>4.0?'Anti-TPO positivo con TSH >4.0: levotiroxina recomendada (ATA 2017). ':'Anti-TPO positivo con TSH 2.5–4.0: considerar levotiroxina (ATA 2017). ') +
+        'Riesgo aumentado: aborto espontáneo, parto pretérmino. ' +
         'Control TSH c/4 sem. Screening hipotiroidismo neonatal.',
         'ATA 2017 / ACOG / Endocrine Society');
     } else {
@@ -4788,7 +4804,7 @@ function calcular(){
         'Anti-TPO positivo con TSH normal: tiroiditis autoinmune sin disfunción actual. ' +
         'Control TSH c/4–6 sem (riesgo hipotiroidismo gestacional aumentado 2–5×). ' +
         'Control TSH postparto a las 6–12 semanas (riesgo tiroiditis postparto ~50%). ' +
-        'No requiere tratamiento si TSH normal. Considerar levotiroxina si TSH >2.5 en 1T con Anti-TPO+.',
+        'No requiere tratamiento si TSH ≤2.5.',
         'ATA 2017 / ACOG / Endocrine Society');
     }
   }
@@ -5068,8 +5084,11 @@ function calcular(){
 
   // ── ÁCIDO ÚRICO ──
   const au=val('lab_au');
-  if(au!==null&&au>6.0) add('LABORATORIO','alto',`Ácido úrico ${au} mg/dL (↑↑)`,'Hiperuricemia marcada. Alta sospecha PE/HELLP. Asociar con PA, proteinuria, TGO/TGP y LDH. Manejo urgente si HTA asociada.','ACOG / ISSHP');
-  else if(au!==null&&au>5.5) add('LABORATORIO','moderado',`Ácido úrico ${au} mg/dL (>5.5)`,'Marcador precoz de daño renal y PE. Vigilar PA, proteinuria y función renal.','ACOG');
+  // Algoritmo propio CaVeSal® · Basado en: Abbassi-Ghanavati M et al. 2009 (rango por trimestre)
+  if(au!==null){
+    const _es=eg?eg.sem:null, _auMax=_es===null?6.3:(_es<14?4.2:(_es<28?4.9:6.3));
+    if(au>_auMax) add('LABORATORIO','moderado',`Ácido úrico ${au} mg/dL (> ${_auMax}, límite ${_es===null?'3T':(_es<14?'1T':(_es<28?'2T':'3T'))})`,'Dato complementario: no es criterio diagnóstico de PE. Correlacionar con PA, proteinuria, creatinina, plaquetas y enzimas hepáticas.','Abbassi-Ghanavati 2009 / ISSHP');
+  }
 
   // ── HEPATOGRAMA / HELLP ──
   const tgo=val('lab_tgo'),tgp=val('lab_tgp'),ldh=val('lab_ldh'),bili=val('lab_bili');
@@ -5092,7 +5111,7 @@ function calcular(){
   const cie_bili = bili!==null && bili>1.2;
   const cie_enzimas = (tgo&&tgo>40)||(tgp&&tgp>40);
   const cie_prurito = prurito==='leve'||prurito==='intenso';
-  const cie_audt_grave = audt!==null && audt>=40;
+  const cie_audt_grave = audt!==null && audt>=40 && audt<100;
   const cie_audt_severa = audt!==null && audt>=100;
 
   if(audt!==null||cie_bili||cie_prurito){
@@ -5126,8 +5145,8 @@ function calcular(){
 
     // Refinamiento por AUDT si disponible
     if(cie_tipo && audt!==null){
-      if(cie_audt_severa){ cie_tipo+=' · AUDT severa (≥100 µmol/L)'; cie_interrupcion='34–36 semanas'; cie_color='alto'; }
-      else if(cie_audt_grave && !cie_icterica){ cie_tipo+=' · AUDT grave (≥40 µmol/L)'; cie_interrupcion='36–37 semanas'; cie_color='alto'; }
+      if(cie_audt_severa){ cie_tipo+=' · AUDT severa (≥100 µmol/L)'; cie_interrupcion='35–36 semanas'; cie_color='alto'; }
+      else if(cie_audt_grave && !cie_icterica){ cie_tipo+=' · AUDT moderada (40–99 µmol/L)'; cie_interrupcion='38–39 semanas'; }
     }
 
     if(cie_tipo){
@@ -5137,24 +5156,28 @@ function calcular(){
       } else {
         cie_desc+='Forma anictérica: prurito + enzimas elevadas, bilirrubina normal. Riesgo de óbito fetal presente aunque menor que la forma ictérica. ';
       }
-      if(audt!==null && audt>=10){
+      if(audt!==null && audt>=19){
         cie_desc+=`Ácidos biliares séricos: ${audt} µmol/L `;
-        if(cie_audt_severa) cie_desc+='(≥100 = severa — máximo riesgo óbito fetal súbito). ';
-        else if(cie_audt_grave) cie_desc+='(≥40 = grave — riesgo aumentado). ';
-        else cie_desc+='(10–39 = leve). ';
+        if(cie_audt_severa) cie_desc+='(≥100 = severa — riesgo de óbito fetal mayor). ';
+        else if(cie_audt_grave) cie_desc+='(40–99 = moderada). ';
+        else cie_desc+='(19–39 = leve). ';
+      } else if(audt!==null){
+        cie_desc+=`Ácidos biliares séricos: ${audt} µmol/L (<19 — no confirman CIE según RCOG 2022; repetir si persiste el prurito). `;
       } else if(audt===null){
         cie_desc+='Diagnóstico por criterio clínico-bioquímico accesible (prurito + bilirrubina + TGO/TGP). Ácidos biliares séricos no disponibles en muchos centros de la región. ';
       }
       cie_desc+='· TRATAMIENTO: Ácido ursodeoxicólico (UDCA) 10–15 mg/kg/día VO en 2–3 tomas (primera línea — mejora prurito y perfil bioquímico; superior a colestiramina). Vitamina K oral si colestasis prolongada. ';
       if(cie_interrupcion){
         cie_desc+=`· INTERRUPCIÓN: Inducción del trabajo de parto a las ${cie_interrupcion}. `;
-        if(cie_icterica||cie_audt_grave) cie_desc+='Forma ictérica/grave: 36 semanas por riesgo aumentado de óbito fetal y meconio espeso. ';
+        if(cie_audt_severa) cie_desc+='Ácidos biliares ≥100: 35–36 semanas (RCOG 2022). ';
+        else if(cie_icterica) cie_desc+='Forma ictérica: 36 semanas por riesgo aumentado de óbito fetal y meconio espeso. ';
+        else if(cie_audt_grave) cie_desc+='Ácidos biliares 40–99 sin ictericia: 38–39 semanas (RCOG 2022). ';
         else cie_desc+='Forma anictérica: 38 semanas — existe riesgo de óbito fetal aunque menor. ';
       }
       cie_desc+='⚠️ INDEPENDIENTEMENTE de la clasificación: interrumpir ante cualquier signo de compromiso del bienestar fetal (NST no reactivo, Doppler alterado, movimientos fetales reducidos, meconio) o deterioro materno. ';
       cie_desc+='· MONITOREO: NST semanal desde sem 32. Control laboratorio hepático c/2 semanas. ';
       if(audt!==null) cie_desc+='Ácidos biliares c/1–2 semanas. ';
-      cie_desc+='· Resumen conducta: Anictérica (prurito + enzimas↑, bili normal) → UDCA + parto 38 sem | Ictérica (prurito + enzimas↑ + bili >1.2) → UDCA + parto 36 sem | Severa (AUDT ≥100 µmol/L) → UDCA + parto 34–36 sem. ';
+      cie_desc+='· Resumen conducta: Anictérica (prurito + enzimas↑, bili normal) → UDCA + parto 38 sem | Ictérica (prurito + enzimas↑ + bili >1.2) → UDCA + parto 36 sem | Ácidos biliares 40–99 sin ictericia → 38–39 sem | Ácidos biliares ≥100 µmol/L → 35–36 sem (RCOG 2022). ';
       cie_desc+='Fuente: Guía Perinatal MINSAL Chile 2015 · RCOG GTG 43 (2022) · SFMFM · ACOG.';
 
       add('LABORATORIO', cie_color,
@@ -5167,13 +5190,15 @@ function calcular(){
   // ── VITAMINA D SÉRICA ──
   const vitd=val('lab_vitd');
   if(vitd!==null){
-    if(vitd<20) add('LABORATORIO','moderado',`Vitamina D ${vitd} ng/mL (déficit)`,'Iniciar/ajustar suplementación: 2000–4000 UI/día. Control en 8–12 semanas. Asociado a PE, DG, pretérmino.','Endocrine Society 2024');
-    else if(vitd<30) add('LABORATORIO','bajo',`Vitamina D ${vitd} ng/mL (insuficiencia)`,'Mantener suplementación 1000–2000 UI/día. Control en 12 semanas.','Endocrine Society 2024');
+    // Rangos de laboratorio: Holick MF et al. Endocrine Society 2011 (<20 déficit · 20–29 insuficiencia · ≥30 suficiente)
+    if(vitd<20) add('LABORATORIO','moderado',`Vitamina D ${vitd} ng/mL (déficit, <20)`,'Déficit documentado: suplementar (OMS 2020: la suplementación se reserva para déficit documentado o sospechado). Control en 8–12 semanas.','Endocrine Society 2011 (rangos) / OMS 2020');
+    else if(vitd<30) add('LABORATORIO','bajo',`Vitamina D ${vitd} ng/mL (insuficiencia, 20–29)`,'Asegurar dieta y exposición solar; valorar suplementación según riesgo. OMS 2020 y Endocrine Society 2024 no recomiendan medir de rutina en el embarazo.','Endocrine Society 2011 (rangos) / OMS 2020 / Endocrine Society 2024');
   }
 
   // ── FERRITINA / SAT TRANSFERRINA ──
   const ferrit=val('lab_ferrit'),satTransf=val('lab_sat_transf');
-  if(ferrit!==null&&ferrit<15) add('LABORATORIO','moderado',`Ferritina ${ferrit} µg/L (déficit)`,'Déficit de hierro sin anemia aún. Iniciar hierro oral preventivo. Control Hb y ferritina en 4–6 sem.','OMS / ACOG');
+  if(ferrit!==null&&ferrit<15) add('LABORATORIO','moderado',`Ferritina ${ferrit} µg/L (depleción grave, <15)`,'Depósitos de hierro agotados. Hierro oral (valorar IV si intolerancia o 3T). Control Hb y ferritina en 4–6 sem.','OMS 2020 / ACOG 2021');
+  else if(ferrit!==null&&ferrit<30) add('LABORATORIO','moderado',`Ferritina ${ferrit} µg/L (déficit de hierro, <30)`,'Déficit de hierro. Iniciar hierro oral. Control Hb y ferritina en 4–6 sem.','ACOG 2021 / BSH 2020');
   if(satTransf!==null&&satTransf<16) add('LABORATORIO','moderado',`Saturación transferrina ${satTransf}% (<16%)`,'Déficit funcional de hierro. Asociar con Hb y ferritina. Iniciar/ajustar hierro oral o valorar IV.','ACOG');
 
   if(chk('lb_prot')) add('LABORATORIO','alto','Proteinuria positiva','Proteinuria 24h o ratio proteína/creatinina. Si >300 mg/24h + HTA: criterio PE. sFlt-1/PlGF urgente.','ACOG / ISSHP');
@@ -6003,8 +6028,8 @@ function calcular(){
     html+=`<div class="section-card" style="padding:20px;text-align:center"><div style="font-size:2rem;margin-bottom:8px">✅</div><div style="font-weight:700;color:var(--green)">Sin factores de riesgo identificados</div><div style="font-size:.8rem;color:var(--slate);margin-top:6px">Control prenatal habitual. Ácido fólico, yodo y educación sobre signos de alarma.</div></div>`;
   }
 
-  // ── EXTRA LAB FINDINGS ──
-  getLabExtraFindings(findings);
+  // 2026-11-09: se eliminó getLabExtraFindings() (copia vieja con cortes distintos que
+  // duplicaba hallazgos en el informe y en el puente a la IA). Todo queda en un solo juego de reglas.
   
   // Re-sort after adding
   Object.keys(domains).forEach(d=>{if(!domains[d])domains[d]=[];});
@@ -9030,12 +9055,19 @@ function renderCalendarios(egSem, nivelRiesgo){
 }
 
 // ════ PERSONALIZED SUPPLEMENT RECOMMENDATIONS ════
+// Algoritmo propio CaVeSal® · Basado en: OMS 2024 — umbrales de Hb en el embarazo por trimestre
+function _hbCortes(sem){
+  if(sem===null||sem===undefined||isNaN(sem)) return {anemia:11, mod:10, lbl:''};
+  if(sem>=14&&sem<28) return {anemia:10.5, mod:9.5, lbl:' · 2T'};
+  return {anemia:11, mod:10, lbl: sem<14?' · 1T':' · 3T'};
+}
 function getSupleRecomendaciones(findings, hb, vitd, egSem){
   const recs = [];
-  const tieneAnemia = hb !== null && hb < 11;
+  const _hc = _hbCortes(egSem);
+  const tieneAnemia = hb !== null && hb < _hc.anemia;
   const tieneAnemiaGrave = hb !== null && hb < 7;
-  const tieneAnemiaModera = hb !== null && hb >= 7 && hb < 9;
-  const tieneAnemiaLeve = hb !== null && hb >= 9 && hb < 11;
+  const tieneAnemiaModera = hb !== null && hb >= 7 && hb < _hc.mod;
+  const tieneAnemiaLeve = hb !== null && hb >= _hc.mod && hb < _hc.anemia;
   const tienePE = findings.some(f => f.conducta && f.conducta.includes('AAS'));
   const tienePreterm = findings.some(f => f.domain === 'ANTECEDENTE OBSTÉTRICO' && f.hallazgo.includes('pretérmino'));
   const tieneVegana = (document.getElementById('h_veg')&&document.getElementById('h_veg').checked)||false;
@@ -9082,14 +9114,14 @@ function getSupleRecomendaciones(findings, hb, vitd, egSem){
   if(vitd !== null){
     if(vitd >= 30){ vitdDosis = 'No requiere suplementación adicional'; vitdNota = `Nivel sérico ${vitd} ng/mL — óptimo (≥30 ng/mL). Mantener dieta y exposición solar`; vitdAlerta = 'bajo'; }
     else if(vitd >= 20){ vitdDosis = '1000–2000 UI/día'; vitdNota = `Nivel sérico ${vitd} ng/mL — insuficiencia (20–29 ng/mL). Control en 8–12 sem. Asociada a ↓PE, ↓DG, ↓pretérmino`; vitdAlerta = 'moder'; }
-    else { vitdDosis = '2000–4000 UI/día'; vitdNota = `Nivel sérico ${vitd} ng/mL — déficit (<20 ng/mL). Endocrine Society 2024. Asociada a ↓PE, ↓DG, ↓pretérmino`; vitdAlerta = 'alto'; }
+    else { vitdDosis = '2000–4000 UI/día'; vitdNota = `Nivel sérico ${vitd} ng/mL — déficit (<20 ng/mL, rango Endocrine Society 2011). Asociada a ↓PE, ↓DG, ↓pretérmino`; vitdAlerta = 'alto'; }
   } else {
     vitdDosis = '1000–2000 UI/día (empírica en grupos de riesgo)';
     vitdNota = 'Sin nivel sérico disponible. Empírica en: obesidad, piel oscura, poca exposición solar, invierno — Endocrine Society 2024. Asociada a ↓PE, ↓DG, ↓pretérmino';
     vitdAlerta = 'moder';
   }
   recs.push({icon:'☀️', supl:'Vitamina D', dosis:vitdDosis, nota:vitdNota, alerta:vitdAlerta,
-    pie:'No es suplementación de rutina universal. Valorar nivel sérico en grupos de riesgo. Objetivo: 25-OH-VitD ≥30 ng/mL'});
+    pie:'Rangos de laboratorio: <20 déficit · 20–29 insuficiencia · ≥30 suficiente (Endocrine Society 2011). OMS 2020: no suplementar ni medir de rutina; suplementar si déficit documentado o sospechado. Endocrine Society 2024: no medir de rutina en el embarazo.'});
 
   // ── OMEGA-3 ──
   let omDosis, omNota, omAlerta;
@@ -9152,64 +9184,6 @@ function renderSupleResult(recs){
 }
 
 
-// ════ LAB CALCULAR LOGIC (additional fields) ════
-function getLabExtraFindings(findings){
-  const add = (d,n,h,c,f) => findings.push({domain:d,nivel:n,hallazgo:h,conducta:c,fuente:f});
-  
-  const rni=val('lab_rni'), kptt=val('lab_kptt');
-  if(rni!==null&&rni>1.3) add('LABORATORIO','moderado',`RIN ${rni} (↑)`,'Evaluar coagulopatía. Repetir con plaquetas.','ACOG');
-  if(kptt!==null&&kptt>45) add('LABORATORIO','moderado',`KPTT ${kptt} seg (↑)`,'KPTT prolongado. Descartar anticoagulante lúpico.','ACOG');
-
-  const sog0=val('lab_sog_0'),sog1=val('lab_sog_1'),sog2=val('lab_sog_2'),hba1c=val('lab_hba1c');
-  if(sog0!==null&&sog0>=92) add('LABORATORIO','alto',`SOG ayunas ${sog0} mg/dL (≥92 IADPSG)`,'Diagnóstico DG. Dieta y autocontrol. Biometría desde sem 28.','IADPSG/ADA');
-  if(sog1!==null&&sog1>=180) add('LABORATORIO','alto',`SOG 1h ${sog1} mg/dL (≥180 IADPSG)`,'Diagnóstico DG.','IADPSG/ADA');
-  if(sog2!==null&&sog2>=153) add('LABORATORIO','alto',`SOG 2h ${sog2} mg/dL (≥153 IADPSG)`,'Diagnóstico DG.','IADPSG/ADA');
-  if(hba1c!==null&&hba1c>=6.5) add('LABORATORIO','alto',`HbA1c ${hba1c}% (≥6.5% — DM en embarazo)`,'DM pregestacional no diagnosticada. Biometría mensual. Ecocardiografía fetal.','ADA/ACOG');
-
-  const au=val('lab_au');
-  if(au!==null&&au>6.0) add('LABORATORIO','alto',`Ácido úrico ${au} mg/dL (↑↑)`,'Alta sospecha PE/HELLP. Asociar PA, proteinuria, TGO/LDH.','ACOG/ISSHP');
-  else if(au!==null&&au>5.5) add('LABORATORIO','moderado',`Ácido úrico ${au} mg/dL (>5.5)`,'Marcador precoz PE. Vigilar PA y proteinuria.','ACOG');
-
-  const tgo=val('lab_tgo'),tgp=val('lab_tgp'),ldh=val('lab_ldh'),bili=val('lab_bili');
-  if((tgo&&tgo>70)||(ldh&&ldh>600)){
-    const parts=[];
-    if(tgo&&tgo>70) parts.push(`TGO ${tgo}`);
-    if(tgp&&tgp>70) parts.push(`TGP ${tgp}`);
-    if(ldh&&ldh>600) parts.push(`LDH ${ldh}`);
-    add('LABORATORIO','alto',`Sospecha HELLP: ${parts.join(' · ')} UI/L`,'Plaquetas urgente. Si <100.000 + enzimas ↑: HELLP. Hospitalización. Maduración pulmonar <34 sem.','ACOG/ISSHP');
-  }
-  if(bili!==null&&bili>1.5) add('LABORATORIO','moderado',`Bilirrubina ${bili} mg/dL (↑)`,'Descartar colestasis intrahepática. Solicitar ácidos biliares.','ACOG/EASL');
-
-  const vitd=val('lab_vitd');
-  if(vitd!==null&&vitd<20) add('LABORATORIO','moderado',`Vitamina D ${vitd} ng/mL (déficit)`,'Iniciar 2000–4000 UI/día. Control en 8–12 sem.','Endocrine Society 2024');
-  else if(vitd!==null&&vitd<30) add('LABORATORIO','bajo',`Vitamina D ${vitd} ng/mL (insuficiencia)`,'Mantener 1000–2000 UI/día.','Endocrine Society 2024');
-
-  const ferrit=val('lab_ferrit'),satTransf=val('lab_sat_transf');
-  if(ferrit!==null&&ferrit<15) add('LABORATORIO','moderado',`Ferritina ${ferrit} µg/L (déficit)`,'Iniciar hierro oral. Control en 4–6 sem.','OMS/ACOG');
-  if(satTransf!==null&&satTransf<16) add('LABORATORIO','moderado',`Saturación transferrina ${satTransf}% (<16%)`,'Déficit funcional. Ajustar hierro oral o valorar IV.','ACOG');
-
-  const sgbRes=sel('lb_sgb');
-  if(sgbRes==='pos') add('LABORATORIO','alto','SGB positivo — profilaxis intraparto obligatoria','Penicilina G 5 mill UI IV al inicio TP, luego 2.5 mill c/4h hasta parto.','CDC/ACOG');
-  else if(sgbRes==='desconocido') add('LABORATORIO','moderado','SGB: resultado desconocido','Profilaxis según factores de riesgo intraparto.','CDC/ACOG');
-
-  // ILA
-  const ecoILA=val('eco_ila'),ecoBolson=val('eco_bolson');
-  if(ecoILA!==null){
-    if(ecoILA<2) add('ECOGRAFÍA 2T','alto',`ILA ${ecoILA} cm — Oligoamnios SEVERO`,'Derivar urgente. Doppler urgente.','ACOG/FMF');
-    else if(ecoILA<5) add('ECOGRAFÍA 2T','alto',`ILA ${ecoILA} cm — Oligoamnios`,'Doppler umbilical y ACM. Vigilancia intensiva.','ACOG/FMF');
-    else if(ecoILA<8) add('ECOGRAFÍA 2T','moderado',`ILA ${ecoILA} cm — Límite inferior`,'Vigilar. Control en 1–2 sem.','ACOG');
-    else if(ecoILA>34) add('ECOGRAFÍA 2T','alto',`ILA ${ecoILA} cm — Polihidramnios SEVERO`,'Derivar Medicina Fetal urgente.','ACOG/FMF');
-    else if(ecoILA>29) add('ECOGRAFÍA 2T','alto',`ILA ${ecoILA} cm — Polihidramnios moderado`,'Vigilancia estrecha.','ACOG');
-    else if(ecoILA>24) add('ECOGRAFÍA 2T','moderado',`ILA ${ecoILA} cm — Polihidramnios leve`,'Descartar DG, malformación.','ACOG');
-    else if(ecoILA>18) add('ECOGRAFÍA 2T','bajo',`ILA ${ecoILA} cm — Límite superior`,'Vigilar.','ACOG');
-  }
-  if(ecoBolson!==null){
-    if(ecoBolson<2) add('ECOGRAFÍA 2T','alto',`Bolsón mayor ${ecoBolson} cm — Oligoamnios`,'Confirmar con ILA.','ACOG');
-    else if(ecoBolson>8) add('ECOGRAFÍA 2T','moderado',`Bolsón mayor ${ecoBolson} cm — Polihidramnios`,'Confirmar con ILA.','ACOG');
-  }
-}
-
-
 // ════ SINCRONIZACIÓN FUM BIDIRECCIONAL ════
 // Un solo FUM para toda la app — misma EG en formulario y EG·Parto
 function syncFUM(source){
@@ -9233,7 +9207,8 @@ function syncFUM(source){
 
 }
 
-function getTSHRef(t){return t==1?{min:0.1,max:2.5}:t==2?{min:0.2,max:3.0}:{min:0.3,max:3.5};}
+// ATA 2017: si el laboratorio no informa rango de embarazo, límite superior 4.0 mU/L
+function getTSHRef(t){return t==1?{min:0.1,max:4.0}:t==2?{min:0.2,max:4.0}:{min:0.3,max:4.0};}
 
 
 // ════════════════════════════════════════════════
@@ -9977,11 +9952,7 @@ function toggleToxoAvidez(){
 }
 
 // ── TSH TRIMESTER INTERPRETATION ──
-function getTSHRef(trim){
-  if(trim==1) return {min:0.1,max:2.5};
-  if(trim==2) return {min:0.2,max:3.0};
-  return {min:0.3,max:3.5};
-}
+
 
 
 // 2026-09-13: se eliminó de acá un bloque entero copiado por error desde la
