@@ -2495,14 +2495,7 @@ document.addEventListener('DOMContentLoaded', function(){
       <div id="bloque_eco_solo">
         <div class="note-box"><strong>Cribado solo por ECO 1T (11–13+6 sem):</strong> Sin bioquímica. Sensibilidad T21 ~75–80%. Marcadores FMF/Nicolaides.</div>
         <div class="row2">
-          <div style="margin:0 0 10px;padding:8px;background:var(--mist);border-radius:10px;max-width:100%;box-sizing:border-box;">
-  <div style="font-size:.72rem;color:var(--slate);margin-bottom:6px;font-weight:600;">📊 Referencia percentiles TN:</div>
-  <div style="display:flex;flex-direction:column;gap:6px;">
-    <button id="nt_tabla_snijders" onclick="setNtTabla('snijders')" style="width:100%;padding:7px 4px;border:none;border-radius:8px;font-size:.68rem;font-weight:700;cursor:pointer;background:var(--teal);color:#fff;box-sizing:border-box;">Snijders/FMF 1998</button>
-    <button id="nt_tabla_sharifzadeh" onclick="setNtTabla('sharifzadeh')" style="width:100%;padding:7px 4px;border:none;border-radius:8px;font-size:.68rem;font-weight:700;cursor:pointer;background:var(--mist);color:var(--slate);box-sizing:border-box;">Sharifzadeh 2019</button>
-  </div>
-  <div style="font-size:.66rem;color:var(--slate);text-align:center;margin-top:6px;line-height:1.4">Percentil auto · P95 Snijders 2.2-2.8 / Sharifz. 1.8-2.35mm · ≥3.5mm=alto riesgo</div>
-</div>
+          <div style="margin:0 0 10px;padding:8px;background:var(--mist);border-radius:10px;max-width:100%;box-sizing:border-box;font-size:.68rem;color:var(--slate);line-height:1.45">📊 <strong>Referencia TN: FMF.</strong> Mediana y P95 continuos según la LCN (45–84 mm) · P95 2,1→2,7 mm · ≥3,5 mm ≈ P99 = alto riesgo.<br>Algoritmo propio CaVeSal® · Basado en: Nicolaides KH, Snijders RJM, Cuckle HS. Prenat Diagn 1998;18:519-21 · Snijders RJM et al. Lancet 1998;352:343-6</div>
 <div class="field"><label>NT — Translucencia nucal (mm)</label>
             <input type="number" id="nt_mm" placeholder="ej. 1.8" step="0.1" oninput="calcNT()">
           </div>
@@ -2518,7 +2511,7 @@ document.addEventListener('DOMContentLoaded', function(){
               <option value="presente">Presente ✓</option>
               <option value="ausente">Ausente ⚠️</option>
             </select>
-            <div class="hint">Ausente: LR+ ~6 para T21</div>
+            <div class="hint">Ausente en ~60–70 % de T21 y ~1–2 % de euploides</div>
           </div>
           <div class="field"><label>Ductus venoso (onda a)</label>
             <select id="nt_dv" onchange="calcNT()">
@@ -3857,7 +3850,7 @@ Microcefalia: CC &lt;p3 para EG.</div>
   </div>
   <div class="section-body" style="padding:14px">
     <div style="font-size:.76rem;color:var(--slate);line-height:1.8">
-      <strong style="color:var(--navy)">Cribado cromosómico:</strong> Medicina Fetal Barcelona (cortes de riesgo, preferida) · Nicolaides 2005 / FMF (alternativa) · Snijders 1998 · Sharifzadeh 2019 · Kagan · Cicero<br>
+      <strong style="color:var(--navy)">Cribado cromosómico:</strong> Medicina Fetal Barcelona (cortes de riesgo, preferida) · Nicolaides 2005 / FMF (alternativa) · Snijders 1998 · Nicolaides 1998 (mediana TN) · Kagan · Cicero 2001 y 2004<br>
       <strong style="color:var(--navy)">Preeclampsia:</strong> FMF · ISSHP · Roche/BRAHMS (sFlt-1/PlGF) · Medicina Fetal Barcelona<br>
       <strong style="color:var(--navy)">Diabetes gestacional:</strong> IADPSG 2010 · ADA 2026 · ALAD 2019 · OMS<br>
       <strong style="color:var(--navy)">Tiroides (TSH · T4 libre · Anti-TPO):</strong> ATA Guidelines 2017 · Endocrine Society · ACOG<br>
@@ -5238,17 +5231,13 @@ function calcular(){
     const ntVal=val('nt_mm'), ntCrl=val('nt_crl');
     const ntNasal=sel('nt_nasal'), ntDV=sel('nt_dv'), ntTricusp=sel('nt_tricusp');
     if(ntVal!==null&&ntCrl!==null){
-      const {nivel,p95,med}=clasificarRiesgoNT(ntVal,ntCrl,edad);
+      const {nivel,p95,med}=clasificarRiesgoNT(ntVal,ntCrl);
       if(ntVal>=3.5){
         add('CRIBADO CROMOSÓMICO','alto',`NT ${ntVal} mm (≥3.5 mm — alto riesgo independiente)`,'Riesgo cromosómico y cardíaco muy aumentado. Derivar Medicina Fetal urgente. Biopsia corial o amniocentesis. Ecocardiografía fetal.','FMF/Nicolaides');
       } else if(p95 && ntVal>=p95){
-        add('CRIBADO CROMOSÓMICO', nivel, `NT ${ntVal} mm (≥p95 para CRL ${ntCrl} mm, mediana ${med?med.toFixed(2):'—'} mm)${edad&&edad>=35?' + edad materna '+edad+' años':''}`,
-          nivel==='alto' ? 'NT elevada + edad materna ≥35 años: ALTO riesgo cromosómico. Se recomienda NIPT o diagnóstico invasivo. Ecocardiografía fetal.' : 'NT sobre percentil 95. Ofrecer NIPT o diagnóstico invasivo. Ecocardiografía fetal.',
-          'FMF/Nicolaides');
-      } else if(nivel==='moderado' && edad>=35){
-        add('CRIBADO CROMOSÓMICO','moderado',`NT normal (${ntVal} mm) pero edad materna ${edad} años (≥35)`,'Edad materna avanzada como factor de riesgo a priori independiente. Considerar cribado combinado o NIPT según preferencia.','FMF/Nicolaides');
+        add('CRIBADO CROMOSÓMICO','moderado',`TN ${ntVal} mm (≥P95 para LCN ${ntCrl} mm · P95 ${p95.toFixed(2)} mm)`,'Riesgo cromosómico aumentado. Ofrecer NIPT o diagnóstico invasivo. Ecocardiografía fetal.','FMF · Snijders 1998');
       }
-      if(ntNasal==='ausente') add('CRIBADO CROMOSÓMICO','alto','Hueso nasal AUSENTE','LR+ ~6 para T21. Riesgo aumentado de aneuploidía. Asociar con NT y otros marcadores.','FMF/Nicolaides');
+      if(ntNasal==='ausente') add('CRIBADO CROMOSÓMICO','alto','Hueso nasal AUSENTE','Ausente en ~60–70 % de T21 y ~1–2 % de euploides. Riesgo aumentado de aneuploidía. Integrar con TN y otros marcadores.','FMF · Cicero 2004');
       if(ntDV==='invertida') add('CRIBADO CROMOSÓMICO','alto','Ductus venoso: onda a invertida/ausente','Marcador de aneuploidía y cardiopatía congénita. Derivar Medicina Fetal. Ecocardiografía.','FMF/Nicolaides');
       if(ntTricusp==='presente') add('CRIBADO CROMOSÓMICO','moderado','Regurgitación tricúspide','Asociada a T21 y cardiopatía congénita. Ecocardiografía fetal. Integrar con NT y otros marcadores.','FMF/Nicolaides');
     }
@@ -6752,32 +6741,18 @@ function egEnMeses(egSem){
 }
 
 
-// ════ NT — TRANSLUCENCIA NUCAL (Snijders FMF 1998 / Sharifzadeh 2019) ════
-var NT_SNIJDERS=[[45,49,0.8,1.2,2.2],[50,54,0.9,1.3,2.3],[55,59,1.0,1.4,2.4],
-  [60,64,1.1,1.5,2.5],[65,69,1.2,1.6,2.5],[70,74,1.3,1.7,2.6],[75,79,1.4,1.8,2.7],[80,84,1.5,1.9,2.8]];
-var NT_SHARIFZADEH=[[45,49,0.7,1.0,1.8],[50,54,0.8,1.1,1.9],[55,59,0.9,1.2,1.9],
-  [60,64,1.0,1.3,2.0],[65,69,1.1,1.4,2.1],[70,74,1.2,1.5,2.2],[75,79,1.3,1.6,2.3],[80,84,1.4,1.65,2.35]];
-var ntTabla='snijders';
-function setNtTabla(t){
-  ntTabla=t;
-  var bs=document.getElementById('nt_tabla_snijders'),bz=document.getElementById('nt_tabla_sharifzadeh');
-  if(bs){bs.style.background=t==='snijders'?'var(--teal)':'var(--mist)';bs.style.color=t==='snijders'?'#fff':'var(--slate)';}
-  if(bz){bz.style.background=t==='sharifzadeh'?'var(--teal)':'var(--mist)';bz.style.color=t==='sharifzadeh'?'#fff':'var(--slate)';}
-  if(typeof calcNT==='function')calcNT();
-}
-function _ntGetRow(crl){
-  var tab=ntTabla==='sharifzadeh'?NT_SHARIFZADEH:NT_SNIJDERS;
-  for(var i=0;i<tab.length;i++){if(crl>=tab[i][0]&&crl<=tab[i][1])return tab[i];}return null;
-}
-function ntMediana(crl){var r=_ntGetRow(crl);return r?r[3]:null;}
-function ntP95(crl){var r=_ntGetRow(crl);return r?r[4]:null;}
+// ════ NT — TRANSLUCENCIA NUCAL (FMF) ════
+// Algoritmo propio CaVeSal® · Basado en:
+//  Mediana: Nicolaides KH, Snijders RJM, Cuckle HS. Prenat Diagn 1998;18:519-21
+//           log10(mediana TN) = -0.3599 + 0.0127·LCN - 0.000058·LCN²
+//  P95: Snijders RJM et al. Lancet 1998;352:343-6 (2.1 mm a LCN 45 → 2.7 mm a LCN 84, lineal)
+//  P99: 3.5 mm para todo el rango (FMF)
+function _ntEnRango(crl){return !!crl&&crl>=45&&crl<=84;}
+function ntMediana(crl){if(!_ntEnRango(crl))return null;return Math.pow(10,-0.3599+0.0127*crl-0.000058*crl*crl);}
+function ntP95(crl){if(!_ntEnRango(crl))return null;return 2.1+(crl-45)*0.6/39;}
 function ntPercentil(nt,crl){
-  var r=_ntGetRow(crl);if(!r)return null;
-  var p5=r[2],p50=r[3],p95=r[4];
-  if(nt>=3.5)return '>P99';if(nt>=p95)return '>P95';
-  if(nt>=p50)return 'P'+Math.min(94,Math.round(50+(nt-p50)/(p95-p50)*45));
-  if(nt>=p5)return 'P'+Math.max(6,Math.round(5+(nt-p5)/(p50-p5)*45));
-  return '<P5';
+  var med=ntMediana(crl),p95=ntP95(crl);if(!med||!p95)return null;
+  if(nt>=3.5)return '≥P99';if(nt>=p95)return 'P95–P99';if(nt>=med)return 'P50–P95';return '&lt;P50';
 }
 
 // ════ SYNC: Datos Generales → Metabolismo ════
@@ -8178,95 +8153,55 @@ document.addEventListener('DOMContentLoaded', function(){
 
 // ════ SUPLEMENTACIÓN ACCORDION ════
 
-// ════ NT — TRANSLUCENCIA NUCAL (FMF/Nicolaides) ════
-// Tabla de referencia real (Snijders RJM et al. 1998, Ultrasound Obstet Gynecol;
-// valores de mediana y percentil 95 de NT según CRL, protocolo FMF 11-13+6 sem)
-const NT_TABLA = [
-  {crl:45, med:1.2, p95:2.2},
-  {crl:50, med:1.3, p95:2.3},
-  {crl:55, med:1.4, p95:2.4},
-  {crl:60, med:1.5, p95:2.5},
-  {crl:65, med:1.6, p95:2.5},
-  {crl:70, med:1.7, p95:2.6},
-  {crl:75, med:1.8, p95:2.7},
-  {crl:80, med:1.9, p95:2.7},
-  {crl:84, med:2.0, p95:2.8}
-];
-function ntInterpolar(crl, campo){
-  if(!crl||crl<45||crl>84) return null;
-  for(let i=0;i<NT_TABLA.length-1;i++){
-    const a=NT_TABLA[i], b=NT_TABLA[i+1];
-    if(crl>=a.crl && crl<=b.crl){
-      const frac=(crl-a.crl)/(b.crl-a.crl);
-      return a[campo] + frac*(b[campo]-a[campo]);
-    }
-  }
-  return null;
-}
 function ntMoM(nt,crl){const m=ntMediana(crl);return m?nt/m:null;}
 
-// Clasificación de riesgo combinando NT + edad materna (sin cálculo numérico 1:N,
-// solo categorización bajo/moderado/alto, ajustada por edad como factor de base)
-function clasificarRiesgoNT(nt, crl, edadMaterna){
+// Clasificación por TN sola (la edad materna se integra en el riesgo combinado 1/N, no como corte aislado)
+function clasificarRiesgoNT(nt, crl){
   const p95 = ntP95(crl);
   const med = ntMediana(crl);
-  const edadAvanzada = edadMaterna && edadMaterna>=35;
   let nivel='bajo';
-  if(nt>=3.5){
-    nivel='alto';
-  } else if(p95 && nt>=p95){
-    // NT elevada: si además hay edad materna avanzada, escala a alto riesgo
-    nivel = edadAvanzada ? 'alto' : 'moderado';
-  } else if(edadAvanzada){
-    // Edad avanzada sola, con NT normal: queda como riesgo moderado (por edad),
-    // no bajo — refleja que la edad materna es en sí un factor de riesgo a priori
-    nivel='moderado';
-  }
+  if(nt>=3.5) nivel='alto';
+  else if(p95 && nt>=p95) nivel='moderado';
   return {nivel, p95, med};
 }
 
 function calcNT(){
   const nt=parseFloat((document.getElementById('nt_mm')||{}).value)||null;
   const crl=parseFloat((document.getElementById('nt_crl')||{}).value)||null;
-  const edadMaterna=parseFloat((document.getElementById('edad')||{}).value)||null;
   const nasal=(document.getElementById('nt_nasal')||{}).value||'';
   const dv=(document.getElementById('nt_dv')||{}).value||'';
   const tricusp=(document.getElementById('nt_tricusp')||{}).value||'';
   const res=document.getElementById('nt_result');
   if(!nt||!crl){if(res)res.style.display='none';return;}
-  const {nivel,p95,med}=clasificarRiesgoNT(nt,crl,edadMaterna);
+  const {nivel,p95,med}=clasificarRiesgoNT(nt,crl);
   const mom = med ? nt/med : null;
-  const perc = typeof ntPercentil==='function' ? ntPercentil(nt,crl) : null;
+  const perc = ntPercentil(nt,crl);
+  const ref = med ? `mediana esperada: ${med.toFixed(2)} mm · P95: ${p95.toFixed(2)} mm` : 'LCN fuera de 45–84 mm: sin referencia';
   let color='var(--green)',texto='';
-  const edadTxt = edadMaterna ? ` · Edad materna: ${edadMaterna} años` : '';
   if(nt>=3.5){
     color='var(--red)';
-    texto=`NT ≥3.5 mm — Alto riesgo independiente de la edad. Riesgo cromosómico y cardíaco aumentado. Derivar Medicina Fetal urgente. Ecocardiografía fetal.${edadTxt}`;
+    texto=`TN ≥3,5 mm (≈P99) — alto riesgo cromosómico y cardíaco. Derivar a Medicina Fetal: asesoramiento genético, biopsia corial con microarray y ecocardiografía fetal.`;
   } else if(p95 && nt>=p95){
-    color = nivel==='alto' ? 'var(--red)' : 'var(--amber)';
-    texto=`NT ≥p95 para CRL (mediana: ${med?med.toFixed(2):'—'} mm · p95: ${p95.toFixed(2)} mm).`
-      + (nivel==='alto' ? ' Combinado con edad materna ≥35 años: ALTO riesgo cromosómico. Se recomienda NIPT o diagnóstico invasivo.' : ' Riesgo cromosómico aumentado. Ofrecer NIPT o diagnóstico invasivo.')
-      + edadTxt;
-  } else if(nivel==='moderado'){
     color='var(--amber)';
-    texto=`NT normal para CRL (mediana esperada: ${med?med.toFixed(2):'—'} mm · p95: ${p95?p95.toFixed(2):'—'} mm), pero edad materna ≥35 años constituye un factor de riesgo a priori. Considerar cribado combinado o NIPT según preferencia de la paciente.${edadTxt}`;
+    texto=`TN ≥P95 para la LCN (${ref}). Riesgo cromosómico aumentado: ofrecer NIPT o diagnóstico invasivo y ecocardiografía fetal.`;
   } else {
-    texto=`NT normal para CRL (mediana esperada: ${med?med.toFixed(2):'—'} mm · p95: ${p95?p95.toFixed(2):'—'} mm).${edadTxt}`;
+    texto=`TN dentro de lo esperado para la LCN (${ref}).`;
   }
+  texto+=' <span style="font-size:.7rem">La edad materna no se usa como corte aislado: se integra en el riesgo combinado 1/N.</span>';
   const marcadores=[];
-  if(nasal==='ausente') marcadores.push({t:'Hueso nasal AUSENTE',c:'var(--red)',d:'LR+ ~6 para T21. Riesgo aneuploidía aumentado.'});
-  if(dv==='invertida') marcadores.push({t:'Ductus venoso: onda a invertida/ausente',c:'var(--red)',d:'Marcador aneuploidía y cardiopatía congénita.'});
+  if(nasal==='ausente') marcadores.push({t:'Hueso nasal AUSENTE',c:'var(--red)',d:'Ausente en ~60–70 % de T21 y ~1–2 % de euploides (FMF). Su peso depende de la etnia, la LCN y la TN (Cicero 2004).'});
+  if(dv==='invertida') marcadores.push({t:'Ductus venoso: onda a invertida/ausente',c:'var(--red)',d:'Marcador de aneuploidía y cardiopatía congénita.'});
   if(tricusp==='presente') marcadores.push({t:'Regurgitación tricúspide',c:'var(--amber)',d:'Asociada a T21 y cardiopatía congénita. Ecocardiografía fetal.'});
   const nPos=marcadores.length+(nivel!=='bajo'?1:0);
   let html=`<div style="background:${nivel==='alto'?'var(--red-lt)':nivel==='moderado'?'var(--amber-lt)':'var(--green-lt)'};border:1.5px solid ${color};border-radius:11px;padding:12px;margin-top:10px">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-      <div style="font-size:.88rem;font-weight:800;color:${color}">NT ${nt} mm${perc?' · '+perc:''}${mom?' ('+mom.toFixed(2)+' MoM)':''}</div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap">
+      <div style="font-size:.88rem;font-weight:800;color:${color}">TN ${nt} mm${perc?' · '+perc:''}${mom?' ('+mom.toFixed(2)+' MoM)':''}</div>
       <span style="background:${color};color:#fff;border-radius:20px;padding:2px 9px;font-size:.68rem;font-weight:700">${nivel.toUpperCase()}</span>
     </div>
     <div style="font-size:.78rem;color:var(--slate);line-height:1.5">${texto}</div>`;
   if(marcadores.length>0){html+=`<div style="margin-top:8px;border-top:1px solid ${color};padding-top:8px">`;marcadores.forEach(m=>{html+=`<div style="font-size:.78rem;font-weight:700;color:${m.c};margin-bottom:2px">⚠️ ${m.t}</div><div style="font-size:.73rem;color:var(--slate);margin-bottom:6px">${m.d}</div>`;});html+='</div>';}
-  if(nPos>=2){html+=`<div style="background:var(--red);color:#fff;border-radius:8px;padding:8px;margin-top:8px;font-size:.78rem;font-weight:700">⚠️ ${nPos} marcadores alterados — Alto riesgo cromosómico. Ofrecer diagnóstico invasivo urgente (biopsia corial 11–13+6 sem).</div>`;}
-  html+='</div>';
+  if(nPos>=2){html+=`<div style="background:var(--red);color:#fff;border-radius:8px;padding:8px;margin-top:8px;font-size:.78rem;font-weight:700">⚠️ ${nPos} hallazgos alterados — riesgo cromosómico aumentado. Derivar a Medicina Fetal para asesoramiento genético: NIPT o prueba invasiva (biopsia corial 11–13+6 sem) según elección informada.</div>`;}
+  html+='<div style="font-size:.66rem;color:var(--slate);margin-top:8px">Algoritmo propio CaVeSal® · Basado en: Nicolaides KH et al. Prenat Diagn 1998 · Snijders RJM et al. Lancet 1998</div></div>';
   if(res){res.innerHTML=html;res.style.display='block';}
 }
 
