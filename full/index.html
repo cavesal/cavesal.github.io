@@ -943,7 +943,7 @@ document.addEventListener('DOMContentLoaded', function(){
   </div>
   <div class="section-body open">
     <div class="row2">
-      <div class="field"><label>Edad (años)</label><input type="number" id="edad" placeholder="32"></div>
+      <div class="field"><label>Edad (años)</label><input type="number" id="edad" placeholder="32" oninput="if(window.calcNT)calcNT()"></div>
       <div class="field"><label>FUM — Fecha última menstruación</label><input type="date" id="fum" onchange="actualizarSemaforo();syncFUM('fum');syncMetabolismo()"><div class="hint">Se sincroniza automáticamente con EG·Parto, semáforo de vacunas y vía de parto</div>
 <div class="note-box" style="font-size:.72rem;margin-top:6px;line-height:1.7">
   📌 <strong>Corrección de FUM por ECO:</strong> ECO 1T (&lt;14 sem) → corregir si ≥5 días de diferencia · ECO 2T (14–28 sem) → corregir si ≥7 días · ECO 3T (&gt;28 sem) → NO corregir; usar CC, LF o Cerebelo para EG.
@@ -5231,14 +5231,17 @@ function calcular(){
     const ntVal=val('nt_mm'), ntCrl=val('nt_crl');
     const ntNasal=sel('nt_nasal'), ntDV=sel('nt_dv'), ntTricusp=sel('nt_tricusp');
     if(ntVal!==null&&ntCrl!==null){
-      const {nivel,p95,med}=clasificarRiesgoNT(ntVal,ntCrl);
+      const nMarc=contarMarcadoresNT(ntNasal,ntDV,ntTricusp);
+      const {nivel,p95,med,tnAlta}=clasificarRiesgoNT(ntVal,ntCrl,nMarc);
       if(ntVal>=3.5){
         add('CRIBADO CROMOSÓMICO','alto',`NT ${ntVal} mm (≥3.5 mm — alto riesgo independiente)`,'Riesgo cromosómico y cardíaco muy aumentado. Derivar Medicina Fetal urgente. Biopsia corial o amniocentesis. Ecocardiografía fetal.','FMF/Nicolaides');
-      } else if(p95 && ntVal>=p95){
-        add('CRIBADO CROMOSÓMICO','moderado',`TN ${ntVal} mm (≥P95 para LCN ${ntCrl} mm · P95 ${p95.toFixed(2)} mm)`,'Riesgo cromosómico aumentado. Ofrecer NIPT o diagnóstico invasivo. Ecocardiografía fetal.','FMF · Snijders 1998');
+      } else if(nivel==='alto'){
+        add('CRIBADO CROMOSÓMICO','alto',`Categoría ecográfica ALTA: ${tnAlta?'TN ≥P95 ('+(p95?p95.toFixed(2):'')+' mm) + marcador alterado':nMarc+' marcadores alterados'}`,'Derivar a Medicina Fetal: asesoramiento genético, NIPT o prueba invasiva según elección informada, ecocardiografía fetal. La categoría no es un riesgo 1/N.','Algoritmo propio CaVeSal® · cortes FMF');
+      } else if(tnAlta){
+        add('CRIBADO CROMOSÓMICO','moderado',`TN ${ntVal} mm (≥P95 para LCN ${ntCrl} mm · P95 ${p95.toFixed(2)} mm)`,'Categoría ecográfica intermedia. Ofrecer NIPT o diagnóstico invasivo. Ecocardiografía fetal.','FMF · Snijders 1998');
       }
-      if(ntNasal==='ausente') add('CRIBADO CROMOSÓMICO','alto','Hueso nasal AUSENTE','Ausente en ~60–70 % de T21 y ~1–2 % de euploides. Riesgo aumentado de aneuploidía. Integrar con TN y otros marcadores.','FMF · Cicero 2004');
-      if(ntDV==='invertida') add('CRIBADO CROMOSÓMICO','alto','Ductus venoso: onda a invertida/ausente','Marcador de aneuploidía y cardiopatía congénita. Derivar Medicina Fetal. Ecocardiografía.','FMF/Nicolaides');
+      if(ntNasal==='ausente') add('CRIBADO CROMOSÓMICO','moderado','Hueso nasal AUSENTE','Ausente en ~60–70 % de T21 y ~1–2 % de euploides. Riesgo aumentado de aneuploidía. Integrar con TN y otros marcadores.','FMF · Cicero 2004');
+      if(ntDV==='invertida') add('CRIBADO CROMOSÓMICO','moderado','Ductus venoso: onda a invertida/ausente','Marcador de aneuploidía y cardiopatía congénita. Derivar Medicina Fetal. Ecocardiografía.','FMF/Nicolaides');
       if(ntTricusp==='presente') add('CRIBADO CROMOSÓMICO','moderado','Regurgitación tricúspide','Asociada a T21 y cardiopatía congénita. Ecocardiografía fetal. Integrar con NT y otros marcadores.','FMF/Nicolaides');
     }
     const ntPlexo=sel('nt_plexo');
@@ -6750,9 +6753,31 @@ function egEnMeses(egSem){
 function _ntEnRango(crl){return !!crl&&crl>=45&&crl<=84;}
 function ntMediana(crl){if(!_ntEnRango(crl))return null;return Math.pow(10,-0.3599+0.0127*crl-0.000058*crl*crl);}
 function ntP95(crl){if(!_ntEnRango(crl))return null;return 2.1+(crl-45)*0.6/39;}
+// Percentil aproximado (algoritmo propio CaVeSal®):
+//  hasta el P95: distribución log-normal con mediana Nicolaides 1998 y DE derivada del P95 FMF (DE = log10(P95/mediana)/1,645)
+//  entre P95 y 3,5 mm (P99 FMF): interpolación lineal 95→99 · ≥3,5 mm: ≥P99
+function _ncdf(z){var t=1/(1+0.2316419*Math.abs(z)),d=0.3989423*Math.exp(-z*z/2),q=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));return z>0?1-q:q;}
+function ntPercentilNum(nt,crl){
+  var med=ntMediana(crl),p95=ntP95(crl);if(!med||!p95||!nt)return null;
+  if(nt>=3.5)return 99.5;
+  if(nt>=p95)return 95+4*(nt-p95)/(3.5-p95);
+  var sd=Math.log10(p95/med)/1.645;return 100*_ncdf(Math.log10(nt/med)/sd);
+}
 function ntPercentil(nt,crl){
-  var med=ntMediana(crl),p95=ntP95(crl);if(!med||!p95)return null;
-  if(nt>=3.5)return '≥P99';if(nt>=p95)return 'P95–P99';if(nt>=med)return 'P50–P95';return '&lt;P50';
+  var v=ntPercentilNum(nt,crl);if(v===null)return null;
+  if(nt>=3.5)return '≥P99';if(v<1)return '&lt;P1';return '≈P'+Math.floor(v);
+}
+// Riesgo previo por edad materna y EG (sin ecografía) — Algoritmo propio CaVeSal®
+//  Basado en: Hecht CA, Hook EB. Prenat Diagn 1994;14:729-38 (riesgo T21 a término por edad)
+//             Snijders RJM et al. UOG 1999;13:167-70 (ajuste por EG; tabla FMF de T21, T18 y T13)
+//  EG desde la LCN: Robinson & Fleming 1975. T18 y T13: razón respecto de T21 de la tabla FMF (12 y 16 sem), interpolada.
+function riesgoPrevioTri(edad,crl){
+  if(!edad||edad<15||edad>50||!_ntEnRango(crl))return null;
+  var w=(8.052*Math.sqrt(crl*1.037)+23.73)/7, l=Math.log10(w);
+  var term=0.000631+Math.exp(-16.60785+0.2994*edad);
+  var r21=term*Math.pow(10,0.2718*l*l-1.023*l+0.9425);
+  var f=(w-12)/4, k18=2.33*Math.pow(2.99/2.33,f), k13=7.33*Math.pow(9.20/7.33,f);
+  return {w:w,t21:Math.round(1/r21),t18:Math.round(k18/r21),t13:Math.round(k13/r21),extrap:(edad<20||edad>42)};
 }
 
 // ════ SYNC: Datos Generales → Metabolismo ════
@@ -8155,14 +8180,20 @@ document.addEventListener('DOMContentLoaded', function(){
 
 function ntMoM(nt,crl){const m=ntMediana(crl);return m?nt/m:null;}
 
-// Clasificación por TN sola (la edad materna se integra en el riesgo combinado 1/N, no como corte aislado)
-function clasificarRiesgoNT(nt, crl){
+// Categoría ecográfica orientativa — Algoritmo propio CaVeSal® · Basado en: cortes FMF (P95 por LCN y 3,5 mm)
+//  Alto: TN ≥3,5 mm · TN ≥P95 + ≥1 marcador · ≥2 marcadores
+//  Intermedio: TN ≥P95 (<3,5) con marcadores normales · TN normal + 1 marcador
+//  Bajo: TN <P95 y marcadores normales o no evaluados. La edad no entra (va en el riesgo previo).
+function contarMarcadoresNT(nasal,dv,tricusp){return (nasal==='ausente'?1:0)+(dv==='invertida'?1:0)+(tricusp==='presente'?1:0);}
+function clasificarRiesgoNT(nt, crl, nMarc){
   const p95 = ntP95(crl);
   const med = ntMediana(crl);
+  nMarc=nMarc||0;
+  const tnAlta = !!(p95 && nt>=p95);
   let nivel='bajo';
-  if(nt>=3.5) nivel='alto';
-  else if(p95 && nt>=p95) nivel='moderado';
-  return {nivel, p95, med};
+  if(nt>=3.5 || (tnAlta && nMarc>=1) || nMarc>=2) nivel='alto';
+  else if(tnAlta || nMarc===1) nivel='intermedio';
+  return {nivel, p95, med, tnAlta};
 }
 
 function calcNT(){
@@ -8171,37 +8202,52 @@ function calcNT(){
   const nasal=(document.getElementById('nt_nasal')||{}).value||'';
   const dv=(document.getElementById('nt_dv')||{}).value||'';
   const tricusp=(document.getElementById('nt_tricusp')||{}).value||'';
+  const edad=parseFloat((document.getElementById('edad')||{}).value)||null;
   const res=document.getElementById('nt_result');
   if(!nt||!crl){if(res)res.style.display='none';return;}
-  const {nivel,p95,med}=clasificarRiesgoNT(nt,crl);
+  const nMarc=contarMarcadoresNT(nasal,dv,tricusp);
+  const {nivel,p95,med,tnAlta}=clasificarRiesgoNT(nt,crl,nMarc);
   const mom = med ? nt/med : null;
   const perc = ntPercentil(nt,crl);
   const ref = med ? `mediana esperada: ${med.toFixed(2)} mm · P95: ${p95.toFixed(2)} mm` : 'LCN fuera de 45–84 mm: sin referencia';
-  let color='var(--green)',texto='';
+  const color = nivel==='alto'?'var(--red)':nivel==='intermedio'?'var(--amber)':'var(--green)';
+  let texto='';
   if(nt>=3.5){
-    color='var(--red)';
-    texto=`TN ≥3,5 mm (≈P99) — alto riesgo cromosómico y cardíaco. Derivar a Medicina Fetal: asesoramiento genético, biopsia corial con microarray y ecocardiografía fetal.`;
-  } else if(p95 && nt>=p95){
-    color='var(--amber)';
+    texto=`TN ≥3,5 mm (≥P99) — alto riesgo cromosómico y cardíaco. Derivar a Medicina Fetal: asesoramiento genético, biopsia corial con microarray y ecocardiografía fetal.`;
+  } else if(nivel==='alto'){
+    texto=`${tnAlta?'TN ≥P95 para la LCN con marcador alterado':'Dos o más marcadores alterados'} (${ref}). Derivar a Medicina Fetal: asesoramiento genético, NIPT o prueba invasiva (biopsia corial 11–13+6 sem) según elección informada, y ecocardiografía fetal.`;
+  } else if(tnAlta){
     texto=`TN ≥P95 para la LCN (${ref}). Riesgo cromosómico aumentado: ofrecer NIPT o diagnóstico invasivo y ecocardiografía fetal.`;
+  } else if(nivel==='intermedio'){
+    texto=`TN dentro de lo esperado (${ref}) con un marcador alterado. Riesgo aumentado: ofrecer NIPT o derivar a Medicina Fetal para el riesgo combinado.`;
   } else {
     texto=`TN dentro de lo esperado para la LCN (${ref}).`;
   }
-  texto+=' <span style="font-size:.7rem">La edad materna no se usa como corte aislado: se integra en el riesgo combinado 1/N.</span>';
   const marcadores=[];
   if(nasal==='ausente') marcadores.push({t:'Hueso nasal AUSENTE',c:'var(--red)',d:'Ausente en ~60–70 % de T21 y ~1–2 % de euploides (FMF). Su peso depende de la etnia, la LCN y la TN (Cicero 2004).'});
   if(dv==='invertida') marcadores.push({t:'Ductus venoso: onda a invertida/ausente',c:'var(--red)',d:'Marcador de aneuploidía y cardiopatía congénita.'});
   if(tricusp==='presente') marcadores.push({t:'Regurgitación tricúspide',c:'var(--amber)',d:'Asociada a T21 y cardiopatía congénita. Ecocardiografía fetal.'});
-  const nPos=marcadores.length+(nivel!=='bajo'?1:0);
-  let html=`<div style="background:${nivel==='alto'?'var(--red-lt)':nivel==='moderado'?'var(--amber-lt)':'var(--green-lt)'};border:1.5px solid ${color};border-radius:11px;padding:12px;margin-top:10px">
+  const nivTxt = nivel==='alto'?'ALTO':nivel==='intermedio'?'INTERMEDIO':'BAJO';
+  let html=`<div style="background:${nivel==='alto'?'var(--red-lt)':nivel==='intermedio'?'var(--amber-lt)':'var(--green-lt)'};border:1.5px solid ${color};border-radius:11px;padding:12px;margin-top:10px">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap">
       <div style="font-size:.88rem;font-weight:800;color:${color}">TN ${nt} mm${perc?' · '+perc:''}${mom?' ('+mom.toFixed(2)+' MoM)':''}</div>
-      <span style="background:${color};color:#fff;border-radius:20px;padding:2px 9px;font-size:.68rem;font-weight:700">${nivel.toUpperCase()}</span>
+      <span style="background:${color};color:#fff;border-radius:20px;padding:2px 9px;font-size:.68rem;font-weight:700">${nivTxt}</span>
     </div>
+    <div style="font-size:.7rem;font-weight:700;color:var(--slate);margin-bottom:4px">Categoría ecográfica orientativa (TN + hueso nasal, ductus venoso y tricúspide)</div>
     <div style="font-size:.78rem;color:var(--slate);line-height:1.5">${texto}</div>`;
   if(marcadores.length>0){html+=`<div style="margin-top:8px;border-top:1px solid ${color};padding-top:8px">`;marcadores.forEach(m=>{html+=`<div style="font-size:.78rem;font-weight:700;color:${m.c};margin-bottom:2px">⚠️ ${m.t}</div><div style="font-size:.73rem;color:var(--slate);margin-bottom:6px">${m.d}</div>`;});html+='</div>';}
-  if(nPos>=2){html+=`<div style="background:var(--red);color:#fff;border-radius:8px;padding:8px;margin-top:8px;font-size:.78rem;font-weight:700">⚠️ ${nPos} hallazgos alterados — riesgo cromosómico aumentado. Derivar a Medicina Fetal para asesoramiento genético: NIPT o prueba invasiva (biopsia corial 11–13+6 sem) según elección informada.</div>`;}
-  html+='<div style="font-size:.66rem;color:var(--slate);margin-top:8px">Algoritmo propio CaVeSal® · Basado en: Nicolaides KH et al. Prenat Diagn 1998 · Snijders RJM et al. Lancet 1998</div></div>';
+  const rp=riesgoPrevioTri(edad,crl);
+  html+=`<div style="margin-top:8px;border-top:1px solid var(--border);padding-top:8px;font-size:.76rem;color:var(--navy)">`;
+  if(rp){
+    const sem=Math.floor(rp.w), dd=Math.round((rp.w-sem)*7);
+    html+=`<b>Riesgo previo por edad materna y EG</b> (${edad} años · ${sem}+${dd>6?6:dd} sem; sin ajustar por ecografía): T21 1/${rp.t21} · T18 1/${rp.t18} · T13 1/${rp.t13}`+(rp.extrap?'<div style="font-size:.68rem;color:var(--slate)">Edad fuera del rango de la tabla FMF (20–42 años): valor extrapolado.</div>':'')+`<div style="font-size:.68rem;color:var(--slate)">Con trisomía previa, sumar 0,75 % al riesgo previo (FMF).</div>`;
+  } else {
+    html+=`<span style="font-size:.7rem;color:var(--slate)">Cargá la edad en Datos generales para ver el riesgo previo por edad materna y EG.</span>`;
+  }
+  html+=`</div><details style="margin-top:8px;font-size:.7rem;color:var(--slate);line-height:1.5"><summary style="cursor:pointer;font-weight:700;color:var(--navy)">¿Cómo se calcula la categoría?</summary>
+    <div style="margin-top:4px"><b>Alto:</b> TN ≥3,5 mm (P99 FMF) · o TN ≥P95 para la LCN + 1 marcador alterado · o 2 o más marcadores alterados.<br><b>Intermedio:</b> TN entre el P95 y 3,4 mm con marcadores normales · o TN normal con 1 marcador alterado.<br><b>Bajo:</b> TN menor al P95 y marcadores normales o no evaluados.<br>Marcadores: hueso nasal ausente, ductus venoso con onda a invertida/ausente, regurgitación tricuspídea. La edad materna no entra en la categoría: se muestra aparte en el riesgo previo.<br>Cortes usados: P95 de la TN por LCN (2,1→2,7 mm; Snijders 1998) y TN ≥3,5 mm (P99), criterios de la Fetal Medicine Foundation. Frecuencias de los marcadores: Nicolaides 2011 y Cicero 2004.<br>Percentil: hasta el P95, curva log-normal con mediana de Nicolaides 1998 y dispersión derivada del P95 FMF; entre P95 y 3,5 mm, interpolación lineal. Valor aproximado.<br>Algoritmo propio CaVeSal® · Basado en: FMF (Snijders 1998, Nicolaides 1998, Nicolaides 2011, Cicero 2004).</div></details>`;
+  html+=`<div style="font-size:.7rem;color:var(--slate);margin-top:6px;font-weight:600">La categoría no es un riesgo 1/N. Para el riesgo combinado 1/N use un software certificado por la FMF o derive a Medicina Fetal.</div>`;
+  html+='<div style="font-size:.66rem;color:var(--slate);margin-top:8px">Algoritmo propio CaVeSal® · Basado en: Nicolaides KH et al. Prenat Diagn 1998 · Snijders RJM et al. Lancet 1998 · Snijders RJM et al. UOG 1999 · Hecht CA, Hook EB. Prenat Diagn 1994 · Nicolaides KH. Prenat Diagn 2011 · Cicero S et al. UOG 2004 · Robinson HP, Fleming JEE 1975</div></div>';
   if(res){res.innerHTML=html;res.style.display='block';}
 }
 
