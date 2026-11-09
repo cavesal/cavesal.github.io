@@ -3499,8 +3499,8 @@ document.addEventListener('DOMContentLoaded', function(){
           <div class="bio-alerta show" id="asim_interpretacion"></div>
           <div id="asim_microcefalia" class="bio-alerta" style="margin-top:6px"></div>
         </div>
-        <div class="bio-ref">📚 Campell S, Thoms A (1977) · Ratio LF/CA normal: 0.20–0.24. 
-&gt;0.24 = asimetría (CA desproporcionadamente pequeña vs LF) → RCIU asimétrico. 
+        <div class="bio-ref">📚 Algoritmo propio CaVeSal® · Basado en: Hadlock FP et al. AJR 1983;141:979-984 · Ratio LF/CA normal: 0.20–0.235 (22 ± 2 %). 
+&gt;0.235 = asimetría (CA desproporcionadamente pequeña vs LF) → RCIU asimétrico. 
 &lt;0.16 = LF corto desproporcionado vs CA → sospecha acortamiento de extremidades (enanismo, displasia esquelética, FGEG simétrico).
 Microcefalia: CC &lt;p3 para EG.</div>
       </div>
@@ -8090,10 +8090,6 @@ function calcAsimetria(){
     interp.className = 'bio-alerta show alto';
     interp.innerHTML = `⚠️ <strong>Ratio LF/CA ${ratio.toFixed(3)} &gt;0.235 — ASIMETRÍA:</strong> CA desproporcionadamente pequeña → RCIU asimétrico tardío (brain sparing). Solicitar Doppler umbilical y ACM. Biometría seriada c/2 sem. Derivar Medicina Fetal si Doppler alterado.`;
     _asimFinding=[{nivel:'alto', hallazgo:'Ratio fémur/CA '+ratio.toFixed(3)+' (&gt;0.235 — asimetría)', conducta:'CA desproporcionadamente pequeña → sospecha de RCIU asimétrico tardío (brain sparing). Solicitar Doppler umbilical y ACM. Biometría seriada c/2 semanas. Derivar Medicina Fetal si Doppler alterado.', fuente:'Biometría fetal 2T/3T'}];
-  } else if(ratio > 0.225){
-    bar.style.background = 'var(--amber)';
-    interp.className = 'bio-alerta show moder';
-    interp.innerHTML = `⚡ <strong>Ratio LF/CA ${ratio.toFixed(3)} — Límite superior:</strong> Vigilar. Repetir biometría en 2–3 semanas. Doppler de arterias uterinas y umbilical.`;
   } else if(ratio < 0.160){
     bar.style.background = 'var(--amber)';
     interp.className = 'bio-alerta show moder';
@@ -8102,7 +8098,7 @@ function calcAsimetria(){
   } else {
     bar.style.background = 'var(--green)';
     interp.className = 'bio-alerta show ok';
-    interp.innerHTML = `✅ <strong>Ratio LF/CA ${ratio.toFixed(3)} — Normal (0.16–0.235):</strong> Crecimiento simétrico. Sin evidencia de asimetría patológica.`;
+    interp.innerHTML = `✅ <strong>Ratio LF/CA ${ratio.toFixed(3)} — Normal (≤0.235; referencia Hadlock 0.20–0.235):</strong> Crecimiento simétrico. Sin evidencia de asimetría patológica.`;
   }
   _cavesalSetModuleResult('asimetria', _asimFinding);
   
