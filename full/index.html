@@ -3286,7 +3286,16 @@ document.addEventListener('DOMContentLoaded', function(){
       <button id="pfe_tabla_figueras" onclick="setPfeTabla('figueras')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.70rem;font-weight:700;cursor:pointer;background:var(--teal);color:#fff;">Figueras 2008</button>
       <button id="pfe_tabla_ig21" onclick="setPfeTabla('ig21')" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:.70rem;font-weight:700;cursor:pointer;background:var(--mist);color:var(--slate);">INTERGROWTH-21</button>
     </div>
-    <div id="pfe_tabla_label" style="font-size:.66rem;color:var(--teal);font-style:italic;">Figueras 2008 · MFB (recomendado Latinoamérica)</div>
+    <div id="pfe_tabla_label" style="font-size:.66rem;color:var(--teal);">Figueras 2008 · Medicina Fetal Barcelona (recomendado Latinoamérica)</div>
+    <div id="pfe_sexo_box" class="field" style="margin-top:8px;margin-bottom:0">
+      <label>Sexo fetal (curva Figueras)</label>
+      <select id="pfe_sexo" onchange="calcPFE()">
+        <option value="">Desconocido (promedio de ambos sexos)</option>
+        <option value="m">Masculino</option>
+        <option value="f">Femenino</option>
+      </select>
+      <div class="hint">La curva Figueras se ajusta por sexo; si no se conoce se usa el promedio.</div>
+    </div>
   </div>
 
   <div class="pfe-mode-btns">
@@ -3310,13 +3319,13 @@ document.addEventListener('DOMContentLoaded', function(){
 
   <!-- MODO EG + PESO → PERCENTIL (INTERGROWTH-21) -->
   <div id="pfe_bloque_egperc" style="display:none">
-    <div class="note-box">Estimación de percentil por curvas INTERGROWTH-21st (método simplificado). Para resultado preciso usar software FMF.</div>
+    <div class="note-box" id="pfe_egperc_note">Percentil por curva Figueras 2008 (Medicina Fetal Barcelona), ajustada por sexo fetal. EG válida 24–42 sem.</div>
     <div class="row2">
       <div class="field"><label>PFE (gramos)</label>
         <input type="number" id="pfe_peso_eg" placeholder="ej. 2800" oninput="calcPFE()">
       </div>
       <div class="field"><label>EG actual (semanas)</label>
-        <div style="display:flex;gap:6px;align-items:center"><input type="number" id="pfe_eg_sem" placeholder="ss" min="20" max="42" step="1" style="width:60px" oninput="calcPFE()"><span style="font-size:.8rem;color:var(--slate)">+</span><input type="number" id="pfe_eg_dias" placeholder="días" min="0" max="6" step="1" style="width:54px" oninput="calcPFE()"></div>
+        <div style="display:flex;gap:6px;align-items:center"><input type="number" id="pfe_eg_sem" placeholder="ss" min="18" max="42" step="1" style="width:60px" oninput="calcPFE()"><span style="font-size:.8rem;color:var(--slate)">+</span><input type="number" id="pfe_eg_dias" placeholder="días" min="0" max="6" step="1" style="width:54px" oninput="calcPFE()"></div>
         <div class="hint">Sem + días (ej. 36+4)</div>
       </div>
     </div>
@@ -3324,7 +3333,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
   <!-- MODO HADLOCK -->
   <div id="pfe_bloque_hadlock" style="display:none">
-    <div class="note-box"><strong>Fórmula Hadlock 4 parámetros (1985):</strong> Log₁₀(PFE) = 1.3596 − 0.00386(CA×LF) + 0.0064(CC) + 0.00061(DBP×CA) + 0.0424(CA) + 0.174(LF). Error ±15%.</div>
+    <div class="note-box" id="pfe_hadlock_note"><strong>Hadlock 1985:</strong> con Figueras se usa la fórmula de 4 parámetros (DBP, CC, CA, LF); si falta algún dato, la de 3 parámetros (CC, CA, LF o DBP, CA, LF) y, en último caso, la de 2 (CA, LF). Error aproximado ±15%.</div>
     <div class="row2">
       <div class="field"><label>DBP (mm)</label><input type="number" id="pfe_dbp" placeholder="ej. 78" step="0.1" oninput="calcPFE()"></div>
       <div class="field"><label>CC (mm)</label><input type="number" id="pfe_cc" placeholder="ej. 285" step="0.1" oninput="calcPFE()"></div>
@@ -3334,7 +3343,7 @@ document.addEventListener('DOMContentLoaded', function(){
       <div class="field"><label>LF (mm)</label><input type="number" id="pfe_lf" placeholder="ej. 58" step="0.1" oninput="calcPFE()"></div>
     </div>
     <div class="field"><label>EG actual (semanas)</label>
-      <div style="display:flex;gap:6px;align-items:center"><input type="number" id="pfe_eg_hadlock" placeholder="ss" min="20" max="42" step="1" style="width:60px" oninput="calcPFE()"><span style="font-size:.8rem;color:var(--slate)">+</span><input type="number" id="pfe_eg_hadlock_dias" placeholder="días" min="0" max="6" step="1" style="width:54px" oninput="calcPFE()"></div>
+      <div style="display:flex;gap:6px;align-items:center"><input type="number" id="pfe_eg_hadlock" placeholder="ss" min="18" max="42" step="1" style="width:60px" oninput="calcPFE()"><span style="font-size:.8rem;color:var(--slate)">+</span><input type="number" id="pfe_eg_hadlock_dias" placeholder="días" min="0" max="6" step="1" style="width:54px" oninput="calcPFE()"></div>
     </div>
   </div>
 
@@ -3854,7 +3863,7 @@ Microcefalia: CC &lt;p3 para EG.</div>
       <strong style="color:var(--navy)">Tiroides (TSH · T4 libre · Anti-TPO):</strong> ATA Guidelines 2017 · Endocrine Society · ACOG<br>
       <strong style="color:var(--navy)">Suplementación:</strong> OMS · ACOG · NICE · FIGO · Endocrine Society 2024 · EBCOG 2024 · Cochrane<br>
       <strong style="color:var(--navy)">Biometría fetal:</strong> Hadlock 1984 · Robinson &amp; Fleming 1975 (CRL/FUM) · Chitty &amp; Altman 2002 (húmero y fémur) · Snijders &amp; Nicolaides 1994 (cerebelo) · Chitty 1994 · INTERGROWTH-21st · Figueras &amp; Gratacós 2008<br>
-      <strong style="color:var(--navy)">Crecimiento fetal / PEG / RCIU:</strong> Figueras F. EJOGR 2008 · Protocolo MFB Nov 2024 · ISUOG Delphi Consensus 2020<br>
+      <strong style="color:var(--navy)">Crecimiento fetal / PEG / RCIU:</strong> Algoritmo propio CaVeSal® · Basado en: Figueras F et al. EJOGRB 2008;136:20-24 (ajuste por sexo) · Stirnemann J, Salomon LJ, Papageorghiou AT. UOG 2020;56:946-948 (INTERGROWTH-21st, PFE de Hadlock) · Hadlock FP et al. AJOG 1985;151:333-337 · Protocolo MFB Nov 2024 · ISUOG Delphi Consensus 2020<br>
       <strong style="color:var(--navy)">Doppler AU, ACM e ICP:</strong> Algoritmo propio CaVeSal® · Basado en: Ciobanu A et al. (FMF) UOG 2019;53:465-472 (AU/ACM) · Baschat AA, Gembruch U. UOG 2003;21:124-127 (ICP)<br>
       <strong style="color:var(--navy)">Doppler hemodinámico avanzado (DV, TR, AoI, VUP):</strong> Baschat AA. Obstet Gynecol 2011 · TRUFFLE Study Group. UOG 2020 · ISUOG Practice Guidelines RCIU 2020 · Gratacós E &amp; Torres X. MFB Protocol 2023<br>
       <strong style="color:var(--navy)">Maduración pulmonar fetal (&lt;34 sem):</strong> ACOG Practice Bulletin 127 · RCOG Green-top Guideline 7<br>
@@ -4344,6 +4353,7 @@ function actualizarPE2T(){
   panel.style.display='block';
 
   const clpi2=clPI2T(pi2t),clsf=clSflt(sflt,sflt_eg);
+  if(typeof calcPFE==='function' && window._pfe) setTimeout(calcPFE,0);
   let html='<div class="pe-row">';
   if(pi2t!==null) html+=`<div class="pe-chip"><div class="p-label">PI uterinas 2T</div><div class="p-val">${pi2t}</div><div class="p-cat">${labelPE(clpi2)}</div></div>`;
   if(sflt!==null){
@@ -6346,36 +6356,44 @@ function setPFEMode(m){
   calcPFE();
 }
 
-// INTERGROWTH-21 percentiles aproximados por semana (p3,p10,p50,p90,p97)
-const IG21 = {
-  24:[390,430,530,650,720],25:[450,500,610,750,835],26:[520,580,710,870,970],
-  27:[600,670,820,1005,1120],28:[690,770,940,1155,1290],29:[790,885,1080,1325,1485],
-  30:[905,1010,1240,1520,1705],31:[1035,1155,1415,1735,1950],32:[1175,1315,1610,1975,2220],
-  33:[1325,1485,1820,2235,2515],34:[1480,1665,2040,2505,2820],35:[1635,1840,2260,2775,3130],
-  36:[1790,2015,2480,3045,3435],37:[1935,2180,2690,3305,3730],38:[2070,2335,2885,3545,4005],
-  39:[2185,2470,3055,3755,4245],40:[2280,2580,3205,3945,4460],41:[2355,2665,3325,4095,4630],
-  42:[2410,2725,3420,4210,4760]
-};
-
+// ════ INTERGROWTH-21st · PFE de Hadlock (estándar 2020) ════
+// Algoritmo propio CaVeSal® · Basado en: Stirnemann J, Salomon LJ, Papageorghiou AT.
+// INTERGROWTH-21st standards for Hadlock's estimation of fetal weight. UOG 2020;56:946-948
+// (ecuaciones publicadas de la Tabla S1; distribución Box-Cox, EG en semanas exactas).
+// Uso recomendado 18–40 sem; hasta 41 sem si está clínicamente justificado.
+function igHadlockZ(peso, eg){
+  if(!peso || !eg || eg < 18 || eg > 41) return null;
+  var t = eg/10, inv = 1/(t*t), lt = Math.log(t);
+  var L = 9.43643 + 9.41579*inv - 83.54220*lt*inv;
+  var M = -2.42272 + 1.86478*Math.sqrt(eg) - 1.93299e-5*eg*eg*eg;
+  var S = 0.0193557 + 0.0310716*inv - 0.0657587*lt*inv;
+  var y = Math.log(peso);
+  return Math.abs(L) < 1e-8 ? Math.log(y/M)/S : (Math.pow(y/M, L) - 1)/(S*L);
+}
 function percFromIG21(peso, eg){
-  const row = IG21[Math.round(eg)];
-  if(!row) return null;
-  const [p3,p10,p50,p90,p97] = row;
-  if(peso <= p3) return 3;
-  if(peso <= p10) return Math.round(3+(peso-p3)/(p10-p3)*7);
-  if(peso <= p50) return Math.round(10+(peso-p10)/(p50-p10)*40);
-  if(peso <= p90) return Math.round(50+(peso-p50)/(p90-p50)*40);
-  if(peso <= p97) return Math.round(90+(peso-p90)/(p97-p90)*7);
-  return 97;
+  var z = igHadlockZ(peso, eg);
+  if(z === null) return null;
+  return Math.max(1, Math.min(99, Math.round(phi(z)*100)));
 }
 
-// Hadlock 4-param formula
-function hadlock4(dbp,cc,ca,lf){
-  // Log10(EFW) = 1.3596 - 0.00386(AC×FL) + 0.0064(HC) + 0.00061(BPD×AC) + 0.0424(AC) + 0.174(FL)
-  const log10pfe = 1.3596 - 0.00386*(ca*lf) + 0.0064*cc + 0.00061*(dbp*ca) + 0.0424*ca + 0.174*lf;
-  return Math.round(Math.pow(10, log10pfe));
+// ════ HADLOCK 1985 · PFE (medidas en cm) ════
+// Hadlock FP et al. Am J Obstet Gynecol 1985;151:333-337
+function hadlockPFE(dbp, cc, ca, lf, preferir){
+  var D=dbp?dbp/10:null, H=cc?cc/10:null, A=ca?ca/10:null, F=lf?lf/10:null;
+  if(!A || !F) return null;
+  var lg, f;
+  if(preferir!=='hcaclf' && D && H){ lg = 1.3596 - 0.00386*A*F + 0.0064*H + 0.00061*D*A + 0.0424*A + 0.174*F; f='4p'; }
+  else if(H){ lg = 1.326 - 0.00326*A*F + 0.0107*H + 0.0438*A + 0.158*F; f='3pCC'; }
+  else if(D){ lg = 1.335 - 0.0034*A*F + 0.0316*D + 0.0457*A + 0.1623*F; f='3pDBP'; }
+  else { lg = 1.304 + 0.05281*A + 0.1938*F - 0.004*A*F; f='2p'; }
+  return {peso: Math.round(Math.pow(10, lg)), formula: f};
 }
-
+var HADLOCK_TXT = {
+  '4p':'Hadlock 4 parámetros (DBP, CC, CA, LF)',
+  '3pCC':'Hadlock 3 parámetros (CC, CA, LF)',
+  '3pDBP':'Hadlock 3 parámetros (DBP, CA, LF)',
+  '2p':'Hadlock 2 parámetros (CA, LF)'
+};
 
 // ════ FIGUERAS 2008 (Medicina Fetal Barcelona) ════
 // Fuente: Figueras F et al. EJOGRM 2008;136(1):20-24
@@ -6387,13 +6405,24 @@ function phi(z){
   var y=1-(((((a5*t+a4)*t)+a3)*t+a2)*t+a1)*t*Math.exp(-x*x);
   return 0.5*(1+sign*y);
 }
-function percFromFigueras(peso,eg,sexo){
-  var s=sexo||0,GA=eg;
-  var pp_base=3431.640-(103.056*s);
-  var pp50c=2.991-0.3185*GA+0.01094*GA*GA-0.0001055*GA*GA*GA;
-  var p50=pp_base*pp50c,p10=pp_base*0.86*pp50c,SD=(p50-p10)/1.28;
-  if(SD<=0)return null;
-  return Math.max(1,Math.min(99,Math.round(phi((peso-p50)/SD)*100)));
+// Algoritmo propio CaVeSal® · Basado en: Figueras F et al. Eur J Obstet Gynecol Reprod Biol 2008;136:20-24
+// (peso a término ajustado por sexo + curva de proporcionalidad de Gardosi/Hadlock; P10 = 0,86 × mediana;
+// corrección del sesgo de la estimación ecográfica). Coeficientes concordantes con la calculadora oficial de MFB.
+// sexo: 'm' masculino · 'f' femenino · '' desconocido (promedio)
+function percFromFigueras(peso, eg, sexo){
+  if(!peso || !eg || eg < 24 || eg > 42) return null;
+  var ajusteSexo = sexo==='f' ? 1 : (sexo==='m' ? 0 : 0.5);
+  var pesoTermino = 3431.640 - 103.056*ajusteSexo;
+  var proporcion = 2.991 - 0.3185*eg + 0.01094*eg*eg - 0.0001055*eg*eg*eg;
+  var mediana = pesoTermino*proporcion;
+  var desvio = mediana*(1 - 0.86)/1.28;
+  if(desvio <= 0) return null;
+  var pesoCorregido = peso - (69.906 - 0.023*peso);
+  return Math.max(1, Math.min(99, Math.round(phi((pesoCorregido - mediana)/desvio)*100)));
+}
+function pfeSexo(){ return ((document.getElementById('pfe_sexo')||{}).value)||''; }
+function pfePercentil(peso, eg){
+  return pfeTabla==='figueras' ? percFromFigueras(peso, eg, pfeSexo()) : percFromIG21(peso, eg);
 }
 function setPfeTabla(tabla){
   pfeTabla=tabla;
@@ -6406,7 +6435,16 @@ function setPfeTabla(tabla){
            btnI.style.color=tabla==='ig21'?'#fff':'var(--slate)';}
   if(lbl)lbl.textContent=tabla==='figueras'
     ?'Figueras 2008 · Medicina Fetal Barcelona (recomendado Latinoamérica)'
-    :'INTERGROWTH-21 · OMS/FIGO (población internacional)';
+    :'INTERGROWTH-21st 2020 · estándar internacional para el PFE de Hadlock (CC, CA, LF)';
+  var sx=document.getElementById('pfe_sexo_box'); if(sx) sx.style.display=tabla==='figueras'?'block':'none';
+  var ne=document.getElementById('pfe_egperc_note');
+  if(ne) ne.innerHTML=tabla==='figueras'
+    ?'Percentil por curva Figueras 2008 (Medicina Fetal Barcelona), ajustada por sexo fetal. EG válida 24–42 sem.'
+    :'Percentil por estándar INTERGROWTH-21st 2020 (Stirnemann 2020), construido con el PFE de Hadlock de 3 parámetros (CC, CA, LF). Usar con ese PFE. EG válida 18–40 sem (hasta 41 si está justificado).';
+  var nh=document.getElementById('pfe_hadlock_note');
+  if(nh) nh.innerHTML=tabla==='figueras'
+    ?'<strong>Hadlock 1985:</strong> con Figueras se usa la fórmula de 4 parámetros (DBP, CC, CA, LF); si falta algún dato, la de 3 parámetros (CC, CA, LF o DBP, CA, LF) y, en último caso, la de 2 (CA, LF). Error aproximado ±15%.'
+    :'<strong>Hadlock 1985 de 3 parámetros (CC, CA, LF):</strong> es la fórmula con la que se construyó el estándar INTERGROWTH-21st 2020; el DBP no se usa. Sin CC se calcula el PFE pero no el percentil INTERGROWTH. Error aproximado ±15%.';
   if(typeof calcPFE==='function')calcPFE();
 }
 
@@ -6940,8 +6978,14 @@ function calcGanancia(){
   res.innerHTML=html;res.style.display='block';
 }
 
+// IP medio de arterias uterinas 2T/3T >P95 para la EG (Gómez 2008) — criterio de RCIU MFB 2024
+function pfeUtAlt(){
+  if(typeof clPI2T!=='function') return false;
+  var v=parseFloat((document.getElementById('pi2t')||{}).value);
+  return !isNaN(v) && clPI2T(v)==='alto';
+}
 function calcPFE(){
-  let peso = null, perc = null, eg = null;
+  let peso = null, perc = null, eg = null, pfeFormula = null, pfeAviso = '';
   _cavesalSetModuleResult('pfe', []);
 
   if(pfeMode === 'directo'){
@@ -6950,24 +6994,27 @@ function calcPFE(){
   } else if(pfeMode === 'egperc'){
     peso = parseFloat(document.getElementById('pfe_peso_eg').value)||null;
     eg = leerEGDecimal('pfe_eg_sem','pfe_eg_dias');
-    if(peso&&eg) perc=(typeof pfeTabla!=='undefined'&&pfeTabla==='figueras')?percFromFigueras(peso,eg,0):percFromIG21(peso,eg);
+    if(peso&&eg) perc=pfePercentil(peso,eg);
   } else if(pfeMode === 'hadlock'){
-    // Hadlock 1984 — CA y LF en mm → peso en gramos
-    // Log10(EFW) = 1.304 + 0.05281*AC + 0.1938*FL - 0.004*AC*FL (AC, FL en cm)
-    const ca_h = parseFloat(document.getElementById('pfe_ca').value)||null;
-    const lf_h = parseFloat(document.getElementById('pfe_lf').value)||null;
+    // Hadlock 1985 — medidas en mm (se convierten a cm)
+    var _num=function(id,min,max){var v=parseFloat((document.getElementById(id)||{}).value);return (v>=min&&v<=max)?v:null;};
+    var dbp_h=_num('pfe_dbp',20,120), cc_h=_num('pfe_cc',80,420), ca_h=_num('pfe_ca',100,450), lf_h=_num('pfe_lf',30,100);
     eg = leerEGDecimal('pfe_eg_hadlock','pfe_eg_hadlock_dias'); // opcional para percentil
-    // Validar rangos clínicos: CA 150-420mm, LF 40-95mm
-    // Rango válido 2T/3T: CA 150-420mm, LF 35-95mm
-    const ca_ok = ca_h && ca_h >= 100 && ca_h <= 450;
-    const lf_ok = lf_h && lf_h >= 30  && lf_h <= 100;
-    if(ca_ok && lf_ok){
-      const ac_cm = ca_h/10, fl_cm = lf_h/10;
-      const log10pfe = 1.304 + 0.05281*ac_cm + 0.1938*fl_cm - 0.004*ac_cm*fl_cm;
-      peso = Math.round(Math.pow(10, log10pfe));
-      if(eg && peso) perc = (typeof pfeTabla!=='undefined'&&pfeTabla==='figueras')
-        ? percFromFigueras(peso,eg,0) : percFromIG21(peso,eg);
+    var hr = hadlockPFE(dbp_h, cc_h, ca_h, lf_h, pfeTabla==='ig21'?'hcaclf':'');
+    if(hr){
+      peso = hr.peso; pfeFormula = hr.formula;
+      if(eg && peso){
+        if(pfeTabla==='ig21' && hr.formula!=='3pCC') pfeAviso='Para el percentil INTERGROWTH-21st falta la CC (el estándar se construyó con Hadlock CC, CA, LF).';
+        else perc = pfePercentil(peso,eg);
+      }
     }
+  }
+  if(peso && eg && perc===null && !pfeAviso){
+    pfeAviso = pfeTabla==='figueras'
+      ? 'Curva Figueras válida entre 24 y 42 semanas: percentil no calculado.'
+      : 'Estándar INTERGROWTH-21st válido entre 18 y 41 semanas: percentil no calculado.';
+  } else if(perc!==null && pfeTabla==='ig21' && eg>40){
+    pfeAviso = 'INTERGROWTH-21st recomienda su uso hasta las 40 semanas; entre 40 y 41 solo si está clínicamente justificado.';
   }
 
   if(!peso){ document.getElementById('pfe_result').style.display='none'; window._pfe=null; if(typeof calcViaParto==='function')calcViaParto(); return; }
@@ -6984,7 +7031,7 @@ function calcPFE(){
   if(perc!==null){
     // Leer estado Doppler (si ya se calculó en la pestaña Doppler)
     var doppAlt = !!(window._dopplerAU_alto || window._dopplerICP_alto ||
-                    window._dopplerACM_bajo || window._dopplerDV_alto);
+                    window._dopplerACM_bajo || window._dopplerDV_alto || pfeUtAlt());
 
     if(perc < 3){
       // P3 = criterio único de RCIU independientemente del Doppler (MFB)
@@ -6993,7 +7040,7 @@ function calcPFE(){
     } else if(perc < 10){
       // P3–P10: depende del Doppler
       if(doppAlt){
-        clasif = 'RCIU (P3–P10 + Doppler alterado)';
+        clasif = 'RCIU (P3–P10 + Doppler fetal o uterino alterado)';
         clasifCol = 'var(--red)';
       } else {
         clasif = 'PEG — Pequeño para EG (P3–P10, Doppler normal)';
@@ -7026,7 +7073,7 @@ function calcPFE(){
   const esMacro4500 = peso>=4500;
   const esMacroModer = peso>=3800 && peso<4000;
   const doppAltPFE = !!(window._dopplerAU_alto || window._dopplerICP_alto ||
-                        window._dopplerACM_bajo || window._dopplerDV_alto);
+                        window._dopplerACM_bajo || window._dopplerDV_alto || pfeUtAlt());
 
   let chipsHTML = `<div class="pfe-chip ${esMacro4000?'macro':esMacroModer?'mac-moder':''}">
     <div class="pc-label">PFE</div><div class="pc-val">${peso.toLocaleString('es')} g</div>
@@ -7042,9 +7089,9 @@ function calcPFE(){
   if(perc!==null && perc>=3 && perc<10 && !doppAltPFE){
     var doppIngresado = window._dopplerFindings !== undefined;
     if(!doppIngresado){
-      chipsHTML += `<div style="font-size:.68rem;color:var(--amber);margin-top:4px;padding:4px 6px;background:#FEF3CD;border-radius:4px">⚡ PFE entre P3 y P10 — ingresá el Doppler para distinguir PEG de RCIU</div>`;
+      chipsHTML += `<div style="grid-column:1/-1;font-size:.68rem;color:var(--amber);margin-top:4px;padding:4px 6px;background:#FEF3CD;border-radius:4px">⚡ PFE entre P3 y P10 — ingresá el Doppler fetal (AU, ACM, ICP) y el IP medio de uterinas para distinguir PEG de RCIU</div>`;
     } else {
-      chipsHTML += `<div style="font-size:.68rem;color:var(--green);margin-top:4px;padding:4px 6px;background:#EDF5E5;border-radius:4px">✓ Doppler normal — compatible con PEG (pequeño sano). Control c/2-3 sem.</div>`;
+      chipsHTML += `<div style="grid-column:1/-1;font-size:.68rem;color:var(--green);margin-top:4px;padding:4px 6px;background:#EDF5E5;border-radius:4px">✓ Doppler fetal normal y sin IP medio de uterinas &gt;P95 — compatible con PEG (pequeño sano). Control c/2-3 sem.</div>`;
     }
   }
 
@@ -7058,7 +7105,7 @@ function calcPFE(){
   } else if(perc!==null && perc<3){
     alertaHTML=`<div class="alerta-box alto">⚠️ <strong>PFE &lt; P3 — RCIU (criterio único MFB):</strong> Derivar Medicina Fetal. Doppler completo urgente (AU, ACM, ICP, DV). Biometría c/1-2 sem.</div>`;
   } else if(perc!==null && perc<10 && doppAltPFE){
-    alertaHTML=`<div class="alerta-box alto">⚠️ <strong>RCIU — P3–P10 + Doppler alterado:</strong> Clasificar estadio I–IV (MFB). Seguimiento c/1-2 sem. Valorar finalización según EG y Doppler. Ref: Protocolo MFB Nov 2024.</div>`;
+    alertaHTML=`<div class="alerta-box alto">⚠️ <strong>RCIU — P3–P10 + Doppler alterado (AU, ICP, ACM o IP medio de uterinas &gt;P95):</strong> Clasificar estadio I–IV (MFB). Seguimiento c/1-2 sem. Valorar finalización según EG y Doppler. Ref: Protocolo MFB Nov 2024.</div>`;
   } else if(perc!==null && perc<10){
     alertaHTML=`<div class="alerta-box moder">⚡ <strong>PEG — Pequeño para EG (P3–P10):</strong> Doppler normal → feto constitucionalmente pequeño. Biometría seriada c/2-3 sem. Finalización ≥40 sem si evolución favorable. Ref: Figueras F. EJOGR 2008 / MFB 2024.</div>`;
   } else if(perc!==null && perc>=97){
@@ -7068,13 +7115,18 @@ function calcPFE(){
   }
 
   document.getElementById('pfe_chips').innerHTML = chipsHTML;
-  // If hadlock mode, show which inputs were used
-  if(pfeMode==='hadlock' && peso){
-    var ca_v=(document.getElementById('pfe_ca')||{}).value;
-    var lf_v=(document.getElementById('pfe_lf')||{}).value;
-    var note='<div style="font-size:.68rem;color:var(--slate);margin-top:4px">⚖️ Hadlock 1984 · CA='+ca_v+'mm · LF='+lf_v+'mm'+(eg?' · EG='+semDias(eg)+' sem':'')+'</div>';
-    document.getElementById('pfe_chips').innerHTML += note;
-  }
+  // Nota de método: fórmula y curva usadas
+  var _tablaTxt = pfeTabla==='figueras'
+    ? 'Figueras 2008 · sexo '+({m:'masculino',f:'femenino'}[pfeSexo()]||'desconocido (promedio)')
+    : 'INTERGROWTH-21st 2020 (Hadlock)';
+  var _metodo = '';
+  if(pfeMode==='hadlock' && pfeFormula) _metodo = '⚖️ '+HADLOCK_TXT[pfeFormula]+(eg?' · EG '+semDias(eg)+' sem':'')+(perc!==null?' · '+_tablaTxt:'');
+  else if(pfeMode==='egperc' && perc!==null) _metodo = '📊 '+_tablaTxt+' · EG '+semDias(eg)+' sem';
+  var _noteHTML = '';
+  if(_metodo) _noteHTML += '<div style="grid-column:1/-1;font-size:.68rem;color:var(--slate);margin-top:4px">'+_metodo+'</div>';
+  if(pfeAviso) _noteHTML += '<div style="grid-column:1/-1;font-size:.68rem;color:var(--amber);margin-top:4px;padding:4px 6px;background:#FEF3CD;border-radius:4px">⚡ '+pfeAviso+'</div>';
+  if(perc!==null && pfeMode!=='directo') _noteHTML += '<div style="grid-column:1/-1;font-size:.62rem;color:var(--slate);margin-top:4px">Algoritmo propio CaVeSal® · Basado en: '+(pfeTabla==='figueras'?'Figueras F et al. EJOGRB 2008;136:20-24':'Stirnemann J, Salomon LJ, Papageorghiou AT. UOG 2020;56:946-948')+(pfeMode==='hadlock'?' · Hadlock FP et al. AJOG 1985;151:333-337':'')+'</div>';
+  document.getElementById('pfe_chips').innerHTML += _noteHTML;
   document.getElementById('pfe_alerta').innerHTML = alertaHTML;
   document.getElementById('pfe_result').style.display = 'block';
 
@@ -7082,7 +7134,7 @@ function calcPFE(){
   window._pfe = {peso, perc};
   if(clasif){
     const _pfeNivel = clasifCol==='var(--red)'?'alto':clasifCol==='var(--amber)'?'moderado':'bajo';
-    _cavesalSetModuleResult('pfe', [{nivel:_pfeNivel, hallazgo:'PFE '+peso.toLocaleString('es')+' g'+(perc!==null?' · percentil '+percLabel:'')+' — '+clasif, conducta:_cavesalStripHtml(alertaHTML), fuente:'Figueras EJOGR 2008 · MFB 2024 · ISUOG'}]);
+    _cavesalSetModuleResult('pfe', [{nivel:_pfeNivel, hallazgo:'PFE '+peso.toLocaleString('es')+' g'+(perc!==null?' · percentil '+percLabel:'')+' — '+clasif, conducta:_cavesalStripHtml(alertaHTML), fuente:(pfeTabla==='figueras'?'Figueras EJOGRB 2008':'INTERGROWTH-21st 2020 (Stirnemann)')+' · Hadlock 1985 · MFB 2024 · ISUOG'}]);
   }
   calcViaParto();
 }
@@ -8541,7 +8593,7 @@ function limpiarFormulario(){
   showTab('formulario');
   // Reset PFE
   ['pfe_peso_d','pfe_perc_d','pfe_peso_eg','pfe_eg_sem','pfe_eg_dias',
-   'pfe_ca','pfe_lf','pfe_eg_hadlock','pfe_eg_hadlock_dias'].forEach(function(id){
+   'pfe_dbp','pfe_cc','pfe_ca','pfe_lf','pfe_eg_hadlock','pfe_eg_hadlock_dias','pfe_sexo'].forEach(function(id){
     var el=document.getElementById(id);if(el)el.value='';
   });
   var pr=document.getElementById('pfe_result');if(pr)pr.style.display='none';
@@ -10560,8 +10612,8 @@ function abrirContacto(){
       /* ---------- Rama 2: RCIU estadio II ---------- */
       {
         id: "r2a", min: 32, titulo: "Control de crecimiento: flujo diastólico ausente",
-        relato: "PFE 1550 g a las 32 semanas: p6 (tabla Figueras). La arteria umbilical muestra flujo diastólico ausente en más de la mitad de los ciclos, en ambas arterias, confirmado en dos exploraciones separadas por más de 12 horas.",
-        vit: { panel: [EG(32), PA(128, 80), ["PFE", "1550 g · p6", "Figueras", "amar"], ["Arteria umbilical", "Diástole ausente", "confirmado", "rojo"], ["Ductus venoso", "Sin evaluar", "", "neutro"]] },
+        relato: "PFE 1550 g a las 32 semanas: p5 (tabla Figueras, sexo desconocido). La arteria umbilical muestra flujo diastólico ausente en más de la mitad de los ciclos, en ambas arterias, confirmado en dos exploraciones separadas por más de 12 horas.",
+        vit: { panel: [EG(32), PA(128, 80), ["PFE", "1550 g · p5", "Figueras", "amar"], ["Arteria umbilical", "Diástole ausente", "confirmado", "rojo"], ["Ductus venoso", "Sin evaluar", "", "neutro"]] },
         preguntas: [
           {
             tipo: "opcion", q: "¿Cómo clasificás este feto?",
@@ -10610,9 +10662,9 @@ function abrirContacto(){
       },
       /* ---------- Rama 3: PEG ---------- */
       {
-        id: "r3a", min: 32, titulo: "Control de crecimiento: PFE p6 con Doppler normal",
-        relato: "PFE 1550 g a las 32 semanas: p6 (tabla Figueras). Arteria umbilical, cerebral media e índice cerebroplacentario normales. En este control el IP medio de las uterinas ya es normal.",
-        vit: { panel: [EG(32), PA(120, 74), ["PFE", "1550 g · p6", "Figueras", "amar"], ["Doppler fetal", "Normal", "", "ok"], ["IP medio AUt", "Normal", "", "ok"]] },
+        id: "r3a", min: 32, titulo: "Control de crecimiento: PFE p5 con Doppler normal",
+        relato: "PFE 1550 g a las 32 semanas: p5 (tabla Figueras, sexo desconocido). Arteria umbilical, cerebral media e índice cerebroplacentario normales. En este control el IP medio de las uterinas ya es normal.",
+        vit: { panel: [EG(32), PA(120, 74), ["PFE", "1550 g · p5", "Figueras", "amar"], ["Doppler fetal", "Normal", "", "ok"], ["IP medio AUt", "Normal", "", "ok"]] },
         preguntas: [
           {
             tipo: "opcion", q: "¿Cómo clasificás este feto?",
