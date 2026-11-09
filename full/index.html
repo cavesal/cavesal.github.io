@@ -3240,7 +3240,7 @@ document.addEventListener('DOMContentLoaded', function(){
       <div class="field"><label style="font-size:.68rem">ICP = ACM/AU (automático)</label><div id="dopp_icp_display" style="padding:8px;background:var(--mist);border-radius:8px;font-size:.78rem;font-weight:700;color:var(--navy)">—</div></div>
     </div>
     <div id="dopp_result" style="display:none;margin:10px 0"></div>
-    <div style="font-size:.65rem;color:var(--slate);margin-bottom:10px">ICP: percentil por EG; alterado &lt;P5 · Algoritmo propio CaVeSal® · Basado en: Baschat AA &amp; Gembruch U. UOG 2003;21:124-127</div>
+    <div style="font-size:.65rem;color:var(--slate);margin-bottom:10px">ICP: percentil por EG; alterado &lt;P5 · Algoritmo propio CaVeSal® · Basado en: Ciobanu A et al. (FMF) UOG 2019;53:465-472</div>
 
     <!-- ARTERIA OFTÁLMICA 2T/3T — pronóstico HIE/PE -->
     <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin:14px 0 4px">👁️ Arteria Oftálmica — Pronóstico HIE/PE</div>
@@ -3857,7 +3857,7 @@ Microcefalia: CC &lt;p3 para EG.</div>
       <strong style="color:var(--navy)">Suplementación:</strong> OMS · ACOG · NICE · FIGO · Endocrine Society 2024 · EBCOG 2024 · Cochrane<br>
       <strong style="color:var(--navy)">Biometría fetal:</strong> Hadlock 1984 · Robinson &amp; Fleming 1975 (CRL/FUM) · Chitty &amp; Altman 2002 (húmero y fémur) · Snijders &amp; Nicolaides 1994 (cerebelo) · Chitty 1994 · INTERGROWTH-21st · Figueras &amp; Gratacós 2008<br>
       <strong style="color:var(--navy)">Crecimiento fetal / PEG / RCIU:</strong> Algoritmo propio CaVeSal® · Basado en: Figueras F et al. EJOGRB 2008;136:20-24 (ajuste por sexo) · Stirnemann J, Salomon LJ, Papageorghiou AT. UOG 2020;56:946-948 (INTERGROWTH-21st, PFE de Hadlock) · Hadlock FP et al. AJOG 1985;151:333-337 · Protocolo MFB Nov 2024 · ISUOG Delphi Consensus 2020<br>
-      <strong style="color:var(--navy)">Doppler AU, ACM e ICP:</strong> Algoritmo propio CaVeSal® · Basado en: Ciobanu A et al. (FMF) UOG 2019;53:465-472 (AU/ACM) · Baschat AA, Gembruch U. UOG 2003;21:124-127 (ICP)<br>
+      <strong style="color:var(--navy)">Doppler AU, ACM e ICP:</strong> Algoritmo propio CaVeSal® · Basado en: Ciobanu A et al. (FMF) UOG 2019;53:465-472 (AU, ACM e ICP)<br>
       <strong style="color:var(--navy)">Doppler hemodinámico avanzado (DV, TR, AoI, VUP):</strong> Baschat AA. Obstet Gynecol 2011 · TRUFFLE Study Group. UOG 2020 · ISUOG Practice Guidelines RCIU 2020 · Gratacós E &amp; Torres X. MFB Protocol 2023<br>
       <strong style="color:var(--navy)">Maduración pulmonar fetal (&lt;34 sem):</strong> ACOG Practice Bulletin 127 · RCOG Green-top Guideline 7<br>
       <strong style="color:var(--navy)">Neuroprotección con MgSO₄ (&lt;32 sem):</strong> ACOG Practice Bulletin 455 · WHO Recommendation 2015<br>
@@ -3875,7 +3875,7 @@ Microcefalia: CC &lt;p3 para EG.</div>
       <strong style="color:var(--navy)">Arteria oftálmica:</strong> Gana N et al. UOG 2022;59:731-736 · de Oliveira CA et al. J Ultrasound Med 2013;32:609-616 · Diniz ALD et al. Int J Gynaecol Obstet 2008;100:216-220<br>
       <strong style="color:var(--navy)">Cerebelo (DTC):</strong> Algoritmo propio CaVeSal® · Basado en: Snijders RJM, Nicolaides KH. UOG 1994;4:34-48<br>
       <strong style="color:var(--navy)">Húmero y fémur por EG:</strong> Algoritmo propio CaVeSal® · Basado en: Chitty LS, Altman DG. BJOG 2002;109:919-929<br>
-      <strong style="color:var(--navy)">Índice cerebroplacentario (ICP) — percentil por EG:</strong> Baschat AA &amp; Gembruch U. UOG 2003;21:124-127<br>
+      <strong style="color:var(--navy)">Índice cerebroplacentario (ICP) — percentil por EG:</strong> Algoritmo propio CaVeSal® · Basado en: Ciobanu A et al. (FMF) UOG 2019;53:465-472<br>
       <strong style="color:var(--navy)">Anemia fetal:</strong> Mari G et al. NEJM 2000 (Doppler ACM/PSV)<br>
       <strong style="color:var(--navy)">Gemelar monocorial / RCIUs:</strong> Torres X et al. Fetal Diagn Ther 2017 · Gratacós E. UOG 2007;30:28-34 · ISUOG 2020<br>
       <strong style="color:var(--navy)">Arteria Oftálmica (AO) — PE y compromiso vascular:</strong> Gana N et al. UOG 2022;59:731-736 (1T, complementario) · de Oliveira CA et al. J Ultrasound Med 2013;32:609-616 · Diniz ALD et al. Int J Gynaecol Obstet 2008;100:216-220 (2T/3T, severidad)<br>
@@ -6524,16 +6524,18 @@ function calcDopplerPercentil(){
   // preeclampsia, que ya se reflejan en otros hallazgos del panel).
   var _doppConductaNormal='Sin alteración en este parámetro. Continuar vigilancia fetal habitual; la frecuencia de controles y el nivel de riesgo global del embarazo dependen del conjunto de hallazgos maternos y fetales, no de este dato aislado.';
   // ── ICP: percentil por EG ──
-  // Algoritmo propio CaVeSal® · Basado en: Baschat AA, Gembruch U. Ultrasound Obstet Gynecol 2003;21:124-127
-  // Media y DE del ICP en función de la EG (sem decimales); P5 = media − 1,645 × DE. Rango 20–42 sem.
-  function icpRefEG(egSem){
-    var m=-4.0636+0.383*egSem-0.0059*egSem*egSem;
-    var sd=-0.9664+0.09027*egSem-0.0014*egSem*egSem;
-    return {m:m,sd:sd,p5:m-1.645*sd};
+  // Algoritmo propio CaVeSal® · Basado en: Ciobanu A et al. (FMF) UOG 2019;53:465-472
+  // Modelo descrito por los autores: distribución log10-gaussiana, mediana cúbica y DE cuadrática con la EG.
+  // Coeficientes ajustados por CaVeSal® a los percentiles publicados del ICP (error máximo 0,001).
+  // No se reproduce ninguna tabla. EG en semanas decimales, rango 20–42.
+  function icpRefEG(w){
+    var m=-0.359587+0.00309741*w+0.00155702*w*w-0.0000316644*w*w*w;
+    var sd=0.194673-0.00853341*w+0.000159733*w*w;
+    return {m:m,sd:sd,p5:Math.pow(10,m-1.645*sd),med:Math.pow(10,m)};
   }
   function icpP5(egSem){ return icpRefEG(egSem).p5; }
   function icpPercentil(icp,egSem){
-    var r=icpRefEG(egSem), z=(icp-r.m)/r.sd;
+    var r=icpRefEG(egSem), z=(Math.log10(icp)-r.m)/r.sd;
     var t=1/(1+0.2316419*Math.abs(z)), d=0.3989423*Math.exp(-z*z/2);
     var q=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));
     var pc=(z>0?1-q:q)*100;
@@ -6594,7 +6596,7 @@ function calcDopplerPercentil(){
     if(cls2!=='verde')findings.push('ACM disminuida');
     _doppFindings.push({nivel:cls2==='alto'?'alto':'bajo',hallazgo:'ACM-PI '+acm+(refACM?' · P'+percACM+' (P5 '+refACM+')':''),conducta:cls2==='alto'?interp2:_doppConductaNormal,fuente:_dopFuente});
   }
-  // ICP — percentil por EG (Baschat & Gembruch 2003)
+  // ICP — percentil por EG (Ciobanu 2019, FMF)
   if(au&&acm){
     var icp2=Math.round(acm/au*100)/100;
     if(icpEnRango(eg)){
@@ -6608,7 +6610,7 @@ function calcDopplerPercentil(){
         +'<strong>ICP (ACM/AU): '+icp2+' · P'+icpPc+'</strong> <span style="font-size:.7rem;opacity:.8">P5='+icpRef2+' a las '+semDias(eg)+' sem</span>'
         +'<br><small>'+interp3+'</small></div>';
       if(cls3!=='verde')findings.push('ICP <P5');
-      _doppFindings.push({nivel:cls3==='alto'?'alto':'bajo',hallazgo:'ICP (ACM/AU) '+icp2+' · P'+icpPc+' (P5 '+icpRef2+')',conducta:cls3==='verde'?_doppConductaNormal:interp3,fuente:'Algoritmo propio CaVeSal® · Basado en: Baschat AA, Gembruch U. UOG 2003'});
+      _doppFindings.push({nivel:cls3==='alto'?'alto':'bajo',hallazgo:'ICP (ACM/AU) '+icp2+' · P'+icpPc+' (P5 '+icpRef2+')',conducta:cls3==='verde'?_doppConductaNormal:interp3,fuente:'Algoritmo propio CaVeSal® · Basado en: Ciobanu A et al. (FMF) UOG 2019'});
     } else {
       html+='<div class="alerta-box verde" style="margin-bottom:6px"><strong>ICP (ACM/AU): '+icp2+'</strong><br><small>EG fuera del rango de referencia del percentil (20–42 sem)</small></div>';
     }
@@ -6731,7 +6733,7 @@ function calcDopplerPercentil(){
   window._dopplerDV_alto = (dv!==null && findings.some(function(f){return f.indexOf('DV')>=0;}))
   // Recalcular PFE si está activo, para actualizar clasificación
   if(typeof calcPFE==='function' && window._pfe) calcPFE();
-  html+='<div style="font-size:.65rem;color:var(--slate);margin-top:8px">Algoritmo propio CaVeSal® · Basado en: Ciobanu A et al. (FMF) UOG 2019 (AU/ACM) · Baschat AA, Gembruch U. UOG 2003 (ICP) · Mari G et al. NEJM 2000 (PSV-ACM)</div>';
+  html+='<div style="font-size:.65rem;color:var(--slate);margin-top:8px">Algoritmo propio CaVeSal® · Basado en: Ciobanu A et al. (FMF) UOG 2019 (AU, ACM e ICP) · Mari G et al. NEJM 2000 (PSV-ACM)</div>';
   html+='</div>';
   result.innerHTML=html;
   result.style.display='block';
