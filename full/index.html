@@ -3235,7 +3235,7 @@ document.addEventListener('DOMContentLoaded', function(){
       <div class="field"><label style="font-size:.68rem">ICP = ACM/AU (automático)</label><div id="dopp_icp_display" style="padding:8px;background:var(--mist);border-radius:8px;font-size:.78rem;font-weight:700;color:var(--navy)">—</div></div>
     </div>
     <div id="dopp_result" style="display:none;margin:10px 0"></div>
-    <div style="font-size:.65rem;color:var(--slate);margin-bottom:10px">ICP normal &gt; P5 para EG · Ref: Baschat AA &amp; Gembruch U. UOG 2003;22:529-536</div>
+    <div style="font-size:.65rem;color:var(--slate);margin-bottom:10px">ICP: percentil por EG; alterado &lt;P5 · Algoritmo propio CaVeSal® · Basado en: Baschat AA &amp; Gembruch U. UOG 2003;21:124-127</div>
 
     <!-- ARTERIA OFTÁLMICA 2T/3T — pronóstico HIE/PE -->
     <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin:14px 0 4px">👁️ Arteria Oftálmica — Pronóstico HIE/PE</div>
@@ -3843,7 +3843,7 @@ Microcefalia: CC &lt;p3 para EG.</div>
       <strong style="color:var(--navy)">Serología — Rubéola:</strong> CDC · OPS/PAHO · ACOG<br>
       <strong style="color:var(--navy)">Colestasis intrahepática del embarazo (CIE):</strong> Guía Perinatal MINSAL Chile 2015 (cap. 11) · RCOG Green-top Guideline No. 43 (2022) · SFMFM Consult Series No. 53 · Williamson C et al. <em>Lancet</em> 2018;391:1683–96 · Ovadia C et al. <em>Lancet</em> 2019;393:899–909 · ACOG · EASL · <em>Clasificación regional: ictérica (bili &gt;1.2 + enzimas↑) → 36 sem · anictérica → 38 sem</em><br>
       <strong style="color:var(--navy)">ACM PSV — algoritmo propio (anemia fetal):</strong> Basado en análisis de literatura · Mari G et al. NEJM 2000;342:9-14 · Detti L et al. AJOG 2002<br>
-      <strong style="color:var(--navy)">Índice cerebroplacentario (ICP) — P5 dinámico:</strong> Baschat AA &amp; Gembruch U. UOG 2003;22:529-536<br>
+      <strong style="color:var(--navy)">Índice cerebroplacentario (ICP) — percentil por EG:</strong> Baschat AA &amp; Gembruch U. UOG 2003;21:124-127<br>
       <strong style="color:var(--navy)">Anemia fetal:</strong> Mari G et al. NEJM 2000 (Doppler ACM/PSV)<br>
       <strong style="color:var(--navy)">Gemelar monocorial / RCIUs:</strong> Torres X et al. Fetal Diagn Ther 2017 · Gratacós E. UOG 2007;30:28-34 · ISUOG 2020<br>
       <strong style="color:var(--navy)">Arteria Oftálmica (AO) — PE y compromiso vascular:</strong> Gyselaers W et al. Ultrasound Obstet Gynecol 2020 · Verlohren S et al. Am J Obstet Gynecol 2012 · Kaituʻu-Lino TJ et al. Ultrasound Obstet Gynecol 2018 · Medicina Fetal Barcelona<br>
@@ -6382,9 +6382,9 @@ function leerEGDecimal(idSem,idDias){
 }
 
 // ════ BIOMETRÍA: EG por CC y CA corregidas ════
-// Chitty 1994 BJOG
-function egCC(v){var c=v/10;return 8.096+0.4707*c+0.007777*c*c-0.0000028*c*c*c;}
-function egCA(v){var c=v/10;return 7.605+0.3856*c+0.01382*c*c-0.0000161*c*c*c;}
+// Hadlock FP et al. Radiology 1984;152:497-501 (medidas en cm)
+function egCC(v){var c=v/10;return 8.96+0.540*c+0.0003*c*c*c;}
+function egCA(v){var c=v/10;return 8.14+0.753*c+0.0036*c*c;}
 
 // ════ DOPPLER ACM — ANEMIA FETAL (Mari 2000) ════
 // PSV ACM mediana (cm/s) — fórmula de regresión polinomial propia
@@ -6457,37 +6457,37 @@ function calcDopplerPercentil(){
   // absolutos (eso puede estar determinado por otros factores maternos, ej.
   // preeclampsia, que ya se reflejan en otros hallazgos del panel).
   var _doppConductaNormal='Sin alteración en este parámetro. Continuar vigilancia fetal habitual; la frecuencia de controles y el nivel de riesgo global del embarazo dependen del conjunto de hallazgos maternos y fetales, no de este dato aislado.';
-  // ── ICP: P5 ajustado por EG (Baschat 2003 / MFB) ──
-  // El ICP NO tiene umbral fijo. P5 varía con la EG.
-  // Ref: Baschat AA, Gembruch U. Ultrasound Obstet Gynecol 2003;22:529-536
-  // ICP P5 por EG — algoritmo propio CaVeSal® basado en Arduini & Rizzo 1990 + Baschat & Gembruch UOG 2003
-  // P5 real del ICP (ACM PI/AU PI): ICP por debajo de este valor = redistribución cerebral
-  var ICP_P5_EG = {
-    20:1.08, 22:1.10, 24:1.10, 26:1.09, 28:1.08,
-    30:1.08, 32:1.08, 34:1.07, 36:1.06, 38:1.05, 40:1.04
-  };
-  function icpP5(egSem){
-    var egR = Math.round(egSem/2)*2;
-    if(ICP_P5_EG[egR] !== undefined) return ICP_P5_EG[egR];
-    // interpolación lineal si EG impar o fuera de tabla
-    var keys = Object.keys(ICP_P5_EG).map(Number).sort(function(a,b){return a-b;});
-    for(var i=0;i<keys.length-1;i++){
-      if(egSem>=keys[i]&&egSem<=keys[i+1]){
-        var t=(egSem-keys[i])/(keys[i+1]-keys[i]);
-        return ICP_P5_EG[keys[i]]*(1-t)+ICP_P5_EG[keys[i+1]]*t;
-      }
-    }
-    return 1.0; // fallback
+  // ── ICP: percentil por EG ──
+  // Algoritmo propio CaVeSal® · Basado en: Baschat AA, Gembruch U. Ultrasound Obstet Gynecol 2003;21:124-127
+  // Media y DE del ICP en función de la EG (sem decimales); P5 = media − 1,645 × DE. Rango 20–42 sem.
+  function icpRefEG(egSem){
+    var m=-4.0636+0.383*egSem-0.0059*egSem*egSem;
+    var sd=-0.9664+0.09027*egSem-0.0014*egSem*egSem;
+    return {m:m,sd:sd,p5:m-1.645*sd};
   }
+  function icpP5(egSem){ return icpRefEG(egSem).p5; }
+  function icpPercentil(icp,egSem){
+    var r=icpRefEG(egSem), z=(icp-r.m)/r.sd;
+    var t=1/(1+0.2316419*Math.abs(z)), d=0.3989423*Math.exp(-z*z/2);
+    var q=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));
+    var pc=(z>0?1-q:q)*100;
+    return pc<1?'<1':pc>99?'>99':String(Math.round(pc));
+  }
+  function icpEnRango(egSem){ return egSem>=20&&egSem<=42; }
   // ICP live display con umbral dinámico
   if(icpDisp){
     if(au&&acm){
       var icp=Math.round(acm/au*100)/100;
-      var icpRef = eg ? Math.round(icpP5(eg)*100)/100 : 1.0;
-      var icpAlterado = icp < icpRef;
-      icpDisp.textContent = icp
-        + (icpAlterado ? ' ⚠️ ALTERADO <P5' : ' ✓ Normal')
-        + (eg ? ' (P5 EG'+Math.round(eg)+'sem: '+icpRef+')' : '');
+      if(eg && icpEnRango(eg)){
+        var icpRef = Math.round(icpP5(eg)*100)/100;
+        var icpAlterado = icp < icpP5(eg);
+        icpDisp.textContent = icp + ' · P' + icpPercentil(icp,eg)
+          + (icpAlterado ? ' ⚠️ ALTERADO <P5' : ' ✓ Normal')
+          + ' (P5 a las '+semDias(eg)+' sem: '+icpRef+')';
+      } else {
+        var icpAlterado = false;
+        icpDisp.textContent = icp + (eg ? ' (EG fuera del rango de referencia 20–42 sem)' : ' — ingresar EG para el percentil');
+      }
       icpDisp.style.color = icpAlterado ? 'var(--red)' : 'var(--navy)';
     }else{icpDisp.textContent='—';icpDisp.style.color='var(--navy)';}
   }
@@ -6618,22 +6618,24 @@ function calcDopplerPercentil(){
     if(cls2!=='verde')findings.push('ACM disminuida');
     _doppFindings.push({nivel:cls2==='alto'?'alto':'bajo',hallazgo:'ACM-PI '+acm+(refACM?' (p5 EG'+acmEgR+': '+refACM+(percACM!==null?' · ~P'+percACM:'')+')':''),conducta:cls2==='alto'?interp2:_doppConductaNormal,fuente:'Ciobanu UOG 2019'});
   }
-  // ICP — umbral P5 dinámico por EG (Baschat 2003 / MFB)
+  // ICP — percentil por EG (Baschat & Gembruch 2003)
   if(au&&acm){
     var icp2=Math.round(acm/au*100)/100;
-    var icpRef2 = eg ? Math.round(icpP5(eg)*100)/100 : 1.0;
-    var icpLim2 = Math.round(icpRef2*1.08*100)/100;
-    var cls3 = icp2 < icpRef2 ? 'alto' : icp2 < icpLim2 ? 'moder' : 'verde';
-    var interp3 = cls3==='alto'
-      ? 'ALTERADO <P5 ('+icpRef2+') — redistribución cerebral. Evaluar RCIU hemodinámico'
-      : cls3==='moder'
-      ? 'Límite (P5–P8) — vigilancia estrecha. Repetir en 1 semana'
-      : 'Normal (≥P5 para EG '+Math.round(eg||0)+' sem)';
-    html+='<div class="alerta-box '+cls3+'" style="margin-bottom:6px">'
-      +'<strong>ICP (ACM/AU): '+icp2+'</strong> <span style="font-size:.7rem;opacity:.8">P5='+icpRef2+' a '+Math.round(eg||0)+'sem</span>'
-      +'<br><small>'+interp3+'</small></div>';
-    if(cls3!=='verde')findings.push('ICP <P5');
-    _doppFindings.push({nivel:cls3==='alto'?'alto':cls3==='moder'?'moderado':'bajo',hallazgo:'ICP (ACM/AU) '+icp2,conducta:cls3==='verde'?_doppConductaNormal:interp3,fuente:'Baschat UOG 2003'});
+    if(icpEnRango(eg)){
+      var icpRef2=Math.round(icpP5(eg)*100)/100;
+      var icpPc=icpPercentil(acm/au,eg);
+      var cls3 = (acm/au) < icpP5(eg) ? 'alto' : 'verde';
+      var interp3 = cls3==='alto'
+        ? 'ALTERADO <P5 — redistribución cerebral. Evaluar RCIU hemodinámico; confirmar en una segunda medición separada por más de 12 h'
+        : 'Normal (≥P5 para la EG)';
+      html+='<div class="alerta-box '+cls3+'" style="margin-bottom:6px">'
+        +'<strong>ICP (ACM/AU): '+icp2+' · P'+icpPc+'</strong> <span style="font-size:.7rem;opacity:.8">P5='+icpRef2+' a las '+semDias(eg)+' sem</span>'
+        +'<br><small>'+interp3+'</small></div>';
+      if(cls3!=='verde')findings.push('ICP <P5');
+      _doppFindings.push({nivel:cls3==='alto'?'alto':'bajo',hallazgo:'ICP (ACM/AU) '+icp2+' · P'+icpPc+' (P5 '+icpRef2+')',conducta:cls3==='verde'?_doppConductaNormal:interp3,fuente:'Algoritmo propio CaVeSal® · Basado en: Baschat AA, Gembruch U. UOG 2003'});
+    } else {
+      html+='<div class="alerta-box verde" style="margin-bottom:6px"><strong>ICP (ACM/AU): '+icp2+'</strong><br><small>EG fuera del rango de referencia del percentil (20–42 sem)</small></div>';
+    }
   }
   // ACM PSV (anemia)
   if(psv){
@@ -7816,11 +7818,18 @@ function mostrarConfigGDrive(){
 // ════════════════════════════════════════════════
 
 function setBioTab(tab){
-  document.querySelectorAll('.bio-tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.bio-tab-btn').forEach(b=>{
+    const on = (b.getAttribute('onclick')||'').indexOf("'"+tab+"'")>-1;
+    b.classList.toggle('active', on);
+  });
   document.querySelectorAll('.bio-section').forEach(s=>s.classList.remove('active'));
-  event.target.classList.add('active');
   const sec = document.getElementById('bio_'+tab);
-  if(sec) sec.classList.add('active');
+  if(sec){
+    sec.classList.add('active');
+    if(tab==='asimetria' && typeof calcAsimetria==='function') calcAsimetria();
+    const r = sec.getBoundingClientRect();
+    if(r.top < 0 || r.top > window.innerHeight*0.6) sec.scrollIntoView({behavior:'smooth', block:'start'});
+  }
 }
 
 // ── CRL → EG (Nicolaides/FMF) ──
@@ -7871,17 +7880,16 @@ function egDBP(v){ // v in mm
   const c = v/10; // cm
   return 9.54 + 1.482*c + 0.1676*c*c;
 }
-function egCC(v){var c=v/10;return 8.096+0.4707*c+0.007777*c*c-0.0000028*c*c*c;}
-function egCA(v){var c=v/10;return 7.605+0.3856*c+0.01382*c*c-0.0000161*c*c*c;}
+function egCC(v){var c=v/10;return 8.96+0.540*c+0.0003*c*c*c;}
+function egCA(v){var c=v/10;return 8.14+0.753*c+0.0036*c*c;}
 function egLF(v){ // v in mm
   const c = v/10; // cm
   return 10.35 + 2.460*c + 0.170*c*c;
 }
 
 function semDias(semFloat){
-  const s = Math.floor(semFloat);
-  const d = Math.round((semFloat-s)*7);
-  return `${s}+${d}`;
+  const t = Math.round(semFloat*7);
+  return `${Math.floor(t/7)}+${t%7}`;
 }
 
 function calcBiom(){
@@ -7911,34 +7919,59 @@ function calcBiom(){
     if(!p.val) return;
     const eg = p.fn(p.val);
     if(eg && eg > 14 && eg < 44){
-      egs.push(eg);
+      egs.push({l:p.label, v:eg});
       html += `<div class="stat-box">
         <div class="s-label">${p.label} (${p.val}mm)</div>
         <div class="s-val" style="font-size:.85rem">${semDias(eg)} sem</div>
       </div>`;
     }
   });
-  
+  if(egs.length >= 2){
+    const prom = egs.reduce((a,e)=>a+e.v,0)/egs.length;
+    html += `<div class="stat-box" style="grid-column:1/-1;background:var(--teal-lt,#e6f7f9)">
+      <div class="s-label">EG promedio (${egs.map(e=>e.l).join(', ')})</div>
+      <div class="s-val" style="font-size:.95rem">${semDias(prom)} sem</div>
+    </div>`;
+  }
   document.getElementById('bio_biom_chips').innerHTML = html;
-  
+  // Pasar los valores a la pestaña Asimetría LF/CA
+  [['asim_lf',lf],['asim_ca',ca],['asim_cc',cc]].forEach(([id,v])=>{const el=document.getElementById(id); if(el&&v) el.value=v;});
+  if(typeof calcAsimetria==='function' && lf && ca) calcAsimetria();
+
   // Check discordance
   const disc = document.getElementById('bio_biom_discordancia');
   if(egs.length >= 2){
-    const maxEG = Math.max(...egs);
-    const minEG = Math.min(...egs);
+    const vals = egs.map(e=>e.v);
+    const maxEG = Math.max(...vals);
+    const minEG = Math.min(...vals);
     const diff = (maxEG - minEG) * 7; // days
+    const g = l => (egs.find(e=>e.l===l)||{}).v;
+    const orden = egs.slice().sort((a,b)=>b.v-a.v).map(e=>`${e.l} ${semDias(e.v)}`).join(' · ');
+    let patron = '';
+    const cab = [g('DBP'),g('CC')].filter(Boolean), cabEG = cab.length ? Math.max(...cab) : null;
+    const egCAv = g('CA'), egLFv = g('LF');
+    const ratioTxt = (lf&&ca) ? ` Ratio LF/CA ${(lf/ca).toFixed(3)}.` : '';
+    if(cabEG && egCAv && egLFv && (cabEG-egCAv)*7>14 && (cabEG-egLFv)*7>14 && Math.abs(egCAv-egLFv)*7<=7){
+      patron = `Polo cefálico (DBP/CC) adelantado respecto de CA y LF; CA y LF concordantes entre sí.${ratioTxt} No es una asimetría LF/CA. Correlacionar con la datación (FUM o ecografía precoz), el PFE y el Doppler.`;
+    } else if(egCAv && egCAv===minEG && (maxEG-egCAv)*7>14){
+      patron = `CA es el parámetro rezagado.${ratioTxt} Considerar RCIU asimétrico: ver la pestaña "Asimetría LF/CA" y el Doppler.`;
+    } else if(egLFv && egLFv===minEG && (maxEG-egLFv)*7>14){
+      patron = `LF es el parámetro rezagado.${ratioTxt} Evaluar la pestaña "Húmero" para descartar acortamiento de huesos largos.`;
+    } else {
+      patron = `Evaluar qué parámetro está desplazado y correlacionar con la datación, el PFE y el Doppler.${ratioTxt}`;
+    }
     if(diff > 14){
       disc.className = 'bio-alerta show alto';
-      disc.innerHTML = `⚠️ <strong>Discordancia significativa entre parámetros (${Math.round(diff)} días):</strong> Evaluar asimetría fetal. Considerar RCIU asimétrico si CA es el parámetro rezagado. Usar pestaña "Asimetría LF/CA" para análisis.`;
-      _cavesalSetModuleResult('biometria', [{nivel:'alto', hallazgo:'Discordancia significativa entre parámetros biométricos ('+Math.round(diff)+' días)', conducta:_cavesalStripHtml(disc.innerHTML), fuente:'Biometría fetal 2T/3T'}]);
+      disc.innerHTML = `⚠️ <strong>Discordancia significativa entre parámetros (${Math.round(diff)} días):</strong> ${orden}. ${patron}`;
+      _cavesalSetModuleResult('biometria', [{nivel:'alto', hallazgo:'Discordancia significativa entre parámetros biométricos ('+Math.round(diff)+' días)', conducta:_cavesalStripHtml(disc.innerHTML), fuente:'Algoritmo propio CaVeSal® · Basado en: Hadlock FP et al. Radiology 1984'}]);
     } else if(diff > 7){
       disc.className = 'bio-alerta show moder';
-      disc.innerHTML = `⚡ Discordancia moderada entre parámetros (${Math.round(diff)} días). Vigilar evolución.`;
-      _cavesalSetModuleResult('biometria', [{nivel:'moderado', hallazgo:'Discordancia moderada entre parámetros biométricos ('+Math.round(diff)+' días)', conducta:_cavesalStripHtml(disc.innerHTML), fuente:'Biometría fetal 2T/3T'}]);
+      disc.innerHTML = `⚡ Discordancia moderada entre parámetros (${Math.round(diff)} días): ${orden}. Vigilar evolución.`;
+      _cavesalSetModuleResult('biometria', [{nivel:'moderado', hallazgo:'Discordancia moderada entre parámetros biométricos ('+Math.round(diff)+' días)', conducta:_cavesalStripHtml(disc.innerHTML), fuente:'Algoritmo propio CaVeSal® · Basado en: Hadlock FP et al. Radiology 1984'}]);
     } else {
       disc.className = 'bio-alerta show ok';
       disc.innerHTML = `✅ Biometrías concordantes (diferencia ${Math.round(diff)} días). Crecimiento simétrico.`;
-      _cavesalSetModuleResult('biometria', [{nivel:'bajo', hallazgo:'Biometrías concordantes (diferencia '+Math.round(diff)+' días)', conducta:'', fuente:'Biometría fetal 2T/3T'}]);
+      _cavesalSetModuleResult('biometria', [{nivel:'bajo', hallazgo:'Biometrías concordantes (diferencia '+Math.round(diff)+' días)', conducta:'', fuente:'Algoritmo propio CaVeSal® · Basado en: Hadlock FP et al. Radiology 1984'}]);
     }
   } else {
     disc.className = 'bio-alerta';
