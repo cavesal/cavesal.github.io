@@ -4753,6 +4753,13 @@ function calcular(){
   }
   if(gluc!==null){
     if(gluc>=126) add('LABORATORIO','alto',`Glucemia ayunas ${gluc} mg/dL (DM en embarazo)`,'DM en embarazo (≥126 mg/dL). Autocontrol. Metformina/insulina. Biometría seriada.','ADA / IADPSG');
+    // El campo principal sigue el criterio elegido en el módulo de DG (dmgRef). Algoritmo propio CaVeSal® · Basado en: IADPSG 2010 · OMS 2013 · ADA 2026 · ALAD 2016
+    else if(typeof dmgRef!=='undefined'&&dmgRef==='alad'){
+      if(gluc>=100) add('LABORATORIO','moderado',`Glucemia ayunas ${gluc} mg/dL (100–125 — criterio ALAD)`,'ALAD 2016: una glucemia en ayunas de 100–125 debe repetirse; si la segunda también es 100–125, es diabetes gestacional. Cargá la segunda glucemia en el módulo de diabetes gestacional.','ALAD 2016');
+    }
+    else if(typeof dmgRef!=='undefined'&&dmgRef==='ada2p'&&gluc>=92){const _dt=_dgTemprana(gluc,eg?eg.sem:null);
+      if(_dt) add('LABORATORIO',_dt.nivel,`Glucemia ayunas ${gluc} mg/dL (${_dt.titulo})`,_dt.texto,_dt.fuente);
+      else add('LABORATORIO','moderado',`Glucemia ayunas ${gluc} mg/dL (ADA 2 pasos)`,'Con ADA 2 pasos, una glucemia en ayunas aislada no diagnostica diabetes gestacional. Hacer el paso 1 (50 g) a las 24–28 sem y, si es ≥130, la PTOG de 100 g.','ADA 2026 / ACOG');}
     else if(gluc>=92){const _dt=_dgTemprana(gluc,eg?eg.sem:null);
       if(_dt) add('LABORATORIO',_dt.nivel,`Glucemia ayunas ${gluc} mg/dL (${_dt.titulo})`,_dt.texto,_dt.fuente);
       else add('LABORATORIO','moderado',`Glucemia ayunas ${gluc} mg/dL (criterio DG)`,'Criterio IADPSG/OMS 2013 (≥92 mg/dL). Dieta, autocontrol. Valorar insulina. Biometría desde sem 28.','IADPSG / OMS 2013 / ADA 2026');}
