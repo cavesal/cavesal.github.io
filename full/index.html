@@ -7252,7 +7252,7 @@ function _vpRobson(d){
     '2b':'Cesárea programada: indicación documentada; sin indicación médica, no antes de 39 sem.',
     '4b':'Cesárea programada: indicación documentada; sin indicación médica, no antes de 39 sem.',
     '5.1':'Evaluar PVDC con el score de Grobman de esta tarjeta; misoprostol contraindicado.',
-    '5.2':'Dos cesáreas: consejería por obstetra senior. Tres o más: cesárea programada.',
+    '5.2':'Dos cesáreas: consejería por obstetra senior. Tres o más: no hay datos suficientes sobre PVDC (ACOG PB 205); se suele programar cesárea.',
     '6':'Ofrecer versión cefálica externa (VCE) desde las 36 sem.',
     '7':'Ofrecer versión cefálica externa (VCE) desde las 37 sem.',
     '8':'Planificar según corionicidad y presentación del primer gemelo.',
@@ -7278,6 +7278,7 @@ function _vpRobson(d){
     }
     if(pre) notas.push('EG actual '+semDias(egVP)+' sem: si el nacimiento ocurre antes de las 37+0 sem pasa a <strong>Grupo 10</strong> — '+P['10']);
   } else return null;
+  if(d.cxUterina && !ces) notas.push('Cirugía uterina previa sin cesárea (miomectomía, metroplastia): no cambia el grupo de Robson, solo cuentan las cesáreas (OMS 2017).');
   return {grupo:g, desc:'Grupo '+g+': '+desc, plan:P[g], notas};
 }
 function calcViaParto(){
@@ -7312,7 +7313,7 @@ function calcViaParto(){
   const bishopTotal = bpVals.every(v=>v!==null) ? bpVals.reduce((a,b)=>a+b,0) : null;
 
   // Robson group (grupo probable, 6 variables) — Algoritmo propio CaVeSal® · Basado en OPS/OMS 2018
-  const rb = _vpRobson({pv, ces, presentacion, egVP,
+  const rb = _vpRobson({pv, ces, cxUterina, presentacion, egVP,
     inicio: (document.getElementById('vp_inicio')||{}).value||'',
     multiple: ((document.getElementById('vp_fetos')||{}).value||'unico')==='multiple'});
   const robsonGrupo = rb ? rb.grupo : null;
@@ -7412,13 +7413,13 @@ function calcViaParto(){
   // Bishop
   if(bishopTotal!==null){
     const bishopFavor = bishopTotal>8;
-    const bishopDesc = bishopTotal>8?'Favorable (más de 8): probabilidad de parto vaginal similar al trabajo de parto espontáneo; inducción con oxitocina, con o sin amniotomía':
-      bishopTotal>=7?'Intermedio (7–8): NICE indica amniotomía y oxitocina (más de 6); ACOG todavía no lo considera favorable (más de 8). Decidir según paridad y contexto':
+    const bishopDesc = bishopTotal>8?'Favorable (9 o más): Bishop (1964) describió inducción exitosa y segura con este puntaje; amniotomía y oxitocina (NICE)':
+      bishopTotal>=7?'Intermedio (7–8): NICE indica amniotomía y oxitocina (más de 6); todavía no alcanza el 9 o más de Bishop (1964). ACOG 2025: no hay un corte universal (los estudios usaron de 3 a 8). Decidir según paridad y contexto':
       'Desfavorable (6 o menos): maduración cervical antes de la oxitocina (misoprostol, dinoprostona o balón)';
-    alertas.push(`📋 <strong>Bishop ${bishopTotal}/13:</strong> ${bishopDesc}. <span style="font-size:.85em;opacity:.8">Fuentes: ACOG PB 107 · NICE NG207 · StatPearls</span>`);
+    alertas.push(`📋 <strong>Bishop ${bishopTotal}/13:</strong> ${bishopDesc}. <span style="font-size:.85em;opacity:.8">Fuentes: Bishop 1964 · NICE NG207 · ACOG CPG 9 (2025)</span>`);
   } else if(bpVals[0]!==null && bpVals[1]!==null && bpVals[2]!==null){
     const bs = bpVals[0]+bpVals[1]+bpVals[2];
-    alertas.push(`📋 <strong>Bishop simplificado ${bs}/9</strong> (dilatación, borramiento, estación): ${bs>5?'favorable (más de 5)':'desfavorable (5 o menos): maduración cervical antes de la oxitocina'}. Completá consistencia y posición para el Bishop completo. <span style="font-size:.85em;opacity:.8">Fuente: StatPearls</span>`);
+    alertas.push(`📋 <strong>Bishop simplificado ${bs}/9</strong> (dilatación, borramiento, estación): ${bs>5?'favorable (más de 5)':'desfavorable (5 o menos): maduración cervical antes de la oxitocina'}. Completá consistencia y posición para el Bishop completo. <span style="font-size:.85em;opacity:.8">Fuente: Laughon 2011</span>`);
   }
 
   // PGR
