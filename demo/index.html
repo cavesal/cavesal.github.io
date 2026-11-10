@@ -823,7 +823,7 @@ main{padding:14px;max-width:680px;margin:0 auto}
       <label class="check-item" id="lbl_obs_macro"><input type="checkbox" id="obs_macro" onchange="toggleCheck('lbl_obs_macro',this)"><span>Macrosomía previa (&gt;4000 g)</span></label>
       <label class="check-item" id="lbl_obs_mf"><input type="checkbox" id="obs_mf" onchange="toggleCheck('lbl_obs_mf',this)"><span>Muerte fetal previa</span></label>
       <label class="check-item" id="lbl_obs_malform"><input type="checkbox" id="obs_malform" onchange="toggleCheck('lbl_obs_malform',this)"><span>Malformación fetal previa</span></label>
-      <label class="check-item" id="lbl_obs_dtn"><input type="checkbox" id="obs_dtn" onchange="toggleCheck('lbl_obs_dtn',this)"><span>DTN previo (defecto del tubo neural)</span></label>
+      <label class="check-item" id="lbl_obs_dtn"><input type="checkbox" id="obs_dtn" onchange="toggleCheck('lbl_obs_dtn',this)"><span>DTN previo (embarazo previo, propio o de la pareja)</span></label>
       <label class="check-item" id="lbl_obs_hpp"><input type="checkbox" id="obs_hpp" onchange="toggleCheck('lbl_obs_hpp',this)"><span>HPP previa</span></label>
       <label class="check-item" id="lbl_obs_iso"><input type="checkbox" id="obs_iso" onchange="toggleCheck('lbl_obs_iso',this)"><span>Isoinmunización previa</span></label>
       <label class="check-item" id="lbl_obs_ic"><input type="checkbox" id="obs_ic" onchange="toggleCheck('lbl_obs_ic',this)"><span>Incompetencia cervical previa</span></label>
@@ -1168,7 +1168,7 @@ main{padding:14px;max-width:680px;margin:0 auto}
         <tr class="suple-alto"><td>Alto riesgo de DTN: DTN previo (casilla «DTN previo»), epilepsia con antifolatos, obesidad (IMC ≥30), DM</td><td><strong>4–5 mg/día</strong></td><td>Ácido fólico</td></tr>
         <tr><td>Polimorfismo MTHFR documentado</td><td><strong>400–800 µg/día</strong></td><td>Ácido fólico (estándar, CDC); metilfolato opcional</td></tr>
       </table>
-      <div class="bio-ref">📚 OMS · NICE · ACOG · FIGO · CDC. La dosis alta solo se justifica por riesgo de DTN; otra malformación previa no la justifica. Con MTHFR el CDC mantiene el ácido fólico, única forma probada para prevenir DTN; el metilfolato es una alternativa opcional.</div>
+      <div class="bio-ref">📚 OMS · NICE · ACOG · FIGO · CDC. Dosis alta: 4 mg/día según ACOG PB 187 y CDC; 5 mg/día según NICE y RCOG; hasta la sem 12 y luego dosis estándar. Solo se justifica por riesgo de DTN; otra malformación previa no la justifica. Con MTHFR el CDC mantiene el ácido fólico, única forma probada para prevenir DTN; el metilfolato es una alternativa opcional.</div>
     </div>
   </div>
 
@@ -2061,7 +2061,7 @@ function calcular(){
   if(chk('obs_pt')) add('ANTECEDENTE OBSTÉTRICO','alto','Parto pretérmino previo','Cervicometría seriada desde sem 16. Progesterona vaginal 200 mg si cérvix <25 mm. Cerclaje si <15 mm.','FMF / ACOG');
   if(chk('obs_rciu')) add('ANTECEDENTE OBSTÉTRICO','alto','RCIU previo','Biometría mensual desde sem 24. Doppler uterinas 1T. AAS si PI alterado. Vigilancia placentaria.','FMF / ACOG');
   if(chk('obs_mf')) add('ANTECEDENTE OBSTÉTRICO','alto','Muerte fetal previa','Estudio etiológico. Vigilancia fetal estricta (NST desde sem 32). Valorar inducción programada.','ACOG');
-  if(chk('obs_dtn')) add('ANTECEDENTE OBSTÉTRICO','alto','Defecto del tubo neural previo','Ácido fólico 4–5 mg/día desde al menos 1 mes antes de la concepción (ideal 3 meses) hasta la sem 12. Consejo genético preconcepcional. ECO morfológica con evaluación de columna y cráneo; AFP sérica materna a criterio.','ACOG PB 187 / NICE / OMS');
+  if(chk('obs_dtn')) add('ANTECEDENTE OBSTÉTRICO','alto','Defecto del tubo neural previo','Ácido fólico 4 mg/día (ACOG PB 187, CDC; NICE y RCOG indican 5 mg/día) desde 3 meses antes de la concepción (mínimo 1 mes) hasta la sem 12; después, volver a la dosis estándar (0,4–0,8 mg/día). También corresponde si la mujer o su pareja tienen un DTN o la pareja tuvo un hijo con DTN. Consejo genético preconcepcional. ECO morfológica con evaluación de columna y cráneo; AFP sérica materna a criterio.','ACOG PB 187 / NICE / OMS');
   if(chk('obs_malform')) add('ANTECEDENTE OBSTÉTRICO','alto','Malformación fetal previa','Consejo genético preconcepcional. '+(chk('obs_dtn')?'':'Si fue un defecto del tubo neural, marcar «DTN previo» (ácido fólico 4–5 mg/día); otra malformación: dosis estándar. ')+'ECO morfológica + ecocardiografía fetal.','ACOG / FMF');
   if(chk('obs_hpp')) add('ANTECEDENTE OBSTÉTRICO','alto','HPP previa','Plan de parto con protocolo HPP activo. Hemoderivados disponibles. Manejo activo del alumbramiento.','ACOG / FIGO');
   if(chk('obs_iso')) add('ANTECEDENTE OBSTÉTRICO','alto','Isoinmunización previa','Titulación anticuerpos c/4 sem. Doppler ACM (PSV >1.5 MoM = anemia grave). Derivar Medicina Fetal.','FMF / ACOG');
@@ -2407,7 +2407,7 @@ function calcular(){
   const tienePreterm=chk('obs_pt')||chk('e_apt');
   const tieneOmega=tienePreterm;
   const _afCurso=chk('pr_af')?'En curso. ':'';
-  if(_hayDatos) suple.push({pill:'Ácido fólico',text:_afCurso+(tieneDTN?'4–5 mg/día (dosis alta: '+[chk('obs_dtn')&&'DTN previo',chk('p_epi')&&'epilepsia',(imcP&&imcP>=30)&&'obesidad',chk('p_dm')&&'DM'].filter(Boolean).join(', ')+'). Iniciar preconcepcional.':'0.4–0.8 mg/día — Desde preconcepcional hasta sem 12 mínimo.')+(chk('obs_malform')&&!tieneDTN?' Si la malformación previa fue un defecto del tubo neural, marcar «DTN previo» (4–5 mg/día).':'')+(chk('p_mthfr')?' MTHFR: el ácido fólico sigue siendo el estándar (CDC); metilfolato 400–800 µg/día es una alternativa opcional, no probada para prevenir DTN.':'')});
+  if(_hayDatos) suple.push({pill:'Ácido fólico',text:_afCurso+(tieneDTN?'4–5 mg/día (dosis alta: '+[chk('obs_dtn')&&'DTN previo',chk('p_epi')&&'epilepsia',(imcP&&imcP>=30)&&'obesidad',chk('p_dm')&&'DM'].filter(Boolean).join(', ')+'). Iniciar preconcepcional; después de la sem 12, dosis estándar.':'0.4–0.8 mg/día — Desde preconcepcional hasta sem 12 mínimo.')+(chk('obs_malform')&&!tieneDTN?' Si la malformación previa fue un defecto del tubo neural, marcar «DTN previo» (4–5 mg/día).':'')+(chk('p_mthfr')?' MTHFR: el ácido fólico sigue siendo el estándar (CDC); metilfolato 400–800 µg/día es una alternativa opcional, no probada para prevenir DTN.':'')});
   if(tieneAnemia) suple.push({pill:'Hierro',text:(hb<7?'Hb <7 g/dL: valorar hierro IV desde el 2T y transfusión según la clínica. ':'')+'Hierro elemental 120 mg/día (OMS) hasta normalizar la Hb; luego volver a la dosis profiláctica. Control Hb c/4 sem.'});
   else if(_hayDatos && hb!==null) suple.push({pill:'Hierro',text:`Hb ${String(hb).replace('.',',')} g/dL normal: hierro profiláctico 30–60 mg/día (OMS).`});
   else if(_hayDatos) suple.push({pill:'Hierro',text:'30–60 mg/día profiláctico si ferritina <30 ng/mL o dieta insuficiente. (Sin datos de Hb registrados — evaluar en consulta.)'});

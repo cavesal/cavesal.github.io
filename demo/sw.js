@@ -1,5 +1,5 @@
 /* CaVeSal® Calculadora prenatal — demo. Red primero para páginas y scripts; copia guardada solo sin internet. */
-const CACHE = "cavesal-demo-v18";
+const CACHE = "cavesal-demo-v19";
 
 self.addEventListener("install", e => {
   e.waitUntil(

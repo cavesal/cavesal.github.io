@@ -1011,7 +1011,7 @@ document.addEventListener('DOMContentLoaded', function(){
       <label class="check-item" id="lbl_obs_macro"><input type="checkbox" id="obs_macro" onchange="toggleCheck('lbl_obs_macro',this)"><span>Macrosomía previa (&gt;4000 g)</span></label>
       <label class="check-item" id="lbl_obs_mf"><input type="checkbox" id="obs_mf" onchange="toggleCheck('lbl_obs_mf',this)"><span>Muerte fetal previa</span></label>
       <label class="check-item" id="lbl_obs_malform"><input type="checkbox" id="obs_malform" onchange="toggleCheck('lbl_obs_malform',this)"><span>Malformación fetal previa</span></label>
-      <label class="check-item" id="lbl_obs_dtn"><input type="checkbox" id="obs_dtn" onchange="toggleCheck('lbl_obs_dtn',this)"><span>DTN previo (defecto del tubo neural)</span></label>
+      <label class="check-item" id="lbl_obs_dtn"><input type="checkbox" id="obs_dtn" onchange="toggleCheck('lbl_obs_dtn',this)"><span>DTN previo (embarazo previo, propio o de la pareja)</span></label>
       <label class="check-item" id="lbl_obs_hpp"><input type="checkbox" id="obs_hpp" onchange="toggleCheck('lbl_obs_hpp',this)"><span>HPP previa</span></label>
       <label class="check-item" id="lbl_obs_iso"><input type="checkbox" id="obs_iso" onchange="toggleCheck('lbl_obs_iso',this)"><span>Isoinmunización previa</span></label>
       <label class="check-item" id="lbl_obs_ic"><input type="checkbox" id="obs_ic" onchange="toggleCheck('lbl_obs_ic',this)"><span>Incompetencia cervical previa</span></label>
@@ -1328,7 +1328,7 @@ document.addEventListener('DOMContentLoaded', function(){
         </div>
       </div>
       <div class="vac-note">
-        <strong>¿Cuándo vacunar?</strong> Solo si HBsAg NEGATIVO y Anti-HBs NEGATIVO (no inmune, no infectada). Vacuna segura en embarazo (no contiene virus vivo). Indicación especial: trabajadoras de salud, pareja de portador HBsAg+, múltiples parejas sexuales, usuarios de drogas IV. <strong>NO vacunar si:</strong> HBsAg+ (ya infectada — derivar a hepatología) o Anti-HBs+ (ya inmune). Esquema: 3 dosis a los 0, 1 y 6 meses. Se puede iniciar en el embarazo y completar postparto. Control Anti-HBs 4–8 semanas después de la 3ra dosis para confirmar seroconversión.
+        <strong>¿Cuándo vacunar?</strong> Solo si HBsAg NEGATIVO y Anti-HBs NEGATIVO (no inmune, no infectada). Vacuna segura en embarazo (no contiene virus vivo): Engerix-B, Recombivax HB, Twinrix o Heplisav-B (CDC 2024); PreHevbrio retirada del mercado. Indicación especial: trabajadoras de salud, pareja de portador HBsAg+, múltiples parejas sexuales, usuarios de drogas IV. <strong>NO vacunar si:</strong> HBsAg+ (ya infectada — derivar a hepatología) o Anti-HBs+ (ya inmune). Esquema: 3 dosis a los 0, 1 y 6 meses. Se puede iniciar en el embarazo y completar postparto. Control Anti-HBs 4–8 semanas después de la 3ra dosis para confirmar seroconversión.
       </div>
     </div>
 
@@ -1445,15 +1445,14 @@ document.addEventListener('DOMContentLoaded', function(){
       <div class="field"><label for="lab_audt">Ácidos biliares séricos (µmol/L)</label>
         <input type="number" id="lab_audt" placeholder="—" step="0.1">
                 <div class="hint">
-          <strong>Opcional</strong> — no disponible en muchos centros de la región. Sin AUDT: diagnosticar por clínica + laboratorio accesible (prurito + bilirrubina + TGO/TGP + FA/GGT).<br>
+          <strong>Opcional</strong> — no disponible en muchos centros. Sin ácidos biliares, la app clasifica por enzimas.<br>
           <table style="width:100%;font-size:.72rem;border-collapse:collapse;margin-top:4px">
-            <tr style="background:rgba(0,128,128,.1)"><th style="padding:2px 5px;text-align:left">Forma</th><th style="padding:2px 5px">AUDT</th><th style="padding:2px 5px">Criterio regional</th><th style="padding:2px 5px">Interrupción</th><th style="padding:2px 5px">Riesgo</th></tr>
-            <tr><td style="padding:2px 5px">Normal</td><td style="padding:2px 5px;text-align:center">&lt;19 µmol/L</td><td style="padding:2px 5px">—</td><td style="padding:2px 5px;text-align:center">—</td><td style="padding:2px 5px">No confirma CIE</td></tr>
-            <tr style="background:rgba(255,193,7,.12)"><td style="padding:2px 5px">Anictérica</td><td style="padding:2px 5px;text-align:center">19–39</td><td style="padding:2px 5px">Prurito + enzimas↑ · Bili normal</td><td style="padding:2px 5px;text-align:center">38 sem</td><td style="padding:2px 5px">Óbito fetal bajo · meconio</td></tr>
-            <tr style="background:rgba(255,152,0,.15)"><td style="padding:2px 5px">Ictérica</td><td style="padding:2px 5px;text-align:center">—</td><td style="padding:2px 5px">Prurito + enzimas↑ + Bili &gt;1.2</td><td style="padding:2px 5px;text-align:center">36 sem</td><td style="padding:2px 5px">↑↑ óbito fetal · meconio</td></tr>
-            <tr style="background:rgba(255,152,0,.10)"><td style="padding:2px 5px">Moderada</td><td style="padding:2px 5px;text-align:center">40–99</td><td style="padding:2px 5px">Sin ictericia</td><td style="padding:2px 5px;text-align:center">38–39 sem</td><td style="padding:2px 5px">Similar a basal hasta 38–39 sem</td></tr>
-            <tr style="background:rgba(244,67,54,.12)"><td style="padding:2px 5px">Severa</td><td style="padding:2px 5px;text-align:center">&ge;100</td><td style="padding:2px 5px">Cualquier forma</td><td style="padding:2px 5px;text-align:center">35–36 sem</td><td style="padding:2px 5px">Máx. riesgo óbito</td></tr>
+            <tr style="background:rgba(0,128,128,.1)"><th style="padding:2px 5px;text-align:left">MSPBS 2018</th><th style="padding:2px 5px">Ácidos biliares</th><th style="padding:2px 5px">Enzimas</th><th style="padding:2px 5px">Finalización</th></tr>
+            <tr style="background:rgba(255,193,7,.12)"><td style="padding:2px 5px">Bajo riesgo</td><td style="padding:2px 5px;text-align:center">10–19</td><td style="padding:2px 5px">Normales</td><td style="padding:2px 5px">36–37 sem</td></tr>
+            <tr style="background:rgba(255,152,0,.15)"><td style="padding:2px 5px">Moderado</td><td style="padding:2px 5px;text-align:center">20–39</td><td style="padding:2px 5px">Hasta 2×</td><td style="padding:2px 5px">Internar ≥28 sem; si no responde, alto</td></tr>
+            <tr style="background:rgba(244,67,54,.12)"><td style="padding:2px 5px">Alto</td><td style="padding:2px 5px;text-align:center">&ge;40</td><td style="padding:2px 5px">&gt;2× o sin respuesta</td><td style="padding:2px 5px">Desde 36 sem (antes si no responde)</td></tr>
           </table>
+          Referencias: MINSAL Chile 2015 (anictérica 38 · ictérica 36 sem) · RCOG 2022 (≥19 diagnóstico; 40–99 → 38–39; ≥100 → 35–36 sem).
         </div>
       </div>
       <div class="field"><label for="sym_prurito">Prurito</label>
@@ -1469,27 +1468,18 @@ document.addEventListener('DOMContentLoaded', function(){
     <div class="note-box" style="margin-top:6px">
       <strong style="font-size:.8rem">Colestasis Intrahepática del Embarazo (CIE) — Clasificación y conducta</strong><br>
       <table style="width:100%;font-size:.72rem;border-collapse:collapse;margin-top:5px">
-        <thead>
-          <tr style="background:var(--teal,#0d9488);color:#fff">
-            <th style="padding:3px 5px;text-align:left">Forma</th>
-            <th style="padding:3px 5px;text-align:center">AUDT*</th>
-            <th style="padding:3px 5px">Criterio accesible</th>
-            <th style="padding:3px 5px;text-align:center">Interrupción</th>
-            <th style="padding:3px 5px">Riesgo</th>
-          </tr>
-        </thead>
+        <thead><tr style="background:var(--teal,#0d9488);color:#fff"><th style="padding:3px 5px;text-align:left">Riesgo (MSPBS 2018)</th><th style="padding:3px 5px">Criterio</th><th style="padding:3px 5px">Conducta</th></tr></thead>
         <tbody>
-          <tr><td style="padding:3px 5px">Normal</td><td style="padding:3px 5px;text-align:center">&lt;19 µmol/L</td><td style="padding:3px 5px">Sin síntomas</td><td style="padding:3px 5px;text-align:center">—</td><td style="padding:3px 5px">No confirma CIE</td></tr>
-          <tr style="background:rgba(255,193,7,.14)"><td style="padding:3px 5px"><strong>Anictérica</strong></td><td style="padding:3px 5px;text-align:center">19–39</td><td style="padding:3px 5px">Prurito + enzimas↑ · Bili normal</td><td style="padding:3px 5px;text-align:center"><strong>38 sem</strong></td><td style="padding:3px 5px">Óbito · meconio</td></tr>
-          <tr style="background:rgba(255,152,0,.18)"><td style="padding:3px 5px"><strong>Ictérica</strong></td><td style="padding:3px 5px;text-align:center">—</td><td style="padding:3px 5px">Prurito + enzimas↑ + Bili &gt;1.2</td><td style="padding:3px 5px;text-align:center"><strong>36 sem</strong></td><td style="padding:3px 5px">↑↑ óbito · meconio</td></tr>
-          <tr style="background:rgba(255,152,0,.10)"><td style="padding:3px 5px"><strong>Moderada</strong></td><td style="padding:3px 5px;text-align:center">40–99</td><td style="padding:3px 5px">Sin ictericia</td><td style="padding:3px 5px;text-align:center"><strong>38–39 sem</strong></td><td style="padding:3px 5px">Similar a basal hasta 38–39 sem</td></tr>
-          <tr style="background:rgba(244,67,54,.13)"><td style="padding:3px 5px"><strong>Severa</strong></td><td style="padding:3px 5px;text-align:center">&ge;100</td><td style="padding:3px 5px">Cualquier forma</td><td style="padding:3px 5px;text-align:center"><strong>35–36 sem</strong></td><td style="padding:3px 5px">Máx. óbito súbito</td></tr>
+          <tr style="background:rgba(255,193,7,.14)"><td style="padding:3px 5px"><strong>Bajo</strong></td><td style="padding:3px 5px">Ácidos biliares 10–19 µmol/L · enzimas normales</td><td style="padding:3px 5px">Ambulatorio, control semanal · finalización electiva <strong>36–37 sem</strong></td></tr>
+          <tr style="background:rgba(255,152,0,.18)"><td style="padding:3px 5px"><strong>Moderado</strong></td><td style="padding:3px 5px">Ácidos biliares 20–39 y/o enzimas hasta 2×</td><td style="padding:3px 5px">≥28 sem: internación, control c/72 h · si no responde, alto riesgo · finalización 36–37 sem*</td></tr>
+          <tr style="background:rgba(244,67,54,.13)"><td style="padding:3px 5px"><strong>Alto</strong></td><td style="padding:3px 5px">Ácidos biliares ≥40 y/o enzimas &gt;2× y/o sin respuesta</td><td style="padding:3px 5px">Internación siempre · &lt;34 sem sin mejoría con UDCA máximo: maduración pulmonar y finalización · <strong>≥36 sem: finalizar</strong></td></tr>
         </tbody>
       </table>
       <div style="font-size:.69rem;color:var(--slate);margin-top:4px">
-        *AUDT = ácidos biliares séricos totales — <strong>opcional</strong>, no disponible en muchos centros de la región. Diagnóstico ≥19 µmol/L y momento del parto por ácidos biliares: RCOG GTG 43 (2022). Ictérica/anictérica: criterio regional (MINSAL Chile 2015).<br>
-        ⚠️ Todos los casos: UDCA 10–15 mg/kg/día · Interrumpir ante compromiso del bienestar fetal independientemente de la EG.<br>
-        <em>Guía Perinatal MINSAL Chile 2015 · RCOG GTG 43 (2022) · SFMFM · Williamson C et al. Lancet 2018 · ACOG</em>
+        Criterio nacional: MSPBS/SPGO 2018, cap. 5. *Sugerencia CaVeSal®: el manual no fija semana para el riesgo moderado.<br>
+        Referencia regional (MINSAL Chile 2015): anictérica 38 sem · ictérica (bilirrubina &gt;1,2 + enzimas) 36 sem. Referencia internacional (RCOG GTG 43, 2022): diagnóstico ≥19 µmol/L · 40–99 → 38–39 sem · ≥100 → 35–36 sem (considerar adelantar).<br>
+        ⚠️ Todos los casos: UDCA 10–16 mg/kg/día en 2 tomas · interrumpir ante compromiso del bienestar fetal en cualquier EG.<br>
+        <em>Tabla propia CaVeSal® · Basado en: MSPBS/SPGO 2018 · Guía Perinatal MINSAL Chile 2015 · RCOG GTG 43 (2022)</em>
       </div>
     </div>    </div>
 
@@ -1811,7 +1801,7 @@ document.addEventListener('DOMContentLoaded', function(){
         <tr class="suple-alto"><td>Alto riesgo de DTN: DTN previo (casilla «DTN previo»), epilepsia con antifolatos, obesidad (IMC ≥30), DM</td><td><strong>4–5 mg/día</strong></td><td>Ácido fólico</td></tr>
         <tr><td>Polimorfismo MTHFR documentado</td><td><strong>400–800 µg/día</strong></td><td>Ácido fólico (estándar, CDC); metilfolato opcional</td></tr>
       </table>
-      <div class="bio-ref">📚 OMS · NICE · ACOG · FIGO · CDC. La dosis alta solo se justifica por riesgo de DTN; otra malformación previa no la justifica. Con MTHFR el CDC mantiene el ácido fólico, única forma probada para prevenir DTN; el metilfolato es una alternativa opcional.</div>
+      <div class="bio-ref">📚 OMS · NICE · ACOG · FIGO · CDC. Dosis alta: 4 mg/día según ACOG PB 187 y CDC; 5 mg/día según NICE y RCOG; hasta la sem 12 y luego dosis estándar. Solo se justifica por riesgo de DTN; otra malformación previa no la justifica. Con MTHFR el CDC mantiene el ácido fólico, única forma probada para prevenir DTN; el metilfolato es una alternativa opcional.</div>
     </div>
   </div>
 
@@ -2518,7 +2508,7 @@ document.addEventListener('DOMContentLoaded', function(){
               <option value="presente">Presente ✓</option>
               <option value="ausente">Ausente ⚠️</option>
             </select>
-            <div class="hint">Ausente en ~60–70 % de T21 y ~1–2 % de euploides</div>
+            <div class="hint">Ausente en ~60–70 % de T21; en euploides 2–9 % según etnia y LCN</div>
           </div>
           <div class="field"><label>Ductus venoso (onda a)</label>
             <select id="nt_dv" onchange="calcNT()">
@@ -3877,7 +3867,7 @@ Microcefalia: CC &lt;p3 para EG.</div>
       <strong style="color:var(--navy)">Serología — Hepatitis B:</strong> EASL Clinical Practice Guidelines 2017 · ACOG · ETMI Plus 2024<br>
       <strong style="color:var(--navy)">Serología — Hepatitis C:</strong> EASL Recommendations 2020 · AASLD · ACOG<br>
       <strong style="color:var(--navy)">Serología — Rubéola:</strong> CDC · OPS/PAHO · ACOG<br>
-      <strong style="color:var(--navy)">Colestasis intrahepática del embarazo (CIE):</strong> Guía Perinatal MINSAL Chile 2015 (cap. 11) · RCOG Green-top Guideline No. 43 (2022; diagnóstico ≥19 µmol/L y momento del parto por ácidos biliares) · SFMFM Consult Series No. 53 · Williamson C et al. <em>Lancet</em> 2018;391:1683–96 · Ovadia C et al. <em>Lancet</em> 2019;393:899–909 · ACOG · EASL · <em>Clasificación regional: ictérica (bili &gt;1.2 + enzimas↑) → 36 sem · anictérica → 38 sem</em><br>
+      <strong style="color:var(--navy)">Colestasis intrahepática del embarazo (CIE):</strong> MSPBS/SPGO. Manual Nacional de Normas de Atención de las Principales Patologías Obstétricas 2018, cap. 5 (criterio nacional) · Guía Perinatal MINSAL Chile 2015 (cap. 11) · RCOG Green-top Guideline No. 43 (2022; diagnóstico ≥19 µmol/L y momento del parto por ácidos biliares) · SFMFM Consult Series No. 53 · Williamson C et al. <em>Lancet</em> 2018;391:1683–96 · Ovadia C et al. <em>Lancet</em> 2019;393:899–909 · ACOG · EASL · <em>Clasificación regional: ictérica (bili &gt;1.2 + enzimas↑) → 36 sem · anictérica → 38 sem</em><br>
       <strong style="color:var(--navy)">ACM PSV — anemia fetal:</strong> Algoritmo propio CaVeSal® · Basado en: Mari G et al. NEJM 2000;342:9-14<br>
       <strong style="color:var(--navy)">IP medio de arterias uterinas por EG:</strong> Algoritmo propio CaVeSal® · Basado en: Gómez O et al. UOG 2008;32:128-132 · Martin AM et al. UOG 2001;18:583-586<br>
       <strong style="color:var(--navy)">Arteria oftálmica:</strong> Gana N et al. UOG 2022;59:731-736 · de Oliveira CA et al. J Ultrasound Med 2013;32:609-616 · Diniz ALD et al. Int J Gynaecol Obstet 2008;100:216-220<br>
@@ -4664,7 +4654,7 @@ function calcular(){
   if(chk('obs_pt')) add('ANTECEDENTE OBSTÉTRICO','alto','Parto pretérmino previo','Cervicometría seriada desde sem 16. Progesterona vaginal 200 mg si cérvix <25 mm. Cerclaje si <15 mm.','FMF / ACOG');
   if(chk('obs_rciu')) add('ANTECEDENTE OBSTÉTRICO','alto','RCIU previo','Biometría mensual desde sem 24. Doppler uterinas 1T. AAS si PI alterado. Vigilancia placentaria.','FMF / ACOG');
   if(chk('obs_mf')) add('ANTECEDENTE OBSTÉTRICO','alto','Muerte fetal previa','Estudio etiológico. Vigilancia fetal estricta (NST desde sem 32). Valorar inducción programada.','ACOG');
-  if(chk('obs_dtn')) add('ANTECEDENTE OBSTÉTRICO','alto','Defecto del tubo neural previo','Ácido fólico 4–5 mg/día desde al menos 1 mes antes de la concepción (ideal 3 meses) hasta la sem 12. Consejo genético preconcepcional. ECO morfológica con evaluación de columna y cráneo; AFP sérica materna a criterio.','ACOG PB 187 / NICE / OMS');
+  if(chk('obs_dtn')) add('ANTECEDENTE OBSTÉTRICO','alto','Defecto del tubo neural previo','Ácido fólico 4 mg/día (ACOG PB 187, CDC; NICE y RCOG indican 5 mg/día) desde 3 meses antes de la concepción (mínimo 1 mes) hasta la sem 12; después, volver a la dosis estándar (0,4–0,8 mg/día). También corresponde si la mujer o su pareja tienen un DTN o la pareja tuvo un hijo con DTN. Consejo genético preconcepcional. ECO morfológica con evaluación de columna y cráneo; AFP sérica materna a criterio.','ACOG PB 187 / NICE / OMS');
   if(chk('obs_malform')) add('ANTECEDENTE OBSTÉTRICO','alto','Malformación fetal previa','Consejo genético preconcepcional. '+(chk('obs_dtn')?'':'Si fue un defecto del tubo neural, marcar «DTN previo» (ácido fólico 4–5 mg/día); otra malformación: dosis estándar. ')+'ECO morfológica + ecocardiografía fetal.','ACOG / FMF');
   if(chk('obs_hpp')) add('ANTECEDENTE OBSTÉTRICO','alto','HPP previa','Plan de parto con protocolo HPP activo. Hemoderivados disponibles. Manejo activo del alumbramiento.','ACOG / FIGO');
   if(chk('obs_iso')) add('ANTECEDENTE OBSTÉTRICO','alto','Isoinmunización previa','Titulación anticuerpos c/4 sem. Doppler ACM (PSV >1.5 MoM = anemia grave). Derivar Medicina Fetal.','FMF / ACOG');
@@ -4742,7 +4732,7 @@ function calcular(){
   if(chk('e_hta_gest')) add('EMBARAZO ACTUAL — PATOLOGÍA ACTIVA','alto','Hipertensión gestacional','PA ≥140/90 sin proteinuria ni datos de gravedad. Monitoreo domiciliario. Laboratorio c/sem. Descartar progresión a PE (proteinuria, síntomas, plaquetas). Control fetal c/2 sem.','ACOG / ISSHP');
   if(chk('e_dg')) add('EMBARAZO ACTUAL — PATOLOGÍA ACTIVA','alto','⚠️ DIABETES GESTACIONAL (DG) — EMBARAZO DE ALTO RIESGO','Autocontrol glucémico (ayunas <95 mg/dL · 1h pp <140 · 2h pp <120). Plan nutricional con nutricionista. Biometría fetal c/4 sem. Si metas no alcanzadas en 2 sem: iniciar insulina. Control endocrinológico. SOG 6–12 sem postparto.','ADA 2024 / ACOG / IADPSG');
   if(chk('e_rciu')) add('EMBARAZO ACTUAL — PATOLOGÍA ACTIVA','alto','RCIU confirmada','Doppler umbilical, ACM y ductus venoso. Biometría c/2 sem. NST/PBF según EG. Betametasona si <34 sem. Valorar hospitalización según Doppler y EG. Derivar Medicina Fetal.','FMF / ACOG / ISUOG');
-  if(chk('e_col')) add('EMBARAZO ACTUAL — PATOLOGÍA ACTIVA','alto','Colestasis intrahepática del embarazo (CIE)','Ácidos biliares séricos (diagnóstico ≥19 µmol/L; 40–99 moderada; ≥100 severa — RCOG 2022). Ácido ursodeoxicólico 10–15 mg/kg/día. NST semanal desde 32 sem. Finalización: anictérica 38 sem · ictérica 36 sem · ácidos biliares 40–99 → 38–39 sem · ≥100 → 35–36 sem.','ACOG / RCOG / EASL');
+  if(chk('e_col')) add('EMBARAZO ACTUAL — PATOLOGÍA ACTIVA','alto','Colestasis intrahepática del embarazo (CIE)','Clasificar según MSPBS 2018: bajo riesgo (ácidos biliares 10–19, enzimas normales) → finalización electiva 36–37 sem; moderado (20–39 y/o enzimas hasta 2×) → internación ≥28 sem, si no responde manejar como alto; alto (≥40 y/o enzimas >2× y/o sin respuesta) → internación siempre, finalización desde 36 sem (antes si no responde a UDCA a dosis máxima). UDCA 10–16 mg/kg/día en 2 tomas. CTG c/3–7 días. Referencias: MINSAL Chile 2015 (anictérica 38 · ictérica 36 sem); RCOG 2022 (40–99 → 38–39 sem · ≥100 → 35–36 sem). Cargar los valores en Laboratorio para clasificar.','MSPBS/SPGO 2018 · MINSAL Chile 2015 · RCOG GTG 43 (2022)');
   if(chk('e_hg')) add('EMBARAZO ACTUAL — PATOLOGÍA ACTIVA','moderado','Hiperémesis gravidarum / vómitos incoercibles','Hidratación IV si deshidratada. Tiamina 100 mg IV antes de dextrosá. Antieméticos (ondansetrón, metoclopramida, prometazina). Control electrolítico. Descartar hipercalcemia, mola, gemelar, DM. Control TSH (hipertiroidismo gestacional transitorio).','ACOG / RCOG');
   if(chk('e_hellp')) add('EMBARAZO ACTUAL — PATOLOGÍA ACTIVA','alto','⚠️ SÍNDROME HELLP','URGENCIA OBSTÉTRICA. Hemolísis + ↑ enzimas hepáticas + ↓ plaquetas. Sulfato Mg. Control PA. Corticoides. Hemoderivados si plaq <50.000. Finalizar embarazo preferentemente sép 34 sem o antes según gravedad. Derivar UCIO.','ACOG / ISSHP');
   if(chk('e_dppni')) add('EMBARAZO ACTUAL — PATOLOGÍA ACTIVA','alto','⚠️ DPPNI (Desprendimiento prematuro de placenta)','EMERGENCIA OBSTÉTRICA. Evaluar estado fetal (FCF, NST). Sangre disponible. Si FCF patológica o hemorragia severa: cesaréa de emergencia. Betametasona si <34 sem y estabilidad hemodinámica. Control coagulación (CID).','ACOG / RCOG');
@@ -4974,7 +4964,7 @@ function calcular(){
   // ── Anti-HBs (estado vacunal / inmunidad HBV) ──
   // Algoritmo propio CaVeSal® · Análisis basado en literatura de referencia
   const antihbs=document.getElementById('hbv_antihbs').value;
-  if(antihbs==='neg') add('LABORATORIO','moderado','Anti-HBs negativo — no inmune a hepatitis B','No inmune a hepatitis B: la vacuna es segura en el embarazo; indicarla si HBsAg es negativo.','CDC / ACIP');
+  if(antihbs==='neg') add('LABORATORIO','moderado','Anti-HBs negativo — no inmune a hepatitis B','No inmune a hepatitis B: indicar la vacuna si el HBsAg es negativo (segura en el embarazo). En embarazo: Engerix-B, Recombivax HB, Twinrix o Heplisav-B (CDC; Heplisav-B tiene datos de seguridad en embarazo desde 2024). PreHevbrio fue retirada del mercado. Esquema de 3 dosis (0, 1 y 6 meses) o 2 dosis con Heplisav-B; puede completarse en el posparto.','CDC / ACIP');
   if(antihbs!==null && antihbs!==''){
     var antihbs_val = parseFloat(antihbs);
     if(!isNaN(antihbs_val)){
@@ -5144,86 +5134,54 @@ function calcular(){
     if(ldh!==null&&ldh>400) add('LABORATORIO','moderado',`LDH ${ldh} UI/L (↑)`,'LDH moderadamente elevada. Vigilar en contexto de HTA y trombocitopenia.','ACOG');
   }
   // ── COLESTASIS INTRAHEPÁTICA DEL EMBARAZO (CIE) ──
-  // Algoritmo propio CaVeSal® · Análisis basado en literatura de referencia
-  // Clasificación regional: ictérica (bili >1.2 + enzimas) → 36 sem | anictérica → 38 sem
+  // Algoritmo propio CaVeSal® · Basado en: MSPBS/SPGO 2018, cap. 5 (criterio nacional) · MINSAL Chile 2015 (regional) · RCOG GTG 43 2022 (internacional)
   const audt=val('lab_audt');
   const prurito=document.getElementById('sym_prurito').value;
   const cie_bili = bili!==null && bili>1.2;
-  const cie_enzimas = (tgo&&tgo>40)||(tgp&&tgp>40);
+  const cie_enzMax = Math.max(tgo||0,tgp||0);
+  const cie_enzimas = cie_enzMax>40;
+  const cie_enz2x = cie_enzMax>80;
   const cie_prurito = prurito==='leve'||prurito==='intenso';
-  const cie_audt_grave = audt!==null && audt>=40 && audt<100;
-  const cie_audt_severa = audt!==null && audt>=100;
-
   if(audt!==null||cie_bili||cie_prurito){
-    var cie_tipo='', cie_interrupcion='', cie_color='moderado', cie_icterica=false;
-
-    // Forma ictérica — criterio accesible regional: bili >1.2 + enzimas elevadas
-    if(cie_bili && cie_enzimas){
-      cie_icterica=true; cie_tipo='CIE ictérica'; cie_interrupcion='36 semanas'; cie_color='alto';
-    }
-    // Forma anictérica: prurito + enzimas sin bilirrubina franca
-    else if(cie_prurito && cie_enzimas){
-      cie_tipo='CIE anictérica'; cie_interrupcion='38 semanas'; cie_color='moderado';
-    }
-    // Solo bilirrubina leve sin enzimas
-    else if(cie_bili && !cie_enzimas){
+    let cie_riesgo='';
+    const cie_dx = (audt!==null&&audt>=10) || ((cie_prurito||cie_bili)&&cie_enzimas);
+    if(cie_dx){
+      if((audt!==null&&audt>=40)||cie_enz2x) cie_riesgo='alto';
+      else if((audt!==null&&audt>=20)||cie_enzimas) cie_riesgo='moderado';
+      else cie_riesgo='bajo';
+    } else if(cie_bili){
       add('LABORATORIO','moderado',`Bilirrubina ${bili} mg/dL (↑)`,
-        'Bilirrubina elevada. Descartar colestasis intrahepática del embarazo (CIE). ' +
-        'Solicitar TGO/TGP, FA, GGT. Evaluar prurito palmoplantar de predominio nocturno. ' +
-        'Si ácidos biliares séricos disponibles: solicitarlos (marcador específico de CIE).',
-        'RCOG GTG 43 (2022) / ACOG / EASL');
-    }
-    // Solo prurito intenso sin laboratorio
-    else if(prurito==='intenso' && !cie_enzimas && !cie_bili){
+        'Bilirrubina elevada. Descartar colestasis intrahepática del embarazo (CIE): solicitar TGO/TGP, FA, GGT y ácidos biliares si están disponibles. Evaluar prurito palmoplantar de predominio nocturno.',
+        'MSPBS/SPGO 2018 · RCOG GTG 43 (2022)');
+    } else if(prurito==='intenso'){
       add('LABORATORIO','moderado','Prurito intenso — descartar CIE',
-        'Prurito intenso en embarazo: descartar colestasis intrahepática. ' +
-        'Solicitar urgente: bilirrubina total, TGO/TGP, FA, GGT. ' +
-        'Si disponible: ácidos biliares séricos totales. ' +
-        'El prurito puede preceder horas/días la elevación del laboratorio.',
-        'RCOG GTG 43 (2022) / Williamson 2018');
+        'Prurito intenso en el embarazo: descartar colestasis intrahepática. Solicitar bilirrubina total, TGO/TGP, FA, GGT y ácidos biliares séricos si están disponibles (ayuno de 8 h). El prurito puede preceder días a la alteración del laboratorio.',
+        'MSPBS/SPGO 2018 · RCOG GTG 43 (2022)');
+    } else if(audt!==null){
+      add('LABORATORIO','bajo',`Ácidos biliares ${audt} µmol/L (<10)`,'No confirman CIE. Repetir si persiste el prurito.','MSPBS/SPGO 2018');
     }
-
-    // Refinamiento por AUDT si disponible
-    if(cie_tipo && audt!==null){
-      if(cie_audt_severa){ cie_tipo+=' · AUDT severa (≥100 µmol/L)'; cie_interrupcion='35–36 semanas'; cie_color='alto'; }
-      else if(cie_audt_grave && !cie_icterica){ cie_tipo+=' · AUDT moderada (40–99 µmol/L)'; cie_interrupcion='38–39 semanas'; }
-    }
-
-    if(cie_tipo){
-      var cie_desc='';
-      if(cie_icterica){
-        cie_desc+='⚠️ FORMA ICTÉRICA: bilirrubina >1.2 mg/dL + enzimas hepáticas elevadas. Mayor riesgo de óbito fetal, meconio espeso, sufrimiento fetal agudo. ';
-      } else {
-        cie_desc+='Forma anictérica: prurito + enzimas elevadas, bilirrubina normal. Riesgo de óbito fetal presente aunque menor que la forma ictérica. ';
-      }
-      if(audt!==null && audt>=19){
-        cie_desc+=`Ácidos biliares séricos: ${audt} µmol/L `;
-        if(cie_audt_severa) cie_desc+='(≥100 = severa — riesgo de óbito fetal mayor). ';
-        else if(cie_audt_grave) cie_desc+='(40–99 = moderada). ';
-        else cie_desc+='(19–39 = leve). ';
-      } else if(audt!==null){
-        cie_desc+=`Ácidos biliares séricos: ${audt} µmol/L (<19 — no confirman CIE según RCOG 2022; repetir si persiste el prurito). `;
-      } else if(audt===null){
-        cie_desc+='Diagnóstico por criterio clínico-bioquímico accesible (prurito + bilirrubina + TGO/TGP). Ácidos biliares séricos no disponibles en muchos centros de la región. ';
-      }
-      cie_desc+='· TRATAMIENTO: Ácido ursodeoxicólico (UDCA) 10–15 mg/kg/día VO en 2–3 tomas (primera línea — mejora prurito y perfil bioquímico; superior a colestiramina). Vitamina K oral si colestasis prolongada. ';
-      if(cie_interrupcion){
-        cie_desc+=`· INTERRUPCIÓN: Inducción del trabajo de parto a las ${cie_interrupcion}. `;
-        if(cie_audt_severa) cie_desc+='Ácidos biliares ≥100: 35–36 semanas (RCOG 2022). ';
-        else if(cie_icterica) cie_desc+='Forma ictérica: 36 semanas por riesgo aumentado de óbito fetal y meconio espeso. ';
-        else if(cie_audt_grave) cie_desc+='Ácidos biliares 40–99 sin ictericia: 38–39 semanas (RCOG 2022). ';
-        else cie_desc+='Forma anictérica: 38 semanas — existe riesgo de óbito fetal aunque menor. ';
-      }
-      cie_desc+='⚠️ INDEPENDIENTEMENTE de la clasificación: interrumpir ante cualquier signo de compromiso del bienestar fetal (NST no reactivo, Doppler alterado, movimientos fetales reducidos, meconio) o deterioro materno. ';
-      cie_desc+='· MONITOREO: NST semanal desde sem 32. Control laboratorio hepático c/2 semanas. ';
-      if(audt!==null) cie_desc+='Ácidos biliares c/1–2 semanas. ';
-      cie_desc+='· Resumen conducta: Anictérica (prurito + enzimas↑, bili normal) → UDCA + parto 38 sem | Ictérica (prurito + enzimas↑ + bili >1.2) → UDCA + parto 36 sem | Ácidos biliares 40–99 sin ictericia → 38–39 sem | Ácidos biliares ≥100 µmol/L → 35–36 sem (RCOG 2022). ';
-      cie_desc+='Fuente: Guía Perinatal MINSAL Chile 2015 · RCOG GTG 43 (2022) · SFMFM · ACOG.';
-
-      add('LABORATORIO', cie_color,
-        `🟡 ${cie_tipo} — Colestasis Intrahepática del Embarazo`,
-        cie_desc,
-        'Guía Perinatal MINSAL Chile 2015 · RCOG GTG 43 (2022) · SFMFM · Williamson C et al. Lancet 2018 · Ovadia C et al. Lancet 2019 · ACOG · EASL');
+    if(cie_riesgo){
+      const cie_ict = cie_bili && cie_enzimas;
+      let d='';
+      if(cie_riesgo==='bajo') d+='MSPBS 2018 — BAJO RIESGO (ácidos biliares 10–19 µmol/L, enzimas normales): tratamiento ambulatorio y control bioquímico semanal. Internación a las 36–37 sem para finalización electiva; vía según condiciones cervicales. ';
+      else if(cie_riesgo==='moderado') d+='MSPBS 2018 — RIESGO MODERADO (ácidos biliares 20–39 y/o TGO/TGP elevadas hasta el doble): <28 sem ambulatorio con control semanal; ≥28 sem (hasta 35+6) internación, tratamiento, interconsulta con hepatología o clínica y control bioquímico c/72 h. Si responde: alta; si no responde: manejar como alto riesgo. Finalización a las 36–37 sem (Sugerencia CaVeSal®: el manual no fija semana para este grupo). ';
+      else d+='MSPBS 2018 — ALTO RIESGO (ácidos biliares ≥40 y/o enzimas >2× y/o sin respuesta al tratamiento): internación siempre e interconsulta con hepatología o clínica. <34 sem: si responde, alta y seguimiento; si no, UDCA hasta dosis máxima y, si no mejora, maduración pulmonar y finalización (o amniocentesis si está disponible). 34–35+6 sem: finalizar (o amniocentesis si está disponible). ≥36 sem: finalización. ';
+      d+='· TRATAMIENTO: ácido ursodeoxicólico 10–16 mg/kg/día en 2 tomas (inicio 900 mg/día, máximo 1200 mg/día). Vitamina K oral si colestasis prolongada. ';
+      d+='· SEGUIMIENTO: perfil hepático, ácidos biliares y TP c/1–2 sem; CTG c/3–7 días (el Doppler umbilical no es útil en la CIE). Perfil hepático a las 48 h posparto. ';
+      d+=`· Referencia regional (MINSAL Chile 2015): forma ${cie_ict?'ictérica → 36 sem':'anictérica → 38 sem'}. `;
+      if(audt!==null){
+        d+=`· Referencia internacional (RCOG GTG 43, 2022): ácidos biliares ${audt} µmol/L → `;
+        if(audt>=100) d+='severa (≥100): parto a las 35–36 sem. Considerar adelantar la finalización. ';
+        else if(audt>=40) d+='moderada (40–99): parto a las 38–39 sem. ';
+        else if(audt>=19) d+='leve (19–39): parto hasta las 40 sem. ';
+        else d+='<19: el RCOG no confirma CIE; repetir si persiste el prurito. ';
+      } else d+='· Ácidos biliares no disponibles: clasificación MSPBS por enzimas. ';
+      d+='⚠️ En todos los casos: interrumpir ante compromiso del bienestar fetal (NST no reactivo, movimientos fetales reducidos, meconio) o deterioro materno, en cualquier EG.';
+      const cie_col = (cie_riesgo==='alto'||(audt!==null&&audt>=100))?'alto':'moderado';
+      add('LABORATORIO',cie_col,
+        `🟡 Colestasis intrahepática del embarazo — riesgo ${cie_riesgo} (MSPBS 2018)${cie_ict?' · ictérica':''}`,
+        d,
+        'Algoritmo propio CaVeSal® · Basado en: MSPBS/SPGO 2018 (cap. 5) · Guía Perinatal MINSAL Chile 2015 · RCOG GTG 43 (2022) · Ovadia C et al. Lancet 2019');
     }
   }
 
@@ -5335,8 +5293,11 @@ function calcular(){
   if(tipoPrueba==='eco_solo'){
     const ntVal=val('nt_mm'), ntCrl=val('nt_crl');
     const ntNasal=sel('nt_nasal'), ntDV=sel('nt_dv'), ntTricusp=sel('nt_tricusp');
-    if(ntVal!==null&&ntCrl!==null){
+    if(ntVal!==null&&ntCrl!==null&&!_ntEnRango(ntCrl)&&ntVal<3.5){
+      add('CRIBADO CROMOSÓMICO','moderado',`TN ${ntVal} mm con LCN ${ntCrl} mm (fuera de 45–84 mm) — sin categorizar`,ntCrl<45?'La TN solo se interpreta con LCN de 45–84 mm. Repetir la ecografía entre 11+0 y 13+6 sem (LCN ≥45 mm).':'Fuera de la ventana de la TN (11+0 a 13+6 sem). Ofrecer ADN fetal libre o cribado del 2T y ecografía morfológica a las 20–22 sem.','Sugerencia CaVeSal® · Basado en: FMF');
+    } else if(ntVal!==null&&ntCrl!==null){
       const nMarc=contarMarcadoresNT(ntNasal,ntDV,ntTricusp);
+      const nEval=(ntNasal?1:0)+(ntDV?1:0)+(ntTricusp?1:0);
       const {nivel,p95,med,tnAlta}=clasificarRiesgoNT(ntVal,ntCrl,nMarc);
       if(ntVal>=3.5){
         add('CRIBADO CROMOSÓMICO','alto',`NT ${ntVal} mm (≥3.5 mm — alto riesgo independiente)`,'Riesgo cromosómico y cardíaco muy aumentado. Derivar Medicina Fetal urgente. Biopsia corial o amniocentesis. Ecocardiografía fetal.','FMF/Nicolaides');
@@ -5345,9 +5306,11 @@ function calcular(){
       } else if(tnAlta){
         add('CRIBADO CROMOSÓMICO','moderado',`TN ${ntVal} mm (≥P95 para LCN ${ntCrl} mm · P95 ${p95.toFixed(2)} mm)`,'Categoría ecográfica intermedia. Ofrecer NIPT o diagnóstico invasivo. Ecocardiografía fetal.','FMF · Snijders 1998');
       }
-      if(ntNasal==='ausente') add('CRIBADO CROMOSÓMICO','moderado','Hueso nasal AUSENTE','Ausente en ~60–70 % de T21 y ~1–2 % de euploides. Riesgo aumentado de aneuploidía. Integrar con TN y otros marcadores.','FMF · Cicero 2004');
+      if(ntNasal==='ausente') add('CRIBADO CROMOSÓMICO','moderado','Hueso nasal AUSENTE','Ausente en ~60–70 % de T21. En euploides: 2,2 % en caucásicas, 5 % en asiáticas, 9 % en afrocaribeñas; más frecuente con LCN baja y TN alta (Cicero 2004). Riesgo aumentado de aneuploidía. Integrar con TN y otros marcadores.','FMF · Cicero 2004');
       if(ntDV==='invertida') add('CRIBADO CROMOSÓMICO','moderado','Ductus venoso: onda a invertida/ausente','Marcador de aneuploidía y cardiopatía congénita. Derivar Medicina Fetal. Ecocardiografía.','FMF/Nicolaides');
-      if(nivel==='bajo'){
+      if(nivel==='bajo'&&nEval===0){
+        add('CRIBADO CROMOSÓMICO','bajo',`TN normal (<P95), marcadores no evaluados: TN ${ntVal} mm (LCN ${ntCrl} mm${p95?' · P95 '+p95.toFixed(2)+' mm':''})`,'Evaluar hueso nasal, ductus venoso y tricúspide si es posible, u ofrecer cribado combinado o ADN fetal libre en sangre materna'+((edad!==null&&edad>=35)?` (indicado por la edad materna, ${edad} años)`:'')+'. Ecografía morfológica a las 20–22 sem.','Sugerencia CaVeSal® · Basado en: FMF (Nicolaides) · SMFM Consult Series #74 (2025) · ACOG Practice Advisory (2026)');
+      } else if(nivel==='bajo'){
         const _mk=[(ntNasal==='presente'?'hueso nasal presente':'hueso nasal no evaluado'),(ntDV==='normal'?'ductus venoso normal':'ductus venoso no evaluado'),(ntTricusp==='ausente'?'tricúspide sin regurgitación':'tricúspide no evaluada')];
         const _hall=`Categoría ecográfica BAJA: TN ${ntVal} mm (<P95 para LCN ${ntCrl} mm${p95?' · P95 '+p95.toFixed(2)+' mm':''}) · `+_mk.join(' · ');
         const _cond=(edad!==null&&edad>=35)
@@ -5881,7 +5844,7 @@ function calcular(){
   const tienePreterm=chk('obs_pt')||chk('e_apt');
   const tieneOmega=tienePreterm;
   const _afCurso=chk('pr_af')?'En curso. ':'';
-  if(_hayDatos) suple.push({pill:'Ácido fólico',text:_afCurso+(tieneDTN?'4–5 mg/día (dosis alta: '+[chk('obs_dtn')&&'DTN previo',chk('p_epi')&&'epilepsia',(imcP&&imcP>=30)&&'obesidad',chk('p_dm')&&'DM'].filter(Boolean).join(', ')+'). Iniciar preconcepcional.':'0.4–0.8 mg/día — Desde preconcepcional hasta sem 12 mínimo.')+(chk('obs_malform')&&!tieneDTN?' Si la malformación previa fue un defecto del tubo neural, marcar «DTN previo» (4–5 mg/día).':'')+(chk('p_mthfr')?' MTHFR: el ácido fólico sigue siendo el estándar (CDC); metilfolato 400–800 µg/día es una alternativa opcional, no probada para prevenir DTN.':'')});
+  if(_hayDatos) suple.push({pill:'Ácido fólico',text:_afCurso+(tieneDTN?'4–5 mg/día (dosis alta: '+[chk('obs_dtn')&&'DTN previo',chk('p_epi')&&'epilepsia',(imcP&&imcP>=30)&&'obesidad',chk('p_dm')&&'DM'].filter(Boolean).join(', ')+'). Iniciar preconcepcional; después de la sem 12, dosis estándar.':'0.4–0.8 mg/día — Desde preconcepcional hasta sem 12 mínimo.')+(chk('obs_malform')&&!tieneDTN?' Si la malformación previa fue un defecto del tubo neural, marcar «DTN previo» (4–5 mg/día).':'')+(chk('p_mthfr')?' MTHFR: el ácido fólico sigue siendo el estándar (CDC); metilfolato 400–800 µg/día es una alternativa opcional, no probada para prevenir DTN.':'')});
   if(tieneAnemia) suple.push({pill:'Hierro',text:(hb<7?'Hb <7 g/dL: valorar hierro IV desde el 2T y transfusión según la clínica. ':'')+'Hierro elemental 120 mg/día (OMS) hasta normalizar la Hb; luego volver a la dosis profiláctica. Control Hb c/4 sem.'});
   else if(_hayDatos && hb!==null) suple.push({pill:'Hierro',text:`Hb ${String(hb).replace('.',',')} g/dL normal: hierro profiláctico 30–60 mg/día (OMS).`});
   else if(_hayDatos) suple.push({pill:'Hierro',text:'30–60 mg/día profiláctico si ferritina <30 ng/mL o dieta insuficiente. (Sin datos de Hb registrados — evaluar en consulta.)'});
@@ -8401,7 +8364,12 @@ function calcNT(){
   const edad=parseFloat((document.getElementById('edad')||{}).value)||null;
   const res=document.getElementById('nt_result');
   if(!nt||!crl){if(res)res.style.display='none';return;}
+  if(!_ntEnRango(crl)&&nt<3.5){
+    if(res){res.innerHTML=`<div style="background:var(--amber-lt);border:1.5px solid var(--amber);border-radius:11px;padding:12px;margin-top:10px"><div style="font-size:.88rem;font-weight:800;color:var(--amber)">TN ${nt} mm · LCN ${crl} mm — sin categorizar</div><div style="font-size:.78rem;color:var(--slate);line-height:1.5;margin-top:4px">La TN solo se interpreta con LCN de 45–84 mm (11+0 a 13+6 sem). ${crl<45?'Repetir la medición cuando la LCN llegue a 45 mm.':'La LCN supera los 84 mm: fuera de la ventana de la TN; ofrecer ADN fetal libre o cribado del 2T y ecografía morfológica a las 20–22 sem.'}</div><div style="font-size:.66rem;color:var(--slate);margin-top:8px">Sugerencia CaVeSal® · Basado en: FMF (Nicolaides KH. Prenat Diagn 2011)</div></div>`;res.style.display='block';}
+    return;
+  }
   const nMarc=contarMarcadoresNT(nasal,dv,tricusp);
+  const nEval=(nasal?1:0)+(dv?1:0)+(tricusp?1:0);
   const {nivel,p95,med,tnAlta}=clasificarRiesgoNT(nt,crl,nMarc);
   const mom = med ? nt/med : null;
   const perc = ntPercentil(nt,crl);
@@ -8416,14 +8384,16 @@ function calcNT(){
     texto=`TN ≥P95 para la LCN (${ref}). Riesgo cromosómico aumentado: ofrecer NIPT o diagnóstico invasivo y ecocardiografía fetal.`;
   } else if(nivel==='intermedio'){
     texto=`TN dentro de lo esperado (${ref}) con un marcador alterado. Riesgo aumentado: ofrecer NIPT o derivar a Medicina Fetal para el riesgo combinado.`;
+  } else if(nEval===0){
+    texto=`TN normal (<P95) para la LCN (${ref}), marcadores no evaluados. Evaluar hueso nasal, ductus venoso y tricúspide si es posible, u ofrecer cribado combinado o ADN fetal libre.`;
   } else {
     texto=`TN dentro de lo esperado para la LCN (${ref}).`;
   }
   const marcadores=[];
-  if(nasal==='ausente') marcadores.push({t:'Hueso nasal AUSENTE',c:'var(--red)',d:'Ausente en ~60–70 % de T21 y ~1–2 % de euploides (FMF). Su peso depende de la etnia, la LCN y la TN (Cicero 2004).'});
+  if(nasal==='ausente') marcadores.push({t:'Hueso nasal AUSENTE',c:'var(--red)',d:'Ausente en ~60–70 % de T21. En euploides: 2,2 % en caucásicas, 5 % en asiáticas, 9 % en afrocaribeñas; baja con la LCN (4,7 % con 45–54 mm, 1 % con 75–84 mm) y sube con la TN (Cicero 2004).'});
   if(dv==='invertida') marcadores.push({t:'Ductus venoso: onda a invertida/ausente',c:'var(--red)',d:'Marcador de aneuploidía y cardiopatía congénita.'});
   if(tricusp==='presente') marcadores.push({t:'Regurgitación tricúspide',c:'var(--amber)',d:'Asociada a T21 y cardiopatía congénita. Ecocardiografía fetal.'});
-  const nivTxt = nivel==='alto'?'ALTO':nivel==='intermedio'?'INTERMEDIO':'BAJO';
+  const nivTxt = nivel==='alto'?'ALTO':nivel==='intermedio'?'INTERMEDIO':(nEval===0?'TN NORMAL · MARCADORES NO EVALUADOS':'BAJO');
   let html=`<div style="background:${nivel==='alto'?'var(--red-lt)':nivel==='intermedio'?'var(--amber-lt)':'var(--green-lt)'};border:1.5px solid ${color};border-radius:11px;padding:12px;margin-top:10px">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap">
       <div style="font-size:.88rem;font-weight:800;color:${color}">TN ${nt} mm${perc?' · '+perc:''}${mom?' ('+mom.toFixed(2)+' MoM)':''}</div>
@@ -8441,7 +8411,7 @@ function calcNT(){
     html+=`<span style="font-size:.7rem;color:var(--slate)">Cargá la edad en Datos generales para ver el riesgo previo por edad materna y EG.</span>`;
   }
   html+=`</div><details style="margin-top:8px;font-size:.7rem;color:var(--slate);line-height:1.5"><summary style="cursor:pointer;font-weight:700;color:var(--navy)">¿Cómo se calcula la categoría?</summary>
-    <div style="margin-top:4px"><b>Alto:</b> TN ≥3,5 mm (P99 FMF) · o TN ≥P95 para la LCN + 1 marcador alterado · o 2 o más marcadores alterados.<br><b>Intermedio:</b> TN entre el P95 y 3,4 mm con marcadores normales · o TN normal con 1 marcador alterado.<br><b>Bajo:</b> TN menor al P95 y marcadores normales o no evaluados.<br>Marcadores: hueso nasal ausente, ductus venoso con onda a invertida/ausente, regurgitación tricuspídea. La edad materna no entra en la categoría: se muestra aparte en el riesgo previo.<br>Cortes usados: P95 de la TN por LCN (2,1→2,7 mm; Snijders 1998) y TN ≥3,5 mm (P99), criterios de la Fetal Medicine Foundation. Frecuencias de los marcadores: Nicolaides 2011 y Cicero 2004.<br>Percentil: hasta el P95, curva log-normal con mediana de Nicolaides 1998 y dispersión derivada del P95 FMF; entre P95 y 3,5 mm, interpolación lineal. Valor aproximado.<br>Algoritmo propio CaVeSal® · Basado en: FMF (Snijders 1998, Nicolaides 1998, Nicolaides 2011, Cicero 2004).</div></details>`;
+    <div style="margin-top:4px"><b>Alto:</b> TN ≥3,5 mm (P99 FMF) · o TN ≥P95 para la LCN + 1 marcador alterado · o 2 o más marcadores alterados.<br><b>Intermedio:</b> TN entre el P95 y 3,4 mm con marcadores normales · o TN normal con 1 marcador alterado.<br><b>Bajo:</b> TN menor al P95 con marcadores evaluados normales. Sin ningún marcador evaluado se informa «TN normal, marcadores no evaluados». Con LCN fuera de 45–84 mm no se categoriza.<br>Marcadores: hueso nasal ausente, ductus venoso con onda a invertida/ausente, regurgitación tricuspídea. La edad materna no entra en la categoría: se muestra aparte en el riesgo previo.<br>Cortes usados: P95 de la TN por LCN (2,1→2,7 mm; Snijders 1998) y TN ≥3,5 mm (P99), criterios de la Fetal Medicine Foundation. Frecuencias de los marcadores: Nicolaides 2011 y Cicero 2004.<br>Percentil: hasta el P95, curva log-normal con mediana de Nicolaides 1998 y dispersión derivada del P95 FMF; entre P95 y 3,5 mm, interpolación lineal. Valor aproximado.<br>Algoritmo propio CaVeSal® · Basado en: FMF (Snijders 1998, Nicolaides 1998, Nicolaides 2011, Cicero 2004).</div></details>`;
   html+=`<div style="font-size:.7rem;color:var(--slate);margin-top:6px;font-weight:600">La categoría no es un riesgo 1/N. Para el riesgo combinado 1/N use un software certificado por la FMF o derive a Medicina Fetal.</div>`;
   html+='<div style="font-size:.66rem;color:var(--slate);margin-top:8px">Algoritmo propio CaVeSal® · Basado en: Nicolaides KH et al. Prenat Diagn 1998 · Snijders RJM et al. Lancet 1998 · Snijders RJM et al. UOG 1999 · Hecht CA, Hook EB. Prenat Diagn 1994 · Nicolaides KH. Prenat Diagn 2011 · Cicero S et al. UOG 2004 · Robinson HP, Fleming JEE 1975</div></div>';
   if(res){res.innerHTML=html;res.style.display='block';}
