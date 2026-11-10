@@ -7380,7 +7380,7 @@ function calcViaParto(){
     if(presentacion==='transversa'||presentacion==='oblicua') items.push('Situación fetal no cefálica (transversa/oblicua) — indicación absoluta');
     if(macrosomia4500) items.push('PFE ≥4500 g — cesárea recomendada (ACOG)');
     if(cicatriz==='corporal'||cicatriz==='t_invertida') items.push('Cicatriz uterina corporal/T invertida — contraindicación absoluta PVDC');
-    if(ces>=2) items.push(`${ces} cesáreas previas — PVDC con riesgo inaceptable de rotura uterina`);
+    if(ces>=2) items.push(`${ces} cesáreas previas: cesárea iterativa programada según MSPBS Paraguay (se desaconseja el parto vaginal; rotura uterina ~1,4%). Si llega en período expulsivo: manejo como una cesárea previa. ACOG, RCOG y RANZCOG admiten el parto vaginal con 2 cesáreas tras consejería; con 3 o más, la evidencia es muy escasa.`);
     if(indicCes==='absoluta') items.push('Indicación de cesárea anterior persiste');
     if(riesgoDCP) items.push(`Talla materna ${talla} cm + PFE ${pfe?pfe.peso+'g':''} — sospecha DCP, pelvis límite`);
     if(cxUterina) items.push('Cirugía uterina previa: valorar según extensión miometrial');
