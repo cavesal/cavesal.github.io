@@ -4382,6 +4382,7 @@ function calcular(){
   const findings=[];
   function add(domain,nivel,hallazgo,conducta,fuente){findings.push({domain,nivel,hallazgo,conducta,fuente})}
 
+  if(typeof calcPFE==='function' && window._pfe) calcPFE();
   // ── SINCRONIZACIÓN BIDIRECCIONAL: Laboratorio ↔ Módulo DG ──
   // Si hay valor en lab_, cópialo a dmg_ si dmg_ está vacío, y viceversa
   (function syncLabDMG(){
@@ -4463,8 +4464,11 @@ function calcular(){
   const fpp=fumStr?new Date(new Date(fumStr).getTime()+280*86400000).toLocaleDateString('es-ES'):'—';
 
   // EDAD
-  if(edad>=40) add('EDAD MATERNA','alto',`Edad materna avanzada (${edad} años)`,'Cribado aneuploidías obligatorio. NIPT indicado. Vigilar PA, glucemia, tiroides. Mayor riesgo PE y DG.','FMF / ACOG');
-  else if(edad>=35) add('EDAD MATERNA','moderado',`Edad materna avanzada (${edad} años)`,'Ofrecer cribado combinado 1T + NIPT contingente. Vigilar PA y glucemia.','FMF / ACOG');
+  const _niptCarg=(tipoPrueba==='nipt_solo'||tipoPrueba==='ambos')&&!!sel('nipt_res')&&sel('nipt_res')!=='no';
+  const _ccCarg=(tipoPrueba==='cc'||tipoPrueba==='ambos')&&(val('t21')!==null||val('t18')!==null||val('t13')!==null);
+  const _cribEdad=_niptCarg?'Cribado de aneuploidías ya realizado: ver resultado del ADN fetal. ':_ccCarg?'Cribado ya realizado: ver riesgo combinado. ':null;
+  if(edad>=40) add('EDAD MATERNA','alto',`Edad materna avanzada (${edad} años)`,(_cribEdad||'Cribado aneuploidías obligatorio. NIPT indicado. ')+'Vigilar PA, glucemia, tiroides. Mayor riesgo PE y DG.','FMF / ACOG');
+  else if(edad>=35) add('EDAD MATERNA','moderado',`Edad materna avanzada (${edad} años)`,(_cribEdad||'Ofrecer cribado combinado 1T + NIPT contingente. ')+'Vigilar PA y glucemia.','FMF / ACOG');
   else if(edad!==null&&edad<18) add('EDAD MATERNA','moderado',`Embarazo adolescente (${edad} años)`,'Mayor riesgo PE, bajo peso y depresión perinatal. Soporte psicosocial.','OMS');
 
   // IMC
@@ -4667,7 +4671,12 @@ function calcular(){
   if(chk('obs_macro')) add('ANTECEDENTE OBSTÉTRICO','moderado','Macrosomía previa (>4000 g)','Descartar DG actual (SOG precoz <20 sem). Biometría seriada desde sem 28. Evaluar vía de parto si PFE >4500 g.','ACOG / FIGO');
   if(chk('obs_dpp')) add('ANTECEDENTE OBSTÉTRICO','moderado','Depresión postparto previa','Mayor riesgo de depresión perinatal actual. Screening EPDS desde 1T. Apoyo psicológico. Valorar psiquiatría si EPDS ≥13.','ACOG / OMS / NICE');
   if(chk('obs_cx')) add('ANTECEDENTE OBSTÉTRICO','alto','Cirugía uterina previa','Riesgo acretismo y rotura uterina. Localizar placenta con ECO. Si placenta anterior sobre cicatriz: ECO 3D/Doppler para descartar acreta. Derivar Medicina Fetal.','ACOG / FIGO');
-  if(cesarN>0) add('ANTECEDENTE OBSTÉTRICO','moderado',`${cesarN} cesárea(s) previa(s)`,'Valorar PVDC según criterios. Localización placentaria (descartar previa/acreta). ECO cicatriz.','ACOG / SEGO');
+  if(cesarN>=2) add('ANTECEDENTE OBSTÉTRICO','moderado',`${cesarN} cesáreas previas`,'Cesárea iterativa programada según MSPBS Paraguay (se desaconseja el parto vaginal; rotura uterina ~1,4%). Si llega en período expulsivo: manejo como una cesárea previa. Localización placentaria (descartar previa/acreta).','MSPBS Paraguay · ACOG · RCOG');
+  else if(cesarN>0) add('ANTECEDENTE OBSTÉTRICO','moderado',`${cesarN} cesárea(s) previa(s)`,'Valorar PVDC según criterios. Localización placentaria (descartar previa/acreta). ECO cicatriz.','ACOG / SEGO');
+  const _abN=val('abortos');
+  if(_abN!==null&&_abN>=2) add('ANTECEDENTE OBSTÉTRICO','moderado',`Pérdida gestacional recurrente (${_abN} abortos previos)`,'Estudio de síndrome antifosfolípido (anticoagulante lúpico, anticardiolipinas, anti-β2 glicoproteína I), TSH y anti-TPO, control precoz.','ESHRE 2022 (pérdida recurrente = 2 o más pérdidas)');
+  const _nacN=(val('partos')||0)+(cesarN||0);
+  if(_nacN>=5) add('ANTECEDENTE OBSTÉTRICO','moderado',`Gran multípara (${_nacN} partos/cesáreas previos)`,'Mayor riesgo de hemorragia posparto y de presentación anómala. Plan de parto con manejo activo del alumbramiento.','FIGO (definición ≥5 partos) · Cohorte prospectiva 2022 (PMC9608575)');
   if(ig&&ig<18) add('ANTECEDENTE OBSTÉTRICO','moderado',`Período intergenésico ${ig} m (<18)`,'Mayor riesgo perinatal, anemia y RCIU. Vigilar nutrición y biometría fetal.','OMS / ACOG');
   if(ig&&ig>60) add('ANTECEDENTE OBSTÉTRICO','moderado',`Período intergenésico ${ig} m (>60)`,'Comportamiento similar a primigesta. Vigilar PE y trabajo de parto.','ACOG');
 
@@ -4964,6 +4973,7 @@ function calcular(){
   // ── Anti-HBs (estado vacunal / inmunidad HBV) ──
   // Algoritmo propio CaVeSal® · Análisis basado en literatura de referencia
   const antihbs=document.getElementById('hbv_antihbs').value;
+  if(antihbs==='neg') add('LABORATORIO','moderado','Anti-HBs negativo — no inmune a hepatitis B','No inmune a hepatitis B: la vacuna es segura en el embarazo; indicarla si HBsAg es negativo.','CDC / ACIP');
   if(antihbs!==null && antihbs!==''){
     var antihbs_val = parseFloat(antihbs);
     if(!isNaN(antihbs_val)){
@@ -5254,6 +5264,46 @@ function calcular(){
 
   if(chk('lb_toxo')) add('LABORATORIO','alto','Toxoplasmosis IgM+','Confirmar con IgG avidez. Si infección activa: espiramicina hasta sem 18, luego triple terapia. Derivar Medicina Fetal.','ACOG / SFMFM');
 
+  // ── LABORATORIO DENTRO DE RANGO + SEROLOGÍAS NEGATIVAS (Sugerencia CaVeSal®) ──
+  (function(){
+    function _hay(re){return findings.some(function(f){return re.test(f.hallazgo||'')});}
+    function _fmt(n){return String(n).replace('.',',');}
+    const L=[
+      ['hb','Hb','g/dL',/^Hb /],['plaquetas','plaquetas','×10³/µL',/^Plaquetas|HELLP/,function(v){return v>=150}],
+      ['lab_rni','RIN','',/^RIN/],['lab_kptt','KPTT','seg',/^KPTT/],
+      ['glucemia','glucemia','mg/dL',/^Glucemia|^Ayunas/],['lab_hba1c','HbA1c','%',/^HbA1c/],
+      ['lab_sog_0','PTOG ayunas','mg/dL',/SOG|^Ayunas|DM Gestacional/],['lab_sog_1','PTOG 1 h','mg/dL',/SOG|DM Gestacional/],['lab_sog_2','PTOG 2 h','mg/dL',/SOG|DM Gestacional/],
+      ['creatinina','creatinina','mg/dL',/^Creatinina/],['lab_au','ácido úrico','mg/dL',/^Ácido úrico/],['lab_urea','urea','mg/dL',/^Urea/],
+      ['lab_tgo','TGO','UI/L',/^TGO|HELLP|Colestasis/,function(v){return v<=40}],['lab_tgp','TGP','UI/L',/HELLP|Colestasis/,function(v){return v<=40}],
+      ['lab_ldh','LDH','UI/L',/^LDH|HELLP/],['lab_bili','bilirrubina','mg/dL',/^Bilirrubina|Colestasis/,function(v){return v<=1.2}],
+      ['lab_fa','FA','UI/L',/^FA /],['lab_audt','ácidos biliares','µmol/L',/Colestasis/,function(v){return v<19}],
+      ['lab_col_total','colesterol total','mg/dL',/^Colesterol/],['lab_trig','triglicéridos','mg/dL',/^Triglic/],['lab_hdl','HDL','mg/dL',/^HDL/],['lab_ldl','LDL','mg/dL',/^LDL/],
+      ['lab_vitd','vitamina D','ng/mL',/^Vitamina D/],['lab_ferrit','ferritina','µg/L',/^Ferritina/],['lab_sat_transf','sat. transferrina','%',/^Saturación/],
+      ['tsh','TSH','µUI/mL',/^TSH/],['t4l','T4 libre','ng/dL',/^T4 libre|^TSH/],['antitpo','anti-TPO','UI/mL',/^Anti-TPO/]
+    ];
+    const ok=[];
+    L.forEach(function(x){
+      const v=val(x[0]); if(v===null) return;
+      if(_hay(x[3])) return;
+      if(x[4]&&!x[4](v)) return;
+      ok.push(x[1]+' '+_fmt(v)+(x[2]?' '+x[2]:''));
+    });
+    if(ok.length){
+      const _g=val('glucemia');
+      const _ptog=(_g!==null&&ok.some(function(t){return t.indexOf('glucemia ')===0})&&_g<92&&(!eg||eg.sem<24))?' Glucemia en ayunas <92 mg/dL: PTOG 75 g a las 24–28 sem.':'';
+      add('LABORATORIO','bajo','Laboratorio dentro de rango: '+ok.join(' · '),'Sin alteraciones en lo cargado. Repetir según el Calendario de laboratorio de la Calculadora.'+_ptog,'Sugerencia CaVeSal®');
+    }
+    const neg=[];
+    if(sel('vih_test')==='no_react'&&sel('vih_wb')!=='pos'&&sel('vih_wb')!=='indet') neg.push('VIH');
+    if((sel('sif_rapido')==='no_react'||(sel('sif_rapido')===''&&sel('sif_vdrl')==='neg'))&&sel('sif_vdrl')!=='pos') neg.push('sífilis');
+    if(sel('hbv_hbsag')==='neg') neg.push('hepatitis B (HBsAg)');
+    if(sel('hcv_test')==='neg') neg.push('hepatitis C');
+    if(sel('chagas_1')==='neg'&&sel('chagas_2')!=='pos') neg.push('Chagas');
+    if(neg.length) add('LABORATORIO','bajo','Serologías no reactivas: '+neg.join(' · '),'Repetir según el Calendario de laboratorio.','Sugerencia CaVeSal®');
+    if(sel('cmv_igg')==='neg'&&sel('cmv_igm')!=='pos') add('LABORATORIO','bajo','CMV IgG negativa — susceptible','Susceptible a CMV: medidas de higiene (lavado de manos tras cambiar pañales, no compartir cubiertos con niños pequeños).','Sugerencia CaVeSal®');
+    if(sel('lb_sgb')==='neg') add('LABORATORIO','bajo','Estreptococo grupo B negativo','Sin profilaxis intraparto. El resultado vale 5 semanas.','ACOG CO 797 (2020)');
+  })();
+
   // ECOGRAFÍA
   const pi1t=val('pi1t'),pi2t=val('pi2t'),ao=val('ao'),sflt=val('sflt'),sflt_eg=val('sflt_eg');
   const pigf1t=val('pigf1t'),pappa=val('pappa'),bhcg=val('bhcg'),cervix=val('cervix');
@@ -5296,6 +5346,14 @@ function calcular(){
       }
       if(ntNasal==='ausente') add('CRIBADO CROMOSÓMICO','moderado','Hueso nasal AUSENTE','Ausente en ~60–70 % de T21 y ~1–2 % de euploides. Riesgo aumentado de aneuploidía. Integrar con TN y otros marcadores.','FMF · Cicero 2004');
       if(ntDV==='invertida') add('CRIBADO CROMOSÓMICO','moderado','Ductus venoso: onda a invertida/ausente','Marcador de aneuploidía y cardiopatía congénita. Derivar Medicina Fetal. Ecocardiografía.','FMF/Nicolaides');
+      if(nivel==='bajo'){
+        const _mk=[(ntNasal==='presente'?'hueso nasal presente':'hueso nasal no evaluado'),(ntDV==='normal'?'ductus venoso normal':'ductus venoso no evaluado'),(ntTricusp==='ausente'?'tricúspide sin regurgitación':'tricúspide no evaluada')];
+        const _hall=`Categoría ecográfica BAJA: TN ${ntVal} mm (<P95 para LCN ${ntCrl} mm${p95?' · P95 '+p95.toFixed(2)+' mm':''}) · `+_mk.join(' · ');
+        const _cond=(edad!==null&&edad>=35)
+          ? `La ecografía normal baja el riesgo, pero por la edad materna (${edad} años) corresponde ofrecer ADN fetal libre en sangre materna o cribado combinado, según elección informada. Ecografía morfológica a las 20–22 sem.`
+          : 'Ecografía 1T sin marcadores de aneuploidía. La ecografía sola no reemplaza el cribado combinado ni el ADN fetal libre: ofrecerlos si están disponibles. Ecografía morfológica a las 20–22 sem.';
+        add('CRIBADO CROMOSÓMICO','bajo',_hall,_cond,'Sugerencia CaVeSal® · Basado en: FMF (Nicolaides) · SMFM Consult Series #74 (2025) · ACOG Practice Advisory (2026)');
+      }
       if(ntTricusp==='presente') add('CRIBADO CROMOSÓMICO','moderado','Regurgitación tricúspide','Asociada a T21 y cardiopatía congénita. Ecocardiografía fetal. Integrar con NT y otros marcadores.','FMF/Nicolaides');
     }
     const ntPlexo=sel('nt_plexo');
@@ -5556,6 +5614,21 @@ function calcular(){
     })();
   })();
 
+  // ── Morfológica sin hallazgos (Sugerencia CaVeSal®) ──
+  (function(){
+    const DOM='MORFOLOGÍA FETAL (2T)';
+    const secs=Array.prototype.slice.call(document.querySelectorAll('.section-card')).filter(function(c){var h=c.querySelector('h2');return h&&/^Morfología —/.test(h.textContent.trim());});
+    if(!secs.length) return;
+    const cargadas=secs.filter(function(c){return Array.prototype.slice.call(c.querySelectorAll('input,select')).some(function(el){return el.type==='checkbox'?el.checked:(el.type!=='text'&&el.value!=='');});}).length;
+    if(!cargadas) return;
+    const anom=findings.some(function(f){return f.domain===DOM && !/PAS|^Antecedente de/.test(f.hallazgo||'');});
+    if(anom) return;
+    const falta=[];
+    if(val('cervix')===null) falta.push('cervicometría transvaginal (cribado de parto pretérmino)');
+    if(val('pi2t')===null) falta.push('IP medio de arterias uterinas 2T');
+    add(DOM,'bajo',`Ecografía morfológica sin anomalías en lo evaluado (${cargadas} de ${secs.length} sistemas cargados)`,'Ecografía de crecimiento en el 3.er trimestre según el riesgo global.'+(falta.length?' Si no se registró: '+falta.join(' e ')+'.':''),'Sugerencia CaVeSal® · Basado en: ISUOG (ecografía del 2.º trimestre) · FIGO (longitud cervical)');
+  })();
+
   // ════════════════════════════════════════════════
   // PERFIL BIOFÍSICO FETAL (PBF) — Manning / Vintzileos / Clark
   // MONITOREO FETAL (NST/CTG) — FIGO / ACOG / Caldeyro-Barcia
@@ -5657,7 +5730,12 @@ function calcular(){
     });
     if(bhcg!==null&&bhcg>2.5&&!t21) add('CRIBADO CROMOSÓMICO','moderado',`β-hCG libre ${bhcg} MoM (>2.5 – sugestivo T21)`,'Integrar con riesgo combinado T21. Reevaluar marcadores 2T.','FMF');
     if(bhcg!==null&&bhcg<0.4) add('CRIBADO CROMOSÓMICO','moderado',`β-hCG libre ${bhcg} MoM (<0.4 – sugestivo T18/T13)`,'Integrar con riesgo combinado T18/T13. Reevaluar marcadores.','FMF');
+    const _triCarg=[['T21',t21],['T18',t18],['T13',t13]].filter(function(x){return x[1]!==null});
+    if(_triCarg.length && _triCarg.every(function(x){return clTri(x[1])==='bajo'})){
+      add('CRIBADO CROMOSÓMICO','bajo',`Riesgo combinado BAJO: ${_triCarg.map(function(x){return x[0]+' 1/'+x[1]}).join(' · ')} (cortes ${triCorte==='fmf'?'FMF':'MFB'})`,conductaTri('bajo',_triCarg[0][1])+' Ecografía morfológica a las 20–22 sem.',triFuente());
+    }
   }
+  if(showNIPT&&nipt==='normal') add('CRIBADO CROMOSÓMICO','bajo','ADN fetal libre: bajo riesgo para las trisomías estudiadas','Es cribado, no diagnóstico. No repetir el cribado bioquímico. Ecografía morfológica a las 20–22 sem. Si aparece una malformación o un marcador ecográfico mayor: consejo genético y valorar prueba invasiva (el ADN fetal no lo descarta).','SMFM Consult Series #74 (2025) · ACOG Practice Advisory (2026)');
 
   // NIPT
   if(showNIPT&&nipt&&nipt!=='no'&&nipt!=='normal'&&nipt!=='fallo'){
@@ -5796,16 +5874,23 @@ function calcular(){
   // SUPLEMENTACIÓN
   const suple=[];
   const tieneDTN=chk('p_epi')||(imcP&&imcP>=30)||chk('p_dm')||chk('obs_malform');
-  const tieneAnemia=hb!==null&&hb<11;
+  const tieneAnemia=hb!==null&&hb<_hbCortes(eg?eg.sem:null).anemia;
   const tienePE=chk('obs_pe')||chk('p_hta')||chk('p_renal')||(pi1t!==null&&clPI1T(pi1t)==='alto');
   const tienePreterm=chk('obs_pt')||chk('e_apt');
   const tieneOmega=tienePE||tienePreterm||chk('obs_rciu');
-  if(_hayDatos) suple.push({pill:'Ácido fólico',text:tieneDTN?'5 mg/día (dosis alta: epilepsia, obesidad, DM o antecedente DTN). Iniciar preconcepcional.':'0.4–0.8 mg/día — Desde preconcepcional hasta sem 12 mínimo.'});
+  const _afCurso=chk('pr_af')?'En curso. ':'';
+  if(_hayDatos && chk('p_mthfr')) suple.push({pill:'Metilfolato',text:_afCurso+'5-MTHF 400–800 µg/día en lugar de ácido fólico sintético (polimorfismo MTHFR), con vitamina B12.'});
+  else if(_hayDatos) suple.push({pill:'Ácido fólico',text:_afCurso+(tieneDTN?'5 mg/día (dosis alta: epilepsia, obesidad, DM o antecedente DTN). Iniciar preconcepcional.':'0.4–0.8 mg/día — Desde preconcepcional hasta sem 12 mínimo.')});
   if(tieneAnemia) suple.push({pill:'Hierro',text:'60–200 mg/día hierro elemental oral según grado. Control Hb c/4 sem.'});
+  else if(_hayDatos && hb!==null) suple.push({pill:'Hierro',text:`Hb ${String(hb).replace('.',',')} g/dL normal: hierro profiláctico 30–60 mg/día (OMS).`});
   else if(_hayDatos) suple.push({pill:'Hierro',text:'30–60 mg/día profiláctico si ferritina <30 ng/mL o dieta insuficiente. (Sin datos de Hb registrados — evaluar en consulta.)'});
   if(_hayDatos) suple.push({pill:'Yodo',text:'150–200 µg/día — Sal yodada + suplemento prenatal. Esencial para neurodesarrollo fetal.'});
   if(tieneOmega) suple.push({pill:'Omega-3 DHA',text:'1000 mg/día DHA+EPA — Reduce riesgo PE precoz y pretérmino (Cochrane). Iniciar antes sem 20.'});
-  if(chk('p_dm')||chk('p_epi')||(imcP&&imcP>=30)) suple.push({pill:'Vitamina D',text:'1000–2000 UI/día a criterio del médico (FLASOG 2026) — DM, epilepsia, obesidad o baja exposición solar.'});
+  const _vdS=val('lab_vitd');
+  if(_vdS!==null) suple.push({pill:'Vitamina D',text:_vdS<20?`Vitamina D ${_vdS} ng/mL — déficit: suplementar según la tarjeta de Laboratorio.`:_vdS<30?`Vitamina D ${_vdS} ng/mL — insuficiencia (zona gris): 1000–2000 UI/día a criterio del médico.`:`Vitamina D ${_vdS} ng/mL — suficiente: no requiere suplemento adicional.`});
+  else if(chk('p_dm')||chk('p_epi')||(imcP&&imcP>=30)) suple.push({pill:'Vitamina D',text:'1000–2000 UI/día a criterio del médico (FLASOG 2026) — DM, epilepsia, obesidad o baja exposición solar.'});
+
+  if(_hayDatos) suple.push({pill:'Calcio',text:(tienePE?'Prioridad: hay riesgo de PE. ':'')+'1,5–2 g/día de calcio elemental en 3 tomas, en poblaciones con baja ingesta de calcio, para reducir el riesgo de preeclampsia (OMS). Separarlo de la toma de hierro. Dos ensayos grandes mostraron que 500 mg/día no fue inferior a 1500 mg/día (Dwarkanath, NEJM 2024).'});
 
   // DERIVACIÓN
   const derivar=findings.filter(f=>f.nivel==='alto').length>=2||
@@ -7082,6 +7167,7 @@ function pfeUtAlt(){
   return !isNaN(v) && clPI2T(v)==='alto';
 }
 function calcPFE(){
+  const doppCargPFE = ['dopp_au_pi','dopp_acm_pi','pi2t'].some(function(i){var e=document.getElementById(i);return e&&e.value!=='';});
   let peso = null, perc = null, eg = null, pfeFormula = null, pfeAviso = '';
   _cavesalSetModuleResult('pfe', []);
 
@@ -7140,7 +7226,7 @@ function calcPFE(){
         clasif = 'RCIU (P3–P10 + Doppler fetal o uterino alterado)';
         clasifCol = 'var(--red)';
       } else {
-        clasif = 'PEG — Pequeño para EG (P3–P10, Doppler normal)';
+        clasif = doppCargPFE ? 'PEG — Pequeño para EG (P3–P10, Doppler normal)' : 'Pequeño para EG (P3–P10) — falta Doppler';
         clasifCol = 'var(--amber)';
       }
     } else if(perc < 90){
@@ -7184,7 +7270,7 @@ function calcPFE(){
 
   // Nota si Doppler no fue ingresado y el PFE está en zona P3-P10
   if(perc!==null && perc>=3 && perc<10 && !doppAltPFE){
-    var doppIngresado = window._dopplerFindings !== undefined;
+    var doppIngresado = doppCargPFE;
     if(!doppIngresado){
       chipsHTML += `<div style="grid-column:1/-1;font-size:.68rem;color:var(--amber);margin-top:4px;padding:4px 6px;background:#FEF3CD;border-radius:4px">⚡ PFE entre P3 y P10 — ingresá el Doppler fetal (AU, ACM, ICP) y el IP medio de uterinas para distinguir PEG de RCIU</div>`;
     } else {
@@ -7200,15 +7286,19 @@ function calcPFE(){
   } else if(esMacroModer){
     alertaHTML=`<div class="alerta-box moder">⚡ <strong>PFE 3.800–3.999 g:</strong> Límite superior. Biometría seriada. Vigilar en población diabética.</div>`;
   } else if(perc!==null && perc<3){
-    alertaHTML=`<div class="alerta-box alto">⚠️ <strong>PFE &lt; P3 — RCIU (criterio único MFB):</strong> Derivar Medicina Fetal. Doppler completo urgente (AU, ACM, ICP, DV). Biometría c/1-2 sem.</div>`;
+    alertaHTML=`<div class="alerta-box alto">⚠️ <strong>PFE &lt; P3 — RCIU (criterio único MFB):</strong> Derivar Medicina Fetal. ${doppCargPFE?'Ver estadio según el Doppler cargado.':'Doppler completo urgente (AU, ACM, ICP, DV).'} Biometría c/1-2 sem.</div>`;
   } else if(perc!==null && perc<10 && doppAltPFE){
     alertaHTML=`<div class="alerta-box alto">⚠️ <strong>RCIU — P3–P10 + Doppler alterado (AU, ICP, ACM o IP medio de uterinas &gt;P95):</strong> Clasificar estadio I–IV (MFB). Seguimiento c/1-2 sem. Valorar finalización según EG y Doppler. Ref: Protocolo MFB Nov 2024.</div>`;
+  } else if(perc!==null && perc<10 && !doppCargPFE){
+    alertaHTML=`<div class="alerta-box moder">⚡ <strong>PEG (P3–P10):</strong> falta Doppler para diferenciar PEG de RCIU. Solicitar Doppler de arteria umbilical, cerebral media (ICP) e IP medio de uterinas. Con Doppler normal: PEG, biometría cada 2–3 sem. Con Doppler alterado: RCIU, estadificar.</div>`;
   } else if(perc!==null && perc<10){
     alertaHTML=`<div class="alerta-box moder">⚡ <strong>PEG — Pequeño para EG (P3–P10):</strong> Doppler normal → feto constitucionalmente pequeño. Biometría seriada c/2-3 sem. Finalización ≥40 sem si evolución favorable. Ref: Figueras F. EJOGR 2008 / MFB 2024.</div>`;
   } else if(perc!==null && perc>=97){
     alertaHTML=`<div class="alerta-box moder">⚡ <strong>GEG significativo (≥P97):</strong> Riesgo real de complicaciones. Control 38–39 sem. Evaluar macrosomía según peso absoluto. Ref: MFB Protocolo Macrosomía Sep 2024.</div>`;
   } else if(perc!==null && perc>=90){
     alertaHTML=`<div class="alerta-box moder" style="background:#FEF9EC">⚡ <strong>GEG limítrofe (P90–P96):</strong> Vigilar. GEG con riesgo clínico real inicia en P97 (MFB 2024). Control biometría 38 sem.</div>`;
+  } else if(perc!==null && perc>=10){
+    alertaHTML=`<div class="alerta-box" style="background:#EDF5E5;color:var(--green)">✓ <strong>Crecimiento adecuado para la EG.</strong> Próxima biometría según el riesgo global del embarazo.</div>`;
   }
 
   document.getElementById('pfe_chips').innerHTML = chipsHTML;
