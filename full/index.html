@@ -1011,6 +1011,7 @@ document.addEventListener('DOMContentLoaded', function(){
       <label class="check-item" id="lbl_obs_macro"><input type="checkbox" id="obs_macro" onchange="toggleCheck('lbl_obs_macro',this)"><span>Macrosomía previa (&gt;4000 g)</span></label>
       <label class="check-item" id="lbl_obs_mf"><input type="checkbox" id="obs_mf" onchange="toggleCheck('lbl_obs_mf',this)"><span>Muerte fetal previa</span></label>
       <label class="check-item" id="lbl_obs_malform"><input type="checkbox" id="obs_malform" onchange="toggleCheck('lbl_obs_malform',this)"><span>Malformación fetal previa</span></label>
+      <label class="check-item" id="lbl_obs_dtn"><input type="checkbox" id="obs_dtn" onchange="toggleCheck('lbl_obs_dtn',this)"><span>DTN previo (defecto del tubo neural)</span></label>
       <label class="check-item" id="lbl_obs_hpp"><input type="checkbox" id="obs_hpp" onchange="toggleCheck('lbl_obs_hpp',this)"><span>HPP previa</span></label>
       <label class="check-item" id="lbl_obs_iso"><input type="checkbox" id="obs_iso" onchange="toggleCheck('lbl_obs_iso',this)"><span>Isoinmunización previa</span></label>
       <label class="check-item" id="lbl_obs_ic"><input type="checkbox" id="obs_ic" onchange="toggleCheck('lbl_obs_ic',this)"><span>Incompetencia cervical previa</span></label>
@@ -4664,7 +4665,8 @@ function calcular(){
   if(chk('obs_pt')) add('ANTECEDENTE OBSTÉTRICO','alto','Parto pretérmino previo','Cervicometría seriada desde sem 16. Progesterona vaginal 200 mg si cérvix <25 mm. Cerclaje si <15 mm.','FMF / ACOG');
   if(chk('obs_rciu')) add('ANTECEDENTE OBSTÉTRICO','alto','RCIU previo','Biometría mensual desde sem 24. Doppler uterinas 1T. AAS si PI alterado. Vigilancia placentaria.','FMF / ACOG');
   if(chk('obs_mf')) add('ANTECEDENTE OBSTÉTRICO','alto','Muerte fetal previa','Estudio etiológico. Vigilancia fetal estricta (NST desde sem 32). Valorar inducción programada.','ACOG');
-  if(chk('obs_malform')) add('ANTECEDENTE OBSTÉTRICO','alto','Malformación fetal previa','Consejo genético preconcepcional. Si fue un defecto del tubo neural: ácido fólico 4–5 mg/día; otra malformación: dosis estándar. ECO morfológica + ecocardiografía fetal.','ACOG / FMF');
+  if(chk('obs_dtn')) add('ANTECEDENTE OBSTÉTRICO','alto','Defecto del tubo neural previo','Ácido fólico 4–5 mg/día desde al menos 1 mes antes de la concepción (ideal 3 meses) hasta la sem 12. Consejo genético preconcepcional. ECO morfológica con evaluación de columna y cráneo; AFP sérica materna a criterio.','ACOG PB 187 / NICE / OMS');
+  if(chk('obs_malform')) add('ANTECEDENTE OBSTÉTRICO','alto','Malformación fetal previa','Consejo genético preconcepcional. '+(chk('obs_dtn')?'':'Si fue un defecto del tubo neural, marcar «DTN previo» (ácido fólico 4–5 mg/día); otra malformación: dosis estándar. ')+'ECO morfológica + ecocardiografía fetal.','ACOG / FMF');
   if(chk('obs_hpp')) add('ANTECEDENTE OBSTÉTRICO','alto','HPP previa','Plan de parto con protocolo HPP activo. Hemoderivados disponibles. Manejo activo del alumbramiento.','ACOG / FIGO');
   if(chk('obs_iso')) add('ANTECEDENTE OBSTÉTRICO','alto','Isoinmunización previa','Titulación anticuerpos c/4 sem. Doppler ACM (PSV >1.5 MoM = anemia grave). Derivar Medicina Fetal.','FMF / ACOG');
   if(chk('obs_ic')) add('ANTECEDENTE OBSTÉTRICO','alto','Incompetencia cervical previa','Cerclaje profiláctico 12–14 sem. Progesterona vaginal 200 mg/noche. Cervicometría seriada.','FMF / ACOG');
@@ -5840,9 +5842,9 @@ function calcular(){
   } else if(_hayDatos) {
     // Hay datos de profilaxis o antecedentes → evaluar individualmente
     if(!chk('pr_af')) add('PROFILAXIS','moderado','Sin ácido fólico registrado',
-      (chk('p_epi')||chk('p_dm')||(imcP&&imcP>=30))?
-      'Iniciar AF 4–5 mg/día (dosis alta: epilepsia, obesidad o DM).'+(chk('obs_malform')?' La malformación previa solo justifica dosis alta si fue un defecto del tubo neural.':''):
-      chk('obs_malform')?'Iniciar AF 0.4–0.8 mg/día; 4–5 mg/día si la malformación previa fue un defecto del tubo neural.':
+      (chk('obs_dtn')||chk('p_epi')||chk('p_dm')||(imcP&&imcP>=30))?
+      'Iniciar AF 4–5 mg/día (dosis alta: DTN previo, epilepsia, obesidad o DM).':
+      chk('obs_malform')?'Iniciar AF 0.4–0.8 mg/día; si la malformación previa fue un defecto del tubo neural, marcar «DTN previo» (4–5 mg/día).':
       'Iniciar AF 0.4–0.8 mg/día desde preconcepcional hasta mínimo sem 12.','OMS / ACOG');
     // TDPA
     if(!chk('pr_tdpa')){
@@ -5874,13 +5876,13 @@ function calcular(){
 
   // SUPLEMENTACIÓN
   const suple=[];
-  const tieneDTN=chk('p_epi')||(imcP&&imcP>=30)||chk('p_dm');
+  const tieneDTN=chk('obs_dtn')||chk('p_epi')||(imcP&&imcP>=30)||chk('p_dm');
   const tieneAnemia=hb!==null&&hb<_hbCortes(eg?eg.sem:null).anemia;
   const tienePE=chk('obs_pe')||chk('p_hta')||chk('p_renal')||(pi1t!==null&&clPI1T(pi1t)==='alto');
   const tienePreterm=chk('obs_pt')||chk('e_apt');
   const tieneOmega=tienePreterm;
   const _afCurso=chk('pr_af')?'En curso. ':'';
-  if(_hayDatos) suple.push({pill:'Ácido fólico',text:_afCurso+(tieneDTN?'4–5 mg/día (dosis alta: epilepsia, obesidad o DM). Iniciar preconcepcional.':'0.4–0.8 mg/día — Desde preconcepcional hasta sem 12 mínimo.')+(chk('obs_malform')?' Dosis alta 4–5 mg/día si la malformación previa fue un defecto del tubo neural.':'')+(chk('p_mthfr')?' MTHFR: el ácido fólico sigue siendo el estándar (CDC); metilfolato 400–800 µg/día es una alternativa opcional, no probada para prevenir DTN.':'')});
+  if(_hayDatos) suple.push({pill:'Ácido fólico',text:_afCurso+(tieneDTN?'4–5 mg/día (dosis alta: '+[chk('obs_dtn')&&'DTN previo',chk('p_epi')&&'epilepsia',(imcP&&imcP>=30)&&'obesidad',chk('p_dm')&&'DM'].filter(Boolean).join(', ')+'). Iniciar preconcepcional.':'0.4–0.8 mg/día — Desde preconcepcional hasta sem 12 mínimo.')+(chk('obs_malform')&&!tieneDTN?' Si la malformación previa fue un defecto del tubo neural, marcar «DTN previo» (4–5 mg/día).':'')+(chk('p_mthfr')?' MTHFR: el ácido fólico sigue siendo el estándar (CDC); metilfolato 400–800 µg/día es una alternativa opcional, no probada para prevenir DTN.':'')});
   if(tieneAnemia) suple.push({pill:'Hierro',text:(hb<7?'Hb <7 g/dL: valorar hierro IV desde el 2T y transfusión según la clínica. ':'')+'Hierro elemental 120 mg/día (OMS) hasta normalizar la Hb; luego volver a la dosis profiláctica. Control Hb c/4 sem.'});
   else if(_hayDatos && hb!==null) suple.push({pill:'Hierro',text:`Hb ${String(hb).replace('.',',')} g/dL normal: hierro profiláctico 30–60 mg/día (OMS).`});
   else if(_hayDatos) suple.push({pill:'Hierro',text:'30–60 mg/día profiláctico si ferritina <30 ng/mL o dieta insuficiente. (Sin datos de Hb registrados — evaluar en consulta.)'});
@@ -8557,6 +8559,7 @@ function limpiarFormulario(){
   (document.getElementById('obs_iso')||{}).checked=false;
   (document.getElementById('obs_macro')||{}).checked=false;
   (document.getElementById('obs_malform')||{}).checked=false;
+  (document.getElementById('obs_dtn')||{}).checked=false;
   (document.getElementById('obs_mf')||{}).checked=false;
   (document.getElementById('obs_pe')||{}).checked=false;
   (document.getElementById('obs_pt')||{}).checked=false;
@@ -8661,6 +8664,7 @@ function limpiarFormulario(){
   (document.getElementById('lbl_obs_iso')||{}).classList.remove('checked');
   (document.getElementById('lbl_obs_macro')||{}).classList.remove('checked');
   (document.getElementById('lbl_obs_malform')||{}).classList.remove('checked');
+  (document.getElementById('lbl_obs_dtn')||{}).classList.remove('checked');
   (document.getElementById('lbl_obs_mf')||{}).classList.remove('checked');
   (document.getElementById('lbl_obs_pe')||{}).classList.remove('checked');
   (document.getElementById('lbl_obs_pt')||{}).classList.remove('checked');
@@ -8917,7 +8921,7 @@ function cargarEjemplo(tipo){ window._pfe=null;
       'p_ai','p_hipotiro','p_hipertiro','p_ob','p_asma','p_sm','p_epi','p_mthfr',
       'p_vih','p_sif','p_hepb','p_hepc','p_cancer_prev','p_cancer_act',
       'p_pti','p_vw','p_vd','p_vs','obs_pe','obs_rciu','obs_pt',
-      'obs_hpp','obs_dpp','obs_malform','obs_mf','obs_ic','obs_iso',
+      'obs_hpp','obs_dpp','obs_malform','obs_dtn','obs_mf','obs_ic','obs_iso',
       'obs_cx','obs_dg','obs_macro','e_rh','e_sgb','e_mult','e_pp',
       'e_apt','e_poli','e_oligo','e_sang','e_tra','e_mfd','e_vag',
       'e_itu','e_cx','e_aud','e_coombs','e_pe','e_hta_gest','e_dg','e_rciu','e_col','e_hg','e_hellp','e_dppni',
@@ -9417,7 +9421,7 @@ const PERFIL_DESDE_PUENTE = {
 const DATOSHC_LABELS = {
   obs_pe:'Preeclampsia en embarazo previo', obs_dg:'Diabetes gestacional previa', obs_pt:'Parto pretérmino previo',
   obs_rciu:'RCIU en embarazo previo', obs_macro:'Macrosomía en embarazo previo', obs_mf:'Muerte fetal previa',
-  obs_malform:'Malformación fetal previa', obs_hpp:'Hemorragia posparto previa', obs_iso:'Isoinmunización previa',
+  obs_malform:'Malformación fetal previa', obs_dtn:'Defecto del tubo neural previo', obs_hpp:'Hemorragia posparto previa', obs_iso:'Isoinmunización previa',
   obs_ic:'Incompetencia cervical previa', obs_dpp:'Depresión posparto previa', obs_cx:'Cirugía uterina previa',
   p_hta:'Hipertensión arterial crónica', p_dm:'Diabetes mellitus pregestacional', p_renal:'Enfermedad renal crónica',
   p_asma:'Asma', p_cardio:'Cardiopatía', p_cardio_tipo:'Tipo de cardiopatía', p_cardio_oms:'Clase funcional OMS (cardiopatía)',
