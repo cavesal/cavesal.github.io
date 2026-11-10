@@ -4664,7 +4664,7 @@ function calcular(){
   if(chk('obs_pt')) add('ANTECEDENTE OBSTÉTRICO','alto','Parto pretérmino previo','Cervicometría seriada desde sem 16. Progesterona vaginal 200 mg si cérvix <25 mm. Cerclaje si <15 mm.','FMF / ACOG');
   if(chk('obs_rciu')) add('ANTECEDENTE OBSTÉTRICO','alto','RCIU previo','Biometría mensual desde sem 24. Doppler uterinas 1T. AAS si PI alterado. Vigilancia placentaria.','FMF / ACOG');
   if(chk('obs_mf')) add('ANTECEDENTE OBSTÉTRICO','alto','Muerte fetal previa','Estudio etiológico. Vigilancia fetal estricta (NST desde sem 32). Valorar inducción programada.','ACOG');
-  if(chk('obs_malform')) add('ANTECEDENTE OBSTÉTRICO','alto','Malformación fetal previa','Consejo genético preconcepcional. AF 5 mg/día. ECO morfológica + ecocardiografía fetal.','ACOG / FMF');
+  if(chk('obs_malform')) add('ANTECEDENTE OBSTÉTRICO','alto','Malformación fetal previa','Consejo genético preconcepcional. Si fue un defecto del tubo neural: ácido fólico 4–5 mg/día; otra malformación: dosis estándar. ECO morfológica + ecocardiografía fetal.','ACOG / FMF');
   if(chk('obs_hpp')) add('ANTECEDENTE OBSTÉTRICO','alto','HPP previa','Plan de parto con protocolo HPP activo. Hemoderivados disponibles. Manejo activo del alumbramiento.','ACOG / FIGO');
   if(chk('obs_iso')) add('ANTECEDENTE OBSTÉTRICO','alto','Isoinmunización previa','Titulación anticuerpos c/4 sem. Doppler ACM (PSV >1.5 MoM = anemia grave). Derivar Medicina Fetal.','FMF / ACOG');
   if(chk('obs_ic')) add('ANTECEDENTE OBSTÉTRICO','alto','Incompetencia cervical previa','Cerclaje profiláctico 12–14 sem. Progesterona vaginal 200 mg/noche. Cervicometría seriada.','FMF / ACOG');
@@ -4706,7 +4706,7 @@ function calcular(){
   if(chk('p_hipotiro_notrat')) add('ANTECEDENTE PERSONAL','alto','Hipotiroidismo sin tratamiento / Anti-TPO+','Iniciar levotiroxina si hay hipotiroidismo (TSH sobre rango con anti-TPO+, o ≥10). TSH elevada asociada a aborto y PE; la asociación con déficit del neurodesarrollo es observacional (ensayos CATS 2012 y Casey 2017 sin beneficio del tratamiento). Anti-TPO+ sin hipotiroidismo: mayor riesgo de hipotiroidismo gestacional — monitoreo estrecho.','ATA / ACOG');
   if(chk('p_hipertiro')) add('ANTECEDENTE PERSONAL','alto','Hipertiroidismo / Enfermedad de Graves','PTU en 1T (metimazol en 2T-3T). Nunca yodo radiactivo en embarazo. Anti-TRAb+: vigilar hipertiroidismo fetal/neonatal por ECO (biometría, FC, bocio). Endocrinología + obstetricia.','ATA / ACOG / FMF');
   if(chk('p_epi')) add('ANTECEDENTE PERSONAL','alto','Epilepsia','AF 5 mg/día preconcepcional. Monoterapia al mínimo efectivo. Evitar valproato. Neurología+obstetricia.','ACOG / AAN');
-  if(chk('p_mthfr')) add('ANTECEDENTE PERSONAL','moderado','Polimorfismo MTHFR (C677T / A1298C)','Usar 5-metiltetrahidrofolato (5-MTHF/Metilfolato) 400–800 µg/día en lugar de ácido fólico sintético. Combinado con Vitamina B12 (metilcobalamina). Evitar ácido fólico no metabolizado. Riesgo: hiperhomocisteinemia, DTN, pérdida gestacional recurrente.','ACOG / revisiones MTHFR 2022–2024');
+  if(chk('p_mthfr')) add('ANTECEDENTE PERSONAL','moderado','Polimorfismo MTHFR (C677T / A1298C)','Ácido fólico en la dosis habitual: el CDC lo sigue recomendando con MTHFR porque es la única forma probada para prevenir DTN. Metilfolato (5-MTHF) 400–800 µg/día como alternativa opcional. No requiere estudios adicionales por el polimorfismo solo.','CDC · NIH ODS');
   if(chk('p_vih')) add('ANTECEDENTE PERSONAL','alto','VIH materna','TAR durante todo el embarazo. CV indetectable objetivo. Cesárea si CV >1000 copias. Profilaxis neonatal.','ACOG / CDC');
   if(chk('p_sif')) add('ANTECEDENTE PERSONAL','alto','Sífilis','Penicilina G benzatínica según estadio. VDRL seriado. Seguimiento neonatal. Notificación.','CDC / PAHO');
   if(chk('p_sm')) add('SALUD MENTAL','moderado','Salud mental: depresión/ansiedad','Screening Edimburgo 1T y 3T. Psicología perinatal. Valorar ISRS si indicado (sertralina/fluoxetina).','ACOG / NICE');
@@ -5840,8 +5840,9 @@ function calcular(){
   } else if(_hayDatos) {
     // Hay datos de profilaxis o antecedentes → evaluar individualmente
     if(!chk('pr_af')) add('PROFILAXIS','moderado','Sin ácido fólico registrado',
-      (chk('p_epi')||chk('p_dm')||(imcP&&imcP>=30)||chk('obs_malform'))?
-      'Iniciar AF 5 mg/día (dosis alta indicada: epilepsia, obesidad, DM o antecedente DTN).':
+      (chk('p_epi')||chk('p_dm')||(imcP&&imcP>=30))?
+      'Iniciar AF 4–5 mg/día (dosis alta: epilepsia, obesidad o DM).'+(chk('obs_malform')?' La malformación previa solo justifica dosis alta si fue un defecto del tubo neural.':''):
+      chk('obs_malform')?'Iniciar AF 0.4–0.8 mg/día; 4–5 mg/día si la malformación previa fue un defecto del tubo neural.':
       'Iniciar AF 0.4–0.8 mg/día desde preconcepcional hasta mínimo sem 12.','OMS / ACOG');
     // TDPA
     if(!chk('pr_tdpa')){
@@ -5873,24 +5874,23 @@ function calcular(){
 
   // SUPLEMENTACIÓN
   const suple=[];
-  const tieneDTN=chk('p_epi')||(imcP&&imcP>=30)||chk('p_dm')||chk('obs_malform');
+  const tieneDTN=chk('p_epi')||(imcP&&imcP>=30)||chk('p_dm');
   const tieneAnemia=hb!==null&&hb<_hbCortes(eg?eg.sem:null).anemia;
   const tienePE=chk('obs_pe')||chk('p_hta')||chk('p_renal')||(pi1t!==null&&clPI1T(pi1t)==='alto');
   const tienePreterm=chk('obs_pt')||chk('e_apt');
-  const tieneOmega=tienePE||tienePreterm||chk('obs_rciu');
+  const tieneOmega=tienePreterm;
   const _afCurso=chk('pr_af')?'En curso. ':'';
-  if(_hayDatos && chk('p_mthfr')) suple.push({pill:'Metilfolato',text:_afCurso+'5-MTHF 400–800 µg/día en lugar de ácido fólico sintético (polimorfismo MTHFR), con vitamina B12.'});
-  else if(_hayDatos) suple.push({pill:'Ácido fólico',text:_afCurso+(tieneDTN?'5 mg/día (dosis alta: epilepsia, obesidad, DM o antecedente DTN). Iniciar preconcepcional.':'0.4–0.8 mg/día — Desde preconcepcional hasta sem 12 mínimo.')});
-  if(tieneAnemia) suple.push({pill:'Hierro',text:'60–200 mg/día hierro elemental oral según grado. Control Hb c/4 sem.'});
+  if(_hayDatos) suple.push({pill:'Ácido fólico',text:_afCurso+(tieneDTN?'4–5 mg/día (dosis alta: epilepsia, obesidad o DM). Iniciar preconcepcional.':'0.4–0.8 mg/día — Desde preconcepcional hasta sem 12 mínimo.')+(chk('obs_malform')?' Dosis alta 4–5 mg/día si la malformación previa fue un defecto del tubo neural.':'')+(chk('p_mthfr')?' MTHFR: el ácido fólico sigue siendo el estándar (CDC); metilfolato 400–800 µg/día es una alternativa opcional, no probada para prevenir DTN.':'')});
+  if(tieneAnemia) suple.push({pill:'Hierro',text:(hb<7?'Hb <7 g/dL: valorar hierro IV desde el 2T y transfusión según la clínica. ':'')+'Hierro elemental 120 mg/día (OMS) hasta normalizar la Hb; luego volver a la dosis profiláctica. Control Hb c/4 sem.'});
   else if(_hayDatos && hb!==null) suple.push({pill:'Hierro',text:`Hb ${String(hb).replace('.',',')} g/dL normal: hierro profiláctico 30–60 mg/día (OMS).`});
   else if(_hayDatos) suple.push({pill:'Hierro',text:'30–60 mg/día profiláctico si ferritina <30 ng/mL o dieta insuficiente. (Sin datos de Hb registrados — evaluar en consulta.)'});
-  if(_hayDatos) suple.push({pill:'Yodo',text:'150–200 µg/día — Sal yodada + suplemento prenatal. Esencial para neurodesarrollo fetal.'});
-  if(tieneOmega) suple.push({pill:'Omega-3 DHA',text:'1000 mg/día DHA+EPA — Reduce riesgo PE precoz y pretérmino (Cochrane). Iniciar antes sem 20.'});
+  if(_hayDatos) suple.push({pill:'Yodo',text:'Suplemento de 150 µg/día (yoduro de potasio) desde la preconcepción; meta de ingesta total 250 µg/día con la sal yodada (ATA/OMS). Evitar suplementos >500 µg/día. Con levotiroxina no hace falta.'});
+  if(tieneOmega) suple.push({pill:'Omega-3 DHA',text:'500–1000 mg/día DHA+EPA por riesgo de pretérmino: Cochrane 2018, 42% menos pretérmino <34 sem (RR 0,58). Iniciar antes de la sem 20. Efecto sobre la PE incierto.'});
   const _vdS=val('lab_vitd');
   if(_vdS!==null) suple.push({pill:'Vitamina D',text:_vdS<20?`Vitamina D ${_vdS} ng/mL — déficit: suplementar según la tarjeta de Laboratorio.`:_vdS<30?`Vitamina D ${_vdS} ng/mL — insuficiencia (zona gris): 1000–2000 UI/día a criterio del médico.`:`Vitamina D ${_vdS} ng/mL — suficiente: no requiere suplemento adicional.`});
   else if(chk('p_dm')||chk('p_epi')||(imcP&&imcP>=30)) suple.push({pill:'Vitamina D',text:'1000–2000 UI/día a criterio del médico (FLASOG 2026) — DM, epilepsia, obesidad o baja exposición solar.'});
 
-  if(_hayDatos) suple.push({pill:'Calcio',text:(tienePE?'Prioridad: hay riesgo de PE. ':'')+'1,5–2 g/día de calcio elemental en 3 tomas, en poblaciones con baja ingesta de calcio, para reducir el riesgo de preeclampsia (OMS). Separarlo de la toma de hierro. Dos ensayos grandes mostraron que 500 mg/día no fue inferior a 1500 mg/día (Dwarkanath, NEJM 2024).'});
+  if(_hayDatos) suple.push({pill:'Calcio',text:(tienePE?'Hay riesgo de PE. ':'')+'OMS: 1,5–2 g/día de calcio elemental en 3 tomas en poblaciones con baja ingesta (500 mg/día no fue inferior a 1500 mg/día, Dwarkanath NEJM 2024). Cochrane 2025 (10 ensayos, 37 504 mujeres): sin diferencia en PE con los ensayos grandes. A criterio del médico; asegurar al menos la ingesta recomendada (1000 mg/día; 1300 en menores de 19 años). Separar del hierro.'});
 
   // DERIVACIÓN
   const derivar=findings.filter(f=>f.nivel==='alto').length>=2||
@@ -9229,7 +9229,7 @@ function getSupleRecomendaciones(findings, hb, vitd, egSem){
   const tieneAnemiaGrave = hb !== null && hb < 7;
   const tieneAnemiaModera = hb !== null && hb >= 7 && hb < _hc.mod;
   const tieneAnemiaLeve = hb !== null && hb >= _hc.mod && hb < _hc.anemia;
-  const tienePE = findings.some(f => f.conducta && f.conducta.includes('AAS'));
+  const tienePE = findings.some(f => f.conducta && f.conducta.includes('AAS') && !/no registrados/.test(f.hallazgo||''));
   const tienePreterm = findings.some(f => f.domain === 'ANTECEDENTE OBSTÉTRICO' && f.hallazgo.includes('pretérmino'));
   const tieneVegana = (document.getElementById('h_veg')&&document.getElementById('h_veg').checked)||false;
   
@@ -9237,7 +9237,7 @@ function getSupleRecomendaciones(findings, hb, vitd, egSem){
   let afDosis = '400 µg/día';
   let afNota = 'Población general — OMS/ACOG';
   let afAlerta = 'bajo';
-  const tieneDTN = findings.some(f => f.hallazgo && (f.hallazgo.includes('epilepsia') || f.hallazgo.includes('Epilepsia') || f.hallazgo.includes('DTN') || f.hallazgo.includes('malformación fetal')));
+  const tieneDTN = findings.some(f => f.hallazgo && (f.hallazgo.includes('epilepsia') || f.hallazgo.includes('Epilepsia') || f.hallazgo.includes('DTN') || f.hallazgo.includes('tubo neural')));
   const tieneObesidad = findings.some(f => f.hallazgo && (f.hallazgo.includes('obesidad') || f.hallazgo.includes('Obesidad')));
   const tieneDM = findings.some(f => f.hallazgo && (
     f.hallazgo.includes('Diabetes pregestacional') ||
@@ -9251,24 +9251,24 @@ function getSupleRecomendaciones(findings, hb, vitd, egSem){
   ));
   const tieneMTHFR = (document.getElementById('p_mthfr')&&document.getElementById('p_mthfr').checked)||false;
   if(tieneDTN || tieneObesidad || tieneDM){ afDosis = '4–5 mg/día'; afNota = 'Dosis alta: antecedente/diagnóstico DTN / epilepsia / obesidad / DM gestacional o pregestacional — OMS/NICE/ACOG/FIGO'; afAlerta = 'alto'; }
-  else if(tieneMTHFR){ afDosis = '400–800 µg/día Metilfolato (5-MTHF)'; afNota = 'Polimorfismo MTHFR C677T o A1298C: usar 5-metiltetrahidrofolato (5-MTHF) en lugar de ácido fólico sintético. Combinado con B12 (metilcobalamina). Evitar ácido fólico sin metabolizar. — ACOG / revisiones 2022–2024'; afAlerta = 'moder'; }
+  else if(tieneMTHFR){ afDosis = '400–800 µg/día ácido fólico (estándar)'; afNota = 'Polimorfismo MTHFR: el CDC sigue recomendando ácido fólico, la única forma probada para prevenir DTN. Metilfolato (5-MTHF) 400–800 µg/día como alternativa opcional.'; afAlerta = 'moder'; }
   recs.push({icon:'🟢', supl:'Ácido fólico / Metilfolato', dosis:afDosis, nota:afNota, alerta:afAlerta});
 
   // ── HIERRO ──
   let hiDosis, hiNota, hiAlerta;
-  if(tieneAnemiaGrave){ hiDosis = 'Hierro IV urgente'; hiNota = 'Hb <7 g/dL — hierro sacarosa o ferric carboxymaltosa desde 2T'; hiAlerta = 'alto'; }
-  else if(tieneAnemiaModera){ hiDosis = '60–80 mg/día hierro elemental'; hiNota = 'Anemia moderada · Equivalente quelado: ~300 mg bisglicinato ferroso'; hiAlerta = 'alto'; }
-  else if(tieneAnemiaLeve){ hiDosis = '30–60 mg/día hierro elemental'; hiNota = 'Anemia leve · Equivalente quelado: ~150–300 mg bisglicinato ferroso · Hierro quelado: mejor tolerancia digestiva'; hiAlerta = 'moder'; }
-  else { hiDosis = '30 mg/día hierro elemental (profilaxis)'; hiNota = 'Sin anemia documentada · OMS: 30–60 mg/día universal · Hierro quelado (bisglicinato): mejor biodisponibilidad'; hiAlerta = 'bajo'; }
+  if(tieneAnemiaGrave){ hiDosis = 'Hierro IV (desde el 2T)'; hiNota = 'Hb <7 g/dL — anemia grave: hierro IV (sacarosa o carboximaltosa férrica) y valorar transfusión según la clínica y la EG'; hiAlerta = 'alto'; }
+  else if(tieneAnemiaModera){ hiDosis = '120 mg/día hierro elemental'; hiNota = 'Anemia moderada — OMS: 120 mg/día hasta normalizar la Hb, luego dosis profiláctica. Sin respuesta en 4 sem o intolerancia: hierro IV desde el 2T'; hiAlerta = 'alto'; }
+  else if(tieneAnemiaLeve){ hiDosis = '120 mg/día hierro elemental'; hiNota = 'Anemia leve — OMS: 120 mg/día hasta normalizar la Hb, luego dosis profiláctica. Hierro quelado (bisglicinato): mejor tolerancia digestiva'; hiAlerta = 'moder'; }
+  else { hiDosis = '30–60 mg/día hierro elemental (profilaxis)'; hiNota = 'Sin anemia documentada · OMS: 30–60 mg/día universal · Hierro quelado (bisglicinato): mejor tolerancia'; hiAlerta = 'bajo'; }
   recs.push({icon:'🔴', supl:'Hierro', dosis:hiDosis, nota:hiNota, alerta:hiAlerta});
 
   // ── CALCIO ──
   let caDosis, caNota, caAlerta;
-  if(tienePE){ caDosis = '1.5–2 g/día'; caNota = 'Alto riesgo PE — asociado a ↑55% riesgo PE (Cochrane). Combinado con AAS desde 1T — OMS/ACOG'; caAlerta = 'alto'; }
+  if(tienePE){ caDosis = '1,5–2 g/día a criterio del médico'; caNota = 'Riesgo de PE · OMS: 1,5–2 g/día en poblaciones con baja ingesta. Cochrane 2025: sin diferencia en PE con los ensayos grandes (RR 0,92). Separar del hierro'; caAlerta = 'moder'; }
   else if(tieneVegana){ caDosis = '500–1000 mg/día'; caNota = 'Dieta vegetariana/vegana: baja ingesta láctea. Preferir calcio citrato (mejor absorción). Verificar aporte dietético total.'; caAlerta = 'moder'; }
-  else { caDosis = 'No rutina en dieta normal'; caNota = '500–1000 mg/día si baja ingesta láctea. Asociado a ↓ preeclampsia — valorar ingesta dietética'; caAlerta = 'bajo'; }
+  else { caDosis = 'Asegurar 1000 mg/día con la dieta'; caNota = 'Requerimiento igual que fuera del embarazo (1300 mg/día en menores de 19 años, IOM 2011). Suplementar si la ingesta es baja'; caAlerta = 'bajo'; }
   recs.push({icon:'🦴', supl:'Calcio', dosis:caDosis, nota:caNota, alerta:caAlerta,
-    pie:'No se recomienda suplementación rutinaria más allá de dieta adecuada en población general de países con ingesta normal'});
+    pie:'Dos posturas: la OMS recomienda 1,5–2 g/día en poblaciones con baja ingesta; la revisión Cochrane 2025 (Cluver, 10 ensayos, 37 504 mujeres) no encontró efecto sobre la PE. Decisión a criterio del médico'});
 
   // ── VITAMINA D ──
   let vitdDosis, vitdNota, vitdAlerta;
@@ -9286,20 +9286,20 @@ function getSupleRecomendaciones(findings, hb, vitd, egSem){
 
   // ── OMEGA-3 ──
   let omDosis, omNota, omAlerta;
-  if(tienePreterm){ omDosis = '800–1000 mg/día DHA'; omNota = 'Antecedente PTB — EBCOG 2024 ✓. Iniciar antes sem 20. Asociado a ↑42% parto prematuro <34 sem (Cochrane 2018)'; omAlerta = 'alto'; }
+  if(tienePreterm){ omDosis = '500–1000 mg/día DHA+EPA'; omNota = 'Antecedente de pretérmino. Iniciar antes de la sem 20. Cochrane 2018: 42% menos pretérmino <34 sem (RR 0,58) y 11% menos <37 sem'; omAlerta = 'alto'; }
   else if(tieneVegana){ omDosis = '250–600 mg/día DHA (algas)'; omNota = 'Dieta vegana: sin ingesta de pescado. Usar DHA de algas micromarinas (fuente vegana de DHA preformado). Evitar aceite de linaza como única fuente (conversión ALA→DHA muy baja).'; omAlerta = 'moder'; }
   else { omDosis = '250–600 mg/día DHA'; omNota = 'Sin factores de riesgo de PTB. Mayor beneficio en ingesta baja de pescado (<2 raciones/sem). Asociado a ↓ riesgo parto prematuro'; omAlerta = 'bajo'; }
   recs.push({icon:'🐟', supl:'Omega-3 (DHA/EPA)', dosis:omDosis, nota:omNota, alerta:omAlerta,
     pie:'No es suplementación de rutina universal en todos los protocolos. OMS/NICE/ACOG: solo dieta con pescado. EBCOG 2024 / Australia NHMRC: recomiendan suplemento en baja ingesta. Valorar ingesta dietética'});
 
   // ── YODO ──
-  const yodoDosis = tieneVegana ? '200–250 µg/día (OBLIGATORIO)' : '150–250 µg/día';
+  const yodoDosis = tieneVegana ? '150 µg/día (imprescindible)' : '150 µg/día';
   const yodoAlerta = tieneVegana ? 'alto' : 'moder';
   const yodoNota = tieneVegana
     ? 'Dieta vegana: sin pescado ni lácteos — riesgo alto de déficit de yodo. Suplementación obligatoria. Daño neurológico fetal irreversible en 1T. Preferir yoduro potásico.'
-    : 'Dieta mediterránea: valorar individual. Zona endémica con déficit: universal desde preconcepcional — OMS: 250 µg/día';
+    : 'Suplemento de 150 µg/día (yoduro de potasio) desde la preconcepción; meta de ingesta total 250 µg/día con la sal yodada (ATA/OMS)';
   recs.push({icon:'🧂', supl:'Yodo', dosis:yodoDosis, nota:yodoNota, alerta:yodoAlerta,
-    pie:'⚠️ El yodo tiene la ventana terapéutica más estrecha de todos los suplementos. Déficit y exceso son perjudiciales. Daño neurológico fetal por déficit es IRREVERSIBLE en 1T. No rutina en dieta normal con sal yodada'});
+    pie:'Déficit y exceso son perjudiciales. Evitar algas/kelp y suplementos >500 µg/día. Con levotiroxina no hace falta yodo suplementario'});
 
 
   // ── VITAMINA B12 ──
@@ -9310,7 +9310,7 @@ function getSupleRecomendaciones(findings, hb, vitd, egSem){
     b12Alerta = 'alto';
   } else if(tieneMTHFR){
     b12Dosis = '250–500 µg/día (metilcobalamina)';
-    b12Nota = 'Polimorfismo MTHFR: la B12 es cofactor del ciclo del folato. Metilcobalamina preferida (forma activa). Complementar con metilfolato 400–800 µg/día.';
+    b12Nota = 'Polimorfismo MTHFR: la B12 es cofactor del ciclo del folato. Metilcobalamina preferida (forma activa). Junto con el ácido fólico (o metilfolato como alternativa).';
     b12Alerta = 'moder';
   } else {
     b12Dosis = 'No requiere suplementación rutinaria';
