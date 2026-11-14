@@ -1,5 +1,5 @@
 /* CaVeSal® Calculadora prenatal — full. Red primero para páginas y scripts; copia guardada solo sin internet. */
-const CACHE = "cavesal-full-v46";
+const CACHE = "cavesal-full-v47";
 
 self.addEventListener("install", e => {
   e.waitUntil(

@@ -2880,7 +2880,7 @@ document.addEventListener('DOMContentLoaded', function(){
         </table>
         <div style="font-size:.65rem;color:var(--slate,#64748b);margin-top:4px">
           Bolsón Mayor normal: 2–8 cm (igual en ISUOG y ACOG/SMFM). Todos los valores en cm.<br>
-          <em>ISUOG 2024 · SMFM Consult #46 (2018) · ACOG Clinical Consensus No.3 (2022)</em>
+          <em>ISUOG 2024 (Khalil) · SMFM Consult #46 (2018, reaf. 2024) · ACOG PB 229 (2021) · Zona limítrofe inferior: Phelan 1987 · Zona limítrofe superior: Sugerencia CaVeSal®</em>
         </div>
       </div>
 
@@ -4078,7 +4078,7 @@ Microcefalia: CC &lt;p3 para EG.</div>
       <strong style="color:var(--navy)">Ganancia ponderal:</strong> IOM/NAS 2009 · ACOG<br>
       <strong style="color:var(--navy)">Vía de parto:</strong> Robson (OPS/OMS 2018, grupo probable) · FIGO 2025 (PVDC) · Grobman (NICHD) · ACOG · Clasificación EG (término / pretérmino / postérmino): ACOG Practice Bulletin<br>
       <strong style="color:var(--navy)">Seguimiento:</strong> ACOG · FIGO · NICE<br>
-      <strong style="color:var(--navy)">Líquido amniótico (ILA / Bolsón mayor):</strong> SMFM Consult Series #46: Oligohydramnios (2018) · ACOG Clinical Consensus No. 3: Polyhydramnios (2022) · ISUOG Practice Guidelines: Ultrasound assessment of fetal biometry and growth (2024)<br>
+      <strong style="color:var(--navy)">Líquido amniótico (ILA / Bolsón mayor):</strong> SMFM Consult Series #46: Polyhydramnios (2018, reafirmado 2024) · ACOG Practice Bulletin 229: Antepartum Fetal Surveillance (2021) · Phelan 1987 (ILA, zona limítrofe inferior) · ISUOG Practice Guidelines: performance of third-trimester obstetric ultrasound scan (2024)<br>
       <strong style="color:var(--navy)">Trastornos hipertensivos del embarazo (HTA / Preeclampsia):</strong> ACOG Practice Bulletin No. 222: Gestational Hypertension and Preeclampsia (2020) · FIGO Guidelines on Preeclampsia Prevention and Management (2019) · ISSHP Classification, Diagnosis, and Management of the Hypertensive Disorders of Pregnancy (2021)
     </div>
     <a href="https://cavesal.app/bibliografia-calculadora.html" target="_blank" rel="noopener"
@@ -5911,7 +5911,7 @@ function calcular(){
   }
   // ── LÍQUIDO AMNIÓTICO ──
   // Algoritmo propio CaVeSal® · Análisis basado en literatura de referencia
-  // ISUOG 2024 · SMFM Consult #46 (2018) · ACOG Clinical Consensus No.3 (2022)
+  // ISUOG 2024 (Khalil) · SMFM Consult #46 (2018, reaf. 2024) · ACOG PB 229 (2021) · Phelan 1987
   const ecoILA=val('eco_ila'), ecoBolson=val('eco_bolson');
   const laMetodo=document.getElementById('eco_la_metodo')?document.getElementById('eco_la_metodo').value:'acog';
   const laRef=laMetodo==='isuog'?'ISUOG 2024':'ACOG / SMFM 2022';
