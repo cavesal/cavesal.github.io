@@ -2830,10 +2830,10 @@ document.addEventListener('DOMContentLoaded', function(){
       <div class="note-box">
         <strong>Bolsón mayor (columna vertical máxima — BME/SDP):</strong><br>
         &lt;2 cm oligoamnios · <strong>2–8 cm Normal</strong> · &gt;8 cm polihidramnios<br>
-        <em style="font-size:.69rem">SMFM/ACOG 2022 · ISUOG 2024</em><br>
+        <em style="font-size:.69rem">SMFM #46 · ACOG PB 229 · ISUOG 2024</em><br>
         <strong>ILA — Índice de líquido amniótico:</strong><br>
         <span style="color:var(--teal,#0d9488)"><strong>ISUOG 2024:</strong></span> &lt;5 cm oligoamnios · <strong>5–24.9 cm Normal</strong> · ≥25 cm polihidramnios<br>
-        <span style="color:var(--teal,#0d9488)"><strong>ACOG/SMFM 2022:</strong></span> &lt;5 cm oligoamnios · 5.1–8.0 borderline inf · <strong>8.1–18 cm Normal</strong> · 18.1–24.9 borderline sup · ≥25 polihidramnios<br>
+        <span style="color:var(--teal,#0d9488)"><strong>ACOG/SMFM + Phelan:</strong></span> &lt;5 cm oligoamnios · 5.1–8.0 limítrofe inf (Phelan 1987) · <strong>8.1–18 cm Normal</strong> · 18.1–23.9 limítrofe sup (Sugerencia CaVeSal®) · ≥24 polihidramnios (SMFM #46)<br>
         <em style="font-size:.69rem">Ver tabla de clasificación completa ↓</em>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;max-width:100%">
@@ -2845,14 +2845,14 @@ document.addEventListener('DOMContentLoaded', function(){
         <div class="field">
           <label for="eco_ila">ILA (cm)</label>
           <input type="number" id="eco_ila" placeholder="—" step="0.1" oninput="calcLA()">
-          <div class="hint">ACOG: 8–18 · ISUOG: 5–25</div>
+          <div class="hint">ACOG/SMFM + Phelan: 8.1–18 · ISUOG: 5–24.9</div>
         </div>
       </div>
       <div class="field" style="margin-top:6px">
         <label for="eco_la_metodo">Clasificar ILA según</label>
         <select id="eco_la_metodo">
-          <option value="acog">ACOG/SMFM (con zonas borderline)</option>
-          <option value="isuog">ISUOG (cortes absolutos clásicos)</option>
+          <option value="acog">ACOG/SMFM + Phelan (con zonas limítrofes)</option>
+          <option value="isuog">ISUOG 2024 (sin zona limítrofe)</option>
         </select>
       </div>
       <div id="la_result" style="display:none"></div>
@@ -2863,21 +2863,22 @@ document.addEventListener('DOMContentLoaded', function(){
             <tr style="background:var(--teal,#0d9488);color:#fff">
               <th style="padding:3px 5px;text-align:left">Categoría</th>
               <th style="padding:3px 5px;text-align:center">ISUOG 2024</th>
-              <th style="padding:3px 5px;text-align:center">ACOG/SMFM 2022</th>
+              <th style="padding:3px 5px;text-align:center">ACOG/SMFM + Phelan</th>
             </tr>
           </thead>
           <tbody>
             <tr style="background:rgba(244,67,54,.15)"><td style="padding:2px 5px"><strong>Anhidramnios</strong></td><td style="padding:2px 5px;text-align:center">0 cm</td><td style="padding:2px 5px;text-align:center">0 cm</td></tr>
-            <tr style="background:rgba(244,67,54,.1)"><td style="padding:2px 5px"><strong>Oligo severo</strong></td><td style="padding:2px 5px;text-align:center">&lt;5 cm</td><td style="padding:2px 5px;text-align:center">&lt;3 cm</td></tr>
+            <tr style="background:rgba(244,67,54,.1)"><td style="padding:2px 5px"><strong>Oligo severo</strong></td><td style="padding:2px 5px;text-align:center">&lt;5 cm</td><td style="padding:2px 5px;text-align:center">&lt;3 cm*</td></tr>
             <tr style="background:rgba(244,67,54,.07)"><td style="padding:2px 5px"><strong>Oligoamnios</strong></td><td style="padding:2px 5px;text-align:center">&lt;5 cm</td><td style="padding:2px 5px;text-align:center">&lt;5 cm</td></tr>
             <tr style="background:rgba(255,193,7,.15)"><td style="padding:2px 5px">Borderline inf.</td><td style="padding:2px 5px;text-align:center">—</td><td style="padding:2px 5px;text-align:center">5.1–8.0 cm</td></tr>
             <tr style="background:rgba(16,185,129,.1)"><td style="padding:2px 5px"><strong>Normal</strong></td><td style="padding:2px 5px;text-align:center"><strong>5–24.9 cm</strong></td><td style="padding:2px 5px;text-align:center"><strong>8.1–18 cm</strong></td></tr>
-            <tr style="background:rgba(255,193,7,.15)"><td style="padding:2px 5px">Borderline sup.</td><td style="padding:2px 5px;text-align:center">—</td><td style="padding:2px 5px;text-align:center">18.1–24.9 cm</td></tr>
-            <tr style="background:rgba(255,152,0,.15)"><td style="padding:2px 5px">Poli leve</td><td style="padding:2px 5px;text-align:center">≥25 cm</td><td style="padding:2px 5px;text-align:center">25–29.9 cm</td></tr>
+            <tr style="background:rgba(255,193,7,.15)"><td style="padding:2px 5px">Borderline sup.</td><td style="padding:2px 5px;text-align:center">—</td><td style="padding:2px 5px;text-align:center">18.1–23.9 cm*</td></tr>
+            <tr style="background:rgba(255,152,0,.15)"><td style="padding:2px 5px">Poli leve</td><td style="padding:2px 5px;text-align:center">≥25 cm</td><td style="padding:2px 5px;text-align:center">24–29.9 cm</td></tr>
             <tr style="background:rgba(255,152,0,.22)"><td style="padding:2px 5px">Poli moderado</td><td style="padding:2px 5px;text-align:center">≥25 cm</td><td style="padding:2px 5px;text-align:center">30–34.9 cm</td></tr>
             <tr style="background:rgba(244,67,54,.1)"><td style="padding:2px 5px">Poli severo</td><td style="padding:2px 5px;text-align:center">≥25 cm</td><td style="padding:2px 5px;text-align:center">≥35 cm</td></tr>
           </tbody>
         </table>
+        <div style="font-size:.66rem;margin-top:3px">* Sugerencia CaVeSal® (sin fuente formal). Zona limítrofe inferior: Phelan 1987. Polihidramnios y grados: SMFM #46 (2018, reaf. 2024).</div>
         <div style="font-size:.65rem;color:var(--slate,#64748b);margin-top:4px">
           Bolsón Mayor normal: 2–8 cm (igual en ISUOG y ACOG/SMFM). Todos los valores en cm.<br>
           <em>ISUOG 2024 (Khalil) · SMFM Consult #46 (2018, reaf. 2024) · ACOG PB 229 (2021) · Zona limítrofe inferior: Phelan 1987 · Zona limítrofe superior: Sugerencia CaVeSal®</em>
@@ -5914,7 +5915,7 @@ function calcular(){
   // ISUOG 2024 (Khalil) · SMFM Consult #46 (2018, reaf. 2024) · ACOG PB 229 (2021) · Phelan 1987
   const ecoILA=val('eco_ila'), ecoBolson=val('eco_bolson');
   const laMetodo=document.getElementById('eco_la_metodo')?document.getElementById('eco_la_metodo').value:'acog';
-  const laRef=laMetodo==='isuog'?'ISUOG 2024':'ACOG / SMFM 2022';
+  const laRef=laMetodo==='isuog'?'ISUOG 2024':'ACOG/SMFM + Phelan';
 
   if(ecoILA!==null){
     // Causas para conducta
@@ -5928,51 +5929,51 @@ function calcular(){
       else if(ecoILA<5) add('ECOGRAFÍA','alto',`ILA ${ecoILA} cm — Oligoamnios (ISUOG)`,
         'ILA <5 cm: oligoamnios confirmado según criterio ISUOG. '+_cauOligo+'Doppler umbilical y ACM urgente. Vigilancia fetal intensiva. Considerar hospitalización.', laRef);
       else if(ecoILA>=25 && ecoILA<30) add('ECOGRAFÍA','moderado',`ILA ${ecoILA} cm — Polihidramnios (ISUOG)`,
-        'ILA ≥25 cm: polihidramnios según ISUOG. 80% de casos leves son idiopáticos o por DG. '+_cauPoli+'Biometría seriada. ECO morfológica si no realizada.', laRef);
+        'ILA ≥25 cm: polihidramnios según ISUOG. '+_cauPoli+'Biometría seriada. ECO morfológica si no realizada.', laRef);
       else if(ecoILA>=30 && ecoILA<35) add('ECOGRAFÍA','alto',`ILA ${ecoILA} cm — Polihidramnios moderado (ISUOG)`,
         'ILA ≥30 cm: polihidramnios moderado. '+_cauPoli+'Riesgo pretérmino, prolapso de cordón. Derivar Medicina Fetal.', laRef);
       else if(ecoILA>=35) add('ECOGRAFÍA','alto',`ILA ${ecoILA} cm — Polihidramnios SEVERO (ISUOG)`,
-        'ILA ≥35 cm: polihidramnios severo (>50% asociado a malformación estructural o cromosomopatía). '+_cauPoli+'Estudio etiológico urgente. Considerar amniorreducción si sintomática. Derivar Medicina Fetal urgente.', laRef);
+        'ILA ≥35 cm: polihidramnios severo (mayor probabilidad de causa fetal subyacente). '+_cauPoli+'Estudio etiológico urgente. Considerar amniorreducción si sintomática. Derivar Medicina Fetal urgente.', laRef);
     } else {
       // ACOG/SMFM: rangos con borderline
       if(ecoILA===0) add('ECOGRAFÍA','alto',`ILA ${ecoILA} cm — Anhidramnios (ACOG)`,
         'Ausencia total de líquido amniótico. Causa urgente. '+_cauOligo+'Derivación urgente a Medicina Fetal.', laRef);
-      else if(ecoILA<3) add('ECOGRAFÍA','alto',`ILA ${ecoILA} cm — Oligoamnios SEVERO (ACOG)`,
-        'ILA <3 cm: oligoamnios severo. '+_cauOligo+'Doppler umbilical urgente. Hospitalización. Maduración pulmonar si EG ≥24 sem.', laRef);
+      else if(ecoILA<3) add('ECOGRAFÍA','alto',`ILA ${ecoILA} cm — Oligoamnios SEVERO (Sugerencia CaVeSal®)`,
+        'ILA <3 cm: oligoamnios severo (corte Sugerencia CaVeSal®; sin fuente formal). '+_cauOligo+'Doppler umbilical urgente. Hospitalización. Maduración pulmonar si EG ≥24 sem.', laRef);
       else if(ecoILA<5) add('ECOGRAFÍA','alto',`ILA ${ecoILA} cm — Oligoamnios confirmado (ACOG)`,
         'ILA <5 cm: oligoamnios. '+_cauOligo+'Doppler umbilical y ACM. Vigilancia fetal intensiva.', laRef);
-      else if(ecoILA<=8) add('ECOGRAFÍA','moderado',`ILA ${ecoILA} cm — Borderline inferior / LA marginal (ACOG)`,
-        'ILA 5.1–8.0 cm: zona borderline inferior. Riesgo de progresión a oligoamnios o asociación con RCIU. Control en 1 semana. Doppler fetal. Descartar RCIU.', laRef);
+      else if(ecoILA<=8) add('ECOGRAFÍA','moderado',`ILA ${ecoILA} cm — Limítrofe inferior / LA marginal (Phelan)`,
+        'ILA 5.1–8.0 cm: zona limítrofe inferior (Phelan 1987). Riesgo de progresión a oligoamnios o asociación con RCIU. Control en 1 semana. Doppler fetal. Descartar RCIU.', laRef);
       else if(ecoILA<=18) add('ECOGRAFÍA','bajo',`ILA ${ecoILA} cm — Normal (ACOG)`,
         'ILA 8.1–18.0 cm: rango normal fisiológico (ACOG/SMFM).', laRef);
-      else if(ecoILA<25) add('ECOGRAFÍA','moderado',`ILA ${ecoILA} cm — Borderline superior (ACOG)`,
-        'ILA 18.1–24.9 cm: zona borderline superior. '+_cauPoli+'ECO morfológica si no realizada. Control en 2 semanas.', laRef);
-      else if(ecoILA<30) add('ECOGRAFÍA','moderado',`ILA ${ecoILA} cm — Polihidramnios leve (ACOG)`,
-        'ILA 25–29.9 cm: polihidramnios leve (80% idiopático o DG). '+_cauPoli+'Biometría seriada. ECO morfológica.', laRef);
+      else if(ecoILA<24) add('ECOGRAFÍA','moderado',`ILA ${ecoILA} cm — Limítrofe superior (Sugerencia CaVeSal®)`,
+        'ILA 18.1–23.9 cm: zona limítrofe superior (Sugerencia CaVeSal®). '+_cauPoli+'ECO morfológica si no realizada. Control en 2 semanas.', laRef);
+      else if(ecoILA<30) add('ECOGRAFÍA','moderado',`ILA ${ecoILA} cm — Polihidramnios leve (SMFM)`,
+        'ILA 24–29.9 cm: polihidramnios leve (SMFM #46). '+_cauPoli+'Biometría seriada. ECO morfológica.', laRef);
       else if(ecoILA<35) add('ECOGRAFÍA','alto',`ILA ${ecoILA} cm — Polihidramnios moderado (ACOG)`,
         'ILA 30–34.9 cm: polihidramnios moderado. '+_cauPoli+'Riesgo pretérmino, prolapso cordón, DPPNI. Derivar Medicina Fetal.', laRef);
       else add('ECOGRAFÍA','alto',`ILA ${ecoILA} cm — Polihidramnios SEVERO (ACOG)`,
-        'ILA ≥35 cm: polihidramnios severo (>50% asociado a malformación o cromosomopatía). '+_cauPoli+'Estudio etiológico urgente. Considerar amniorreducción si sintomática. Derivar Medicina Fetal urgente.', laRef);
+        'ILA ≥35 cm: polihidramnios severo (mayor probabilidad de causa fetal subyacente). '+_cauPoli+'Estudio etiológico urgente. Considerar amniorreducción si sintomática. Derivar Medicina Fetal urgente.', laRef);
     }
   }
   if(ecoBolson!==null){
     // Bolsón mayor (BME/SDP) — método preferido SMFM/ACOG
     if(ecoBolson===0) add('ECOGRAFÍA','alto',`Bolsón mayor ${ecoBolson} cm — Anhidramnios`,
       'Ausencia de bolsillo líquido. Derivar urgente.','SMFM / ACOG');
-    else if(ecoBolson<1) add('ECOGRAFÍA','alto',`Bolsón mayor ${ecoBolson} cm — Oligoamnios SEVERO`,
-      'BME <1 cm: oligoamnios severo. Confirmar con ILA. Manejo urgente. Descartar RPM, malformación renal.','SMFM / ACOG');
+    else if(ecoBolson<1) add('ECOGRAFÍA','alto',`Bolsón mayor ${ecoBolson} cm — Oligoamnios SEVERO (Sugerencia CaVeSal®)`,
+      'BME <1 cm: oligoamnios severo (corte Sugerencia CaVeSal®). Confirmar con ILA. Manejo urgente. Descartar RPM, malformación renal.','SMFM / ACOG');
     else if(ecoBolson<2) add('ECOGRAFÍA','alto',`Bolsón mayor ${ecoBolson} cm — Oligoamnios`,
       'BME <2 cm: oligoamnios confirmado. Doppler umbilical. Vigilancia fetal intensiva.','SMFM / ACOG');
     else if(ecoBolson<=7) add('ECOGRAFÍA','bajo',`Bolsón mayor ${ecoBolson} cm — Normal`,
       'BME 2.1–7.9 cm: rango normal (método SMFM/ACOG preferido por menor tasa de intervenciones).','SMFM / ACOG');
-    else if(ecoBolson<8) add('ECOGRAFÍA','moderado',`Bolsón mayor ${ecoBolson} cm — Borderline superior`,
-      'BME 7.1–7.9 cm: límite superior de la normalidad. Confirmar con ILA. Control en 1–2 sem.','SMFM / ACOG');
-    else if(ecoBolson<10) add('ECOGRAFÍA','moderado',`Bolsón mayor ${ecoBolson} cm — Polihidramnios leve`,
-      'BME 8.0–9.9 cm: polihidramnios leve. Descartar DG, malformación fetal. Biometría seriada.','SMFM / ACOG');
-    else if(ecoBolson<12) add('ECOGRAFÍA','alto',`Bolsón mayor ${ecoBolson} cm — Polihidramnios moderado`,
-      'BME 10–11.9 cm: polihidramnios moderado. Estudio etiológico. Derivar Medicina Fetal.','SMFM / ACOG');
+    else if(ecoBolson<8) add('ECOGRAFÍA','moderado',`Bolsón mayor ${ecoBolson} cm — Limítrofe superior (Sugerencia CaVeSal®)`,
+      'BME 7.1–7.9 cm: límite superior de la normalidad (Sugerencia CaVeSal®). Confirmar con ILA. Control en 1–2 sem.','SMFM / ACOG');
+    else if(ecoBolson<12) add('ECOGRAFÍA','moderado',`Bolsón mayor ${ecoBolson} cm — Polihidramnios leve`,
+      'BME 8–11.9 cm: polihidramnios leve (SMFM #46). Descartar DG, malformación fetal. Biometría seriada.','SMFM / ACOG');
+    else if(ecoBolson<16) add('ECOGRAFÍA','alto',`Bolsón mayor ${ecoBolson} cm — Polihidramnios moderado`,
+      'BME 12–15.9 cm: polihidramnios moderado (SMFM #46). Estudio etiológico. Derivar Medicina Fetal.','SMFM / ACOG');
     else add('ECOGRAFÍA','alto',`Bolsón mayor ${ecoBolson} cm — Polihidramnios SEVERO`,
-      'BME ≥12 cm: polihidramnios severo (alta asociación con malformación o cromosomopatía). Estudio etiológico urgente. Derivar Medicina Fetal.','SMFM / ACOG');
+      'BME ≥16 cm: polihidramnios severo (SMFM #46; mayor probabilidad de causa fetal subyacente). Estudio etiológico urgente. Derivar Medicina Fetal.','SMFM / ACOG');
   }
   if(cervix!==null){
     if(cervix<15) add('ECOGRAFÍA 2T','alto',`Cervicometría ${cervix} mm (muy corto)`,'Cerclaje urgente si <23+6 sem. Progesterona 200 mg/noche. Hospitalización según contexto.','FMF / ACOG');
