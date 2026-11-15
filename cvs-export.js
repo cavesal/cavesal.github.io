@@ -288,6 +288,24 @@
     }
   }
 
-  function init() { injectCSS(); engancharPacientes(); engancharVacio(); }
+  /* Robotita de CaVeSal® IA debajo de las pestañas, en todas las pantallas (2026-11-15). */
+  function robotSuperior() {
+    var main = document.querySelector("main");
+    if (!main || document.querySelector("#cvx-ia-top")) return; // getElementById está envuelto en la app y devuelve un objeto vacío
+    var c = document.createElement("div");
+    c.id = "cvx-ia-top";
+    c.style.cssText = "margin:0 0 14px;padding:12px 14px;border-radius:14px;background:linear-gradient(135deg,#f5f0ff,#faf7ff);border:1.5px solid #c9b3f5;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap";
+    c.innerHTML = '<div class="ia-mz"><span class="ia-mz-anim" role="img" aria-label="Robotita de CaVeSal® IA"></span><div class="ia-mz-body"><div class="ia-mz-title">Analizar con CaVeSal® IA</div>' +
+      '<p class="ia-mz-bub">¿Querés ir más a fondo? Calculá el caso, enviámelo y lo analizo con las guías FMF, ACOG, FIGO, NICE y OMS. Vos decidís; yo te ayudo a pensar cada caso.</p>' +
+      '<div class="ia-mz-priv">' + (DEMO ? "Disponible en la versión completa." : "No se envían nombre ni documento.") + "</div></div></div>" +
+      '<button type="button" style="background:#7c3aed;color:#fff;border:none;border-radius:10px;padding:9px 16px;font-size:.82rem;font-weight:700;cursor:pointer;opacity:' + (DEMO ? ".7" : "1") + '">Analizar' + (DEMO ? " 🔒" : "") + "</button>";
+    c.querySelector("button").addEventListener("click", function () {
+      if (DEMO || typeof window.analizarConCavesalIA !== "function") return window.cvsIAVacio();
+      window.analizarConCavesalIA();
+    });
+    main.insertBefore(c, main.firstChild);
+  }
+
+  function init() { injectCSS(); engancharPacientes(); engancharVacio(); robotSuperior(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
 })();
