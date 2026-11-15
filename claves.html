@@ -124,7 +124,9 @@
         <option value="emergencia">Emergencias Obstétricas</option>
         <option value="combo_calc_emergencia">Combo (Emergencias + Calculadora)</option>
         <option value="combo_hc_emergencia">Combo (Emergencias + HC)</option>
-        <option value="combo_total">Super Combo (las 3 apps)</option>
+        <option value="combo_total">Super Combo (Calculadora + HC + Emergencias)</option>
+        <option value="gyn">CaVeSal® GYN</option>
+        <option value="mega_combo">Mega Combo (las 4 apps)</option>
       </select>
       <label for="gs_email">Email del destinatario (opcional)</label>
       <input type="email" id="gs_email" placeholder="paciente@email.com">
@@ -243,6 +245,12 @@ function badgeParaEstado(estado){
 function nombreProducto(p){
   if(p === 'hc') return 'Historia Clínica';
   if(p === 'combo') return 'Combo (Calculadora + HC)';
+  if(p === 'emergencia') return 'Emergencias Obstétricas';
+  if(p === 'combo_calc_emergencia') return 'Combo (Emergencias + Calculadora)';
+  if(p === 'combo_hc_emergencia') return 'Combo (Emergencias + HC)';
+  if(p === 'combo_total') return 'Super Combo (Calculadora + HC + Emergencias)';
+  if(p === 'gyn') return 'CaVeSal® GYN';
+  if(p === 'mega_combo') return 'Mega Combo (las 4 apps)';
   return 'Calculadora Prenatal';
 }
 
