@@ -66,7 +66,6 @@
     return '<div class="cvx-ley">Riesgo global según gravedad: <span><i style="background:var(--green,#16a34a)"></i>Bajo</span><span><i style="background:var(--amber,#f59e0b)"></i>Moderado</span><span><i style="background:var(--red,#dc2626)"></i>Alto</span></div>';
   };
   window.cvsIAVacio = function () {
-    if (DEMO) { if (typeof window.abrirContacto === "function") window.abrirContacto(); return; }
     alert("Primero cargá los datos en Ficha prenatal y apretá Calcular. Después la robotita analiza el caso.");
   };
   window.cvsResultadoVacio = function () {
@@ -74,8 +73,8 @@
     return '<div class="cvx-vac-h"><i></i><div><small>Resultado</small><strong>No tenés datos cargados</strong></div></div>' +
       window.cvsLeyenda() +
       '<div style="margin:0 0 12px;padding:14px;border-radius:14px;background:linear-gradient(135deg,#f5f0ff,#faf7ff);border:1.5px solid #c9b3f5;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">' +
-      '<div class="ia-mz"><span class="ia-mz-anim" role="img" aria-label="Robotita de CaVeSal® IA"></span><div class="ia-mz-body"><div class="ia-mz-title">Analizar con CaVeSal® IA</div><p class="ia-mz-bub">Cuando calcules, enviame el caso y lo analizo con las guías FMF, ACOG, FIGO, NICE y OMS. Vos decidís; yo te ayudo a pensar cada caso.</p><div class="ia-mz-priv">' + (DEMO ? "Disponible en la versión completa." : "No se envían nombre ni documento.") + '</div></div></div>' +
-      '<button onclick="cvsIAVacio()" style="background:#7c3aed;color:#fff;border:none;border-radius:10px;padding:9px 16px;font-size:.82rem;font-weight:700;cursor:pointer;opacity:' + (DEMO ? ".7" : "1") + '">Analizar' + L + '</button></div>' +
+      '<div class="ia-mz"><span class="ia-mz-anim" role="img" aria-label="Robotita de CaVeSal® IA"></span><div class="ia-mz-body"><div class="ia-mz-title">Analizar con CaVeSal® IA</div><p class="ia-mz-bub">Cuando calcules, enviame el caso y lo analizo con las guías FMF, ACOG, FIGO, NICE y OMS. Vos decidís; yo te ayudo a pensar cada caso.</p><div class="ia-mz-priv">' + (DEMO ? "No se envían nombre ni documento. Requiere una cuenta de CaVeSal® IA." : "No se envían nombre ni documento.") + '</div></div></div>' +
+      '<button onclick="cvsIAVacio()" style="background:#7c3aed;color:#fff;border:none;border-radius:10px;padding:9px 16px;font-size:.82rem;font-weight:700;cursor:pointer">Analizar</button></div>' +
       '<div class="cvx-vac-t">Cargá los datos en <b>Ficha prenatal</b> y apretá <b>Calcular</b>. Acá vas a ver el riesgo global, los hallazgos y la conducta a seguir.<br><button type="button" class="cvx-b main" onclick="showTab(\'formulario\')">Ir a Ficha prenatal</button></div>' +
       '<div class="cvx-bar" data-cvx="1"><h4>Exportar resultado</h4><p>' + (DEMO ? "Exportar el resultado a PDF o Word está en la versión completa." : "Cuando tengas un resultado vas a poder exportarlo a PDF o Word.") + '</p>' +
       '<div class="cvx-row"><button type="button" class="cvx-b main' + (DEMO ? " cvx-lock" : "") + '" onclick="cvsExportar(\'pdf\')">Exportar PDF' + L + '</button>' +
@@ -297,10 +296,10 @@
     c.style.cssText = "margin:0 0 14px;padding:12px 14px;border-radius:14px;background:linear-gradient(135deg,#f5f0ff,#faf7ff);border:1.5px solid #c9b3f5;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap";
     c.innerHTML = '<div class="ia-mz"><span class="ia-mz-anim" role="img" aria-label="Robotita de CaVeSal® IA"></span><div class="ia-mz-body"><div class="ia-mz-title">Analizar con CaVeSal® IA</div>' +
       '<p class="ia-mz-bub">¿Querés ir más a fondo? Calculá el caso, enviámelo y lo analizo con las guías FMF, ACOG, FIGO, NICE y OMS. Vos decidís; yo te ayudo a pensar cada caso.</p>' +
-      '<div class="ia-mz-priv">' + (DEMO ? "Disponible en la versión completa." : "No se envían nombre ni documento.") + "</div></div></div>" +
-      '<button type="button" style="background:#7c3aed;color:#fff;border:none;border-radius:10px;padding:9px 16px;font-size:.82rem;font-weight:700;cursor:pointer;opacity:' + (DEMO ? ".7" : "1") + '">Analizar' + (DEMO ? " 🔒" : "") + "</button>";
+      '<div class="ia-mz-priv">' + (DEMO ? "No se envían nombre ni documento. Requiere una cuenta de CaVeSal® IA." : "No se envían nombre ni documento.") + "</div></div></div>" +
+      '<button type="button" style="background:#7c3aed;color:#fff;border:none;border-radius:10px;padding:9px 16px;font-size:.82rem;font-weight:700;cursor:pointer">Analizar</button>';
     c.querySelector("button").addEventListener("click", function () {
-      if (DEMO || typeof window.analizarConCavesalIA !== "function") return window.cvsIAVacio();
+      if (typeof window.analizarConCavesalIA !== "function") return window.cvsIAVacio();
       window.analizarConCavesalIA();
     });
     main.insertBefore(c, main.firstChild);
