@@ -53,7 +53,28 @@
     var rm=function(){['pointerdown','keydown','touchstart'].forEach(function(t){document.removeEventListener(t,go,true)})};
     ['pointerdown','keydown','touchstart'].forEach(function(t){document.addEventListener(t,go,true)});
   }
+  document.addEventListener('cvs:pausar-musica',function(){if(!a.paused){wanted=false;a.pause();save();ui(false);}});
   setInterval(function(){if(!a.paused)save();},1000);
   window.addEventListener('pagehide',save);
   document.addEventListener('visibilitychange',function(){if(document.hidden){if(!a.paused){save();a.pause();}}else if(wanted&&started)play();});
+})();
+
+/* Tina Tin: videos que arrancan sin sonido al verse; un solo video con sonido a la vez */
+(function(){
+  var vs=[].slice.call(document.querySelectorAll('video[data-tina]'));
+  if(!vs.length)return;
+  var calm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function lbl(b,on){b.setAttribute('aria-pressed',on?'true':'false');b.setAttribute('aria-label',on?'Silenciar':'Activar sonido');var l=b.querySelector('span');if(l)l.textContent=on?'Silenciar':'Activar sonido';}
+  function play(v){var p=v.play();if(p&&p.catch)p.catch(function(){});}
+  vs.forEach(function(v){
+    var b=v.parentNode.querySelector('.tina-snd');
+    if(b)b.addEventListener('click',function(e){e.stopPropagation();
+      if(v.muted){vs.forEach(function(o){if(o!==v){o.muted=true;var ob=o.parentNode.querySelector('.tina-snd');if(ob)lbl(ob,false);}});
+        document.dispatchEvent(new Event('cvs:pausar-musica'));v.muted=false;try{v.currentTime=0}catch(_){}play(v);lbl(b,true);}
+      else{v.muted=true;lbl(b,false);}});
+  });
+  if(!('IntersectionObserver' in window)){vs.forEach(function(v){v.preload='metadata';});return;}
+  var io=new IntersectionObserver(function(es){es.forEach(function(en){var v=en.target;
+    if(en.isIntersecting){if(!calm||!v.muted)play(v);}else{v.pause();if(!v.muted){v.muted=true;var b=v.parentNode.querySelector('.tina-snd');if(b)lbl(b,false);}}});},{threshold:.4});
+  vs.forEach(function(v){io.observe(v);});
 })();
