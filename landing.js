@@ -78,3 +78,17 @@
     if(en.isIntersecting){if(!calm||!v.muted)play(v);}else{v.pause();if(!v.muted){v.muted=true;var b=v.parentNode.querySelector('.tina-snd');if(b)lbl(b,false);}}});},{threshold:.4});
   vs.forEach(function(v){io.observe(v);});
 })();
+
+/* Tina Tin: subtítulos ES / PT / EN (los botones cambian todos los videos a la vez) */
+(function(){
+  var vs=[].slice.call(document.querySelectorAll('video[data-tina]'));
+  if(!vs.length)return;
+  var K='cvs-tina-sub',lang='es';
+  try{lang=localStorage.getItem(K)||((navigator.language||'es').slice(0,2)==='pt'?'pt':(navigator.language||'es').slice(0,2)==='en'?'en':'es')}catch(e){}
+  function apply(l){lang=l;try{localStorage.setItem(K,l)}catch(e){}
+    vs.forEach(function(v){for(var i=0;i<v.textTracks.length;i++){var t=v.textTracks[i];t.mode=(t.language===l)?'showing':'disabled';}});
+    [].forEach.call(document.querySelectorAll('.tina-langs button'),function(b){b.setAttribute('aria-pressed',b.getAttribute('data-sub')===l?'true':'false');});}
+  [].forEach.call(document.querySelectorAll('.tina-langs button'),function(b){b.addEventListener('click',function(){apply(b.getAttribute('data-sub'));});});
+  vs.forEach(function(v){v.addEventListener('loadedmetadata',function(){apply(lang);});v.addEventListener('play',function(){apply(lang);});});
+  apply(lang);
+})();

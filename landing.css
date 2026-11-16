@@ -426,3 +426,9 @@ footer .col a:hover{color:var(--teal-l)}
 .tina-chips a{display:inline-block;padding:8px 14px;border-radius:999px;background:var(--mujer-bg);color:var(--mujer);font-weight:700;font-size:.88rem;text-decoration:none;border:1px solid rgba(163,35,143,.2);transition:background .2s,color .2s}
 .tina-chips a:hover,.tina-chips a:focus-visible{background:var(--mujer);color:#fff}
 @media(max-width:600px){.tina-casos{padding:22px 14px;border-radius:16px}.tina-cta{display:block;width:100%;box-sizing:border-box}.tina-cats .btn{width:100%;box-sizing:border-box}.tina-chips a{font-size:.84rem}}
+.tina-langs{display:flex;justify-content:center;gap:6px;margin-top:10px}
+.tina-langs button{min-width:44px;padding:6px 10px;border-radius:999px;border:1px solid rgba(163,35,143,.3);background:#fff;color:var(--mujer);font:800 .8rem/1 var(--fb);cursor:pointer}
+.tina-langs button[aria-pressed="true"]{background:var(--mujer);color:#fff;border-color:var(--mujer)}
+.tina-langs button:focus-visible{outline:3px solid var(--teal-l);outline-offset:2px}
+.tina-vid video::cue{font-size:1em;line-height:1.3;background:rgba(13,27,45,.75)}
+.tina-mini video::cue{font-size:1.25em}
