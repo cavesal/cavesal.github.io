@@ -414,3 +414,15 @@ footer .col a:hover{color:var(--teal-l)}
 .tina-mini figcaption span{font-size:.82rem}
 .tina-home .tina-ia{margin-top:10px;font-size:.78rem}
 .tina-mini .hv-snd{right:8px;bottom:8px;width:40px;height:40px;padding:0;justify-content:center}.tina-mini .hv-snd span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.tina-casos{max-width:860px;margin:36px auto 0;padding:28px 24px;border-radius:22px;background:#fff;border:1px solid rgba(163,35,143,.18);box-shadow:var(--sh)}
+.tina-casos h3{margin:0 0 6px;font-family:var(--fh,inherit);font-size:1.35rem;color:var(--ink,#0D1B2D)}
+.tina-casos>p{margin:0 0 18px;color:var(--muted,#5b6472)}
+.tina-cta{font-size:1.05rem;padding:14px 26px}
+.tina-cats{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:14px}
+.tina-cats .btn{border-color:var(--mujer);color:var(--mujer)}
+.tina-cats .btn:hover{background:var(--mujer-bg)}
+.tina-chips-t{margin:22px 0 10px!important;font-weight:800;font-size:.85rem;letter-spacing:.04em;text-transform:uppercase;color:var(--mujer)!important}
+.tina-chips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.tina-chips a{display:inline-block;padding:8px 14px;border-radius:999px;background:var(--mujer-bg);color:var(--mujer);font-weight:700;font-size:.88rem;text-decoration:none;border:1px solid rgba(163,35,143,.2);transition:background .2s,color .2s}
+.tina-chips a:hover,.tina-chips a:focus-visible{background:var(--mujer);color:#fff}
+@media(max-width:600px){.tina-casos{padding:22px 14px;border-radius:16px}.tina-cta{display:block;width:100%;box-sizing:border-box}.tina-cats .btn{width:100%;box-sizing:border-box}.tina-chips a{font-size:.84rem}}
