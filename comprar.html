@@ -70,6 +70,12 @@
       <option value="combo_hc_emergencia">Combo (Emergencias + Historia Clínica) — USD 29.90</option>
       <option value="combo_total">Super Combo (Calculadora + Historia Clínica + Emergencias) — USD 39.90</option>
       <option value="gyn">CaVeSal® GYN — USD 19.90</option>
+      <option value="combo_calc_gyn">Combo (Calculadora + GYN) — USD 29.90</option>
+      <option value="combo_hc_gyn">Combo (Historia Clínica + GYN) — USD 29.90</option>
+      <option value="combo_emerg_gyn">Combo (Emergencias + GYN) — USD 29.90</option>
+      <option value="combo_calc_hc_gyn">Super Combo (Calculadora + Historia Clínica + GYN) — USD 39.90</option>
+      <option value="combo_calc_emerg_gyn">Super Combo (Calculadora + Emergencias + GYN) — USD 39.90</option>
+      <option value="combo_hc_emerg_gyn">Super Combo (Historia Clínica + Emergencias + GYN) — USD 39.90</option>
       <option value="mega_combo">Mega Combo (Calculadora + Historia Clínica + Emergencias + GYN) — USD 49.90</option>
     </select>
 
@@ -192,7 +198,7 @@ function mostrarRetomar(){
   mostrarPaso('Retomar');
 }
 
-// Preselecciona el producto según ?producto=calculadora|hc|combo|emergencia|combo_calc_emergencia|combo_hc_emergencia|combo_total|gyn|mega_combo en la URL
+// Preselecciona el producto según ?producto=calculadora|hc|combo|emergencia|combo_calc_emergencia|combo_hc_emergencia|combo_total|gyn|mega_combo|combo_calc_gyn|combo_hc_gyn|combo_emerg_gyn|combo_calc_hc_gyn|combo_calc_emerg_gyn|combo_hc_emerg_gyn en la URL
 (function(){
   const params = new URLSearchParams(window.location.search);
   const producto = params.get('producto');

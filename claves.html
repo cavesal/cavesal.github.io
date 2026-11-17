@@ -126,6 +126,12 @@
         <option value="combo_hc_emergencia">Combo (Emergencias + HC)</option>
         <option value="combo_total">Super Combo (Calculadora + HC + Emergencias)</option>
         <option value="gyn">CaVeSal® GYN</option>
+        <option value="combo_calc_gyn">Combo (Calculadora + GYN)</option>
+        <option value="combo_hc_gyn">Combo (HC + GYN)</option>
+        <option value="combo_emerg_gyn">Combo (Emergencias + GYN)</option>
+        <option value="combo_calc_hc_gyn">Super Combo (Calculadora + HC + GYN)</option>
+        <option value="combo_calc_emerg_gyn">Super Combo (Calculadora + Emergencias + GYN)</option>
+        <option value="combo_hc_emerg_gyn">Super Combo (HC + Emergencias + GYN)</option>
         <option value="mega_combo">Mega Combo (las 4 apps)</option>
       </select>
       <label for="gs_email">Email del destinatario (opcional)</label>
@@ -251,6 +257,12 @@ function nombreProducto(p){
   if(p === 'combo_total') return 'Super Combo (Calculadora + HC + Emergencias)';
   if(p === 'gyn') return 'CaVeSal® GYN';
   if(p === 'mega_combo') return 'Mega Combo (las 4 apps)';
+  if(p === 'combo_calc_gyn') return 'Combo (Calculadora + GYN)';
+  if(p === 'combo_hc_gyn') return 'Combo (HC + GYN)';
+  if(p === 'combo_emerg_gyn') return 'Combo (Emergencias + GYN)';
+  if(p === 'combo_calc_hc_gyn') return 'Super Combo (Calculadora + HC + GYN)';
+  if(p === 'combo_calc_emerg_gyn') return 'Super Combo (Calculadora + Emergencias + GYN)';
+  if(p === 'combo_hc_emerg_gyn') return 'Super Combo (HC + Emergencias + GYN)';
   return 'Calculadora Prenatal';
 }
 
