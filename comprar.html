@@ -60,7 +60,10 @@
     <div class="step-title">1. Datos del pedido</div>
     <div class="step-sub">Completá tus datos y elegí qué querés comprar. El total se calcula con la cotización del dólar del día.</div>
 
-    <label for="f_producto">Producto</label>
+    <!-- NUEVO (2026-11-18) — renovación del plan anual con la misma clave -->
+    <div id="renov_box" style="display:none;background:#ecfdf5;border:1.5px solid #10b981;color:#065f46;border-radius:10px;padding:10px 12px;font-size:.84rem;margin-bottom:12px"></div>
+
+    <label for="f_producto" id="f_producto_label">Producto</label>
     <select id="f_producto">
       <option value="calculadora">Calculadora Prenatal CaVeSal® — USD 19.90</option>
       <option value="hc">Historia Clínica CaVeSal® — USD 19.90</option>
@@ -82,6 +85,15 @@
       <option value="ia_premium_plus">CaVeSal® IA — Plan Premium Plus (12 meses) — USD 99.90</option>
       <option value="ia_recarga">CaVeSal® IA — Recarga de cupo (+10 consultas + 2 análisis) — USD 4.90</option>
     </select>
+
+    <!-- NUEVO (2026-11-18) — plan: aparece desde el 1/4/2027 (o con ?plan=anual para probar) -->
+    <div id="plan_wrap" style="display:none">
+      <label for="f_plan">Plan</label>
+      <select id="f_plan">
+        <option value="vida">De por vida (pago único)</option>
+        <option value="anual">Anual (12 meses)</option>
+      </select>
+    </div>
 
     <label for="f_nombre">Nombre y apellido</label>
     <input type="text" id="f_nombre" placeholder="Tu nombre completo">
@@ -214,6 +226,52 @@ function mostrarRetomar(){
   }
 })();
 
+// NUEVO (2026-11-18) — precios por fecha y plan anual. Precio de lanzamiento
+// (de por vida) hasta el 31/03/2027; desde el 1/4/2027, precios 2027 y plan
+// anual. Mismas tablas que el script de licencias (el precio final lo da el
+// script al crear el pedido).
+const FECHA_PRECIOS_2027 = new Date('2027-04-01T00:00:00-03:00');
+const PRECIOS_VIDA_2027 = { calculadora:59.90, hc:59.90, emergencia:59.90, gyn:59.90, combo:89.90, combo_calc_emergencia:89.90,
+  combo_hc_emergencia:89.90, combo_calc_gyn:89.90, combo_hc_gyn:89.90, combo_emerg_gyn:89.90, combo_total:119.90,
+  combo_calc_hc_gyn:119.90, combo_calc_emerg_gyn:119.90, combo_hc_emerg_gyn:119.90, mega_combo:149.90 };
+const PRECIOS_ANUAL = { calculadora:11.90, hc:11.90, emergencia:11.90, gyn:11.90, combo:17.90, combo_calc_emergencia:17.90,
+  combo_hc_emergencia:17.90, combo_calc_gyn:17.90, combo_hc_gyn:17.90, combo_emerg_gyn:17.90, combo_total:24.90,
+  combo_calc_hc_gyn:24.90, combo_calc_emerg_gyn:24.90, combo_hc_emerg_gyn:24.90, mega_combo:29.90 };
+const params2027 = new URLSearchParams(window.location.search);
+const CLAVE_RENOVAR = (params2027.get('clave_renovar') || '').trim().toUpperCase();
+const ES_2027 = Date.now() >= FECHA_PRECIOS_2027.getTime();
+const MOSTRAR_PLAN = ES_2027 || params2027.get('plan') === 'anual';
+function etiquetasPrecios(){
+  const plan = document.getElementById('f_plan').value;
+  for(const opt of document.getElementById('f_producto').options){
+    if(!opt.dataset.base) opt.dataset.base = opt.textContent;
+    if(opt.value.indexOf('ia_') === 0) continue;
+    const tabla = plan === 'anual' ? PRECIOS_ANUAL : (ES_2027 ? PRECIOS_VIDA_2027 : null);
+    opt.textContent = tabla && tabla[opt.value]
+      ? opt.dataset.base.replace(/USD [0-9.]+/, 'USD ' + tabla[opt.value].toFixed(2) + (plan === 'anual' ? ' / año' : ''))
+      : opt.dataset.base;
+  }
+}
+function actualizarPlan(){
+  const esIA = document.getElementById('f_producto').value.indexOf('ia_') === 0;
+  document.getElementById('plan_wrap').style.display = (MOSTRAR_PLAN && !esIA && !CLAVE_RENOVAR) ? 'block' : 'none';
+  if(esIA) document.getElementById('f_plan').value = 'vida';
+  etiquetasPrecios();
+}
+(function(){
+  if(params2027.get('plan') === 'anual') document.getElementById('f_plan').value = 'anual';
+  document.getElementById('f_plan').addEventListener('change', etiquetasPrecios);
+  document.getElementById('f_producto').addEventListener('change', actualizarPlan);
+  if(CLAVE_RENOVAR){
+    const box = document.getElementById('renov_box');
+    box.textContent = 'Renovación del plan anual de la clave ' + CLAVE_RENOVAR + '. Se renueva por 12 meses con la misma clave; el producto y el precio salen de tu clave.';
+    box.style.display = 'block';
+    document.getElementById('f_producto').style.display = 'none';
+    document.getElementById('f_producto_label').style.display = 'none';
+  }
+  actualizarPlan();
+})();
+
 async function crearPedido(){
   const producto = document.getElementById('f_producto').value;
   const nombre = document.getElementById('f_nombre').value.trim();
@@ -235,7 +293,9 @@ async function crearPedido(){
 
   try{
     const body = new URLSearchParams({
-      accion: 'crear_pedido', producto, nombre, email, whatsapp, pais, documento
+      accion: 'crear_pedido', producto, nombre, email, whatsapp, pais, documento,
+      plan: CLAVE_RENOVAR ? 'anual' : document.getElementById('f_plan').value,
+      clave_renovar: CLAVE_RENOVAR
     });
     const resp = await fetch(LICENSE_API, { method: 'POST', body });
     const data = await resp.json();
