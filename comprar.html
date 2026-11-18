@@ -77,6 +77,10 @@
       <option value="combo_calc_emerg_gyn">Super Combo (Calculadora + Emergencias + GYN) — USD 39.90</option>
       <option value="combo_hc_emerg_gyn">Super Combo (Historia Clínica + Emergencias + GYN) — USD 39.90</option>
       <option value="mega_combo">Mega Combo (Calculadora + Historia Clínica + Emergencias + GYN) — USD 49.90</option>
+      <option value="ia_pro">CaVeSal® IA — Plan Pro (12 meses) — USD 34.90</option>
+      <option value="ia_premium">CaVeSal® IA — Plan Premium (12 meses) — USD 59.90</option>
+      <option value="ia_premium_plus">CaVeSal® IA — Plan Premium Plus (12 meses) — USD 99.90</option>
+      <option value="ia_recarga">CaVeSal® IA — Recarga de cupo (+10 consultas + 2 análisis) — USD 4.90</option>
     </select>
 
     <label for="f_nombre">Nombre y apellido</label>
@@ -198,7 +202,7 @@ function mostrarRetomar(){
   mostrarPaso('Retomar');
 }
 
-// Preselecciona el producto según ?producto=calculadora|hc|combo|emergencia|combo_calc_emergencia|combo_hc_emergencia|combo_total|gyn|mega_combo|combo_calc_gyn|combo_hc_gyn|combo_emerg_gyn|combo_calc_hc_gyn|combo_calc_emerg_gyn|combo_hc_emerg_gyn en la URL
+// Preselecciona el producto según ?producto=calculadora|hc|combo|emergencia|combo_calc_emergencia|combo_hc_emergencia|combo_total|gyn|mega_combo|combo_calc_gyn|combo_hc_gyn|combo_emerg_gyn|combo_calc_hc_gyn|combo_calc_emerg_gyn|combo_hc_emerg_gyn|ia_pro|ia_premium|ia_premium_plus|ia_recarga en la URL
 (function(){
   const params = new URLSearchParams(window.location.search);
   const producto = params.get('producto');
