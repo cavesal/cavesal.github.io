@@ -240,6 +240,7 @@ main{padding:14px;max-width:680px;margin:0 auto}
 .sum-mini-row .sm-val{font-weight:700}
 
 /* FINDING CARDS */
+.pf-card{background:#fff;border:1.5px solid var(--red);border-radius:14px;padding:14px;margin:12px 0}.pf-card h3{font-size:.9rem;color:var(--navy);margin:0 0 10px}.pf-box{border-radius:10px;padding:9px 11px;border:1.5px solid var(--teal);background:var(--teal-lt)}.pf-t{font-size:.78rem;font-weight:800;color:var(--navy);margin-bottom:2px}.pf-x{font-size:.76rem;color:var(--slate);line-height:1.5}.pf-res{border-color:var(--red);background:var(--red-lt)}.pf-dec{border-color:var(--amber);background:var(--amber-lt);text-align:center}.pf-si{border-color:var(--green);background:var(--green-lt)}.pf-no{border-color:var(--red);background:var(--red-lt)}.pf-regla{border-color:var(--navy);background:var(--mist);margin-top:10px}.pf-arrow{text-align:center;color:var(--slate);font-size:1rem;line-height:1.2;margin:2px 0}.pf-ramas{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}.pf-src{font-size:.66rem;color:var(--teal);margin-top:8px;line-height:1.5}
 .findings-title{font-size:.78rem;font-weight:700;color:var(--slate);text-transform:uppercase;letter-spacing:.6px;margin-bottom:9px;padding-left:2px}
 .domain-group{margin-bottom:16px}
 .domain-label{font-size:.68rem;font-weight:800;color:var(--slate);text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px;border-left:3px solid var(--teal);padding-left:8px}
@@ -3498,6 +3499,16 @@ document.addEventListener('DOMContentLoaded', function(){
         <select id="mf_pas_figo"><option value="">—</option><option value="g1">Grado 1 — Accreta</option><option value="g2">Grado 2 — Increta</option><option value="g3a">Grado 3a — Percreta limitada a la serosa uterina</option><option value="g3b">Grado 3b — Percreta con invasión vesical</option><option value="g3c">Grado 3c — Percreta con invasión de otros tejidos/órganos pélvicos (± vejiga)</option></select>
       </div>
     </div>
+    <div style="font-size:.8rem;font-weight:700;color:var(--navy);margin:8px 0 4px">Topografía ecográfica (planificación quirúrgica)</div>
+    <div class="row2">
+      <div class="field"><label>Topografía probable de la lesión</label>
+        <select id="mf_pas_topografia"><option value="">—</option><option value="s1">Anterior alta (sector S1)</option><option value="s2">Anterior baja (sector S2)</option><option value="lat_alta">Lateral alta (parametrial)</option><option value="lat_baja">Lateral baja (parametrial)</option><option value="posterior">Posterior</option><option value="nd">No definible</option></select>
+      </div>
+      <div class="field"><label>Placenta previa con compromiso cervical</label>
+        <select id="mf_pas_cervical"><option value="">—</option><option value="si">Sí</option><option value="inseguro">Inseguro</option><option value="no">No</option></select>
+      </div>
+    </div>
+    <div class="hint" style="margin:-4px 0 8px">S1/S2: con la vejiga semillena (vaciar 30 min antes y tomar 500 mL de agua), una línea perpendicular al punto medio de la pared vesical posterior separa las lesiones altas (S1) de las bajas (S2). Estos dos campos no suman al puntaje CaVeSal: orientan el tipo topográfico y la conducta.</div>
     <div class="bio-ref">📚 Signos y factores de riesgo: FIGO/Jauniaux 2018 · ISUOG/Jauniaux 2016–2018 · ACOG/SMFM Obstetric Care Consensus No.7 (2018/2021) · MSPyBS Paraguay, Manual Nacional.<br>⚠️ <strong>Probabilidad y Extensión se calculan con la "Clasificación CaVeSal"</strong> — esquema de puntaje propio del equipo (NO es un score FIGO/ISUOG/ACOG publicado) — ver resultado en el panel consolidado.</div>
   </div>
 </div>
@@ -4719,6 +4730,7 @@ function actualizarPE2T(){
 function calcular(){
   window._pfe=null;
   const findings=[];
+  window._pasFlujo='';
   function add(domain,nivel,hallazgo,conducta,fuente){findings.push({domain,nivel,hallazgo,conducta,fuente})}
 
   if(typeof calcPFE==='function' && window._pfe) calcPFE();
@@ -5891,7 +5903,8 @@ function calcular(){
       };
       const _todos=Object.assign({},signos2D,signosDoppler);
       const _vals=Object.keys(_todos).map(function(k){return _todos[k]});
-      if(!_vals.some(function(v){return v!==''})) return;
+      const _topo=sel('mf_pas_topografia'), _cerv=sel('mf_pas_cervical');
+      if(!_vals.some(function(v){return v!==''}) && !_topo && !_cerv) return;
 
       function _pasPts(v){return v==='si'?1:(v==='inseguro'?0.5:0)}
       let _puntaje=0; _vals.forEach(function(v){_puntaje+=_pasPts(v)});
@@ -5924,6 +5937,40 @@ function calcular(){
         : 'Derivar/confirmar manejo en centro de Nivel III-IV. Programar cesárea electiva 34+0–35+6 semanas. Equipo multidisciplinario (obstetricia, urología/cirugía, banco de sangre, UCI). REGLA DE ORO: no intentar alumbramiento manual — dejar la placenta in situ y proceder a histerectomía en bloque si se confirma invasión en el acto quirúrgico.';
 
       add(DOM, _nivelMap[_probabilidad], _hallazgoPas, _conductaPas, 'Clasificación CaVeSal (esquema de puntaje propio del equipo — NO es un score FIGO/ISUOG/ACOG publicado)');
+
+      // ── Topografía (Nieto-Calvache 2025/2026) + flujograma de conducta ──
+      const _TOPO={
+        s1:{tipo:'0–1 (anterior alta)',cv:'Arteria uterina; ligadura de vasos neoformados vesicales superiores',tx:'Candidata a cirugía conservadora en un paso (OSCS) si se confirman los criterios',hist:'Histerectomía total si no se cumplen'},
+        s2:{tipo:'3 (anterior baja) · 4 si hay fibrosis vesicouterina',cv:'Oclusión aórtica infrarrenal u oclusión temporal de ambas ilíacas comunes',tx:'OSCS si hay más de 2 cm de miometrio sano sobre el cuello',hist:'Histerectomía total; si la disección retrovesical es imposible (tipo 4): histerectomía subtotal modificada'},
+        lat_alta:{tipo:'2U (lateral alta)',cv:'Disección y ligadura de vasos neoformados (obturatriz, colaterales de la ilíaca interna, uterina)',tx:'OSCS si hay tejido sano caudal suficiente y más del 50 % de la circunferencia libre',hist:'Histerectomía total si no'},
+        lat_baja:{tipo:'2L (lateral baja)',cv:'Control aórtico proximal; catéter ureteral y tunelización del uréter',tx:'No candidata a OSCS',hist:'Extracción fetal fúndica e histerectomía total'},
+        posterior:{tipo:'5U o 5L (posterior) — la RM ayuda a definirla',cv:'5U: ligadura de uterinas · 5L: ligadura de colaterales, posible oclusión aórtica',tx:'5U: resección y reconstrucción',hist:'5L: histerectomía total'},
+        nd:{tipo:'No definible por ecografía — considerar RM',cv:'Según la estadificación intraoperatoria',tx:'Decidir tras la estadificación',hist:'Decidir tras la estadificación'}
+      };
+      let _t=_TOPO[_topo]||null;
+      if(!_t && signosDoppler.parametrios==='si') _t=_TOPO.lat_baja;
+      if(_t && _probabilidad!=='baja'){
+        add(DOM,'alto','Topografía probable del PAS: tipo '+_t.tipo+(_cerv==='si'?' · placenta previa con compromiso cervical':''),
+          'Control vascular previsto: '+_t.cv+'. '+_t.tx+'; '+_t.hist.charAt(0).toLowerCase()+_t.hist.slice(1)+'. La estadificación definitiva es intraoperatoria.',
+          'Algoritmo propio CaVeSal® · Basado en: Nieto-Calvache AJ et al. BMC Pregnancy Childbirth 2025;25:1266 y 2026;26:1143');
+      } else if(_cerv==='si' && _probabilidad==='baja'){
+        add(DOM,'moderado','Placenta previa con compromiso cervical','Signo asociado a mayor probabilidad de PAS al nacimiento (consenso Delphi). Reevaluar en un centro con experiencia en PAS.','Algoritmo propio CaVeSal® · Basado en: Coutinho CM et al. RBGO 2023;45(6):297-302');
+      }
+      if(_probabilidad!=='baja'){
+        const B=function(cls,tit,txt){return '<div class="pf-box '+cls+'"><div class="pf-t">'+tit+'</div><div class="pf-x">'+txt+'</div></div>';};
+        const A='<div class="pf-arrow">↓</div>';
+        let f='<div class="pf-card"><h3>🔴 Acretismo placentario (PAS) — resultado y conducta</h3>';
+        f+=B('pf-res','Resultado','Probabilidad '+_probabilidad.toUpperCase()+' (puntaje '+_puntaje+'/9'+(_excepcion?', regla de excepción':'')+')'+(_extension?' · Extensión '+_extension.toUpperCase():'')+(_t?' · Tipo topográfico probable: '+_t.tipo:'')+(_cerv==='si'?' · Compromiso cervical':'')+(_figoLabel?' · FIGO: '+_figoLabel:''));
+        f+=A+B('pf-paso','1. Derivar','Centro de referencia de nivel III-IV con equipo multidisciplinario (obstetricia, urología o cirugía, anestesia, banco de sangre, UCI). El diagnóstico prenatal se asocia a menos transfusiones (56,9 % contra 96,1 %, Pavón-Gomez 2022).');
+        f+=A+B('pf-paso','2. Programar el nacimiento','Cesárea electiva 34+0–35+6 semanas (ACOG/SMFM). Alternativas que citan las fuentes: 35+0–36+6 (RCOG 2026) y 34–36+6 (consenso latinoamericano, Nieto-Calvache 2023). Corticoides según la edad gestacional.');
+        f+=A+B('pf-paso','3. Planificar según la topografía',_t?('Tipo '+_t.tipo+'. Control vascular: '+_t.cv+'.'):'Completar la topografía ecográfica (S1/S2, lateral, posterior) para planificar el control vascular y el tipo de cirugía.');
+        f+=A+B('pf-dec','4. Estadificación intraoperatoria','¿Vejiga separable, 2 cm o más de miometrio sano caudal, compromiso menor al 50 % de la circunferencia y sin parametrio bajo?');
+        if(_t===_TOPO.lat_baja) f+=A+B('pf-no','Compromiso parametrial bajo: no candidata a OSCS',_t.hist+', con control aórtico proximal y tunelización del uréter');
+        else f+='<div class="pf-ramas"><div>'+B('pf-si','Sí',_t?_t.tx:'Cirugía conservadora en un paso (OSCS): placenta y miometrio invadido resecados en bloque, en centros entrenados')+'</div><div>'+B('pf-no','No',_t?_t.hist:'Cesárea-histerectomía con la placenta en el lugar; si la disección retrovesical es imposible, histerectomía subtotal modificada')+'</div></div>';
+        f+=B('pf-regla','Regla de oro','Nunca traccionar ni intentar retirar la placenta adherente. Incisión uterina alejada de la placenta.');
+        f+='<div class="pf-src">Algoritmo propio CaVeSal® · Basado en: Nieto-Calvache AJ et al. BMC Pregnancy Childbirth 2025;25:1266 y 2026;26:1143 · Pavón-Gomez N et al. RBGO 2022;44(12):1090-1093 · ACOG/SMFM OCC 7 · RCOG GTG 27a (2026) · Nieto-Calvache AJ et al. AJOG Glob Rep 2023.</div></div>';
+        window._pasFlujo=f;
+      }
     })();
   })();
 
@@ -6443,6 +6490,7 @@ function calcular(){
   html+=`</div>`;
 
   if(findings.length>0){
+    if(window._pasFlujo) html+=window._pasFlujo;
     html+=`<div class="findings-title">Hallazgos y conductas detalladas</div>`;
     domOrder.forEach(dom=>{
       html+=`<div class="domain-group"><div class="domain-label">${dom}</div>`;
