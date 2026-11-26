@@ -1594,7 +1594,7 @@ main{padding:14px;max-width:680px;margin:0 auto}
       <strong style="color:var(--navy)">Diabetes gestacional:</strong> IADPSG 2010 · ADA 2026 · ALAD 2019 · OMS<br>
       <strong style="color:var(--navy)">Tiroides:</strong> ATA · Endocrine Society<br>
       <strong style="color:var(--navy)">Suplementación:</strong> OMS · ACOG · NICE · FIGO · Endocrine Society 2024 · EBCOG 2024 · Cochrane<br>
-      <strong style="color:var(--navy)">Biometría fetal:</strong> Hadlock 1984 · Robinson &amp; Fleming 1975 (CRL/FUM) · Chitty &amp; Altman 2002 (húmero) · Goldstein 1987 (cerebelo) · Jeanty 1983 · Chitty 1994 · INTERGROWTH-21st · Figueras &amp; Gratacós 2008<br>
+      <strong style="color:var(--navy)">Biometría fetal:</strong> Hadlock 1984 · Robinson &amp; Fleming 1975 (CRL/FUM) · Chitty &amp; Altman 2002 (húmero) · Snijders &amp; Nicolaides 1994 (cerebelo) · Jeanty 1983 · Chitty 1994 · INTERGROWTH-21st · Figueras &amp; Gratacós 2008<br>
       <strong style="color:var(--navy)">Crecimiento fetal / PEG / RCIU:</strong> Figueras F. EJOGR 2008 · Protocolo MFB Nov 2024 · ISUOG Delphi Consensus 2020<br>
       <strong style="color:var(--navy)">Doppler AU, ACM e ICP:</strong> Ciobanu A et al. (FMF) UOG 2019;53:465-472<br>
       <strong style="color:var(--navy)">Doppler hemodinámico avanzado (DV · TR · AoI · VUP):</strong> Baschat AA. Obstet Gynecol 2011 · TRUFFLE Study Group. UOG 2020 · ISUOG Practice Guidelines RCIU 2020 · Gratacós E &amp; Torres X. MFB Protocol 2023<br>
@@ -3861,49 +3861,23 @@ function calcHumero(){
   res.classList.add('show');
 }
 
-// ── CEREBELO → EG ──
+// ── CEREBELO → EG ── Algoritmo propio CaVeSal® · Basado en: Snijders RJM, Nicolaides KH. UOG 1994;4:34-48 (igual que la Full)
+function tcdRef(w){return {m:0.8129735+0.0367114*w-0.0003590*w*w, sd:0.02504};}
+function egPorTCD(t){
+  var lo=14, hi=40, y=Math.log10(t+5); if(y<tcdRef(lo).m||y>tcdRef(hi).m) return null;
+  for(var k=0;k<60;k++){var mid=(lo+hi)/2; if(tcdRef(mid).m<y) lo=mid; else hi=mid;}
+  return (lo+hi)/2;
+}
 function calcCerebelo(){
   const dtc = parseFloat(document.getElementById('bio_dtc_val').value)||null;
   const res = document.getElementById('bio_dtc_result');
   const alerta = document.getElementById('bio_dtc_alerta');
   if(!dtc){res.classList.remove('show');alerta.className='bio-alerta';return;}
-  
-  // DTC(mm) ≈ EG(sem) entre 14-28 sem (Goldstein 1987)
-  // After 28 sem: non-linear — use lookup table approximation
-  let eg, nota;
-  if(dtc <= 28){
-    eg = dtc; // linear zone: DTC mm ≈ EG weeks
-    nota = 'Zona lineal (14–28 sem): DTC mm ≈ EG semanas';
-  } else {
-    // Polynomial approximation for >28 sem
-    // Goldstein table: 29mm=28.5sem, 35mm=31sem, 40mm=33.5sem, 45mm=36sem, 50mm=38.5sem, 54mm=40sem
-    const table = [[29,28.5],[32,30],[35,31.5],[38,33],[41,34.5],[44,36],[47,37.5],[50,39],[53,40.5],[56,42]];
-    let eg1 = null;
-    for(let i=0;i<table.length-1;i++){
-      if(dtc>=table[i][0]&&dtc<table[i+1][0]){
-        const frac=(dtc-table[i][0])/(table[i+1][0]-table[i][0]);
-        eg1=table[i][1]+frac*(table[i+1][1]-table[i][1]);
-        break;
-      }
-    }
-    eg = eg1 || dtc; // fallback
-    nota = 'Zona no lineal (>28 sem): estimación por tabla de Goldstein';
-  }
-  
-  document.getElementById('bio_dtc_eg').textContent = `EG estimada: ${semDias(eg)} semanas`;
-  document.getElementById('bio_dtc_sub').textContent = nota;
-  
-  // Alert if DTC small for gestational age
-  if(dtc < eg * 0.85){
-    alerta.className = 'bio-alerta show alto';
-    alerta.innerHTML = `⚠️ <strong>DTC pequeño para EG:</strong> Sospecha de hipoplasia cerebelosa. Derivar a Medicina Fetal. Descartar síndrome de Dandy-Walker, malformaciones del SNC.`;
-  } else if(dtc < eg * 0.92){
-    alerta.className = 'bio-alerta show moder';
-    alerta.innerHTML = `⚡ DTC en límite inferior para la EG. Vigilar evolución. Repetir en 3–4 semanas.`;
-  } else {
-    alerta.className = 'bio-alerta show ok';
-    alerta.innerHTML = `✅ DTC conservado — en RCIU confirma que la EG asignada es correcta (el cerebelo no se afecta en redistribución hemodinámica).`;
-  }
+  const eg = egPorTCD(dtc);
+  document.getElementById('bio_dtc_eg').textContent = eg ? `EG estimada: ${semDias(eg)} semanas` : 'DTC fuera del rango de referencia (14–40 sem)';
+  document.getElementById('bio_dtc_sub').textContent = 'Snijders y Nicolaides 1994';
+  alerta.className = 'bio-alerta show moder';
+  alerta.innerHTML = 'El percentil del DTC por EG y la alerta de DTC pequeño están en la versión completa.';
   res.classList.add('show');
 }
 
