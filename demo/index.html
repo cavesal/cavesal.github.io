@@ -1061,7 +1061,7 @@ main{padding:14px;max-width:680px;margin:0 auto}
         <div class="field" style="margin-bottom:0;flex:1"><label>EG al aplicar</label><input type="text" id="pr_vsr_eg" placeholder="ej. 30+0"></div>
       </div>
       <div class="vac-note">
-        <strong>Abrysvo® (Pfizer) / mResvia® (Moderna)</strong> — aprobadas FDA/EMA 2023. Dosis única IM. Los anticuerpos maternos atraviesan la placenta y protegen al neonato en los primeros 6 meses, período de mayor morbimortalidad por VSR (principal causa de bronquiolitis neonatal grave). <strong>Disponibilidad variable por país</strong> — verificar esquema nacional. Puede coadministrarse con Tdpa en sitios distintos; algunos protocolos recomiendan separar 14 días (verificar guía local actualizada). Si embarazo fuera del rango 28–36 sem: no se aplica esta vacuna — protección neonatal a través de anticuerpos monoclonales (nirsevimab) postparto según disponibilidad.
+        <strong>Abrysvo® (Pfizer)</strong> — única vacuna VSR aprobada en el embarazo (FDA/EMA 2023); Arexvy® (GSK) y mResvia® (Moderna) no se usan en el embarazo. Ventana: OMS 2025 desde 28 sem; CDC/ACOG 32–36 sem (Alternativa citada por la fuente). Dosis única IM. Los anticuerpos maternos atraviesan la placenta y protegen al neonato en los primeros 6 meses, período de mayor morbimortalidad por VSR (principal causa de bronquiolitis neonatal grave). <strong>Disponibilidad variable por país</strong> — verificar esquema nacional. Puede aplicarse el mismo día que la Tdpa u otras vacunas, en sitios distintos (CDC). Si embarazo fuera del rango 28–36 sem: no se aplica esta vacuna — protección neonatal a través de anticuerpos monoclonales (nirsevimab) postparto según disponibilidad.
       </div>
     </div>
 
@@ -2381,8 +2381,8 @@ function calcular(){
     if(!chk('pr_grip')) add('PROFILAXIS','moderado','Vacuna antigripal pendiente','Vacuna inactivada segura en cualquier trimestre. Prioridad en: cardiopatía, DM, asma, obesidad, inmunosupresión, VIH. NUNCA usar vacuna de virus vivos atenuados (LAIV) en el embarazo.','CDC / OMS / ACOG');
     // VSR
     if(!chk('pr_vsr')){
-      if(eg&&eg.sem>=28&&eg.sem<=36) add('PROFILAXIS','alto',`Vacuna VSR pendiente — EG ${eg.sem} sem (ventana 28–36 sem)`,'Aplicar inmediatamente si disponible. Abrysvo® (Pfizer) o mResvia® (Moderna). Dosis única IM. Protege al neonato en primeros 6 meses de vida. Verificar disponibilidad local.','FDA / EMA / OPS 2023');
-      else if(eg&&eg.sem<28) add('PROFILAXIS','bajo',`Vacuna VSR pendiente — ventana: sem 28–36 (EG actual: ${eg.sem} sem)`,'Programar para semana 28–32 preferentemente. Verificar disponibilidad local (Abrysvo®/mResvia®).','FDA / EMA 2023');
+      if(eg&&eg.sem>=28&&eg.sem<=36) add('PROFILAXIS','alto',`Vacuna VSR pendiente — EG ${eg.sem} sem (ventana 28–36 sem)`,'Aplicar inmediatamente si disponible. Abrysvo® (Pfizer), única aprobada en el embarazo. Dosis única IM. CDC/ACOG: 32–36 sem (Alternativa citada por la fuente). Protege al neonato en primeros 6 meses de vida. Verificar disponibilidad local.','FDA / EMA / OPS 2023');
+      else if(eg&&eg.sem<28) add('PROFILAXIS','bajo',`Vacuna VSR pendiente — ventana: sem 28–36 (EG actual: ${eg.sem} sem)`,'Programar para semana 28–32 preferentemente. Verificar disponibilidad local (Abrysvo®).','FDA / EMA 2023');
       else if(eg&&eg.sem>36) add('PROFILAXIS','bajo','Vacuna VSR: fuera de ventana gestacional (>36 sem)','Considerar nirsevimab (anticuerpo monoclonal) al neonato postparto si disponible según programa nacional.','AAP / OPS 2024');
     }
     // COVID
@@ -3306,7 +3306,7 @@ function actualizarSemaforo(){
   if(vsr){
     chips.push({cls:'ok',icon:'✅',title:'VSR',text:'Aplicada ✓'});
   } else if(semActual!==null){
-    if(semActual>=28&&semActual<=36) chips.push({cls:'alert',icon:'⚠️',title:'VSR',text:`EG ${semActual} sem — PENDIENTE en ventana (28–36 sem). Óptimo 28–32 sem. Verificar disponibilidad local (Abrysvo® / mResvia®).`});
+    if(semActual>=28&&semActual<=36) chips.push({cls:'alert',icon:'⚠️',title:'VSR',text:`EG ${semActual} sem — PENDIENTE en ventana (28–36 sem). Óptimo 28–32 sem. Verificar disponibilidad local (Abrysvo®; CDC/ACOG: 32–36 sem).`});
     else if(semActual<28) chips.push({cls:'pend',icon:'⏳',title:'VSR',text:`Pendiente — ventana: sem 28–36 (faltan ${28-semActual} sem). Verificar disponibilidad local.`});
     else chips.push({cls:'na',icon:'ℹ️',title:'VSR',text:'Fuera de ventana gestacional (>36 sem). Considerar nirsevimab (anticuerpo monoclonal) al neonato postparto si disponible.'});
   } else {
