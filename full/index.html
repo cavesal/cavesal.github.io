@@ -240,6 +240,7 @@ main{padding:14px;max-width:680px;margin:0 auto}
 .sum-mini-row .sm-val{font-weight:700}
 
 /* FINDING CARDS */
+.pf-card{background:#fff;border:1.5px solid var(--red);border-radius:14px;padding:14px;margin:12px 0}.pf-card h3{font-size:.9rem;color:var(--navy);margin:0 0 10px}.pf-box{border-radius:10px;padding:9px 11px;border:1.5px solid var(--teal);background:var(--teal-lt)}.pf-t{font-size:.78rem;font-weight:800;color:var(--navy);margin-bottom:2px}.pf-x{font-size:.76rem;color:var(--slate);line-height:1.5}.pf-res{border-color:var(--red);background:var(--red-lt)}.pf-dec{border-color:var(--amber);background:var(--amber-lt);text-align:center}.pf-si{border-color:var(--green);background:var(--green-lt)}.pf-no{border-color:var(--red);background:var(--red-lt)}.pf-regla{border-color:var(--navy);background:var(--mist);margin-top:10px}.pf-arrow{text-align:center;color:var(--slate);font-size:1rem;line-height:1.2;margin:2px 0}.pf-ramas{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}.pf-src{font-size:.66rem;color:var(--teal);margin-top:8px;line-height:1.5}
 .findings-title{font-size:.78rem;font-weight:700;color:var(--slate);text-transform:uppercase;letter-spacing:.6px;margin-bottom:9px;padding-left:2px}
 .domain-group{margin-bottom:16px}
 .domain-label{font-size:.68rem;font-weight:800;color:var(--slate);text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px;border-left:3px solid var(--teal);padding-left:8px}
@@ -3142,13 +3143,13 @@ document.addEventListener('DOMContentLoaded', function(){
       </div>
     </div>
     <div class="row2">
-      <div class="field"><label>Diámetro interorbitario interno — DII (mm)</label>
-        <input type="number" id="mf_dii" placeholder="ej. 12.5" step="0.1">
-        <div class="hint">Borde interno (nasal) a borde interno de ambas órbitas. Ref. orientativa por EG (Jeanty/Romero/FMF): 16 sem ≈9–10 · 20 sem ≈12–13 · 24 sem ≈14–15 · 28 sem ≈16–17 · 32 sem ≈18–19 mm</div>
+      <div class="field"><label>Diámetro interorbitario — DIO (mm)</label>
+        <input type="number" id="mf_dii" placeholder="ej. 13" step="0.1">
+        <div class="hint">Borde interno (nasal) a borde interno de ambas órbitas, corte axial con ambos cristalinos. Mediana por EG (Sukonpan 2008): 16 sem ≈10 · 20 sem ≈13 · 24 sem ≈15 · 28 sem ≈17 · 32 sem ≈18 mm. Con la EG cargada, la app compara con P5–P95</div>
       </div>
-      <div class="field"><label>Diámetro interorbitario externo / binocular — DIO (mm)</label>
-        <input type="number" id="mf_dio" placeholder="ej. 38" step="0.1">
-        <div class="hint">Borde externo a borde externo de ambas órbitas. Ref.: 16 sem ≈28–30 · 20 sem ≈38–40 · 24 sem ≈46–48 · 28 sem ≈53–55 · 32 sem ≈60–62 mm</div>
+      <div class="field"><label>Diámetro binocular — DBO (mm)</label>
+        <input type="number" id="mf_dio" placeholder="ej. 31" step="0.1">
+        <div class="hint">Borde externo a borde externo de ambas órbitas. Mediana por EG (Sukonpan 2008): 16 sem ≈23 · 20 sem ≈31 · 24 sem ≈38 · 28 sem ≈44 · 32 sem ≈48 mm</div>
       </div>
     </div>
     <div class="row2">
@@ -3175,7 +3176,7 @@ document.addEventListener('DOMContentLoaded', function(){
       </div>
       <div></div>
     </div>
-    <div class="bio-ref">📚 ISUOG Practice Guidelines (2020/2023). Labio+paladar se evalúan juntos: la conducta/consejo genético varía según la combinación exacta. DII/DIO/microftalmia: Jeanty P et al., J Ultrasound Med 1984;3(6):241–244 · Mayden KL et al., Am J Obstet Gynecol 1982 (regla de los tercios 1:1:1).</div>
+    <div class="bio-ref">📚 ISUOG Practice Guidelines (2020/2023). Labio+paladar se evalúan juntos: la conducta/consejo genético varía según la combinación exacta. DIO/DBO: Algoritmo propio CaVeSal® · Basado en: Sukonpan K, Phupong V. J Med Assoc Thai 2008;91(9):1318-1322 (P5/P95 = media ± 1,645 DE por semana, 15–40 sem) · criterio DIO &lt;P5 hipotelorismo, &gt;P95 hipertelorismo: ISUOG; Burns NS et al. AJR 2013;201(6):W797-W808 · Jeanty P et al. Radiology 1982;143(2):513-516 · Mayden KL et al. Am J Obstet Gynecol 1982;144(3):289-297.</div>
   </div>
 </div>
 
@@ -3498,6 +3499,16 @@ document.addEventListener('DOMContentLoaded', function(){
         <select id="mf_pas_figo"><option value="">—</option><option value="g1">Grado 1 — Accreta</option><option value="g2">Grado 2 — Increta</option><option value="g3a">Grado 3a — Percreta limitada a la serosa uterina</option><option value="g3b">Grado 3b — Percreta con invasión vesical</option><option value="g3c">Grado 3c — Percreta con invasión de otros tejidos/órganos pélvicos (± vejiga)</option></select>
       </div>
     </div>
+    <div style="font-size:.8rem;font-weight:700;color:var(--navy);margin:8px 0 4px">Topografía ecográfica (planificación quirúrgica)</div>
+    <div class="row2">
+      <div class="field"><label>Topografía probable de la lesión</label>
+        <select id="mf_pas_topografia"><option value="">—</option><option value="s1">Anterior alta (sector S1)</option><option value="s2">Anterior baja (sector S2)</option><option value="lat_alta">Lateral alta (parametrial)</option><option value="lat_baja">Lateral baja (parametrial)</option><option value="posterior">Posterior</option><option value="nd">No definible</option></select>
+      </div>
+      <div class="field"><label>Placenta previa con compromiso cervical</label>
+        <select id="mf_pas_cervical"><option value="">—</option><option value="si">Sí</option><option value="inseguro">Inseguro</option><option value="no">No</option></select>
+      </div>
+    </div>
+    <div class="hint" style="margin:-4px 0 8px">S1/S2: con la vejiga semillena (vaciar 30 min antes y tomar 500 mL de agua), una línea perpendicular al punto medio de la pared vesical posterior separa las lesiones altas (S1) de las bajas (S2). Estos dos campos no suman al puntaje CaVeSal: orientan el tipo topográfico y la conducta.</div>
     <div class="bio-ref">📚 Signos y factores de riesgo: FIGO/Jauniaux 2018 · ISUOG/Jauniaux 2016–2018 · ACOG/SMFM Obstetric Care Consensus No.7 (2018/2021) · MSPyBS Paraguay, Manual Nacional.<br>⚠️ <strong>Probabilidad y Extensión se calculan con la "Clasificación CaVeSal"</strong> — esquema de puntaje propio del equipo (NO es un score FIGO/ISUOG/ACOG publicado) — ver resultado en el panel consolidado.</div>
   </div>
 </div>
@@ -3837,7 +3848,7 @@ document.addEventListener('DOMContentLoaded', function(){
           <div class="bio-eg-sub" id="bio_dtc_sub">—</div>
         </div>
         <div class="bio-alerta" id="bio_dtc_alerta"></div>
-        <div class="bio-ref">📚 Algoritmo propio CaVeSal® · Basado en: Snijders RJM, Nicolaides KH. UOG 1994;4:34-48 (ecuación publicada de media y DE del DTC por EG). Hasta las 20–21 sem el DTC en mm se aproxima a la EG en semanas; después crece más rápido. DTC &lt;P5 para la EG: sospecha de hipoplasia cerebelosa. El DTC se preserva en el RCIU.</div>
+        <div class="bio-ref">📚 Algoritmo propio CaVeSal® · Basado en: Snijders RJM, Nicolaides KH. UOG 1994;4:34-48 (ecuación publicada de media y DE del DTC por EG). Hasta las 20–21 sem el DTC en mm se aproxima a la EG en semanas; después crece más rápido. DTC &lt;P5 para la EG: sospecha de hipoplasia cerebelosa. El DTC se afecta poco en la restricción de crecimiento, pero en el RCIU grave puede reducirse (Snijders RJM et al. Prenat Diagn 1994;14:1101-1105; Vinkesteijn ASM et al. UOG 2000;15:47-51).</div>
       </div>
     </div>
   </div>
@@ -4719,6 +4730,7 @@ function actualizarPE2T(){
 function calcular(){
   window._pfe=null;
   const findings=[];
+  window._pasFlujo='';
   function add(domain,nivel,hallazgo,conducta,fuente){findings.push({domain,nivel,hallazgo,conducta,fuente})}
 
   if(typeof calcPFE==='function' && window._pfe) calcPFE();
@@ -5708,7 +5720,7 @@ function calcular(){
     }
 
     // DTC: se deja como dato de referencia, SIN alerta automática por diferencia en mm.
-    // Auditoría 2026-10-11 (fuentes: Vinkesteijn et al., UOG 2001, entre otras): el estándar real
+    // Auditoría 2026-10-11 (fuentes: Vinkesteijn et al., UOG 2000, entre otras): el estándar real
     // para discordancia de TCD/DTC usa tablas de percentil (p5–p95) por EG, no un corte fijo en
     // mm de diferencia — un corte de "3mm" habría sido un criterio inventado, no validado. Hasta
     // tener una tabla de percentiles cargada, el campo queda informativo (ver hint en el HTML).
@@ -5729,18 +5741,30 @@ function calcular(){
     if(sel('mf_orbitas')==='alterado') add(DOM,'moderado','Órbitas alteradas','Evaluar simetría y distancia interorbitaria (hipo/hipertelorismo). Derivar Medicina Fetal si se confirma.','ISUOG / Paladini & Volpe 2018');
     if(sel('mf_nariz')==='alterado') add(DOM,'moderado','Nariz aplanada o ausente','Marcador asociado a aneuploidía (T21, T13) y a holoprosencefalia si se asocia a otros hallazgos faciales. Integrar con cribado cromosómico.','ISUOG / Paladini & Volpe 2018');
 
-    // Diámetros orbitarios — regla de los tercios (Jeanty/Mayden): DII/DIO ≈1/3 en cara normal.
-    // Cortes confirmados por Carlos (del documento, no de su dictado por voz que daba otro número):
-    // ratio >0.40 → hipertelorismo · <0.25 → hipotelorismo.
-    const mfDii=val('mf_dii'), mfDio=val('mf_dio'), mfDo=val('mf_do');
-    if(mfDii!==null && mfDio!==null && mfDio>0){
-      const _ratioOrb=mfDii/mfDio;
-      if(_ratioOrb>0.40) add(DOM,'moderado',`DII/DIO ${_ratioOrb.toFixed(2)} (&gt;0.40) — sospecha de hipertelorismo`,'Evaluar encefalocele anterior/frontoetmoidal, displasias craneofaciales (Apert, Crouzon), síndrome de Turner, deleción 4p (Wolf-Hirschhorn) o fisura facial media. Derivar Medicina Fetal.','Jeanty/Mayden — regla de los tercios 1:1:1');
-      else if(_ratioOrb<0.25) add(DOM,'moderado',`DII/DIO ${_ratioOrb.toFixed(2)} (&lt;0.25) — sospecha de hipotelorismo`,'Marcador clave de anomalías del prosencéfalo y línea media anterior (holoprosencefalia, cebocefalia, etmocefalia, microcefalia, trisomía 13). Derivar Medicina Fetal.','Jeanty/Mayden — regla de los tercios 1:1:1');
-    }
-    if(mfDo!==null && mfDii!==null){
-      if(mfDii>mfDo*1.15) add(DOM,'bajo','DII proporcionalmente mayor que el DO individual (apoya hipertelorismo)','Correlacionar con la relación DII/DIO y el resto del checklist facial.','Jeanty/Mayden — regla de los tercios 1:1:1');
-      else if(mfDii<mfDo*0.85) add(DOM,'bajo','DII proporcionalmente menor que el DO individual (apoya hipotelorismo)','Correlacionar con la relación DII/DIO y el resto del checklist facial.','Jeanty/Mayden — regla de los tercios 1:1:1');
+    // Diámetros orbitarios — Algoritmo propio CaVeSal® · Basado en: Sukonpan K, Phupong V. J Med Assoc Thai 2008;91(9):1318-1322
+    // (media y DE por semana, 15–40 sem; P5/P95 = media ± 1,645 DE). Criterio: DIO <P5 hipotelorismo, >P95 hipertelorismo
+    // (ISUOG; Burns NS et al. AJR 2013;201:W797-W808). Revisión 26/11/2026: se retiró el ratio DII/DIO 0,40/0,25 y la
+    // comparación con el DO: en fetos normales el cociente DIO/DBO es 0,38–0,43 y marcaba falsos hipertelorismos.
+    const mfDii=val('mf_dii'), mfDio=val('mf_dio');
+    const _ORB={15:[8.78,0.92,20.20,2.10],16:[9.88,1.10,23.19,1.34],17:[10.66,0.96,25.59,1.30],18:[11.40,1.10,27.30,1.75],19:[11.72,0.97,29.52,1.74],20:[13.05,0.97,31.14,1.56],21:[13.65,1.40,32.88,1.12],22:[14.02,1.29,35.06,1.03],23:[14.43,1.22,36.17,1.85],24:[14.90,1.08,37.52,1.54],25:[15.59,1.40,39.45,1.85],26:[15.91,0.98,41.05,1.52],27:[16.17,0.93,42.63,1.87],28:[16.97,1.58,43.87,2.02],29:[17.33,1.44,45.43,1.95],30:[17.57,1.50,46.31,1.88],31:[17.90,1.46,47.89,1.93],32:[18.21,1.27,48.24,2.02],33:[18.70,1.42,49.31,2.07],34:[19.82,1.38,51.98,2.64],35:[20.25,1.46,52.99,2.35],36:[20.37,1.41,53.32,2.36],37:[20.75,1.53,54.04,1.89],38:[21.93,1.94,55.49,2.12],39:[22.18,1.95,55.79,2.26],40:[22.41,1.29,55.97,1.89]};
+    const _orbRef='Algoritmo propio CaVeSal® · Basado en: Sukonpan & Phupong 2008 · ISUOG · Burns et al. AJR 2013';
+    if(mfDii!==null || mfDio!==null){
+      const _w=(mfEg!==null)?Math.floor(mfEg):null, _r=(_w!==null)?_ORB[_w]:null;
+      if(!_r){
+        add(DOM,'bajo','Diámetros orbitarios sin EG de referencia','Cargá la EG (15–40 semanas) para comparar la DIO y el DBO con P5–P95.',_orbRef);
+      } else {
+        const _rng=(m,sd)=>(m-1.645*sd).toFixed(1)+'–'+(m+1.645*sd).toFixed(1);
+        if(mfDii!==null){
+          const zi=(mfDii-_r[0])/_r[1];
+          if(zi>1.645) add(DOM,'moderado',`DIO ${mfDii} mm &gt;P95 para ${_w} sem (P5–P95 ${_rng(_r[0],_r[1])} mm) — sospecha de hipertelorismo`,'Evaluar encefalocele anterior/frontoetmoidal, displasias craneofaciales (Apert, Crouzon), síndrome de Turner, deleción 4p (Wolf-Hirschhorn) o fisura facial media. Derivar Medicina Fetal.',_orbRef);
+          else if(zi<-1.645) add(DOM,'moderado',`DIO ${mfDii} mm &lt;P5 para ${_w} sem (P5–P95 ${_rng(_r[0],_r[1])} mm) — sospecha de hipotelorismo`,'Marcador clave de anomalías del prosencéfalo y línea media anterior (holoprosencefalia, cebocefalia, etmocefalia, microcefalia, trisomía 13). Derivar Medicina Fetal.',_orbRef);
+        }
+        if(mfDio!==null){
+          const zb=(mfDio-_r[2])/_r[3];
+          if(zb>1.645) add(DOM,'bajo',`DBO ${mfDio} mm &gt;P95 para ${_w} sem (P5–P95 ${_rng(_r[2],_r[3])} mm)`,'Apoya hipertelorismo si la DIO también está aumentada; revisar la EG y el corte.',_orbRef);
+          else if(zb<-1.645) add(DOM,'bajo',`DBO ${mfDio} mm &lt;P5 para ${_w} sem (P5–P95 ${_rng(_r[2],_r[3])} mm)`,'Evaluar hipotelorismo (con la DIO) y microftalmia (diámetro orbitario y cristalino); revisar la EG y el corte.',_orbRef);
+        }
+      }
     }
     if(sel('mf_microftalmia')==='sospecha') add(DOM,'moderado','Sospecha de microftalmia/anoftalmia','DO pequeño con cristalino rudimentario o ausente. Descartar infección congénita (TORCH — CMV, toxoplasmosis) y trisomía 13. Derivar Medicina Fetal.','Jeanty/Mayden · ISUOG / Paladini & Volpe 2018');
 
@@ -5891,7 +5915,8 @@ function calcular(){
       };
       const _todos=Object.assign({},signos2D,signosDoppler);
       const _vals=Object.keys(_todos).map(function(k){return _todos[k]});
-      if(!_vals.some(function(v){return v!==''})) return;
+      const _topo=sel('mf_pas_topografia'), _cerv=sel('mf_pas_cervical');
+      if(!_vals.some(function(v){return v!==''}) && !_topo && !_cerv) return;
 
       function _pasPts(v){return v==='si'?1:(v==='inseguro'?0.5:0)}
       let _puntaje=0; _vals.forEach(function(v){_puntaje+=_pasPts(v)});
@@ -5924,6 +5949,40 @@ function calcular(){
         : 'Derivar/confirmar manejo en centro de Nivel III-IV. Programar cesárea electiva 34+0–35+6 semanas. Equipo multidisciplinario (obstetricia, urología/cirugía, banco de sangre, UCI). REGLA DE ORO: no intentar alumbramiento manual — dejar la placenta in situ y proceder a histerectomía en bloque si se confirma invasión en el acto quirúrgico.';
 
       add(DOM, _nivelMap[_probabilidad], _hallazgoPas, _conductaPas, 'Clasificación CaVeSal (esquema de puntaje propio del equipo — NO es un score FIGO/ISUOG/ACOG publicado)');
+
+      // ── Topografía (Nieto-Calvache 2025/2026) + flujograma de conducta ──
+      const _TOPO={
+        s1:{tipo:'0–1 (anterior alta)',cv:'Arteria uterina; ligadura de vasos neoformados vesicales superiores',tx:'Candidata a cirugía conservadora en un paso (OSCS) si se confirman los criterios',hist:'Histerectomía total si no se cumplen'},
+        s2:{tipo:'3 (anterior baja) · 4 si hay fibrosis vesicouterina',cv:'Oclusión aórtica infrarrenal u oclusión temporal de ambas ilíacas comunes',tx:'OSCS si hay más de 2 cm de miometrio sano sobre el cuello',hist:'Histerectomía total; si la disección retrovesical es imposible (tipo 4): histerectomía subtotal modificada'},
+        lat_alta:{tipo:'2U (lateral alta)',cv:'Disección y ligadura de vasos neoformados (obturatriz, colaterales de la ilíaca interna, uterina)',tx:'OSCS si hay tejido sano caudal suficiente y más del 50 % de la circunferencia libre',hist:'Histerectomía total si no'},
+        lat_baja:{tipo:'2L (lateral baja)',cv:'Control aórtico proximal; catéter ureteral y tunelización del uréter',tx:'No candidata a OSCS',hist:'Extracción fetal fúndica e histerectomía total'},
+        posterior:{tipo:'5U o 5L (posterior) — la RM ayuda a definirla',cv:'5U: ligadura de uterinas · 5L: ligadura de colaterales, posible oclusión aórtica',tx:'5U: resección y reconstrucción',hist:'5L: histerectomía total'},
+        nd:{tipo:'No definible por ecografía — considerar RM',cv:'Según la estadificación intraoperatoria',tx:'Decidir tras la estadificación',hist:'Decidir tras la estadificación'}
+      };
+      let _t=_TOPO[_topo]||null;
+      if(!_t && signosDoppler.parametrios==='si') _t=_TOPO.lat_baja;
+      if(_t && _probabilidad!=='baja'){
+        add(DOM,'alto','Topografía probable del PAS: tipo '+_t.tipo+(_cerv==='si'?' · placenta previa con compromiso cervical':''),
+          'Control vascular previsto: '+_t.cv+'. '+_t.tx+'; '+_t.hist.charAt(0).toLowerCase()+_t.hist.slice(1)+'. La estadificación definitiva es intraoperatoria.',
+          'Algoritmo propio CaVeSal® · Basado en: Nieto-Calvache AJ et al. BMC Pregnancy Childbirth 2025;25:1266 y 2026;26:1143');
+      } else if(_cerv==='si' && _probabilidad==='baja'){
+        add(DOM,'moderado','Placenta previa con compromiso cervical','Signo asociado a mayor probabilidad de PAS al nacimiento (consenso Delphi). Reevaluar en un centro con experiencia en PAS.','Algoritmo propio CaVeSal® · Basado en: Coutinho CM et al. RBGO 2023;45(6):297-302');
+      }
+      if(_probabilidad!=='baja'){
+        const B=function(cls,tit,txt){return '<div class="pf-box '+cls+'"><div class="pf-t">'+tit+'</div><div class="pf-x">'+txt+'</div></div>';};
+        const A='<div class="pf-arrow">↓</div>';
+        let f='<div class="pf-card"><h3>🔴 Acretismo placentario (PAS) — resultado y conducta</h3>';
+        f+=B('pf-res','Resultado','Probabilidad '+_probabilidad.toUpperCase()+' (puntaje '+_puntaje+'/9'+(_excepcion?', regla de excepción':'')+')'+(_extension?' · Extensión '+_extension.toUpperCase():'')+(_t?' · Tipo topográfico probable: '+_t.tipo:'')+(_cerv==='si'?' · Compromiso cervical':'')+(_figoLabel?' · FIGO: '+_figoLabel:''));
+        f+=A+B('pf-paso','1. Derivar','Centro de referencia de nivel III-IV con equipo multidisciplinario (obstetricia, urología o cirugía, anestesia, banco de sangre, UCI). El diagnóstico prenatal se asocia a menos transfusiones (56,9 % contra 96,1 %, Pavón-Gomez 2022).');
+        f+=A+B('pf-paso','2. Programar el nacimiento','Cesárea electiva 34+0–35+6 semanas (ACOG/SMFM). Alternativas que citan las fuentes: 35+0–36+6 (RCOG 2026) y 34–36+6 (consenso latinoamericano, Nieto-Calvache 2023). Corticoides según la edad gestacional.');
+        f+=A+B('pf-paso','3. Planificar según la topografía',_t?('Tipo '+_t.tipo+'. Control vascular: '+_t.cv+'.'):'Completar la topografía ecográfica (S1/S2, lateral, posterior) para planificar el control vascular y el tipo de cirugía.');
+        f+=A+B('pf-dec','4. Estadificación intraoperatoria','¿Vejiga separable, 2 cm o más de miometrio sano caudal, compromiso menor al 50 % de la circunferencia y sin parametrio bajo?');
+        if(_t===_TOPO.lat_baja) f+=A+B('pf-no','Compromiso parametrial bajo: no candidata a OSCS',_t.hist+', con control aórtico proximal y tunelización del uréter');
+        else f+='<div class="pf-ramas"><div>'+B('pf-si','Sí',_t?_t.tx:'Cirugía conservadora en un paso (OSCS): placenta y miometrio invadido resecados en bloque, en centros entrenados')+'</div><div>'+B('pf-no','No',_t?_t.hist:'Cesárea-histerectomía con la placenta en el lugar; si la disección retrovesical es imposible, histerectomía subtotal modificada')+'</div></div>';
+        f+=B('pf-regla','Regla de oro','Nunca traccionar ni intentar retirar la placenta adherente. Incisión uterina alejada de la placenta.');
+        f+='<div class="pf-src">Algoritmo propio CaVeSal® · Basado en: Nieto-Calvache AJ et al. BMC Pregnancy Childbirth 2025;25:1266 y 2026;26:1143 · Pavón-Gomez N et al. RBGO 2022;44(12):1090-1093 · ACOG/SMFM OCC 7 · RCOG GTG 27a (2026) · Nieto-Calvache AJ et al. AJOG Glob Rep 2023.</div></div>';
+        window._pasFlujo=f;
+      }
     })();
   })();
 
@@ -6443,6 +6502,7 @@ function calcular(){
   html+=`</div>`;
 
   if(findings.length>0){
+    if(window._pasFlujo) html+=window._pasFlujo;
     html+=`<div class="findings-title">Hallazgos y conductas detalladas</div>`;
     domOrder.forEach(dom=>{
       html+=`<div class="domain-group"><div class="domain-label">${dom}</div>`;
@@ -8550,7 +8610,7 @@ function calcCerebelo(){
       alerta.innerHTML = `⚡ DTC &gt;P95 para la EG: revisar la datación.`;
     } else {
       alerta.className = 'bio-alerta show ok';
-      alerta.innerHTML = `✅ DTC entre P5 y P95 para la EG. En el RCIU el DTC se preserva y apoya la datación.`;
+      alerta.innerHTML = `✅ DTC entre P5 y P95 para la EG. El DTC se afecta poco en la restricción de crecimiento, pero en el RCIU grave puede reducirse: interpretar la datación con cautela.`;
     }
   } else {
     alerta.className = 'bio-alerta show moder';
